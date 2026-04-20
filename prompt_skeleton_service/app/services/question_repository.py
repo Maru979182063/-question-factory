@@ -117,6 +117,83 @@ class QuestionRepository:
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
+
+                CREATE TABLE IF NOT EXISTS distill_sessions (
+                    session_id TEXT PRIMARY KEY,
+                    title TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS distill_runs (
+                    run_id TEXT PRIMARY KEY,
+                    session_id TEXT NOT NULL,
+                    run_no INTEGER NOT NULL,
+                    status TEXT NOT NULL,
+                    batch_id TEXT,
+                    item_ids_json TEXT NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    UNIQUE(session_id, run_no)
+                );
+
+                CREATE TABLE IF NOT EXISTS distill_run_reviews (
+                    review_id TEXT PRIMARY KEY,
+                    run_id TEXT NOT NULL,
+                    session_id TEXT NOT NULL,
+                    verdict TEXT NOT NULL,
+                    reviewer TEXT,
+                    allow_promote INTEGER NOT NULL DEFAULT 0,
+                    payload_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS distill_run_patches (
+                    patch_id TEXT PRIMARY KEY,
+                    run_id TEXT NOT NULL,
+                    session_id TEXT NOT NULL,
+                    target TEXT NOT NULL,
+                    scope_key TEXT,
+                    author TEXT,
+                    payload_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS distill_promotions (
+                    promotion_id TEXT PRIMARY KEY,
+                    run_id TEXT NOT NULL,
+                    session_id TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    promoter TEXT,
+                    artifact_path TEXT,
+                    payload_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS distill_datasets (
+                    dataset_id TEXT PRIMARY KEY,
+                    title TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS distill_dataset_samples (
+                    sample_id TEXT PRIMARY KEY,
+                    dataset_id TEXT NOT NULL,
+                    split TEXT NOT NULL,
+                    question_card_id TEXT,
+                    payload_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
                 """
             )
             self._apply_lightweight_migrations(conn)
@@ -1357,6 +1434,522 @@ class QuestionRepository:
                 }
             )
         return items
+
+    def save_distill_session(self, session_id: str, payload: dict) -> None:
+        now = self._utc_now()
+        with self._connect() as conn:
+            existing = conn.execute(
+                "SELECT created_at FROM distill_sessions WHERE session_id = ?",
+                (session_id,),
+            ).fetchone()
+            serialized = json.dumps(payload, ensure_ascii=False, default=self._json_default)
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO distill_sessions (
+                    session_id, title, status, payload_json, created_at, updated_at
+                )
+                VALUES (
+                    ?, ?, ?, ?,
+                    COALESCE((SELECT created_at FROM distill_sessions WHERE session_id = ?), ?),
+                    ?
+                )
+                """,
+                (
+                    session_id,
+                    str(payload.get("title") or ""),
+                    str(payload.get("status") or "active"),
+                    serialized,
+                    session_id,
+                    (existing["created_at"] if existing else None) or now,
+                    now,
+                ),
+            )
+
+    def get_distill_session(self, session_id: str) -> dict | None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT payload_json, created_at, updated_at FROM distill_sessions WHERE session_id = ?",
+                (session_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        payload = json.loads(row["payload_json"] or "{}")
+        payload.setdefault("created_at", row["created_at"])
+        payload.setdefault("updated_at", row["updated_at"])
+        payload["run_count"] = self.count_distill_runs(session_id)
+        payload["latest_run_at"] = self.get_latest_distill_run_at(session_id)
+        return payload
+
+    def list_distill_sessions(self, *, limit: int = 100, status: str | None = None) -> list[dict[str, Any]]:
+        sql = """
+            SELECT session_id, payload_json, created_at, updated_at
+            FROM distill_sessions
+        """
+        params: list[object] = []
+        if status:
+            sql += " WHERE status = ?"
+            params.append(status)
+        sql += " ORDER BY updated_at DESC LIMIT ?"
+        params.append(limit)
+        with self._connect() as conn:
+            rows = conn.execute(sql, params).fetchall()
+        items: list[dict[str, Any]] = []
+        for row in rows:
+            payload = json.loads(row["payload_json"] or "{}")
+            session_id = str(payload.get("session_id") or row["session_id"])
+            items.append(
+                {
+                    "session_id": session_id,
+                    "title": payload.get("title"),
+                    "mode": payload.get("mode", "card_tuning"),
+                    "status": payload.get("status", "active"),
+                    "goal": payload.get("goal"),
+                    "dataset_id": payload.get("dataset_id"),
+                    "question_card_id": payload.get("question_card_id"),
+                    "question_type": payload.get("question_type"),
+                    "business_subtype": payload.get("business_subtype"),
+                    "created_at": row["created_at"],
+                    "updated_at": row["updated_at"],
+                    "run_count": self.count_distill_runs(session_id),
+                    "latest_run_at": self.get_latest_distill_run_at(session_id),
+                }
+            )
+        return items
+
+    def count_distill_runs(self, session_id: str) -> int:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT COUNT(1) AS total FROM distill_runs WHERE session_id = ?",
+                (session_id,),
+            ).fetchone()
+        return int(row["total"] or 0) if row is not None else 0
+
+    def get_latest_distill_run_at(self, session_id: str) -> str | None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT updated_at FROM distill_runs WHERE session_id = ? ORDER BY run_no DESC LIMIT 1",
+                (session_id,),
+            ).fetchone()
+        return str(row["updated_at"]) if row is not None and row["updated_at"] else None
+
+    def save_distill_run(self, run_id: str, payload: dict) -> None:
+        now = self._utc_now()
+        session_id = str(payload.get("session_id") or "")
+        if not session_id:
+            raise ValueError("save_distill_run requires payload.session_id")
+        run_no = int(payload.get("run_no") or 1)
+        item_ids = payload.get("item_ids") or []
+        with self._connect() as conn:
+            existing = conn.execute(
+                "SELECT created_at FROM distill_runs WHERE run_id = ?",
+                (run_id,),
+            ).fetchone()
+            serialized = json.dumps(payload, ensure_ascii=False, default=self._json_default)
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO distill_runs (
+                    run_id, session_id, run_no, status, batch_id, item_ids_json,
+                    payload_json, created_at, updated_at
+                )
+                VALUES (
+                    ?, ?, ?, ?, ?, ?, ?,
+                    COALESCE((SELECT created_at FROM distill_runs WHERE run_id = ?), ?),
+                    ?
+                )
+                """,
+                (
+                    run_id,
+                    session_id,
+                    run_no,
+                    str(payload.get("status") or "completed"),
+                    payload.get("batch_id"),
+                    json.dumps(item_ids, ensure_ascii=False, default=self._json_default),
+                    serialized,
+                    run_id,
+                    (existing["created_at"] if existing else None) or now,
+                    now,
+                ),
+            )
+
+    def get_distill_run(self, run_id: str) -> dict[str, Any] | None:
+        with self._connect() as conn:
+            row = conn.execute(
+                """
+                SELECT payload_json, created_at, updated_at
+                FROM distill_runs
+                WHERE run_id = ?
+                """,
+                (run_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        payload = json.loads(row["payload_json"] or "{}")
+        payload["created_at"] = row["created_at"]
+        payload["updated_at"] = row["updated_at"]
+        return self._decorate_distill_run(payload)
+
+    def list_distill_runs(self, session_id: str, *, limit: int = 100) -> list[dict[str, Any]]:
+        with self._connect() as conn:
+            rows = conn.execute(
+                """
+                SELECT payload_json, created_at, updated_at
+                FROM distill_runs
+                WHERE session_id = ?
+                ORDER BY run_no DESC
+                LIMIT ?
+                """,
+                (session_id, limit),
+            ).fetchall()
+        items: list[dict[str, Any]] = []
+        for row in rows:
+            payload = json.loads(row["payload_json"] or "{}")
+            payload["created_at"] = row["created_at"]
+            payload["updated_at"] = row["updated_at"]
+            items.append(self._decorate_distill_run(payload))
+        return items
+
+    def save_distill_run_review(self, review_id: str, payload: dict) -> None:
+        now = self._utc_now()
+        run_id = str(payload.get("run_id") or "")
+        session_id = str(payload.get("session_id") or "")
+        if not run_id or not session_id:
+            raise ValueError("save_distill_run_review requires payload.run_id and payload.session_id")
+        with self._connect() as conn:
+            existing = conn.execute(
+                "SELECT created_at FROM distill_run_reviews WHERE review_id = ?",
+                (review_id,),
+            ).fetchone()
+            serialized = json.dumps(payload, ensure_ascii=False, default=self._json_default)
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO distill_run_reviews (
+                    review_id, run_id, session_id, verdict, reviewer, allow_promote,
+                    payload_json, created_at, updated_at
+                )
+                VALUES (
+                    ?, ?, ?, ?, ?, ?, ?,
+                    COALESCE((SELECT created_at FROM distill_run_reviews WHERE review_id = ?), ?),
+                    ?
+                )
+                """,
+                (
+                    review_id,
+                    run_id,
+                    session_id,
+                    str(payload.get("verdict") or "revise"),
+                    payload.get("reviewer"),
+                    1 if payload.get("allow_promote") else 0,
+                    serialized,
+                    review_id,
+                    (existing["created_at"] if existing else None) or now,
+                    now,
+                ),
+            )
+
+    def list_distill_run_reviews(self, run_id: str, *, limit: int = 100) -> list[dict[str, Any]]:
+        with self._connect() as conn:
+            rows = conn.execute(
+                """
+                SELECT payload_json, created_at, updated_at
+                FROM distill_run_reviews
+                WHERE run_id = ?
+                ORDER BY created_at DESC
+                LIMIT ?
+                """,
+                (run_id, limit),
+            ).fetchall()
+        items: list[dict[str, Any]] = []
+        for row in rows:
+            payload = json.loads(row["payload_json"] or "{}")
+            payload["created_at"] = row["created_at"]
+            payload["updated_at"] = row["updated_at"]
+            items.append(payload)
+        return items
+
+    def get_latest_distill_run_review(self, run_id: str) -> dict[str, Any] | None:
+        reviews = self.list_distill_run_reviews(run_id, limit=1)
+        return reviews[0] if reviews else None
+
+    def save_distill_run_patch(self, patch_id: str, payload: dict) -> None:
+        now = self._utc_now()
+        run_id = str(payload.get("run_id") or "")
+        session_id = str(payload.get("session_id") or "")
+        if not run_id or not session_id:
+            raise ValueError("save_distill_run_patch requires payload.run_id and payload.session_id")
+        with self._connect() as conn:
+            existing = conn.execute(
+                "SELECT created_at FROM distill_run_patches WHERE patch_id = ?",
+                (patch_id,),
+            ).fetchone()
+            serialized = json.dumps(payload, ensure_ascii=False, default=self._json_default)
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO distill_run_patches (
+                    patch_id, run_id, session_id, target, scope_key, author,
+                    payload_json, created_at, updated_at
+                )
+                VALUES (
+                    ?, ?, ?, ?, ?, ?, ?,
+                    COALESCE((SELECT created_at FROM distill_run_patches WHERE patch_id = ?), ?),
+                    ?
+                )
+                """,
+                (
+                    patch_id,
+                    run_id,
+                    session_id,
+                    str(payload.get("target") or "prompt_config"),
+                    payload.get("scope_key"),
+                    payload.get("author"),
+                    serialized,
+                    patch_id,
+                    (existing["created_at"] if existing else None) or now,
+                    now,
+                ),
+            )
+
+    def list_distill_run_patches(self, run_id: str, *, limit: int = 200) -> list[dict[str, Any]]:
+        with self._connect() as conn:
+            rows = conn.execute(
+                """
+                SELECT payload_json, created_at, updated_at
+                FROM distill_run_patches
+                WHERE run_id = ?
+                ORDER BY created_at DESC
+                LIMIT ?
+                """,
+                (run_id, limit),
+            ).fetchall()
+        items: list[dict[str, Any]] = []
+        for row in rows:
+            payload = json.loads(row["payload_json"] or "{}")
+            payload["created_at"] = row["created_at"]
+            payload["updated_at"] = row["updated_at"]
+            items.append(payload)
+        return items
+
+    def save_distill_promotion(self, promotion_id: str, payload: dict) -> None:
+        now = self._utc_now()
+        run_id = str(payload.get("run_id") or "")
+        session_id = str(payload.get("session_id") or "")
+        if not run_id or not session_id:
+            raise ValueError("save_distill_promotion requires payload.run_id and payload.session_id")
+        with self._connect() as conn:
+            existing = conn.execute(
+                "SELECT created_at FROM distill_promotions WHERE promotion_id = ?",
+                (promotion_id,),
+            ).fetchone()
+            serialized = json.dumps(payload, ensure_ascii=False, default=self._json_default)
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO distill_promotions (
+                    promotion_id, run_id, session_id, status, promoter, artifact_path,
+                    payload_json, created_at, updated_at
+                )
+                VALUES (
+                    ?, ?, ?, ?, ?, ?, ?,
+                    COALESCE((SELECT created_at FROM distill_promotions WHERE promotion_id = ?), ?),
+                    ?
+                )
+                """,
+                (
+                    promotion_id,
+                    run_id,
+                    session_id,
+                    str(payload.get("status") or "ready"),
+                    payload.get("promoter"),
+                    payload.get("artifact_path"),
+                    serialized,
+                    promotion_id,
+                    (existing["created_at"] if existing else None) or now,
+                    now,
+                ),
+            )
+
+    def list_distill_promotions(self, run_id: str, *, limit: int = 100) -> list[dict[str, Any]]:
+        with self._connect() as conn:
+            rows = conn.execute(
+                """
+                SELECT payload_json, created_at, updated_at
+                FROM distill_promotions
+                WHERE run_id = ?
+                ORDER BY created_at DESC
+                LIMIT ?
+                """,
+                (run_id, limit),
+            ).fetchall()
+        items: list[dict[str, Any]] = []
+        for row in rows:
+            payload = json.loads(row["payload_json"] or "{}")
+            payload["created_at"] = row["created_at"]
+            payload["updated_at"] = row["updated_at"]
+            items.append(payload)
+        return items
+
+    def get_latest_distill_promotion(self, run_id: str) -> dict[str, Any] | None:
+        promotions = self.list_distill_promotions(run_id, limit=1)
+        return promotions[0] if promotions else None
+
+    def save_distill_dataset(self, dataset_id: str, payload: dict) -> None:
+        now = self._utc_now()
+        with self._connect() as conn:
+            existing = conn.execute(
+                "SELECT created_at FROM distill_datasets WHERE dataset_id = ?",
+                (dataset_id,),
+            ).fetchone()
+            serialized = json.dumps(payload, ensure_ascii=False, default=self._json_default)
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO distill_datasets (
+                    dataset_id, title, status, payload_json, created_at, updated_at
+                )
+                VALUES (
+                    ?, ?, ?, ?,
+                    COALESCE((SELECT created_at FROM distill_datasets WHERE dataset_id = ?), ?),
+                    ?
+                )
+                """,
+                (
+                    dataset_id,
+                    str(payload.get("title") or ""),
+                    str(payload.get("status") or "active"),
+                    serialized,
+                    dataset_id,
+                    (existing["created_at"] if existing else None) or now,
+                    now,
+                ),
+            )
+
+    def save_distill_dataset_samples(self, dataset_id: str, samples: list[dict[str, Any]]) -> None:
+        now = self._utc_now()
+        with self._connect() as conn:
+            conn.execute("DELETE FROM distill_dataset_samples WHERE dataset_id = ?", (dataset_id,))
+            for sample in samples:
+                sample_id = str(sample.get("sample_id") or "")
+                if not sample_id:
+                    continue
+                conn.execute(
+                    """
+                    INSERT INTO distill_dataset_samples (
+                        sample_id, dataset_id, split, question_card_id, payload_json, created_at, updated_at
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        sample_id,
+                        dataset_id,
+                        str(sample.get("split") or "train"),
+                        sample.get("question_card_id"),
+                        json.dumps(sample, ensure_ascii=False, default=self._json_default),
+                        sample.get("created_at") or now,
+                        sample.get("updated_at") or now,
+                    ),
+                )
+
+    def get_distill_dataset(self, dataset_id: str) -> dict | None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT payload_json, created_at, updated_at FROM distill_datasets WHERE dataset_id = ?",
+                (dataset_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        payload = json.loads(row["payload_json"] or "{}")
+        payload.setdefault("created_at", row["created_at"])
+        payload.setdefault("updated_at", row["updated_at"])
+        payload["samples"] = self.list_distill_dataset_samples(dataset_id, limit=10000)
+        payload["sample_count"] = len(payload["samples"])
+        payload["split_counts"] = self._build_distill_split_counts(payload["samples"])
+        return payload
+
+    def list_distill_datasets(self, *, limit: int = 100, status: str | None = None) -> list[dict[str, Any]]:
+        sql = """
+            SELECT dataset_id, payload_json, created_at, updated_at
+            FROM distill_datasets
+        """
+        params: list[object] = []
+        if status:
+            sql += " WHERE status = ?"
+            params.append(status)
+        sql += " ORDER BY updated_at DESC LIMIT ?"
+        params.append(limit)
+        with self._connect() as conn:
+            rows = conn.execute(sql, params).fetchall()
+        items: list[dict[str, Any]] = []
+        for row in rows:
+            payload = json.loads(row["payload_json"] or "{}")
+            dataset_id = str(payload.get("dataset_id") or row["dataset_id"])
+            samples = self.list_distill_dataset_samples(dataset_id, limit=10000)
+            items.append(
+                {
+                    "dataset_id": dataset_id,
+                    "title": payload.get("title"),
+                    "status": payload.get("status", "active"),
+                    "description": payload.get("description"),
+                    "question_card_id": payload.get("question_card_id"),
+                    "question_type": payload.get("question_type"),
+                    "business_subtype": payload.get("business_subtype"),
+                    "split_mode": payload.get("split_mode", "manual"),
+                    "sample_count": len(samples),
+                    "split_counts": self._build_distill_split_counts(samples),
+                    "created_at": row["created_at"],
+                    "updated_at": row["updated_at"],
+                }
+            )
+        return items
+
+    def list_distill_dataset_samples(
+        self,
+        dataset_id: str,
+        *,
+        split: str | None = None,
+        limit: int = 1000,
+    ) -> list[dict[str, Any]]:
+        sql = """
+            SELECT payload_json, created_at, updated_at
+            FROM distill_dataset_samples
+            WHERE dataset_id = ?
+        """
+        params: list[object] = [dataset_id]
+        if split:
+            sql += " AND split = ?"
+            params.append(split)
+        sql += " ORDER BY created_at ASC LIMIT ?"
+        params.append(limit)
+        with self._connect() as conn:
+            rows = conn.execute(sql, params).fetchall()
+        items: list[dict[str, Any]] = []
+        for row in rows:
+            payload = json.loads(row["payload_json"] or "{}")
+            payload.setdefault("created_at", row["created_at"])
+            payload.setdefault("updated_at", row["updated_at"])
+            items.append(payload)
+        return items
+
+    @staticmethod
+    def _build_distill_split_counts(samples: list[dict[str, Any]]) -> dict[str, int]:
+        counts = {"train": 0, "dev": 0, "test": 0}
+        for sample in samples:
+            split = str(sample.get("split") or "").strip()
+            if split in counts:
+                counts[split] += 1
+            elif split:
+                counts[split] = counts.get(split, 0) + 1
+        return counts
+
+    def _decorate_distill_run(self, payload: dict[str, Any]) -> dict[str, Any]:
+        run_id = str(payload.get("run_id") or "")
+        latest_review = self.get_latest_distill_run_review(run_id) if run_id else None
+        reviews = self.list_distill_run_reviews(run_id, limit=1000) if run_id else []
+        latest_promotion = self.get_latest_distill_promotion(run_id) if run_id else None
+        promotions = self.list_distill_promotions(run_id, limit=1000) if run_id else []
+        patches = self.list_distill_run_patches(run_id, limit=1000) if run_id else []
+        payload["patch_count"] = len(patches)
+        payload["promotion_count"] = len(promotions)
+        payload["review_count"] = len(reviews)
+        payload["latest_review"] = latest_review
+        payload["latest_promotion"] = latest_promotion
+        return payload
 
     def get_review_metrics_summary(
         self,

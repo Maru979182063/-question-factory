@@ -10,6 +10,7 @@ from app.core.security import install_security_middleware
 from app.routers.admin import router as admin_router
 from app.routers.diagnostics import router as diagnostics_router
 from app.routers.demo import router as demo_router
+from app.routers.distill import router as distill_router
 from app.routers.meta import router as meta_router
 from app.routers.metrics import router as metrics_router
 from app.routers.prompt import router as prompt_router
@@ -34,6 +35,7 @@ def create_app() -> FastAPI:
     app.include_router(slots_router)
     app.include_router(prompt_router)
     app.include_router(demo_router)
+    app.include_router(distill_router)
     app.include_router(meta_router)
     app.include_router(questions_router)
     app.include_router(review_router)

@@ -86,8 +86,19 @@ class EvaluationConfig(BaseModel):
     judge: JudgeRouteConfig = Field(default_factory=JudgeRouteConfig)
 
 
+class DistillAccessConfig(BaseModel):
+    enabled: bool = False
+    key: str | None = None
+    cookie_name: str = "distill_demo_access"
+
+
+class UIConfig(BaseModel):
+    distill_access: DistillAccessConfig = Field(default_factory=DistillAccessConfig)
+
+
 class QuestionRuntimeConfig(BaseModel):
     llm: LLMConfig
     materials: MaterialsConfig
     persistence: PersistenceConfig = Field(default_factory=PersistenceConfig)
     evaluation: EvaluationConfig = Field(default_factory=EvaluationConfig)
+    ui: UIConfig = Field(default_factory=UIConfig)

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>蒸馏训练工作台</title>
+    <link rel="stylesheet" href="/demo-static/styles.css?v=20260408a" />
+    <style>
+      .distill-shell {
+        min-height: calc(100vh - 48px);
+        padding: 34px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        background:
+          radial-gradient(circle at top right, rgba(255, 208, 121, 0.2), transparent 26%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 251, 255, 0.98) 100%);
+        box-shadow: var(--shadow);
+      }
+
+      .distill-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+
+      .distill-hero-main,
+      .distill-hero-side,
+      .distill-panel {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.93);
+      }
+
+      .distill-hero-main {
+        padding: 28px 30px;
+        background:
+          linear-gradient(135deg, rgba(240, 248, 255, 0.95) 0%, rgba(255, 249, 238, 0.98) 100%);
+      }
+
+      .distill-hero-main h1 {
+        margin: 0 0 10px;
+        font-size: 42px;
+        line-height: 1.06;
+      }
+
+      .distill-hero-main p,
+      .distill-hero-side p,
+      .distill-subtitle,
+      .distill-help,
+      .distill-empty,
+      .distill-detail-pre {
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .distill-hero-side {
+        padding: 24px 26px;
+        background: #fffdf7;
+      }
+
+      .distill-chip-row,
+      .distill-inline-actions,
+      .distill-badge-row,
+      .distill-toggle-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .distill-chip,
+      .distill-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .distill-chip-blue,
+      .distill-badge-info {
+        background: #e8f5ff;
+        color: #176f9f;
+      }
+
+      .distill-chip-amber,
+      .distill-badge-warn {
+        background: #fff4d6;
+        color: #8a6400;
+      }
+
+      .distill-chip-green,
+      .distill-badge-good {
+        background: #eaf8f0;
+        color: #23714d;
+      }
+
+      .distill-layout {
+        display: grid;
+        grid-template-columns: minmax(380px, 0.95fr) minmax(0, 1.2fr);
+        gap: 18px;
+      }
+
+      .distill-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .distill-panel {
+        padding: 22px 22px 20px;
+      }
+
+      .distill-panel h2 {
+        margin: 0 0 8px;
+        font-size: 24px;
+      }
+
+      .distill-subtitle {
+        margin: 0 0 18px;
+      }
+
+      .distill-form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .distill-two,
+      .distill-three {
+        display: grid;
+        gap: 12px;
+      }
+
+      .distill-two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .distill-three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .distill-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .distill-field > span {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        color: #31415d;
+      }
+
+      .distill-field textarea {
+        min-height: 96px;
+        resize: vertical;
+        line-height: 1.7;
+      }
+
+      .distill-field textarea.distill-large-textarea {
+        min-height: 180px;
+      }
+
+      .distill-field textarea.distill-medium-textarea {
+        min-height: 140px;
+      }
+
+      .distill-help {
+        font-size: 12px;
+      }
+
+      .distill-primary,
+      .distill-secondary,
+      .distill-ghost {
+        border-radius: 14px;
+        padding: 13px 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      }
+
+      .distill-primary {
+        border: none;
+        background: linear-gradient(135deg, #1f94ca 0%, #136f9f 100%);
+        color: #fff;
+        box-shadow: 0 12px 24px rgba(31, 148, 202, 0.2);
+      }
+
+      .distill-secondary {
+        border: 1px solid #d7e0ec;
+        background: #fff;
+        color: var(--text);
+      }
+
+      .distill-ghost {
+        border: 1px dashed #cfdae8;
+        background: #fbfdff;
+        color: #3b4c69;
+      }
+
+      .distill-primary:hover,
+      .distill-secondary:hover,
+      .distill-ghost:hover {
+        transform: translateY(-1px);
+      }
+
+      .distill-primary:disabled,
+      .distill-secondary:disabled,
+      .distill-ghost:disabled {
+        opacity: 0.6;
+        cursor: wait;
+        transform: none;
+      }
+
+      .distill-status {
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: #f5faff;
+        line-height: 1.75;
+      }
+
+      .distill-status[hidden] {
+        display: none !important;
+      }
+
+      .distill-status-error {
+        border-color: #efc2c2;
+        background: #fff5f5;
+        color: #8e3b3b;
+      }
+
+      .distill-status-info {
+        border-color: #d4e3f4;
+        background: #f3f9ff;
+        color: #1a628f;
+      }
+
+      .distill-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 300px;
+        overflow: auto;
+      }
+
+      .distill-card {
+        padding: 16px 17px;
+        border-radius: 18px;
+        border: 1px solid #d8e4f2;
+        background: #fff;
+      }
+
+      .distill-card.is-active {
+        border-color: #77a5ea;
+        box-shadow: 0 14px 24px rgba(74, 112, 187, 0.12);
+      }
+
+      .distill-card h3 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+
+      .distill-meta {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .distill-meta-box,
+      .distill-detail-box {
+        padding: 12px 13px;
+        border-radius: 14px;
+        background: #f7faff;
+      }
+
+      .distill-meta-box strong,
+      .distill-detail-box strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #2f405c;
+      }
+
+      .distill-detail {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .distill-empty {
+        padding: 28px 24px;
+        border: 1px dashed #d3ddea;
+        border-radius: 20px;
+        background: #fbfdff;
+      }
+
+      .distill-detail-pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-size: 13px;
+      }
+
+      .distill-run-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .distill-signal-high {
+        color: #1f7c51;
+      }
+
+      .distill-signal-medium {
+        color: #8a6800;
+      }
+
+      .distill-signal-low {
+        color: #9d4040;
+      }
+
+      .distill-note-list {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .distill-review-targets {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .distill-check {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #31425d;
+      }
+
+      @media (max-width: 1080px) {
+        .distill-layout,
+        .distill-hero,
+        .distill-two,
+        .distill-three,
+        .distill-meta,
+        .distill-run-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .distill-shell {
+          padding: 20px;
+        }
+
+        .distill-hero-main h1 {
+          font-size: 34px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <section class="distill-shell">
+        <div class="distill-hero">
+          <article class="distill-hero-main">
+            <h1>蒸馏训练工作台</h1>
+            <p>
+              这页不是再造一套生成逻辑，而是把你现在真实在做的事情变成可操作流程：
+              先建样本集，再建蒸馏会话，接着跑 trial，最后给人工审核 verdict。
+            </p>
+            <div class="distill-chip-row" style="margin-top: 18px;">
+              <span class="distill-chip distill-chip-blue">样本集 / 切分</span>
+              <span class="distill-chip distill-chip-amber">试验 / 拟合</span>
+              <span class="distill-chip distill-chip-green">人工审核 / 沉淀</span>
+            </div>
+          </article>
+
+          <aside class="distill-hero-side">
+            <h2 style="margin: 0 0 10px; font-size: 22px;">当前口径</h2>
+            <p>
+              常用字段做成表单，复杂对象保留 JSON 文本区。这样你现在能直接操作，
+              后面服务协议继续扩展也不用重做前端。
+            </p>
+            <div class="distill-chip-row" style="margin-top: 16px;">
+              <button id="refreshAllBtn" type="button" class="distill-secondary">刷新全部</button>
+              <button id="fillTemplatesBtn" type="button" class="distill-ghost">填入示例</button>
+            </div>
+          </aside>
+        </div>
+
+        <div id="pageStatus" class="distill-status distill-status-info" hidden></div>
+
+        <div class="distill-layout" style="margin-top: 18px;">
+          <div class="distill-stack">
+            <section class="distill-panel">
+              <h2>1. 建 Dataset</h2>
+              <p class="distill-subtitle">样本集是蒸馏边界。先把 truth 和 split 定住，后面的拟合才有审计价值。</p>
+              <form id="datasetForm" class="distill-form">
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>标题</span>
+                    <input id="datasetTitle" type="text" placeholder="例如：主旨题 2025Q4 蒸馏集" />
+                  </label>
+                  <label class="distill-field">
+                    <span>切分模式</span>
+                    <select id="datasetSplitMode">
+                      <option value="manual">manual 手工切分</option>
+                      <option value="hash">hash 自动切分</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="distill-three">
+                  <label class="distill-field">
+                    <span>题型标识 question_type</span>
+                    <input id="datasetQuestionType" type="text" placeholder="main_idea" />
+                  </label>
+                  <label class="distill-field">
+                    <span>业务子类 business_subtype</span>
+                    <input id="datasetBusinessSubtype" type="text" placeholder="center_understanding" />
+                  </label>
+                  <label class="distill-field">
+                    <span>题卡 ID question_card_id</span>
+                    <input id="datasetCardId" type="text" placeholder="可选" />
+                  </label>
+                </div>
+                <label class="distill-field">
+                  <span>描述</span>
+                  <textarea id="datasetDescription" placeholder="可选。说明这套 dataset 的来源、边界和用途。"></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>样本 JSON</span>
+                  <textarea id="datasetSamples" class="distill-large-textarea" placeholder='[{"sample_key":"sample-dev-01","split":"dev","truth_source_question":{...},"generation_request":{...}}]'></textarea>
+                  <div class="distill-help">`manual` 模式要求每个 sample 都带 `split`，`hash` 模式会自动切分。</div>
+                </label>
+                <div class="distill-inline-actions">
+                  <button id="createDatasetBtn" type="submit" class="distill-primary">创建 Dataset</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="distill-panel">
+              <h2>2. 建 Session</h2>
+              <p class="distill-subtitle">session 对应一轮蒸馏任务。它不是结果，而是“围绕什么目标持续试验”的母任务。</p>
+              <form id="sessionForm" class="distill-form">
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>标题</span>
+                    <input id="sessionTitle" type="text" placeholder="例如：主旨题题卡微调" />
+                  </label>
+                  <label class="distill-field">
+                    <span>模式</span>
+                    <select id="sessionMode">
+                      <option value="card_tuning">card_tuning 题卡微调</option>
+                      <option value="new_card">new_card 新题卡探索</option>
+                      <option value="material_tuning">material_tuning 材料链微调</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="distill-three">
+                  <label class="distill-field">
+                    <span>绑定 dataset</span>
+                    <select id="sessionDatasetId">
+                      <option value="">未选择</option>
+                    </select>
+                  </label>
+                  <label class="distill-field">
+                    <span>题型标识 question_type</span>
+                    <input id="sessionQuestionType" type="text" placeholder="可选" />
+                  </label>
+                  <label class="distill-field">
+                    <span>业务子类 business_subtype</span>
+                    <input id="sessionBusinessSubtype" type="text" placeholder="可选" />
+                  </label>
+                </div>
+                <label class="distill-field">
+                  <span>训练目标</span>
+                  <textarea id="sessionGoal" placeholder="例如：让主旨题在 dev 上先稳定，再拿 test 做冻结验证。"></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>基线请求 baseline_request</span>
+                  <textarea id="sessionBaselineRequest" class="distill-medium-textarea" placeholder='{"question_focus":"center_understanding","difficulty_level":"medium","count":1}'></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>真题样本 truth_source_question</span>
+                  <textarea id="sessionTruthSourceQuestion" class="distill-medium-textarea" placeholder='可选。若不绑定 dataset，可在这里直接放一条 truth。'></textarea>
+                </label>
+                <div class="distill-inline-actions">
+                  <button id="createSessionBtn" type="submit" class="distill-primary">创建 Session</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="distill-panel">
+              <h2>3. 跑 Trial</h2>
+              <p class="distill-subtitle">trial 是 agent 一次受控试验。你改了什么、在哪个 split 上跑、结果如何，都在这里留痕。</p>
+              <form id="trialForm" class="distill-form">
+                <div class="distill-three">
+                  <label class="distill-field">
+                    <span>目标 session</span>
+                    <select id="trialSessionId">
+                      <option value="">未选择</option>
+                    </select>
+                  </label>
+                  <label class="distill-field">
+                    <span>split</span>
+                    <select id="trialSplit">
+                      <option value="dev">dev 开发集</option>
+                      <option value="train">train 训练集</option>
+                      <option value="test">test 测试集</option>
+                    </select>
+                  </label>
+                  <label class="distill-field">
+                    <span>最多样本数</span>
+                    <input id="trialSampleLimit" type="number" min="1" max="50" value="1" />
+                  </label>
+                </div>
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>试验标签</span>
+                    <input id="trialLabel" type="text" placeholder="例如：v3 material bridge tweak" />
+                  </label>
+                  <label class="distill-field">
+                    <span>指定样本 sample_id</span>
+                    <input id="trialSampleId" type="text" placeholder="可选。想定点跑某条 sample 时填。" />
+                  </label>
+                </div>
+                <label class="distill-field">
+                  <span>假设 hypothesis</span>
+                  <textarea id="trialHypothesis" placeholder="例如：固定题卡，只调整材料策略后，option overlap 会更稳。"></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>覆盖请求 request</span>
+                  <textarea id="trialRequest" class="distill-medium-textarea" placeholder='可选。想覆盖 baseline_request 时再填。'></textarea>
+                </label>
+                <div class="distill-inline-actions">
+                  <button id="runTrialBtn" type="submit" class="distill-primary">运行 Trial</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="distill-panel">
+              <h2>4. 人工 Review</h2>
+              <p class="distill-subtitle">只有 run 跑完，人审才有意义。你可以给 verdict，并决定是否允许沉淀进正式配置。</p>
+              <form id="reviewForm" class="distill-form">
+                <div class="distill-three">
+                  <label class="distill-field">
+                    <span>目标 run</span>
+                    <select id="reviewRunId">
+                      <option value="">未选择</option>
+                    </select>
+                  </label>
+                  <label class="distill-field">
+                    <span>审核结论</span>
+                    <select id="reviewVerdict">
+                      <option value="approved">approved 通过</option>
+                      <option value="revise">revise 继续修改</option>
+                      <option value="rejected">rejected 否决</option>
+                    </select>
+                  </label>
+                  <label class="distill-field">
+                    <span>审核人 reviewer</span>
+                    <input id="reviewReviewer" type="text" placeholder="例如：maru / qa_lead" />
+                  </label>
+                </div>
+                <label class="distill-field">
+                  <span>结论摘要 summary</span>
+                  <textarea id="reviewSummary" placeholder="一句话说明结论。"></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>审核原因 reason</span>
+                  <textarea id="reviewReason" placeholder="需要打回或继续修改时，原因写在这里。"></textarea>
+                </label>
+                <div class="distill-toggle-row">
+                  <label class="distill-check">
+                    <input id="reviewAllowPromote" type="checkbox" />
+                    <span>允许沉淀到正式配置</span>
+                  </label>
+                </div>
+                <div class="distill-review-targets">
+                  <label class="distill-check"><input class="review-target" type="checkbox" value="question_card" /> <span>question_card</span></label>
+                  <label class="distill-check"><input class="review-target" type="checkbox" value="prompt_config" /> <span>prompt_config</span></label>
+                  <label class="distill-check"><input class="review-target" type="checkbox" value="material_strategy" /> <span>material_strategy</span></label>
+                </div>
+                <div class="distill-inline-actions">
+                  <button id="submitReviewBtn" type="submit" class="distill-primary">提交 Review</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="distill-panel">
+              <h2>5. 记录 Patch</h2>
+              <p class="distill-subtitle">把这轮到底改了什么显式记下来，而不是只写在备注里。</p>
+              <form id="patchForm" class="distill-form">
+                <div class="distill-three">
+                  <label class="distill-field">
+                    <span>目标 run</span>
+                    <select id="patchRunId">
+                      <option value="">未选择</option>
+                    </select>
+                  </label>
+                  <label class="distill-field">
+                    <span>patch 目标</span>
+                    <select id="patchTarget">
+                      <option value="question_card">question_card 题卡</option>
+                      <option value="prompt_config">prompt_config 提示词</option>
+                      <option value="material_strategy">material_strategy 材料策略</option>
+                    </select>
+                  </label>
+                  <label class="distill-field">
+                    <span>作者 author</span>
+                    <input id="patchAuthor" type="text" placeholder="例如：agent / maru" />
+                  </label>
+                </div>
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>patch 标题</span>
+                    <input id="patchTitle" type="text" placeholder="例如：收紧题卡控制槽位" />
+                  </label>
+                  <label class="distill-field">
+                    <span>scope_key</span>
+                    <input id="patchScopeKey" type="text" placeholder="例如：main_idea.card.v3" />
+                  </label>
+                </div>
+                <label class="distill-field">
+                  <span>patch 摘要</span>
+                  <textarea id="patchSummary" placeholder="一句话说明这次 patch 想解决什么问题。"></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>patch JSON</span>
+                  <textarea id="patchPayload" class="distill-medium-textarea" placeholder='{"prompt_patch":{"instruction":"prefer closer option wording"}}'></textarea>
+                </label>
+                <div class="distill-inline-actions">
+                  <button id="submitPatchBtn" type="submit" class="distill-primary">记录 Patch</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="distill-panel">
+              <h2>6. Promote</h2>
+              <p class="distill-subtitle">只有审核通过且 patch 齐全，才能真正生成可沉淀 bundle。</p>
+              <form id="promoteForm" class="distill-form">
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>目标 run</span>
+                    <select id="promoteRunId">
+                      <option value="">未选择</option>
+                    </select>
+                  </label>
+                  <label class="distill-field">
+                    <span>沉淀人 promoter</span>
+                    <input id="promotePromoter" type="text" placeholder="例如：maru" />
+                  </label>
+                </div>
+                <label class="distill-field">
+                  <span>沉淀摘要</span>
+                  <textarea id="promoteSummary" placeholder="例如：将本轮通过的题卡 patch 和 prompt patch 打包为正式沉淀候选。"></textarea>
+                </label>
+                <div class="distill-review-targets">
+                  <label class="distill-check"><input class="promote-target" type="checkbox" value="question_card" /> <span>question_card</span></label>
+                  <label class="distill-check"><input class="promote-target" type="checkbox" value="prompt_config" /> <span>prompt_config</span></label>
+                  <label class="distill-check"><input class="promote-target" type="checkbox" value="material_strategy" /> <span>material_strategy</span></label>
+                </div>
+                <div class="distill-inline-actions">
+                  <button id="submitPromoteBtn" type="submit" class="distill-primary">生成 Promote Bundle</button>
+                </div>
+              </form>
+            </section>
+          </div>
+
+          <div class="distill-stack">
+            <section class="distill-panel">
+              <div style="display: flex; justify-content: space-between; gap: 12px; align-items: flex-start;">
+                <div>
+                  <h2>样本集列表</h2>
+                  <p class="distill-subtitle">这里看样本集和 split 边界。</p>
+                </div>
+                <button id="refreshDatasetsBtn" type="button" class="distill-secondary">刷新</button>
+              </div>
+              <div id="datasetsList" class="distill-list"></div>
+            </section>
+
+            <section class="distill-panel">
+              <div style="display: flex; justify-content: space-between; gap: 12px; align-items: flex-start;">
+                <div>
+                  <h2>蒸馏会话</h2>
+                  <p class="distill-subtitle">选中一个 session 后，右下方会跟着切到它的 run 详情。</p>
+                </div>
+                <button id="refreshSessionsBtn" type="button" class="distill-secondary">刷新</button>
+              </div>
+              <div id="sessionsList" class="distill-list"></div>
+            </section>
+
+            <section class="distill-panel">
+              <div style="display: flex; justify-content: space-between; gap: 12px; align-items: flex-start;">
+                <div>
+                  <h2>当前 Run 详情</h2>
+                  <p class="distill-subtitle">这里是当前选中 run 的拟合摘要、请求快照和 review 状态。</p>
+                </div>
+                <button id="refreshRunBtn" type="button" class="distill-secondary">刷新当前 Run</button>
+              </div>
+              <div id="runDetail" class="distill-detail"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="/demo-static/distill_demo.js?v=20260408a"></script>
+  </body>
+</html>

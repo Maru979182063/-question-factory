@@ -39,7 +39,7 @@ _RATE_LIMITER = _RateLimiter()
 
 class SecurityMiddleware(BaseHTTPMiddleware):
     EXEMPT_PATHS = {"/healthz", "/readyz", "/docs", "/openapi.json", "/redoc"}
-    EXEMPT_PREFIXES = ("/docs/oauth2-redirect", "/demo", "/demo-static")
+    EXEMPT_PREFIXES = ("/docs/oauth2-redirect", "/demo", "/demo-static", "/api/v1/distill/access")
 
     async def dispatch(self, request: Request, call_next):
         settings = get_settings()

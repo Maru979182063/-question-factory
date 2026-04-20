@@ -88,3 +88,9 @@ evaluation:
     enabled: false
     model_key: judge_review
 
+ui:
+  distill_access:
+    enabled: true
+    key: change-me-distill-key
+    cookie_name: distill_demo_access
+
