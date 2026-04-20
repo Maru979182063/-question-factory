@@ -4,7 +4,13 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.core.dependencies import get_prompt_template_registry, get_question_repository, get_registry, get_runtime_registry
+from app.core.dependencies import (
+    get_async_generation_queue,
+    get_prompt_template_registry,
+    get_question_repository,
+    get_registry,
+    get_runtime_registry,
+)
 from app.core.exceptions import register_exception_handlers
 from app.core.security import install_security_middleware
 from app.routers.admin import router as admin_router
@@ -51,6 +57,11 @@ def create_app() -> FastAPI:
         get_runtime_registry().load()
         get_prompt_template_registry().load()
         get_question_repository()
+        get_async_generation_queue().start()
+
+    @app.on_event("shutdown")
+    def shutdown() -> None:
+        get_async_generation_queue().stop()
 
     @app.get("/healthz", tags=["health"])
     def healthcheck() -> dict[str, str]:

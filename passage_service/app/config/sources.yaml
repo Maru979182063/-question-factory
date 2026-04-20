@@ -7,7 +7,7 @@ sources:
     allowed_domains: ["people.com.cn"]
     article_url_patterns: ["/n1/\\d{4}/\\d{4}/c\\d+-\\d+\\.html", "/n1/\\d{4}/\\d{2}/\\d{2}/c\\d+-\\d+\\.html"]
     exclude_url_patterns: ["/index\\.html$", "/GB/", "paper\\.people\\.com\\.cn"]
-    exclude_title_patterns: ["招聘", "面试通知", "通报", "巡视", "对象公布", "全部导航", "直播", "快讯", "名单", "公告", "通知", "答记者问", "图解"]
+    exclude_title_patterns: ["招聘", "面试通知", "通报", "巡视", "对象公布", "全部导航", "直播", "快讯", "名单", "公告", "通知", "答记者问", "图解", "一图读懂", "组图", "图说"]
     required_title_keywords: ["评论", "时评", "人民论坛", "现场评论", "观点", "理论", "观察", "人民时评"]
     priority_keywords: ["人民时评", "评论", "观察", "人民论坛", "热评", "理论"]
     article_limit: 50
@@ -31,7 +31,7 @@ sources:
     allowed_domains: ["news.cn", "xinhuanet.com"]
     article_url_patterns: ["/comments/\\d{8}/[a-z0-9]+/c\\.html$", "/politics/\\d{8}/[a-z0-9]+/c\\.html$", "/politics/leaders/\\d{8}/[a-z0-9]+/c\\.html$"]
     exclude_url_patterns: ["/index\\.htm$", "/home\\.htm$", "/zt/", "english\\.news\\.cn"]
-    exclude_title_patterns: ["招聘", "面试通知", "通报", "对象公布", "全部导航", "直播", "快讯", "名单", "公告", "通知", "答记者问", "图解"]
+    exclude_title_patterns: ["招聘", "面试通知", "通报", "对象公布", "全部导航", "直播", "快讯", "名单", "公告", "通知", "答记者问", "图解", "一图读懂", "组图", "图说"]
     required_title_keywords: ["评论", "时评", "述评", "观察", "新华时评", "记者手记"]
     priority_keywords: ["新华时评", "述评", "观察", "评论员", "热点"]
     article_limit: 50
@@ -56,7 +56,7 @@ sources:
     allowed_domains: ["gmw.cn"]
     article_url_patterns: ["/\\d{4}-\\d{2}/\\d{2}/content_\\d+\\.htm$", "/content_\\d+\\.htm$"]
     exclude_url_patterns: ["/node_\\d+\\.htm$", "/topics\\.", "/index\\.htm$"]
-    exclude_title_patterns: ["招聘", "面试通知", "通报", "对象公布", "全部导航", "直播", "快讯", "名单", "公告", "通知", "图解"]
+    exclude_title_patterns: ["招聘", "面试通知", "通报", "对象公布", "全部导航", "直播", "快讯", "名单", "公告", "通知", "图解", "海报组", "组图", "图说", "电影市场", "总票房"]
     required_title_keywords: ["评论", "时评", "理论", "观察", "光明时评", "光明论坛"]
     priority_keywords: ["光明时评", "理论", "评论", "观察"]
     article_limit: 50
@@ -151,6 +151,19 @@ sources:
     allowed_domains: ["cyol.com"]
     article_url_patterns: ["/gb/", "/content/", "/\\d{4}-\\d{2}/\\d{2}/", "\\.htm$"]
     exclude_url_patterns: ["/gb/baobao/", "/gb/live/", "/video/", "/search", "/index\\.htm$"]
+    exclude_title_patterns: ["招聘", "公告", "通报", "直播", "名单", "快讯", "图解", "组图", "海报", "公示"]
+    required_title_keywords: ["评论", "观察", "教育", "家庭", "青年", "成长", "就业"]
+    page_type_reject_patterns:
+      - "公示"
+      - "名单"
+      - "结果公告"
+      - "启动(?:仪式|会|计划)?"
+      - "会议(?:召开|举行|通知)"
+      - "论坛(?:预告|召开|举行)"
+      - "发布会"
+      - "实践团"
+      - "宣讲团"
+      - "暑期社会实践"
     priority_keywords: ["评论", "青年", "观察", "热点"]
     article_limit: 50
     min_body_length: 180
@@ -191,6 +204,8 @@ sources:
     allowed_domains: ["lifeweek.com.cn"]
     article_url_patterns: ["/article/\\d+\\.html$", "/\\d{4}/\\d{2}/\\d{2}/[^/]+\\.html$"]
     exclude_url_patterns: ["/rules/", "privacyAgreement", "userAgreement", "/member/", "/login", "/register"]
+    exclude_title_patterns: ["图解", "组图", "海报", "直播", "快讯", "名单", "公告"]
+    required_title_keywords: ["评论", "社会", "文化", "教育", "阅读", "观察", "人物", "健康", "科技"]
     priority_keywords: ["评论", "随笔", "人物", "社会"]
     article_limit: 50
     min_body_length: 180
@@ -211,6 +226,8 @@ sources:
     allowed_domains: ["whb.cn"]
     article_url_patterns: ["/commonDetail/", "/\\d{8}/", "\\.html?$"]
     exclude_url_patterns: ["/staticsg/", "/recommend\\.html$", "/index\\.html?$", "/video/", "/topic/"]
+    exclude_title_patterns: ["图解", "组图", "海报", "直播", "快讯", "名单", "公告"]
+    required_title_keywords: ["评论", "观察", "教育", "文化", "阅读", "科技", "健康", "文明"]
     priority_keywords: ["评论", "文汇", "观察", "随笔"]
     article_limit: 50
     min_body_length: 180
@@ -232,6 +249,8 @@ sources:
     allowed_domains: ["thepaper.cn"]
     article_url_patterns: ["/newsDetail_forward_\\d+$", "/newsDetail_\\d+$"]
     exclude_url_patterns: ["/live/", "/video/", "/topic/", "/channel/", "/index\\.html?$"]
+    exclude_title_patterns: ["快讯", "直播", "图解", "海报", "名单", "公告"]
+    required_title_keywords: ["评论", "观察", "教育", "文化", "科技", "健康", "阅读", "社会"]
     priority_keywords: ["评论", "澎湃", "观察", "热点"]
     article_limit: 50
     min_body_length: 180
@@ -425,7 +444,7 @@ sources:
     article_url_patterns: ["/t\\d{8}_\\d+\\.shtml$", "/\\d{6}/t\\d{8}_\\d+\\.shtml$"]
     required_url_patterns: ["^https?://www\\.cssn\\.cn/(?:lsx|kgx)/.+/t\\d{8}_\\d+\\.shtml(?:\\?.*)?$"]
     exclude_url_patterns: ["/index\\.shtml$", "/node_\\d+\\.shtml$", "/zt_", "/zt/", "/video/", "/search", "/download/", "/lsx/lsx_tpxw/", "/skgz/bwyc/"]
-    exclude_title_patterns: ["招聘", "通报", "征稿", "会议通知", "论坛预告", "简讯", "书讯", "目录", "启事", "征文", "台湾", "台独", "两岸"]
+    exclude_title_patterns: ["招聘", "通报", "征稿", "会议通知", "论坛预告", "简讯", "书讯", "书评", "目录", "启事", "征文", "台湾", "台独", "两岸"]
     page_type_reject_patterns:
       - "公示"
       - "名单"
@@ -462,7 +481,7 @@ sources:
     article_url_patterns: ["/\\d{4}-\\d{2}/\\d{2}/content_\\d+\\.htm$", "/content_\\d+\\.htm$"]
     required_url_patterns: ["^https?://culture\\.gmw\\.cn/\\d{4}-\\d{2}/\\d{2}/content_\\d+\\.htm(?:\\?.*)?$"]
     exclude_url_patterns: ["/node_\\d+\\.htm$", "/index\\.htm$", "/topics\\.", "/video/", "/photo/"]
-    exclude_title_patterns: ["招聘", "通报", "名单", "直播", "图解", "快讯", "电影市场", "总票房", "清明档"]
+    exclude_title_patterns: ["招聘", "通报", "名单", "直播", "图解", "快讯", "电影市场", "总票房", "清明档", "海报组", "组图", "图说"]
     page_type_reject_patterns:
       - "公示"
       - "名单"
@@ -473,6 +492,9 @@ sources:
       - "发布会"
       - "分享"
       - "全部导航"
+      - "海报组"
+      - "组图"
+      - "图说"
       - "总票房"
       - "放映场次"
       - "片方供图"
@@ -511,6 +533,10 @@ sources:
       - "发布会"
       - "首届"
       - "中越"
+      - "暑期社会实践"
+      - "实践团"
+      - "宣讲团"
+      - "支教"
     priority_keywords: ["家庭教育", "青年", "成长", "观察", "家长会", "就业", "评论"]
     article_limit: 2
     min_body_length: 220
@@ -534,7 +560,7 @@ sources:
     article_url_patterns: ["/article/.+", "/science/.+"]
     required_url_patterns: ["^https?://www\\.kepuchina\\.cn/article/articleinfo(?:\\?.*\\bar_id=\\d+.*)?$"]
     exclude_url_patterns: ["/index\\.shtml$", "/more/", "/search", "/video/", "/special/"]
-    exclude_title_patterns: ["直播", "快讯", "征集", "活动通知"]
+    exclude_title_patterns: ["直播", "快讯", "征集", "活动通知", "图解", "一图读懂", "组图"]
     page_type_reject_patterns:
       - "公示"
       - "名单"
@@ -542,7 +568,9 @@ sources:
       - "活动通知"
       - "征集"
       - "直播"
-    priority_keywords: ["科普", "科学", "健康", "生态", "实验", "中药材", "病毒", "自然"]
+      - "图解"
+      - "组图"
+    priority_keywords: ["科普", "科学", "健康", "生态", "实验", "中药材", "病毒", "自然", "为什么", "如何", "何以", "机制", "解释"]
     article_limit: 2
     min_body_length: 220
     auto_process_after_ingest: true
@@ -569,7 +597,7 @@ sources:
     required_url_patterns:
       - "^https?://(?:culture|health|scitech|edu)\\.people\\.com\\.cn/n1/\\d{4}/\\d{2}/\\d{2}/c\\d+-\\d+\\.html(?:\\?.*)?$"
     exclude_url_patterns: ["/index\\.html$", "/GB/", "paper\\.people\\.com\\.cn"]
-    exclude_title_patterns: ["招聘", "面试通知", "通报", "名单", "公告", "通知", "图解", "直播", "快讯", "军事", "台湾", "两岸", "分享"]
+    exclude_title_patterns: ["招聘", "面试通知", "通报", "名单", "公告", "通知", "图解", "直播", "快讯", "军事", "台湾", "两岸", "分享", "答记者问"]
     page_type_reject_patterns:
       - "公示"
       - "名单"
@@ -582,6 +610,7 @@ sources:
       - "全部导航"
       - "直播"
       - "图解"
+      - "答记者问"
     priority_keywords: ["阅读", "文化", "文明", "健康", "科普", "科技", "教育", "家庭", "观察", "评论"]
     article_limit: 2
     min_body_length: 220

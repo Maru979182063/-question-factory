@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import logging
 import time
-from collections import defaultdict, deque
 from uuid import uuid4
 
 from fastapi import FastAPI, Request
@@ -10,31 +9,11 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.core.settings import get_settings
+from app.services.runtime_observer import begin_request_trace, clear_request_trace, note_trace_metadata, persist_runtime_event
+from app.services.shared_state import get_shared_state_backend
 
 
 logger = logging.getLogger(__name__)
-
-
-class _RateLimiter:
-    def __init__(self) -> None:
-        self._hits: dict[str, deque[float]] = defaultdict(deque)
-
-    def allow(self, key: str, limit: int, *, window_seconds: int = 60) -> tuple[bool, int]:
-        if limit <= 0:
-            return True, 0
-
-        now = time.time()
-        queue = self._hits[key]
-        while queue and queue[0] <= now - window_seconds:
-            queue.popleft()
-        if len(queue) >= limit:
-            retry_after = max(1, int(window_seconds - (now - queue[0])))
-            return False, retry_after
-        queue.append(now)
-        return True, 0
-
-
-_RATE_LIMITER = _RateLimiter()
 
 
 class SecurityMiddleware(BaseHTTPMiddleware):
@@ -45,29 +24,64 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         settings = get_settings()
         request_id = request.headers.get("X-Request-ID") or str(uuid4())
         request.state.request_id = request_id
+        client_identity = self._resolve_client_identity(request, settings.security)
+        request.state.client_identity = client_identity
+        begin_request_trace(request_id=request_id, path=request.url.path, client_id=client_identity["client_id"])
         start = time.perf_counter()
 
-        if self._should_protect(request.url.path):
-            auth_response = self._check_auth(request, request_id, settings.security.enabled, settings.security.api_token)
-            if auth_response is not None:
-                return auth_response
-            rate_response = self._check_rate_limit(request, request_id, settings.security.rate_limit_per_minute)
-            if rate_response is not None:
-                return rate_response
+        try:
+            if self._should_protect(request.url.path):
+                auth_response = self._check_auth(request, request_id, settings.security.enabled, settings.security.api_token)
+                if auth_response is not None:
+                    return auth_response
+                rate_response = self._check_rate_limit(
+                    request,
+                    request_id,
+                    client_identity=client_identity,
+                    limit=settings.security.rate_limit_per_minute,
+                )
+                if rate_response is not None:
+                    return rate_response
 
-        response = await call_next(request)
-        response.headers["X-Request-ID"] = request_id
-        self._attach_generation_gate_headers(request, response)
-        duration_ms = round((time.perf_counter() - start) * 1000, 2)
-        logger.info(
-            "request_complete request_id=%s method=%s path=%s status=%s duration_ms=%s",
-            request_id,
-            request.method,
-            request.url.path,
-            response.status_code,
-            duration_ms,
-        )
-        return response
+            response = await call_next(request)
+            response.headers["X-Request-ID"] = request_id
+            self._attach_generation_gate_headers(request, response)
+            duration_ms = round((time.perf_counter() - start) * 1000, 2)
+            note_trace_metadata(
+                method=request.method,
+                status_code=response.status_code,
+                duration_ms=duration_ms,
+                client_identity=client_identity,
+                queue_wait_seconds=getattr(request.state, "generation_gate", {}).get("wait_seconds")
+                if isinstance(getattr(request.state, "generation_gate", None), dict)
+                else None,
+            )
+            persist_runtime_event(
+                event_type="request_complete",
+                severity="info",
+                message="Request completed.",
+                details={
+                    "method": request.method,
+                    "status_code": response.status_code,
+                    "duration_ms": duration_ms,
+                    "client_identity": client_identity,
+                    "queue_wait_seconds": getattr(request.state, "generation_gate", {}).get("wait_seconds")
+                    if isinstance(getattr(request.state, "generation_gate", None), dict)
+                    else None,
+                },
+            )
+            logger.info(
+                "request_complete request_id=%s method=%s path=%s status=%s duration_ms=%s client_id=%s",
+                request_id,
+                request.method,
+                request.url.path,
+                response.status_code,
+                duration_ms,
+                client_identity["client_id"],
+            )
+            return response
+        finally:
+            clear_request_trace()
 
     def _should_protect(self, path: str) -> bool:
         if path in self.EXEMPT_PATHS:
@@ -100,22 +114,89 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             headers={"X-Request-ID": request_id},
         )
 
-    def _check_rate_limit(self, request: Request, request_id: str, limit: int) -> JSONResponse | None:
-        client_host = request.client.host if request.client else "unknown"
-        key = f"{client_host}:{request.url.path}"
-        allowed, retry_after = _RATE_LIMITER.allow(key, limit)
-        if allowed:
+    def _check_rate_limit(
+        self,
+        request: Request,
+        request_id: str,
+        *,
+        client_identity: dict[str, str],
+        limit: int,
+    ) -> JSONResponse | None:
+        key = f"{client_identity['client_id']}:{request.url.path}"
+        decision = get_shared_state_backend().allow_rate_limit(key=key, limit=limit)
+        if decision.allowed:
+            note_trace_metadata(
+                rate_limit={
+                    "limit": limit,
+                    "remaining": decision.remaining,
+                    "backend": decision.backend,
+                }
+            )
             return None
+        persist_runtime_event(
+            event_type="rate_limited",
+            severity="warning",
+            message="Request rejected by rate limiter.",
+            request_id=request_id,
+            path=request.url.path,
+            client_id=client_identity["client_id"],
+            details={
+                "limit": limit,
+                "retry_after_seconds": decision.retry_after_seconds,
+                "backend": decision.backend,
+                "client_identity": client_identity,
+            },
+        )
         return JSONResponse(
             status_code=429,
             content={
                 "error": {
                     "message": "Too many requests.",
-                    "details": {"request_id": request_id, "retry_after_seconds": retry_after},
+                    "details": {
+                        "request_id": request_id,
+                        "retry_after_seconds": decision.retry_after_seconds,
+                        "client_identity": client_identity["client_id"],
+                    },
                 }
             },
-            headers={"Retry-After": str(retry_after), "X-Request-ID": request_id},
+            headers={
+                "Retry-After": str(decision.retry_after_seconds),
+                "X-Request-ID": request_id,
+                "X-RateLimit-Limit": str(limit),
+                "X-RateLimit-Remaining": str(decision.remaining),
+            },
         )
+
+    def _resolve_client_identity(self, request: Request, security_settings) -> dict[str, str]:
+        fallback_ip = request.client.host if request.client else "unknown"
+        chosen_ip = fallback_ip
+        source = "request.client"
+        if security_settings.trust_forwarded_headers:
+            for header_name in security_settings.client_ip_header_priority:
+                raw_value = request.headers.get(header_name)
+                if not raw_value:
+                    continue
+                if header_name == "x-forwarded-for":
+                    parts = [part.strip() for part in raw_value.split(",") if part.strip()]
+                    if parts:
+                        index = min(len(parts) - 1, max(0, security_settings.forwarded_for_index))
+                        chosen_ip = parts[index]
+                        source = header_name
+                        break
+                else:
+                    chosen_ip = raw_value.strip()
+                    source = header_name
+                    break
+        token_fingerprint = request.headers.get("Authorization")
+        identity_parts = [chosen_ip]
+        if token_fingerprint:
+            identity_parts.append(token_fingerprint[-12:])
+        client_id = "|".join(identity_parts)
+        return {
+            "client_ip": chosen_ip,
+            "client_id": client_id,
+            "source": source,
+        }
 
     def _attach_generation_gate_headers(self, request: Request, response: JSONResponse) -> None:
         gate_state = getattr(request.state, "generation_gate", None)

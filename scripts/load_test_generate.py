@@ -126,6 +126,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-json", help="Optional path to write the full JSON report.")
     parser.add_argument("--warmup", type=int, default=1, help="Warm-up request count before the measured run.")
     parser.add_argument("--allow-unready", action="store_true", help="Continue even if /readyz is not 200.")
+    parser.add_argument("--accept-success-rate", type=float, help="Minimum acceptable success rate, e.g. 0.95.")
+    parser.add_argument("--accept-p95-ms", type=float, help="Maximum acceptable p95 latency in milliseconds.")
+    parser.add_argument("--accept-max-queue-wait-seconds", type=float, help="Maximum acceptable queue wait p95 in seconds.")
+    parser.add_argument("--accept-no-5xx", action="store_true", help="Fail if any 5xx responses are observed.")
     return parser
 
 
@@ -379,6 +383,34 @@ def print_summary(report: dict[str, Any]) -> None:
         print(f"Error reasons: {json.dumps(summary['error_reasons'], ensure_ascii=False)}")
 
 
+def evaluate_acceptance(report: dict[str, Any], args: argparse.Namespace) -> list[str]:
+    failures: list[str] = []
+    summary = report["summary"]
+    success_rate = float(summary.get("success_rate") or 0.0)
+    latency = summary.get("latency_ms") or {}
+    queue = summary.get("queue") or {}
+    status_codes = summary.get("status_codes") or {}
+    if args.accept_success_rate is not None and success_rate < args.accept_success_rate:
+        failures.append(
+            f"success_rate {round(success_rate, 4)} < required {round(float(args.accept_success_rate), 4)}"
+        )
+    if args.accept_p95_ms is not None:
+        observed_p95 = latency.get("p95")
+        if observed_p95 is None or float(observed_p95) > float(args.accept_p95_ms):
+            failures.append(f"latency_p95_ms {observed_p95} > allowed {args.accept_p95_ms}")
+    if args.accept_max_queue_wait_seconds is not None:
+        observed_queue_p95 = queue.get("wait_seconds_p95")
+        if observed_queue_p95 is None or float(observed_queue_p95) > float(args.accept_max_queue_wait_seconds):
+            failures.append(
+                f"queue_wait_p95_seconds {observed_queue_p95} > allowed {args.accept_max_queue_wait_seconds}"
+            )
+    if args.accept_no_5xx:
+        five_xx_count = sum(count for code, count in status_codes.items() if str(code).startswith("5"))
+        if five_xx_count > 0:
+            failures.append(f"observed {five_xx_count} 5xx responses")
+    return failures
+
+
 def probe_ready(client: httpx.Client, ready_url: str, allow_unready: bool) -> dict[str, Any]:
     response = client.get(ready_url)
     payload = parse_json_response(response)
@@ -445,7 +477,13 @@ def main() -> int:
         output_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"Report written to: {output_path}")
 
-    return 0 if report["summary"]["failure_count"] == 0 else 1
+    acceptance_failures = evaluate_acceptance(report, args)
+    if acceptance_failures:
+        print("Acceptance failures:")
+        for failure in acceptance_failures:
+            print(f"- {failure}")
+
+    return 0 if report["summary"]["failure_count"] == 0 and not acceptance_failures else 1
 
 
 if __name__ == "__main__":

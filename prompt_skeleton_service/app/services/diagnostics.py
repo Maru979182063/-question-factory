@@ -13,7 +13,9 @@ from app.core.dependencies import (
     get_runtime_registry,
 )
 from app.core.settings import get_settings
+from app.services.async_generation_queue import get_async_generation_queue
 from app.services.generation_gate import get_generation_gate
+from app.services.shared_state import get_shared_state_backend
 
 
 def build_prompt_diagnostics() -> dict[str, Any]:
@@ -48,8 +50,20 @@ def build_prompt_diagnostics() -> dict[str, Any]:
                 "max_waiting": settings.generation_queue.max_waiting,
                 "acquire_timeout_seconds": settings.generation_queue.acquire_timeout_seconds,
             },
+            "shared_state": {"backend": settings.shared_state.backend},
+            "async_tasks": {
+                "enabled": settings.async_tasks.enabled,
+                "worker_count": settings.async_tasks.worker_count,
+                "poll_interval_seconds": settings.async_tasks.poll_interval_seconds,
+                "lease_seconds": settings.async_tasks.lease_seconds,
+            },
         },
-        "runtime_state": {"generation_queue": get_generation_gate().snapshot()},
+        "runtime_state": {
+            "generation_queue": get_generation_gate().snapshot(),
+            "shared_state": get_shared_state_backend().snapshot(),
+            "async_tasks": get_async_generation_queue().summary(),
+            "runtime_events": get_question_repository().get_runtime_event_summary(window_hours=6, limit=200),
+        },
     }
 
 

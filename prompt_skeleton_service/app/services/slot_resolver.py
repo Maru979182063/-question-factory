@@ -3,14 +3,10 @@ from __future__ import annotations
 from typing import Any
 
 from app.core.exceptions import DomainError
-from app.schemas.api import (
-    DifficultyDeviation,
-    DifficultyFit,
-    DifficultyProjection,
-    DifficultyTargetProfile,
-    PatternSelectionReason,
-)
+from app.schemas.api import PatternSelectionReason
 from app.schemas.config import BusinessSubtypeConfig, PatternConfig, QuestionTypeConfig, SlotFieldConfig
+from app.schemas.difficulty import DifficultyFitResult, DifficultyProjection, DifficultyTargetProfile
+from app.services.difficulty_projection_service import DifficultyProjectionService
 
 
 class SlotResolverService:
@@ -64,6 +60,9 @@ class SlotResolverService:
         "local_binding_strength": ["high", "medium", "low"],
     }
 
+    def __init__(self) -> None:
+        self.difficulty_projection_service = DifficultyProjectionService()
+
     def resolve(
         self,
         question_type_config: QuestionTypeConfig,
@@ -89,18 +88,12 @@ class SlotResolverService:
             pattern_id=pattern_id,
             warnings=warnings,
         )
-        difficulty_projection = self._project_difficulty(
+        difficulty_projection, difficulty_target_profile, difficulty_fit = self.difficulty_projection_service.project(
+            question_type_config=question_type_config,
             pattern=pattern,
             resolved_slots=resolved_slots,
             difficulty_target=difficulty_target,
-        )
-        difficulty_target_profile = self._get_difficulty_target_profile(
-            question_type_config=question_type_config,
-            difficulty_target=difficulty_target,
-        )
-        difficulty_fit = self._build_difficulty_fit(
-            difficulty_projection=difficulty_projection,
-            difficulty_target_profile=difficulty_target_profile,
+            business_subtype=subtype_config.subtype_id if subtype_config else None,
         )
         skeleton = self._build_skeleton(
             question_type_config=question_type_config,
@@ -432,65 +425,6 @@ class SlotResolverService:
             )
 
         return None
-
-    def _project_difficulty(
-        self,
-        *,
-        pattern: PatternConfig,
-        resolved_slots: dict[str, Any],
-        difficulty_target: str,
-    ) -> DifficultyProjection:
-        text_lookup = self._build_text_lookup(pattern=pattern, resolved_slots=resolved_slots)
-        projection: dict[str, float] = {}
-
-        for metric_name in ("complexity", "ambiguity", "reasoning_depth", "distractor_similarity"):
-            metric_rule = getattr(pattern.difficulty_rules, metric_name)
-            score = metric_rule.base if metric_rule.base is not None else 0.3
-
-            for slot_name, mapping in metric_rule.by_slot.items():
-                slot_value = resolved_slots.get(slot_name)
-                if slot_value is not None and str(slot_value) in mapping:
-                    score = mapping[str(slot_value)]
-
-            for text_key, mapping in metric_rule.by_text.items():
-                text_value = text_lookup.get(text_key)
-                if text_value is not None and str(text_value) in mapping:
-                    score = mapping[str(text_value)]
-
-            projection[metric_name] = self._clamp(score)
-
-        return DifficultyProjection(**projection)
-
-    def _get_difficulty_target_profile(
-        self,
-        *,
-        question_type_config: QuestionTypeConfig,
-        difficulty_target: str,
-    ) -> DifficultyTargetProfile:
-        profile = question_type_config.difficulty_target_profiles[difficulty_target]
-        return DifficultyTargetProfile.model_validate(profile.model_dump())
-
-    def _build_difficulty_fit(
-        self,
-        *,
-        difficulty_projection: DifficultyProjection,
-        difficulty_target_profile: DifficultyTargetProfile,
-    ) -> DifficultyFit:
-        deviations: list[DifficultyDeviation] = []
-        for metric_name in ("complexity", "ambiguity", "reasoning_depth", "distractor_similarity"):
-            actual = getattr(difficulty_projection, metric_name)
-            target_range = getattr(difficulty_target_profile, metric_name)
-            if actual < target_range.min or actual > target_range.max:
-                deviations.append(
-                    DifficultyDeviation(
-                        metric=metric_name,
-                        target_min=target_range.min,
-                        target_max=target_range.max,
-                        actual=actual,
-                    )
-                )
-
-        return DifficultyFit(in_range=not deviations, deviations=deviations)
 
     def _build_text_lookup(self, *, pattern: PatternConfig, resolved_slots: dict[str, Any]) -> dict[str, Any]:
         lookup = dict(resolved_slots)

@@ -4,13 +4,14 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-from app.schemas.api import (
-    DifficultyFit,
+from app.schemas.api import PatternSelectionReason, PromptPackage
+from app.schemas.difficulty import (
+    ActualDifficultyAssessment,
+    DifficultyBand,
+    DifficultyCalibrationPatch,
+    DifficultyFitResult,
     DifficultyProjection,
-    DifficultyTarget,
     DifficultyTargetProfile,
-    PatternSelectionReason,
-    PromptPackage,
 )
 
 
@@ -62,10 +63,12 @@ class QuestionItem(BaseModel):
     pattern_selection_reason: PatternSelectionReason | None = None
     resolved_slots: dict[str, Any]
     skeleton: dict[str, Any]
-    difficulty_target: DifficultyTarget
+    difficulty_target: DifficultyBand
     difficulty_target_profile: DifficultyTargetProfile | None = None
     difficulty_projection: DifficultyProjection | None = None
-    difficulty_fit: DifficultyFit | None = None
+    difficulty_fit: DifficultyFitResult | None = None
+    actual_difficulty_assessment: ActualDifficultyAssessment | None = None
+    difficulty_calibration_patches: list[DifficultyCalibrationPatch] = Field(default_factory=list)
     control_logic: dict[str, Any]
     generation_logic: dict[str, Any]
     prompt_package: PromptPackage

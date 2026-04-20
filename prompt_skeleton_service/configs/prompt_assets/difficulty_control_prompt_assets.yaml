@@ -1,0 +1,26 @@
+difficulty_control:
+  shared_prompt_lines:
+    - "Difficulty control is a first-class contract. Keep target, projection, validator, assessment, and calibration aligned."
+    - "Do not make the item harder by breaking legality or truth; adjust by axis intensity, distractor competition, and context dependency."
+    - "When the requested band is missed, preserve the structure truth and surface the drift for calibration rather than hiding it."
+  families:
+    sentence_fill:
+      prompt_lines:
+        - "For sentence_fill, control difficulty through local binding, global dependency, distractor closeness, and blank-function ambiguity."
+        - "The correct option must remain the removed source sentence; difficulty comes from competition quality, not from falsifying the gold answer."
+      axis_targets:
+        easy:
+          local_binding_complexity: 0.32
+          global_context_dependency: 0.28
+          distractor_similarity: 0.34
+          blank_function_ambiguity: 0.30
+        medium:
+          local_binding_complexity: 0.56
+          global_context_dependency: 0.54
+          distractor_similarity: 0.58
+          blank_function_ambiguity: 0.52
+        hard:
+          local_binding_complexity: 0.78
+          global_context_dependency: 0.80
+          distractor_similarity: 0.76
+          blank_function_ambiguity: 0.74

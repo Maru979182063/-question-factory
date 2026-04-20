@@ -1,0 +1,297 @@
+truth_distillation:
+  runtime_contract:
+    allowed_family_ids:
+      - sentence_fill
+    allowed_patch_targets:
+      - question_card
+      - prompt_assets
+      - validator_contract
+      - material_mapping
+    promotion_mode: candidate_only
+
+  prompts:
+    normalization_guardrails:
+      - "先把 sentence_fill 的 canonical slot 视图归一化，再解释难度偏差。"
+      - "只在 question_card / prompt_assets / validator_contract / material_mapping 四类目标内产出 patch。"
+      - "candidate patch 只用于离线蒸馏与人工审核，不自动回写主配置。"
+    candidate_patch_policy:
+      - "优先修正 target 与 actual 差距最大的维度。"
+      - "每个 patch 都要带 evidence 和 expected_effect。"
+      - "如果 patch 会改变 family canonical defaults，必须显式提醒 review 风险。"
+
+  sentence_fill:
+    difficulty_dimensions:
+      local_binding_complexity:
+        label: "局部绑定复杂度"
+        description: "观察空位与前后句之间是否需要同时闭合局部逻辑和指代锚点。"
+      global_context_dependency:
+        label: "全局语境依赖"
+        description: "观察正确项是否依赖段落级或全文级语义回看，而非局部句对句替换。"
+      distractor_similarity:
+        label: "干扰项相似度"
+        description: "观察错误项是否与正确项共享主题域、功能位与表面语言壳。"
+      blank_function_ambiguity:
+        label: "空位功能歧义"
+        description: "观察空位功能在 summary / bridge / lead_next / carry_previous 等邻近职责之间是否易混。"
+
+    patch_blueprints:
+      local_binding_complexity:
+        under_target:
+          question_card:
+            summary: "收紧 sentence_fill 的局部绑定约束"
+            rationale: "{dimension_label} 低于目标，需要让题卡默认约束更明确地要求承前启后与局部闭合。"
+            expected_effect: "提高正确项对相邻上下文的绑定强度，减少“只看单句也能猜对”的情况。"
+            payload:
+              patch_scope: "sentence_fill.minimal_runtime_defaults"
+              change:
+                bidirectional_validation: high
+                reference_dependency: medium
+          prompt_assets:
+            summary: "增强生成提示中的局部锚定守卫"
+            rationale: "{dimension_label} 低于目标，需要在蒸馏 prompt 中强调前后句双向校验。"
+            expected_effect: "让生成与修题时更少出现只满足一侧衔接的正确项。"
+            payload:
+              asset_key: "sentence_fill.local_binding_guard"
+              add_lines:
+                - "正确项必须同时解释前句如何接住、后句如何展开。"
+          validator_contract:
+            summary: "补充局部绑定校验项"
+            rationale: "{dimension_label} 低于目标，需要 validator 对前后衔接都给出显式检查。"
+            expected_effect: "把只满足单向衔接的候选题提前挡掉。"
+            payload:
+              require_checks:
+                - backward_anchor_alignment
+                - forward_anchor_alignment
+          material_mapping:
+            summary: "提高对显式局部锚点材料的优先级"
+            rationale: "{dimension_label} 低于目标，需要材料映射更偏向前后信号清晰的段落。"
+            expected_effect: "减少材料本身局部支撑不足导致的低绑定题目。"
+            payload:
+              prefer_signals:
+                - explicit_transition_anchor
+                - explicit_reference_chain
+        over_target:
+          question_card:
+            summary: "放松 sentence_fill 的局部绑定强度"
+            rationale: "{dimension_label} 高于目标，需要避免题目过度依赖细碎锚点。"
+            expected_effect: "回到更接近真题的局部绑定密度。"
+            payload:
+              patch_scope: "sentence_fill.minimal_runtime_defaults"
+              change:
+                bidirectional_validation: medium
+                reference_dependency: low
+          prompt_assets:
+            summary: "减少提示中对细粒度锚点的过度强调"
+            rationale: "{dimension_label} 高于目标，需要让 prompt 不再把所有正确项都写成高密度链条。"
+            expected_effect: "避免题目被做成过分依赖局部细节。"
+            payload:
+              asset_key: "sentence_fill.local_binding_guard"
+              remove_bias: "over_constrained_anchor_chain"
+          validator_contract:
+            summary: "收窄局部绑定必检项"
+            rationale: "{dimension_label} 高于目标，需要让 validator 允许更自然的真题级衔接。"
+            expected_effect: "减少被规则误杀的自然正确项。"
+            payload:
+              soften_checks:
+                - backward_anchor_alignment
+          material_mapping:
+            summary: "放宽材料映射中的显式锚点偏好"
+            rationale: "{dimension_label} 高于目标，需要允许更自然段落进入候选集。"
+            expected_effect: "避免材料侧先天把题推到过高局部绑定。"
+            payload:
+              deprioritize_signals:
+                - explicit_reference_chain
+
+      global_context_dependency:
+        under_target:
+          question_card:
+            summary: "提高 sentence_fill 的全局语境依赖"
+            rationale: "{dimension_label} 低于目标，需要题卡默认更鼓励段落级理解。"
+            expected_effect: "正确项不再只靠局部词面拼接就能判断。"
+            payload:
+              patch_scope: "sentence_fill.context_defaults"
+              change:
+                semantic_scope: paragraph_level
+                context_dependency: high
+          prompt_assets:
+            summary: "增强提示中的段落主轴回看要求"
+            rationale: "{dimension_label} 低于目标，需要 prompt 明确要求检查段落主轴。"
+            expected_effect: "生成时更关注段落逻辑而不只是邻句。"
+            payload:
+              asset_key: "sentence_fill.global_context_guard"
+              add_lines:
+                - "判断正确项前，先确认它是否与段落主轴和全文推进方向一致。"
+          validator_contract:
+            summary: "补充段落级语境校验"
+            rationale: "{dimension_label} 低于目标，需要 validator 显式检查段落级一致性。"
+            expected_effect: "把只在局部成立、放回全文失真的题挡掉。"
+            payload:
+              require_checks:
+                - paragraph_scope_consistency
+          material_mapping:
+            summary: "优先映射具备稳定段落主轴的材料"
+            rationale: "{dimension_label} 低于目标，需要材料层优先选择主轴清晰的段落。"
+            expected_effect: "为高全局依赖题提供更稳定的材料来源。"
+            payload:
+              prefer_signals:
+                - paragraph_level_axis
+        over_target:
+          question_card:
+            summary: "降低 sentence_fill 的全局语境负担"
+            rationale: "{dimension_label} 高于目标，需要把题拉回真题常见的语境跨度。"
+            expected_effect: "避免过度依赖全文回看导致题目失真。"
+            payload:
+              patch_scope: "sentence_fill.context_defaults"
+              change:
+                semantic_scope: sentence_level
+                context_dependency: medium
+          prompt_assets:
+            summary: "减弱提示中的全文回看偏置"
+            rationale: "{dimension_label} 高于目标，需要 prompt 不把每题都抬到全文级。"
+            expected_effect: "回到更合理的段内或局部段落判断。"
+            payload:
+              asset_key: "sentence_fill.global_context_guard"
+              remove_bias: "always_full_passage"
+          validator_contract:
+            summary: "降低全文级一致性检查门槛"
+            rationale: "{dimension_label} 高于目标，需要 validator 容许更常规的局部-段落级题。"
+            expected_effect: "减少因过严全局门槛造成的误杀。"
+            payload:
+              soften_checks:
+                - paragraph_scope_consistency
+          material_mapping:
+            summary: "允许更多段内可判材料进入候选"
+            rationale: "{dimension_label} 高于目标，需要材料映射不再只偏向重主轴段落。"
+            expected_effect: "控制全局依赖不要被材料层放大。"
+            payload:
+              deprioritize_signals:
+                - paragraph_level_axis
+
+      distractor_similarity:
+        under_target:
+          question_card:
+            summary: "提高 sentence_fill 的干扰项竞争度"
+            rationale: "{dimension_label} 低于目标，需要题卡侧更强调功能错位而非表面假句。"
+            expected_effect: "错误项更像真题中的近误竞争。"
+            payload:
+              patch_scope: "sentence_fill.distractor_defaults"
+              change:
+                distractor_strength: high
+          prompt_assets:
+            summary: "增强 distractor 构造约束"
+            rationale: "{dimension_label} 低于目标，需要 prompt 要求错误项共享题域与语法壳。"
+            expected_effect: "减少一眼假项。"
+            payload:
+              asset_key: "sentence_fill.distractor_guard"
+              add_lines:
+                - "错误项应保持同题域、同语法位置、近长度，只在功能位或逻辑方向上失配。"
+          validator_contract:
+            summary: "补充干扰项竞争度校验"
+            rationale: "{dimension_label} 低于目标，需要 validator 对显眼假项做硬拦截。"
+            expected_effect: "提高错误项最低竞争门槛。"
+            payload:
+              require_checks:
+                - distractor_surface_similarity
+                - distractor_function_mismatch
+          material_mapping:
+            summary: "优先使用更适合构造近误项的材料"
+            rationale: "{dimension_label} 低于目标，需要材料映射保留能产生近义竞争的句群。"
+            expected_effect: "提高干扰项相似度上限。"
+            payload:
+              prefer_signals:
+                - parallel_candidate_shells
+        over_target:
+          question_card:
+            summary: "降低 distractor 的过强竞争"
+            rationale: "{dimension_label} 高于目标，需要避免错误项强到挤压唯一正确性。"
+            expected_effect: "保住真题级唯一性。"
+            payload:
+              patch_scope: "sentence_fill.distractor_defaults"
+              change:
+                distractor_strength: medium
+          prompt_assets:
+            summary: "降低过拟合式近误构造"
+            rationale: "{dimension_label} 高于目标，需要 prompt 不要把错误项做成近乎同义。"
+            expected_effect: "减少多项可争议正确的风险。"
+            payload:
+              asset_key: "sentence_fill.distractor_guard"
+              remove_bias: "near_duplicate_competition"
+          validator_contract:
+            summary: "增加唯一正确性保护"
+            rationale: "{dimension_label} 高于目标，需要 validator 更关注“看起来都对”的风险。"
+            expected_effect: "避免多解。"
+            payload:
+              require_checks:
+                - single_correct_answer_guard
+          material_mapping:
+            summary: "降低对高近义竞争材料的偏置"
+            rationale: "{dimension_label} 高于目标，需要材料不要天然把干扰项拉到过强。"
+            expected_effect: "让迷惑度回到可控范围。"
+            payload:
+              deprioritize_signals:
+                - parallel_candidate_shells
+
+      blank_function_ambiguity:
+        under_target:
+          question_card:
+            summary: "提高 sentence_fill 的功能辨析要求"
+            rationale: "{dimension_label} 低于目标，需要题卡更明确地区分 bridge / lead_next / carry_previous 等邻近功能。"
+            expected_effect: "题目更接近真题中的功能判断难点。"
+            payload:
+              patch_scope: "sentence_fill.function_defaults"
+              change:
+                function_type: bridge
+                logic_relation: multi_constraint
+          prompt_assets:
+            summary: "增强功能辨析提示"
+            rationale: "{dimension_label} 低于目标，需要 prompt 明确要求比较多个候选功能位。"
+            expected_effect: "减少把功能判断写得过直白。"
+            payload:
+              asset_key: "sentence_fill.function_guard"
+              add_lines:
+                - "先判断空位承担的是 summary、bridge、lead_next 还是 carry_previous，再决定候选项。"
+          validator_contract:
+            summary: "补充功能歧义校验"
+            rationale: "{dimension_label} 低于目标，需要 validator 检查正确项是否真的赢在功能匹配。"
+            expected_effect: "避免仅凭主题词匹配就通过。"
+            payload:
+              require_checks:
+                - function_role_alignment
+                - logic_relation_alignment
+          material_mapping:
+            summary: "优先保留功能位容易混淆但仍可判定的材料"
+            rationale: "{dimension_label} 低于目标，需要材料映射允许更多功能位有竞争的段落。"
+            expected_effect: "让功能辨析难度来自材料真实结构而非 prompt 硬抬。"
+            payload:
+              prefer_signals:
+                - function_role_competition
+        over_target:
+          question_card:
+            summary: "降低过强的功能歧义"
+            rationale: "{dimension_label} 高于目标，需要避免空位功能边界被做得过分含混。"
+            expected_effect: "回到更接近真题的功能清晰度。"
+            payload:
+              patch_scope: "sentence_fill.function_defaults"
+              change:
+                logic_relation: continuation
+          prompt_assets:
+            summary: "减少提示中的多功能混写偏置"
+            rationale: "{dimension_label} 高于目标，需要 prompt 更清楚地区分主功能和次功能。"
+            expected_effect: "避免生成出多项都像能承担空位职责的情况。"
+            payload:
+              asset_key: "sentence_fill.function_guard"
+              remove_bias: "multi_role_blending"
+          validator_contract:
+            summary: "强化主功能唯一性检查"
+            rationale: "{dimension_label} 高于目标，需要 validator 确认正确项在主功能上有明确优势。"
+            expected_effect: "降低功能多解。"
+            payload:
+              require_checks:
+                - primary_function_uniqueness
+          material_mapping:
+            summary: "降低对高混合功能段落的偏置"
+            rationale: "{dimension_label} 高于目标，需要材料映射避开主功能过分模糊的段落。"
+            expected_effect: "控制功能歧义不要失真。"
+            payload:
+              deprioritize_signals:
+                - function_role_competition

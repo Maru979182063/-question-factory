@@ -3310,6 +3310,15 @@ class QuestionValidatorService:
             "in_range": difficulty_fit.get("in_range", True),
             "deviation_count": len(deviations),
             "deviations": deviations,
+            "target_difficulty": difficulty_fit.get("target_difficulty"),
+            "actual_difficulty": difficulty_fit.get("actual_difficulty"),
+            "gold_difficulty": difficulty_fit.get("gold_difficulty"),
+            "fit_result": difficulty_fit.get("fit_result"),
+            "axis_diff": difficulty_fit.get("axis_diff") or {},
+            "structural_changes": difficulty_fit.get("structural_changes") or [],
+            "validator_status": difficulty_fit.get("validator_status"),
+            "review_delta": difficulty_fit.get("review_delta") or {},
+            "promotion_recommendation": difficulty_fit.get("promotion_recommendation"),
         }
 
     def _is_sentence_fill_soft_difficulty_miss(self, difficulty_review: dict[str, Any]) -> bool:

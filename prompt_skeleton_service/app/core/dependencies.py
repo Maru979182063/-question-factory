@@ -29,3 +29,10 @@ def get_prompt_template_registry() -> PromptTemplateRegistry:
 def get_question_repository() -> QuestionRepository:
     settings = get_settings()
     return QuestionRepository(settings.question_db_path)
+
+
+@lru_cache(maxsize=1)
+def get_async_generation_queue():
+    from app.services.async_generation_queue import get_async_generation_queue as _get_async_generation_queue
+
+    return _get_async_generation_queue()

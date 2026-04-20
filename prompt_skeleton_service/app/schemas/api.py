@@ -2,15 +2,19 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-
-DifficultyTarget = Literal["easy", "medium", "hard"]
+from app.schemas.difficulty import (
+    DifficultyBand,
+    DifficultyFitResult,
+    DifficultyProjection,
+    DifficultyTargetProfile,
+)
 
 
 class PromptBuildRequest(BaseModel):
     question_type: str
     business_subtype: str | None = None
     pattern_id: str | None = None
-    difficulty_target: DifficultyTarget
+    difficulty_target: DifficultyBand
     topic: str | None = None
     count: int = Field(default=1, ge=1, le=20)
     passage_style: str | None = None
@@ -24,7 +28,7 @@ class SlotResolveRequest(BaseModel):
     question_type: str
     business_subtype: str | None = None
     pattern_id: str | None = None
-    difficulty_target: DifficultyTarget
+    difficulty_target: DifficultyBand
     type_slots: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -63,37 +67,6 @@ class TypeSchemaResponse(BaseModel):
     fewshot_policy: dict[str, Any]
 
 
-class DifficultyProjection(BaseModel):
-    complexity: float
-    ambiguity: float
-    reasoning_depth: float
-    distractor_similarity: float
-
-
-class DifficultyRange(BaseModel):
-    min: float
-    max: float
-
-
-class DifficultyTargetProfile(BaseModel):
-    complexity: DifficultyRange
-    ambiguity: DifficultyRange
-    reasoning_depth: DifficultyRange
-    distractor_similarity: DifficultyRange
-
-
-class DifficultyDeviation(BaseModel):
-    metric: str
-    target_min: float
-    target_max: float
-    actual: float
-
-
-class DifficultyFit(BaseModel):
-    in_range: bool
-    deviations: list[DifficultyDeviation] = Field(default_factory=list)
-
-
 class PatternSelectionReason(BaseModel):
     requested_pattern_id: str | None = None
     selected_pattern_id: str
@@ -112,7 +85,7 @@ class ResolveResult(BaseModel):
     skeleton: dict[str, Any]
     difficulty_projection: DifficultyProjection
     difficulty_target_profile: DifficultyTargetProfile
-    difficulty_fit: DifficultyFit
+    difficulty_fit: DifficultyFitResult
     control_logic: dict[str, Any]
     generation_logic: dict[str, Any]
     pattern_selection_reason: PatternSelectionReason
@@ -130,3 +103,7 @@ class ReloadConfigResponse(BaseModel):
     loaded_types: int
     loaded_patterns: int
     warnings: list[str] = Field(default_factory=list)
+
+
+DifficultyTarget = DifficultyBand
+DifficultyFit = DifficultyFitResult

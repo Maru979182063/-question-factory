@@ -4,7 +4,13 @@ from contextlib import nullcontext
 
 from fastapi import APIRouter, Depends, Request
 
-from app.core.dependencies import get_prompt_template_registry, get_question_repository, get_registry, get_runtime_registry
+from app.core.dependencies import (
+    get_async_generation_queue,
+    get_prompt_template_registry,
+    get_question_repository,
+    get_registry,
+    get_runtime_registry,
+)
 from app.core.exceptions import DomainError
 from app.schemas.question import (
     QuestionBatchDetailResponse,
@@ -33,6 +39,7 @@ from app.schemas.question import (
 from app.services.config_registry import ConfigRegistry
 from app.services.item_control_service import ItemControlService
 from app.services.prompt_orchestrator import PromptOrchestratorService
+from app.services.async_generation_queue import AsyncGenerationQueueService
 from app.services.question_generation import QuestionGenerationService
 from app.services.question_repository import QuestionRepository
 from app.services.question_review import QuestionReviewService
@@ -208,6 +215,42 @@ def generate_questions(
     with acquire_generation_slot() as gate_state:
         http_request.state.generation_gate = gate_state
         return QuestionGenerationBatchResponse.model_validate(service.generate(request))
+
+
+@router.post("/generate-async")
+def enqueue_generate_questions(
+    request: QuestionGenerateRequest,
+    http_request: Request,
+    queue: AsyncGenerationQueueService = Depends(get_async_generation_queue),
+) -> dict:
+    client_identity = getattr(http_request.state, "client_identity", {}) or {}
+    task = queue.submit(request, client_id=client_identity.get("client_id"))
+    return {
+        **task,
+        "submit_path": "/api/v1/questions/generate-async",
+        "poll_path": f"/api/v1/questions/generate-async/tasks/{task.get('task_id')}",
+    }
+
+
+@router.get("/generate-async/tasks/{task_id}")
+def get_generate_task(
+    task_id: str,
+    queue: AsyncGenerationQueueService = Depends(get_async_generation_queue),
+) -> dict:
+    task = queue.get_task(task_id)
+    if task is None:
+        raise DomainError("Async generation task not found.", status_code=404, details={"task_id": task_id})
+    return task
+
+
+@router.get("/generate-async/tasks")
+def list_generate_tasks(
+    status: str | None = None,
+    limit: int = 50,
+    queue: AsyncGenerationQueueService = Depends(get_async_generation_queue),
+) -> dict:
+    items = queue.list_tasks(status=status, limit=limit)
+    return {"count": len(items), "items": items}
 
 
 @router.get("/batches", response_model=QuestionBatchListResponse)

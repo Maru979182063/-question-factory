@@ -883,8 +883,23 @@ class MaterialPipelineV2:
             closing_anchor_type = str(structure_constraints.get("closing_anchor_type") or "").strip()
             block_order_complexity = str(structure_constraints.get("block_order_complexity") or "").strip()
             preserve_unit_count = bool(structure_constraints.get("preserve_unit_count"))
+            expected_progression = str(structure_constraints.get("discourse_progression_pattern") or "").strip()
+            temporal_sequence = bool(structure_constraints.get("temporal_or_action_sequence_presence"))
             target_card_id = ""
             if (
+                opening_anchor_type == "viewpoint_opening"
+                and middle_structure_type == "cause_effect_chain"
+                and closing_anchor_type == "call_to_action"
+            ):
+                target_card_id = "order_material.viewpoint_reason_action"
+            elif (
+                opening_anchor_type == "explicit_topic"
+                and middle_structure_type == "local_binding"
+                and closing_anchor_type in {"conclusion", "summary"}
+                and (temporal_sequence or expected_progression in {"timeline_progression", "time_to_conclusion", "sequence_progression"})
+            ):
+                target_card_id = "order_material.timeline_progression"
+            elif (
                 opening_anchor_type == "problem_opening"
                 and middle_structure_type == "problem_solution_blocks"
                 and closing_anchor_type == "case_support"
@@ -914,6 +929,8 @@ class MaterialPipelineV2:
                 "order_material.first_sentence_gate",
                 "order_material.tail_sentence_gate",
                 "order_material.carry_parallel_expand",
+                "order_material.timeline_progression",
+                "order_material.viewpoint_reason_action",
                 "order_material.problem_solution_case_blocks",
                 "legacy.sentence_order.precomputed",
             }:
@@ -922,7 +939,7 @@ class MaterialPipelineV2:
             updated_hits = [dict(entry) for entry in card_hits]
             target_entry = next((entry for entry in updated_hits if str(entry.get("card_id") or "") == target_card_id), None)
             promoted_bump = 0.12
-            if target_card_id in {"order_material.dual_anchor_lock", "order_material.problem_solution_case_blocks"}:
+            if target_card_id in {"order_material.dual_anchor_lock", "order_material.problem_solution_case_blocks", "order_material.viewpoint_reason_action"}:
                 promoted_bump = 0.20
             promoted_score = max(float(updated_hits[0].get("score") or 0.0) + promoted_bump, 0.42)
             if target_entry is None:
@@ -952,18 +969,32 @@ class MaterialPipelineV2:
             blank_position=blank_position,
         )
         logic_relation = normalize_sentence_fill_logic_relation(structure_constraints.get("logic_relation"))
+        answer_anchor_kind = str(structure_constraints.get("answer_anchor_kind") or "").strip()
         target_card_id = ""
         if blank_position == "opening" and function_type == "summary":
             target_card_id = "fill_material.opening_summary"
         elif blank_position == "opening" and function_type == "topic_intro":
             target_card_id = "fill_material.opening_topic_intro"
+        elif blank_position == "middle" and function_type == "carry_previous":
+            target_card_id = "fill_material.middle_explanation"
         elif blank_position == "middle" and function_type in {"lead_next", "bridge", "continuation"}:
             if function_type == "bridge":
                 target_card_id = "fill_material.bridge_transition"
-            elif logic_relation in {"focus_shift", "transition", "problem_to_example_explanation"}:
+            elif logic_relation == "explanation":
+                target_card_id = "fill_material.middle_explanation"
+            elif logic_relation in {"focus_shift", "problem_to_example_explanation"}:
                 target_card_id = "fill_material.middle_focus_shift"
             else:
                 target_card_id = "fill_material.bridge_transition"
+        elif blank_position == "ending" and function_type == "countermeasure":
+            target_card_id = "fill_material.ending_countermeasure"
+        elif blank_position == "ending" and function_type in {"conclusion", "summary_conclusion", "summary"}:
+            if logic_relation == "elevation":
+                target_card_id = "fill_material.ending_elevation"
+            elif answer_anchor_kind == "clause":
+                target_card_id = "fill_material.ending_clause_summary"
+            else:
+                target_card_id = "fill_material.ending_summary"
         if not target_card_id:
             return card_hits
 
@@ -1019,6 +1050,8 @@ class MaterialPipelineV2:
             structure_constraints.get("function_type"),
             blank_position=blank_position,
         )
+        logic_relation = normalize_sentence_fill_logic_relation(structure_constraints.get("logic_relation"))
+        answer_anchor_kind = str(structure_constraints.get("answer_anchor_kind") or "").strip()
         bonus = 0.0
 
         opening_cards = {
@@ -1041,7 +1074,7 @@ class MaterialPipelineV2:
 
         if blank_position == "opening":
             if card_id == "fill_material.opening_summary":
-                bonus += 0.34
+                bonus += 0.24
             elif card_id in opening_cards:
                 bonus += 0.12
             elif card_id in middle_cards or card_id in ending_cards:
@@ -1059,25 +1092,56 @@ class MaterialPipelineV2:
 
         if function_type == "summary":
             if card_id == "fill_material.opening_summary":
-                bonus += 0.30
+                bonus += 0.20
             elif card_id in {"fill_material.ending_summary", "fill_material.ending_clause_summary"}:
-                bonus -= 0.06
+                bonus -= 0.04
             elif card_id in {"fill_material.opening_topic_intro", "fill_material.opening_clause_lead"}:
                 bonus -= 0.12
         elif function_type == "topic_intro":
-            if card_id in {"fill_material.opening_topic_intro", "fill_material.opening_clause_lead"}:
-                bonus += 0.08
+            if card_id == "fill_material.opening_topic_intro":
+                bonus += 0.14
+            elif card_id == "fill_material.opening_clause_lead":
+                bonus += 0.05
             elif card_id == "fill_material.opening_summary":
-                bonus -= 0.04
+                bonus -= 0.08
+        elif function_type == "carry_previous":
+            if card_id == "fill_material.middle_explanation":
+                bonus += 0.16
+            elif card_id == "fill_material.bridge_transition":
+                bonus -= 0.06
         elif function_type in {"lead_next", "bridge", "continuation"}:
-            if card_id in {"fill_material.bridge_transition", "fill_material.middle_focus_shift"}:
-                bonus += 0.08
+            if logic_relation == "focus_shift":
+                if card_id == "fill_material.middle_focus_shift":
+                    bonus += 0.14
+                elif card_id == "fill_material.bridge_transition":
+                    bonus -= 0.04
+            elif logic_relation in {"explanation", "problem_to_example_explanation"}:
+                if card_id == "fill_material.middle_explanation":
+                    bonus += 0.12
+                elif card_id == "fill_material.bridge_transition":
+                    bonus -= 0.04
+            elif card_id == "fill_material.bridge_transition":
+                bonus += 0.10
         elif function_type in {"conclusion", "summary_conclusion"}:
-            if card_id in {"fill_material.ending_summary", "fill_material.ending_clause_summary"}:
+            if logic_relation == "elevation":
+                if card_id == "fill_material.ending_elevation":
+                    bonus += 0.16
+                elif card_id in {"fill_material.ending_summary", "fill_material.ending_clause_summary"}:
+                    bonus -= 0.04
+            elif answer_anchor_kind == "clause":
+                if card_id == "fill_material.ending_clause_summary":
+                    bonus += 0.14
+                elif card_id == "fill_material.ending_summary":
+                    bonus -= 0.04
+            elif card_id == "fill_material.ending_summary":
+                bonus += 0.12
+            elif card_id == "fill_material.ending_clause_summary":
                 bonus += 0.08
         elif function_type == "countermeasure":
             if card_id == "fill_material.ending_countermeasure":
-                bonus += 0.08
+                bonus += 0.16
+            elif card_id in {"fill_material.ending_summary", "fill_material.ending_clause_summary"}:
+                bonus -= 0.08
 
         if card_id == "fill_material.comprehensive_multi_match" and blank_position:
             bonus -= 0.10
@@ -1100,9 +1164,24 @@ class MaterialPipelineV2:
         closing_anchor_type = str(structure_constraints.get("closing_anchor_type") or "").strip()
         block_order_complexity = str(structure_constraints.get("block_order_complexity") or "").strip()
         preserve_unit_count = bool(structure_constraints.get("preserve_unit_count"))
+        expected_progression = str(structure_constraints.get("discourse_progression_pattern") or "").strip()
+        temporal_sequence = bool(structure_constraints.get("temporal_or_action_sequence_presence"))
 
         target_card_id = ""
         if (
+            opening_anchor_type == "viewpoint_opening"
+            and middle_structure_type == "cause_effect_chain"
+            and closing_anchor_type == "call_to_action"
+        ):
+            target_card_id = "order_material.viewpoint_reason_action"
+        elif (
+            opening_anchor_type == "explicit_topic"
+            and middle_structure_type == "local_binding"
+            and closing_anchor_type in {"conclusion", "summary"}
+            and (temporal_sequence or expected_progression in {"timeline_progression", "time_to_conclusion", "sequence_progression"})
+        ):
+            target_card_id = "order_material.timeline_progression"
+        elif (
             opening_anchor_type == "problem_opening"
             and middle_structure_type == "problem_solution_blocks"
             and closing_anchor_type in {"case_support", "summary", "conclusion"}
@@ -1163,15 +1242,19 @@ class MaterialPipelineV2:
             if card_id == "center_material.relation_parallel":
                 bonus += 0.18
             elif card_id == "center_material.relation_plain":
-                bonus -= 0.04
+                bonus -= 0.08
             if main_axis_source == "global_abstraction":
-                if card_id == "center_material.subsentence_multi_angle":
-                    bonus += 0.12
+                if card_id == "center_material.relation_parallel":
+                    bonus += 0.08
+                elif card_id == "center_material.subsentence_multi_angle":
+                    bonus += 0.10
                 elif card_id in {"center_material.subsentence_other", "center_material.subsentence_data"}:
                     bonus -= 0.04
         if argument_structure == "problem_solution":
             if card_id == "center_material.relation_countermeasure":
                 bonus += 0.18
+            elif card_id == "center_material.relation_plain":
+                bonus -= 0.08
             if main_axis_source == "solution_conclusion" or target_form == "article_task":
                 if card_id == "center_material.relation_countermeasure":
                     bonus += 0.12
@@ -1193,9 +1276,9 @@ class MaterialPipelineV2:
                     bonus -= 0.06
             else:
                 if card_id == "center_material.subsentence_prelude":
-                    bonus += 0.16
-                elif card_id == "center_material.subsentence_other":
-                    bonus -= 0.04
+                    bonus += 0.22
+                elif card_id in {"center_material.subsentence_other", "center_material.relation_plain"}:
+                    bonus -= 0.06
         if main_axis_source in {"final_summary", "global_abstraction"}:
             if card_id in {"center_material.relation_plain", "center_material.relation_parallel"}:
                 bonus += 0.06
@@ -1233,8 +1316,19 @@ class MaterialPipelineV2:
         middle_structure_type = str(structure_constraints.get("middle_structure_type") or "").strip()
         closing_anchor_type = str(structure_constraints.get("closing_anchor_type") or "").strip()
         block_order_complexity = str(structure_constraints.get("block_order_complexity") or "").strip()
+        expected_progression = str(structure_constraints.get("discourse_progression_pattern") or "").strip()
+        temporal_sequence = bool(structure_constraints.get("temporal_or_action_sequence_presence"))
         bonus = 0.0
 
+        if (
+            opening_anchor_type == "viewpoint_opening"
+            and middle_structure_type == "cause_effect_chain"
+            and closing_anchor_type == "call_to_action"
+        ):
+            if card_id == "order_material.viewpoint_reason_action":
+                bonus += 0.24
+            elif card_id == "order_material.first_sentence_gate":
+                bonus -= 0.04
         if (
             opening_anchor_type == "explicit_topic"
             and middle_structure_type == "local_binding"
@@ -1262,6 +1356,18 @@ class MaterialPipelineV2:
                 bonus += 0.14
             elif card_id == "order_material.tail_sentence_gate":
                 bonus -= 0.04
+        if (
+            opening_anchor_type == "explicit_topic"
+            and middle_structure_type == "local_binding"
+            and closing_anchor_type in {"conclusion", "summary"}
+            and (temporal_sequence or expected_progression in {"timeline_progression", "time_to_conclusion", "sequence_progression"})
+        ):
+            if card_id == "order_material.timeline_progression":
+                bonus += 0.20
+            elif card_id == "order_material.first_sentence_gate":
+                bonus -= 0.04
+            elif card_id == "order_material.tail_sentence_gate":
+                bonus -= 0.02
         if closing_anchor_type in {"conclusion", "summary"} and opening_anchor_type != "explicit_topic":
             if card_id == "order_material.tail_sentence_gate":
                 bonus += 0.14
@@ -1270,7 +1376,9 @@ class MaterialPipelineV2:
                 bonus += 0.08
         if middle_structure_type in {"parallel_expansion", "mixed_layers"}:
             if card_id == "order_material.carry_parallel_expand":
-                bonus += 0.12
+                bonus += 0.18
+            elif card_id == "order_material.first_sentence_gate":
+                bonus -= 0.04
         if middle_structure_type == "local_binding":
             if card_id == "order_material.timeline_progression":
                 bonus += 0.06
@@ -1936,8 +2044,46 @@ class MaterialPipelineV2:
                 question_ready_context["pattern_candidates"] = list((chosen_business.get("pattern_candidates") or []))
                 question_ready_context["prompt_extras"] = self._build_prompt_extras(chosen_business)
                 updated["question_ready_context"] = question_ready_context
+        updated = self._normalize_center_structural_leaf(updated)
         updated = self._normalize_sentence_fill_opening_leaf(updated)
+        updated = self._normalize_sentence_fill_middle_leaf(updated)
+        updated = self._normalize_sentence_fill_ending_leaf(updated)
+        updated = self._normalize_sentence_order_structural_leaf(updated)
         return updated
+
+    def _normalize_center_structural_leaf(self, item: dict[str, Any]) -> dict[str, Any]:
+        if str(item.get("_business_family_id") or "") != "center_understanding":
+            return item
+        material_card_id = str(item.get("material_card_id") or "")
+        if material_card_id not in {
+            "center_material.relation_plain",
+            "center_material.relation_parallel",
+            "center_material.relation_turning",
+            "center_material.relation_countermeasure",
+            "center_material.subsentence_other",
+        }:
+            return item
+        profile = dict(item.get("business_feature_profile") or {})
+        neutral = dict(item.get("neutral_signal_profile") or {})
+        feature_type = str(profile.get("feature_type") or "")
+        target_material_card = material_card_id
+
+        if feature_type == "并列关系" or float(neutral.get("parallel_enumeration_strength") or 0.0) >= 0.58:
+            target_material_card = "center_material.relation_parallel"
+        elif feature_type == "必要条件关系" or float(neutral.get("countermeasure_signal_strength") or 0.0) >= 0.58:
+            target_material_card = "center_material.relation_countermeasure"
+        elif feature_type == "转折关系" or float(neutral.get("turning_focus_strength") or 0.0) >= 0.56:
+            target_material_card = "center_material.relation_turning"
+        elif (
+            feature_type == "主题词"
+            and float(neutral.get("topic_consistency_strength") or 0.0) >= 0.76
+            and float(neutral.get("summary_strength") or 0.0) >= 0.58
+        ):
+            target_material_card = "center_material.relation_plain"
+
+        if target_material_card == material_card_id:
+            return item
+        return self._force_material_card_selection(item, target_material_card)
 
     def _normalize_sentence_fill_opening_leaf(self, item: dict[str, Any]) -> dict[str, Any]:
         if str(item.get("_business_family_id") or "") != "sentence_fill":
@@ -1960,6 +2106,88 @@ class MaterialPipelineV2:
         target_material_card = "fill_material.opening_topic_intro"
         if has_reason_followup and clause_like_opening and not has_quote_marker:
             target_material_card = "fill_material.opening_clause_lead"
+        return self._force_material_card_selection(item, target_material_card)
+
+    def _normalize_sentence_fill_middle_leaf(self, item: dict[str, Any]) -> dict[str, Any]:
+        if str(item.get("_business_family_id") or "") != "sentence_fill":
+            return item
+        material_card_id = str(item.get("material_card_id") or "")
+        if material_card_id not in {
+            "fill_material.bridge_transition",
+            "fill_material.middle_focus_shift",
+            "fill_material.middle_explanation",
+        }:
+            return item
+        fill_profile = ((item.get("business_feature_profile") or {}).get("sentence_fill_profile") or {})
+        function_type = str(fill_profile.get("function_type") or "")
+        logic_relation = normalize_sentence_fill_logic_relation(fill_profile.get("logic_relation"))
+        target_material_card = material_card_id
+        if function_type == "carry_previous" or logic_relation == "explanation":
+            target_material_card = "fill_material.middle_explanation"
+        elif logic_relation in {"focus_shift", "problem_to_example_explanation"}:
+            target_material_card = "fill_material.middle_focus_shift"
+        elif function_type in {"bridge", "continuation", "lead_next"}:
+            target_material_card = "fill_material.bridge_transition"
+        if target_material_card == material_card_id:
+            return item
+        return self._force_material_card_selection(item, target_material_card)
+
+    def _normalize_sentence_fill_ending_leaf(self, item: dict[str, Any]) -> dict[str, Any]:
+        if str(item.get("_business_family_id") or "") != "sentence_fill":
+            return item
+        material_card_id = str(item.get("material_card_id") or "")
+        if material_card_id not in {"fill_material.ending_summary", "fill_material.ending_clause_summary", "fill_material.ending_elevation"}:
+            return item
+        fill_profile = ((item.get("business_feature_profile") or {}).get("sentence_fill_profile") or {})
+        function_type = str(fill_profile.get("function_type") or "")
+        logic_relation = normalize_sentence_fill_logic_relation(fill_profile.get("logic_relation"))
+        presentation = dict(item.get("presentation") or {})
+        answer_anchor_kind = str(presentation.get("answer_anchor_kind") or fill_profile.get("answer_anchor_kind") or "").strip()
+        if function_type not in {"conclusion", "summary_conclusion", "summary"}:
+            return item
+        target_material_card = material_card_id
+        if logic_relation == "elevation":
+            target_material_card = "fill_material.ending_elevation"
+        elif answer_anchor_kind == "clause":
+            target_material_card = "fill_material.ending_clause_summary"
+        if target_material_card == material_card_id:
+            return item
+        return self._force_material_card_selection(item, target_material_card)
+
+    def _normalize_sentence_order_structural_leaf(self, item: dict[str, Any]) -> dict[str, Any]:
+        if str(item.get("_business_family_id") or "") != "sentence_order":
+            return item
+        material_card_id = str(item.get("material_card_id") or "")
+        signal_profile = dict(item.get("neutral_signal_profile") or {})
+        opening_anchor_type = str(signal_profile.get("opening_anchor_type") or "")
+        middle_structure_type = str(signal_profile.get("middle_structure_type") or "")
+        closing_anchor_type = str(signal_profile.get("closing_anchor_type") or "")
+        discourse_progression_strength = float(signal_profile.get("discourse_progression_strength") or 0.0)
+        temporal_order_strength = float(signal_profile.get("temporal_order_strength") or 0.0)
+        action_sequence_irreversibility = float(signal_profile.get("action_sequence_irreversibility") or 0.0)
+        local_binding_strength = float(signal_profile.get("local_binding_strength") or 0.0)
+        context_closure_score = float(signal_profile.get("context_closure_score") or 0.0)
+
+        target_material_card = material_card_id
+        if (
+            opening_anchor_type == "explicit_topic"
+            and middle_structure_type == "local_binding"
+            and closing_anchor_type in {"summary", "conclusion"}
+            and max(temporal_order_strength, action_sequence_irreversibility) >= 0.48
+            and discourse_progression_strength >= 0.56
+        ):
+            target_material_card = "order_material.timeline_progression"
+        elif (
+            opening_anchor_type == "explicit_topic"
+            and middle_structure_type == "local_binding"
+            and closing_anchor_type in {"summary", "conclusion"}
+            and local_binding_strength >= 0.66
+            and context_closure_score >= 0.60
+            and self._sentence_order_unit_count(str(item.get("text") or ""), str(item.get("candidate_type") or "")) == self.SENTENCE_ORDER_FIXED_UNIT_COUNT
+        ):
+            target_material_card = "order_material.dual_anchor_lock"
+        if target_material_card == material_card_id:
+            return item
         return self._force_material_card_selection(item, target_material_card)
 
     def _force_material_card_selection(self, item: dict[str, Any], material_card_id: str) -> dict[str, Any]:
@@ -7712,6 +7940,13 @@ class MaterialPipelineV2:
         feature_type = self._primary_business_feature_type(logic_relations, neutral_signal_profile)
         sentence_order_profile = self._build_sentence_order_business_profile(candidate["text"], candidate["candidate_type"], neutral_signal_profile)
         sentence_fill_profile = self._build_sentence_fill_business_profile(neutral_signal_profile)
+        fill_blank_position = str(sentence_fill_profile.get("blank_position") or "")
+        if fill_blank_position in {"opening", "middle", "ending"}:
+            fill_window_text = self._fill_window_text(text, fill_blank_position)
+            fill_anchor_payload = self._build_sentence_fill_anchor(fill_window_text, fill_blank_position)
+            sentence_fill_profile["answer_anchor_kind"] = str(fill_anchor_payload.get("answer_anchor_kind") or "")
+            if sentence_fill_profile.get("answer_anchor_kind") == "clause":
+                sentence_fill_profile["unit_type"] = "clause"
         return {
             "feature_type": feature_type,
             "logic_relations": logic_relations,
@@ -9710,7 +9945,7 @@ class MaterialPipelineV2:
                 return False
         if card_id == "order_material.carry_parallel_expand":
             paragraph_range = (candidate.get("meta") or {}).get("paragraph_range") or []
-            if signal_profile.get("opening_anchor_type") != "upper_context_link":
+            if signal_profile.get("opening_anchor_type") not in {"upper_context_link", "explicit_topic"}:
                 return False
             if signal_profile.get("middle_structure_type") != "parallel_expansion":
                 return False
@@ -9732,6 +9967,20 @@ class MaterialPipelineV2:
             if float(signal_profile.get("function_overlap_score") or 0.0) > 0.30:
                 return False
             if float(signal_profile.get("multi_path_risk") or 0.0) > 0.30:
+                return False
+        if card_id == "order_material.timeline_progression":
+            if signal_profile.get("opening_anchor_type") != "explicit_topic":
+                return False
+            if signal_profile.get("middle_structure_type") != "local_binding":
+                return False
+            if signal_profile.get("closing_anchor_type") not in {"summary", "conclusion"}:
+                return False
+            if max(
+                float(signal_profile.get("temporal_order_strength") or 0.0),
+                float(signal_profile.get("action_sequence_irreversibility") or 0.0),
+            ) < 0.48:
+                return False
+            if float(signal_profile.get("discourse_progression_strength") or 0.0) < 0.56:
                 return False
         if card_id == "order_material.problem_solution_case_blocks":
             if signal_profile.get("opening_anchor_type") != "problem_opening":

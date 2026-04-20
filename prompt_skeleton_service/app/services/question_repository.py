@@ -3,6 +3,8 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
+import time
+from collections import Counter
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -19,9 +21,12 @@ class QuestionRepository:
 
     @contextmanager
     def _connect(self) -> Iterator[sqlite3.Connection]:
-        conn = sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path, timeout=30, check_same_thread=False)
         conn.row_factory = sqlite3.Row
         try:
+            conn.execute("PRAGMA journal_mode=WAL")
+            conn.execute("PRAGMA synchronous=NORMAL")
+            conn.execute("PRAGMA busy_timeout=30000")
             yield conn
             conn.commit()
         finally:
@@ -194,6 +199,51 @@ class QuestionRepository:
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
+
+                CREATE TABLE IF NOT EXISTS runtime_events (
+                    event_id TEXT PRIMARY KEY,
+                    event_type TEXT NOT NULL,
+                    severity TEXT NOT NULL,
+                    request_id TEXT,
+                    task_id TEXT,
+                    path TEXT,
+                    client_id TEXT,
+                    message TEXT NOT NULL,
+                    details_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    created_at_epoch REAL NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS rate_limit_hits (
+                    hit_id TEXT PRIMARY KEY,
+                    hit_key TEXT NOT NULL,
+                    observed_at TEXT NOT NULL,
+                    observed_at_epoch REAL NOT NULL,
+                    window_seconds INTEGER NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS async_generation_tasks (
+                    task_id TEXT PRIMARY KEY,
+                    task_type TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    request_json TEXT NOT NULL,
+                    result_json TEXT,
+                    error_json TEXT,
+                    requested_by TEXT,
+                    client_id TEXT,
+                    request_id TEXT,
+                    batch_id TEXT,
+                    lease_owner TEXT,
+                    lease_expires_at TEXT,
+                    lease_expires_at_epoch REAL,
+                    attempt_count INTEGER NOT NULL DEFAULT 0,
+                    last_error TEXT,
+                    created_at TEXT NOT NULL,
+                    created_at_epoch REAL NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    started_at TEXT,
+                    completed_at TEXT
+                );
                 """
             )
             self._apply_lightweight_migrations(conn)
@@ -319,6 +369,359 @@ class QuestionRepository:
                     json.dumps(version.get("evaluation_result", {}), ensure_ascii=False, default=self._json_default),
                     json.dumps(version.get("runtime_snapshot", {}), ensure_ascii=False, default=self._json_default),
                     version.get("created_at") or self._utc_now(),
+                ),
+            )
+
+    def save_runtime_event(
+        self,
+        *,
+        event_type: str,
+        severity: str,
+        message: str,
+        details: dict[str, Any] | None = None,
+        request_id: str | None = None,
+        task_id: str | None = None,
+        path: str | None = None,
+        client_id: str | None = None,
+    ) -> dict[str, Any]:
+        created_at = self._utc_now()
+        created_at_epoch = time.time()
+        event_id = hashlib.sha1(f"{event_type}:{created_at_epoch}:{time.time_ns()}".encode("utf-8")).hexdigest()
+        payload = details or {}
+        with self._connect() as conn:
+            conn.execute(
+                """
+                INSERT INTO runtime_events (
+                    event_id, event_type, severity, request_id, task_id, path, client_id,
+                    message, details_json, created_at, created_at_epoch
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    event_id,
+                    event_type,
+                    severity,
+                    request_id,
+                    task_id,
+                    path,
+                    client_id,
+                    message,
+                    json.dumps(payload, ensure_ascii=False, default=self._json_default),
+                    created_at,
+                    created_at_epoch,
+                ),
+            )
+        return {
+            "event_id": event_id,
+            "event_type": event_type,
+            "severity": severity,
+            "request_id": request_id,
+            "task_id": task_id,
+            "path": path,
+            "client_id": client_id,
+            "message": message,
+            "details": payload,
+            "created_at": created_at,
+            "created_at_epoch": created_at_epoch,
+        }
+
+    def list_runtime_events(
+        self,
+        *,
+        limit: int = 100,
+        severity: str | None = None,
+        event_type: str | None = None,
+    ) -> list[dict[str, Any]]:
+        clauses: list[str] = []
+        params: list[Any] = []
+        if severity:
+            clauses.append("severity = ?")
+            params.append(severity)
+        if event_type:
+            clauses.append("event_type = ?")
+            params.append(event_type)
+        sql = (
+            "SELECT event_id, event_type, severity, request_id, task_id, path, client_id, "
+            "message, details_json, created_at, created_at_epoch "
+            "FROM runtime_events"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY created_at_epoch DESC LIMIT ?"
+        params.append(limit)
+        with self._connect() as conn:
+            rows = conn.execute(sql, params).fetchall()
+        return [self._runtime_event_row_to_dict(row) for row in rows]
+
+    def get_runtime_event_summary(self, *, window_hours: int = 24, limit: int = 500) -> dict[str, Any]:
+        cutoff = time.time() - max(1, window_hours) * 3600
+        with self._connect() as conn:
+            rows = conn.execute(
+                """
+                SELECT event_id, event_type, severity, request_id, task_id, path, client_id,
+                       message, details_json, created_at, created_at_epoch
+                FROM runtime_events
+                WHERE created_at_epoch >= ?
+                ORDER BY created_at_epoch DESC
+                LIMIT ?
+                """,
+                (cutoff, limit),
+            ).fetchall()
+        events = [self._runtime_event_row_to_dict(row) for row in rows]
+        severity_counter = Counter(str(item.get("severity") or "unknown") for item in events)
+        event_type_counter = Counter(str(item.get("event_type") or "unknown") for item in events)
+        error_counter = Counter(
+            str(item.get("message") or "unknown")
+            for item in events
+            if str(item.get("severity") or "").lower() in {"error", "critical"}
+        )
+        durations = [
+            float((item.get("details") or {}).get("duration_ms"))
+            for item in events
+            if item.get("event_type") == "request_complete" and (item.get("details") or {}).get("duration_ms") is not None
+        ]
+        queue_waits = [
+            float((item.get("details") or {}).get("queue_wait_seconds"))
+            for item in events
+            if item.get("event_type") == "request_complete" and (item.get("details") or {}).get("queue_wait_seconds") is not None
+        ]
+        stage_samples: dict[str, list[float]] = {}
+        for item in events:
+            details = item.get("details") or {}
+            stage_timings = details.get("stage_timings") if isinstance(details, dict) else None
+            if not isinstance(stage_timings, dict):
+                continue
+            for stage_name, value in stage_timings.items():
+                try:
+                    numeric = float(value)
+                except (TypeError, ValueError):
+                    continue
+                stage_samples.setdefault(str(stage_name), []).append(numeric)
+        return {
+            "window_hours": window_hours,
+            "sample_size": len(events),
+            "severity_counts": dict(severity_counter),
+            "event_type_counts": dict(event_type_counter),
+            "top_errors": [{"message": message, "count": count} for message, count in error_counter.most_common(10)],
+            "request_duration_ms": self._distribution_summary(durations),
+            "queue_wait_seconds": self._distribution_summary(queue_waits),
+            "stage_duration_ms": {
+                stage_name: self._distribution_summary(values)
+                for stage_name, values in sorted(stage_samples.items())
+            },
+            "recent_events": events[: min(20, len(events))],
+        }
+
+    def allow_rate_limit(self, *, key: str, limit: int, window_seconds: int = 60) -> tuple[bool, int, int]:
+        if limit <= 0:
+            return True, 0, 0
+        now_epoch = time.time()
+        cutoff = now_epoch - max(1, window_seconds)
+        hit_id = hashlib.sha1(f"{key}:{now_epoch}:{time.time_ns()}".encode("utf-8")).hexdigest()
+        with self._connect() as conn:
+            conn.execute("DELETE FROM rate_limit_hits WHERE observed_at_epoch <= ?", (cutoff,))
+            row = conn.execute(
+                "SELECT COUNT(*) AS hit_count, MIN(observed_at_epoch) AS oldest_epoch FROM rate_limit_hits WHERE hit_key = ?",
+                (key,),
+            ).fetchone()
+            hit_count = int((row["hit_count"] if row else 0) or 0)
+            oldest_epoch = float((row["oldest_epoch"] if row else 0.0) or 0.0)
+            if hit_count >= limit:
+                retry_after = max(1, int(window_seconds - (now_epoch - oldest_epoch)))
+                return False, retry_after, 0
+            conn.execute(
+                """
+                INSERT INTO rate_limit_hits (hit_id, hit_key, observed_at, observed_at_epoch, window_seconds)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                (hit_id, key, self._utc_now(), now_epoch, window_seconds),
+            )
+        remaining = max(0, limit - hit_count - 1)
+        return True, 0, remaining
+
+    def enqueue_async_generation_task(
+        self,
+        *,
+        payload: dict[str, Any],
+        request_id: str,
+        requested_by: str | None = None,
+        client_id: str | None = None,
+    ) -> dict[str, Any]:
+        created_at = self._utc_now()
+        created_at_epoch = time.time()
+        task_id = hashlib.sha1(f"generation:{created_at_epoch}:{time.time_ns()}".encode("utf-8")).hexdigest()
+        with self._connect() as conn:
+            conn.execute(
+                """
+                INSERT INTO async_generation_tasks (
+                    task_id, task_type, status, request_json, requested_by, client_id, request_id,
+                    created_at, created_at_epoch, updated_at
+                )
+                VALUES (?, 'question_generation', 'queued', ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    task_id,
+                    json.dumps(payload, ensure_ascii=False, default=self._json_default),
+                    requested_by,
+                    client_id,
+                    request_id,
+                    created_at,
+                    created_at_epoch,
+                    created_at,
+                ),
+            )
+        return self.get_async_generation_task(task_id) or {}
+
+    def get_async_generation_task(self, task_id: str) -> dict[str, Any] | None:
+        with self._connect() as conn:
+            row = conn.execute("SELECT * FROM async_generation_tasks WHERE task_id = ?", (task_id,)).fetchone()
+        if row is None:
+            return None
+        return self._async_task_row_to_dict(row)
+
+    def list_async_generation_tasks(self, *, status: str | None = None, limit: int = 100) -> list[dict[str, Any]]:
+        params: list[Any] = []
+        sql = "SELECT * FROM async_generation_tasks"
+        if status:
+            sql += " WHERE status = ?"
+            params.append(status)
+        sql += " ORDER BY created_at_epoch DESC LIMIT ?"
+        params.append(limit)
+        with self._connect() as conn:
+            rows = conn.execute(sql, params).fetchall()
+        return [self._async_task_row_to_dict(row) for row in rows]
+
+    def get_async_generation_task_summary(self, *, history_limit: int = 100) -> dict[str, Any]:
+        tasks = self.list_async_generation_tasks(limit=history_limit)
+        status_counts = Counter(str(task.get("status") or "unknown") for task in tasks)
+        durations = [
+            float(task.get("duration_ms"))
+            for task in tasks
+            if task.get("duration_ms") is not None and str(task.get("status")) == "succeeded"
+        ]
+        return {
+            "history_limit": history_limit,
+            "status_counts": dict(status_counts),
+            "duration_ms": self._distribution_summary(durations),
+            "recent_tasks": tasks[: min(20, len(tasks))],
+        }
+
+    def claim_next_async_generation_task(self, *, worker_id: str, lease_seconds: int) -> dict[str, Any] | None:
+        now_epoch = time.time()
+        lease_expires_at_epoch = now_epoch + max(30, lease_seconds)
+        lease_expires_at = datetime.fromtimestamp(lease_expires_at_epoch, tz=timezone.utc).isoformat()
+        now_text = self._utc_now()
+        with self._connect() as conn:
+            conn.execute("BEGIN IMMEDIATE")
+            row = conn.execute(
+                """
+                SELECT *
+                FROM async_generation_tasks
+                WHERE task_type = 'question_generation'
+                  AND (
+                    status = 'queued'
+                    OR (status = 'running' AND lease_expires_at_epoch IS NOT NULL AND lease_expires_at_epoch <= ?)
+                  )
+                ORDER BY
+                  CASE status WHEN 'running' THEN 0 ELSE 1 END,
+                  created_at_epoch ASC
+                LIMIT 1
+                """,
+                (now_epoch,),
+            ).fetchone()
+            if row is None:
+                return None
+            conn.execute(
+                """
+                UPDATE async_generation_tasks
+                SET status = 'running',
+                    lease_owner = ?,
+                    lease_expires_at = ?,
+                    lease_expires_at_epoch = ?,
+                    attempt_count = attempt_count + 1,
+                    updated_at = ?,
+                    started_at = COALESCE(started_at, ?)
+                WHERE task_id = ?
+                """,
+                (
+                    worker_id,
+                    lease_expires_at,
+                    lease_expires_at_epoch,
+                    now_text,
+                    now_text,
+                    row["task_id"],
+                ),
+            )
+            claimed = conn.execute("SELECT * FROM async_generation_tasks WHERE task_id = ?", (row["task_id"],)).fetchone()
+        return self._async_task_row_to_dict(claimed) if claimed is not None else None
+
+    def mark_async_generation_task_succeeded(
+        self,
+        *,
+        task_id: str,
+        result: dict[str, Any],
+        batch_id: str | None,
+        request_id: str | None,
+    ) -> None:
+        now = self._utc_now()
+        with self._connect() as conn:
+            conn.execute(
+                """
+                UPDATE async_generation_tasks
+                SET status = 'succeeded',
+                    result_json = ?,
+                    error_json = NULL,
+                    request_id = COALESCE(?, request_id),
+                    batch_id = ?,
+                    last_error = NULL,
+                    lease_owner = NULL,
+                    lease_expires_at = NULL,
+                    lease_expires_at_epoch = NULL,
+                    updated_at = ?,
+                    completed_at = ?
+                WHERE task_id = ?
+                """,
+                (
+                    json.dumps(result, ensure_ascii=False, default=self._json_default),
+                    request_id,
+                    batch_id,
+                    now,
+                    now,
+                    task_id,
+                ),
+            )
+
+    def mark_async_generation_task_failed(
+        self,
+        *,
+        task_id: str,
+        error: dict[str, Any],
+        request_id: str | None = None,
+    ) -> None:
+        now = self._utc_now()
+        error_message = str(error.get("message") or "Async generation failed.")
+        with self._connect() as conn:
+            conn.execute(
+                """
+                UPDATE async_generation_tasks
+                SET status = 'failed',
+                    error_json = ?,
+                    request_id = COALESCE(?, request_id),
+                    last_error = ?,
+                    lease_owner = NULL,
+                    lease_expires_at = NULL,
+                    lease_expires_at_epoch = NULL,
+                    updated_at = ?,
+                    completed_at = ?
+                WHERE task_id = ?
+                """,
+                (
+                    json.dumps(error, ensure_ascii=False, default=self._json_default),
+                    request_id,
+                    error_message,
+                    now,
+                    now,
+                    task_id,
                 ),
             )
 
@@ -2285,6 +2688,87 @@ class QuestionRepository:
     def _source_question_hash(payload: dict[str, Any]) -> str:
         serialized = json.dumps(payload or {}, ensure_ascii=False, sort_keys=True, default=str)
         return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+
+    @staticmethod
+    def _runtime_event_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "event_id": row["event_id"],
+            "event_type": row["event_type"],
+            "severity": row["severity"],
+            "request_id": row["request_id"],
+            "task_id": row["task_id"],
+            "path": row["path"],
+            "client_id": row["client_id"],
+            "message": row["message"],
+            "details": json.loads(row["details_json"] or "{}"),
+            "created_at": row["created_at"],
+            "created_at_epoch": row["created_at_epoch"],
+        }
+
+    @staticmethod
+    def _async_task_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+        payload = json.loads(row["request_json"] or "{}")
+        result = json.loads(row["result_json"] or "null")
+        error = json.loads(row["error_json"] or "null")
+        duration_ms = None
+        started_at = row["started_at"]
+        completed_at = row["completed_at"]
+        if started_at and completed_at:
+            try:
+                start_dt = datetime.fromisoformat(started_at)
+                end_dt = datetime.fromisoformat(completed_at)
+                duration_ms = round((end_dt - start_dt).total_seconds() * 1000, 2)
+            except ValueError:
+                duration_ms = None
+        return {
+            "task_id": row["task_id"],
+            "task_type": row["task_type"],
+            "status": row["status"],
+            "request": payload,
+            "result": result,
+            "error": error,
+            "requested_by": row["requested_by"],
+            "client_id": row["client_id"],
+            "request_id": row["request_id"],
+            "batch_id": row["batch_id"],
+            "lease_owner": row["lease_owner"],
+            "lease_expires_at": row["lease_expires_at"],
+            "attempt_count": int(row["attempt_count"] or 0),
+            "last_error": row["last_error"],
+            "created_at": row["created_at"],
+            "updated_at": row["updated_at"],
+            "started_at": started_at,
+            "completed_at": completed_at,
+            "duration_ms": duration_ms,
+        }
+
+    @staticmethod
+    def _distribution_summary(values: list[float]) -> dict[str, float | int] | None:
+        if not values:
+            return None
+        ordered = sorted(float(value) for value in values)
+        count = len(ordered)
+        total = sum(ordered)
+        return {
+            "count": count,
+            "min": round(ordered[0], 4),
+            "max": round(ordered[-1], 4),
+            "avg": round(total / count, 4),
+            "p50": round(QuestionRepository._percentile(ordered, 0.5), 4),
+            "p95": round(QuestionRepository._percentile(ordered, 0.95), 4),
+        }
+
+    @staticmethod
+    def _percentile(ordered: list[float], ratio: float) -> float:
+        if len(ordered) == 1:
+            return float(ordered[0])
+        index = (len(ordered) - 1) * ratio
+        lower = int(index)
+        upper = min(len(ordered) - 1, lower + 1)
+        if lower == upper:
+            return float(ordered[lower])
+        weight = index - lower
+        return float(ordered[lower] * (1 - weight) + ordered[upper] * weight)
 
     def _utc_now(self) -> str:
         return datetime.now(timezone.utc).isoformat()

@@ -4,7 +4,8 @@ from typing import Any, Literal
 
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, field_validator
 
-from app.schemas.api import DifficultyTarget, PromptBuildRequest
+from app.schemas.api import PromptBuildRequest
+from app.schemas.difficulty import DifficultyBand
 
 
 class MappingTarget(BaseModel):
@@ -19,7 +20,7 @@ class BatchMeta(BaseModel):
     question_type: str
     business_subtype: str | None = None
     pattern_id: str | None = None
-    difficulty_target: DifficultyTarget
+    difficulty_target: DifficultyBand
 
 
 class DifyFormInput(BaseModel):

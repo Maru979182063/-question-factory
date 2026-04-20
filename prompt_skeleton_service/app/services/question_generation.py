@@ -24,7 +24,12 @@ from app.schemas.question import (
     QuestionGenerationBatchResponse,
     UserMaterialPayload,
 )
+from app.schemas.difficulty import DifficultyProjection, DifficultyTargetProfile
 from app.schemas.runtime import QuestionRuntimeConfig
+from app.services.difficulty_assessment_service import DifficultyAssessmentService
+from app.services.difficulty_calibration_service import DifficultyCalibrationService
+from app.services.difficulty_diff_service import DifficultyDiffService
+from app.services.difficulty_projection_service import DifficultyProjectionService
 from app.services.evaluation_service import EvaluationService
 from app.services.distill_runtime_overlay import DistillRuntimeOverlayService
 from app.services.input_decoder import DIFFICULTY_MAPPING
@@ -38,6 +43,7 @@ from app.services.patch_scope_registry import resolve_repair_mode_scope
 from app.services.question_repository import QuestionRepository
 from app.services.question_snapshot_builder import QuestionSnapshotBuilder
 from app.services.prompt_template_registry import PromptTemplateRegistry
+from app.services.runtime_observer import note_trace_metadata, trace_stage
 from app.services.sentence_fill_protocol import (
     normalize_sentence_fill_constraints,
     normalize_sentence_fill_function_type,
@@ -496,6 +502,10 @@ class QuestionGenerationService:
         self.generated_question_adapter = TypeAdapter(GeneratedQuestionDraft)
         self.material_refinement_adapter = TypeAdapter(MaterialRefinementDraft)
         self.validator = QuestionValidatorService()
+        self.difficulty_projection_service = DifficultyProjectionService()
+        self.difficulty_assessment_service = DifficultyAssessmentService()
+        self.difficulty_diff_service = DifficultyDiffService()
+        self.difficulty_calibration_service = DifficultyCalibrationService()
         self.snapshot_builder = QuestionSnapshotBuilder(runtime_config)
         self.evaluator = EvaluationService(runtime_config, prompt_template_registry)
         self.question_card_binding = QuestionCardBindingService()
@@ -503,6 +513,34 @@ class QuestionGenerationService:
         self.source_question_analyzer = SourceQuestionAnalyzer(runtime_config)
         self.source_question_parser = SourceQuestionParserService(runtime_config)
         self.prompt_assets = load_question_generation_prompt_assets()
+
+    def _get_difficulty_projection_service(self) -> DifficultyProjectionService:
+        service = getattr(self, "difficulty_projection_service", None)
+        if service is None:
+            service = DifficultyProjectionService()
+            self.difficulty_projection_service = service
+        return service
+
+    def _get_difficulty_assessment_service(self) -> DifficultyAssessmentService:
+        service = getattr(self, "difficulty_assessment_service", None)
+        if service is None:
+            service = DifficultyAssessmentService()
+            self.difficulty_assessment_service = service
+        return service
+
+    def _get_difficulty_diff_service(self) -> DifficultyDiffService:
+        service = getattr(self, "difficulty_diff_service", None)
+        if service is None:
+            service = DifficultyDiffService()
+            self.difficulty_diff_service = service
+        return service
+
+    def _get_difficulty_calibration_service(self) -> DifficultyCalibrationService:
+        service = getattr(self, "difficulty_calibration_service", None)
+        if service is None:
+            service = DifficultyCalibrationService()
+            self.difficulty_calibration_service = service
+        return service
 
     def _question_generation_route(self):
         return self.runtime_config.llm.routing.question_generation or self.runtime_config.llm.routing.generate_question
@@ -618,8 +656,9 @@ class QuestionGenerationService:
         return system_prompt, user_prompt
 
     def generate(self, request: QuestionGenerateRequest) -> dict:
-        prepared_request = self._prepare_request(request)
-        decoded, target_override_warning = self._decode_generation_target(prepared_request)
+        with trace_stage("prepare_request"):
+            prepared_request = self._prepare_request(request)
+            decoded, target_override_warning = self._decode_generation_target(prepared_request)
         standard_request = dict(decoded["standard_request"])
         requested_pattern_id = self._extract_requested_pattern_id(
             type_slots=prepared_request.type_slots,
@@ -659,33 +698,35 @@ class QuestionGenerationService:
         effective_count = batch_meta.effective_count
         batch_id = str(uuid4())
         request_id = str(uuid4())
-        source_question_analysis = self.source_question_analyzer.analyze(
-            source_question=prepared_request.source_question,
-            question_type=standard_request["question_type"],
-            business_subtype=standard_request.get("business_subtype"),
-        )
-        request_snapshot = self._build_request_snapshot(
-            prepared_request,
-            standard_request,
-            decoded,
-            request_id=request_id,
-            source_question_analysis=source_question_analysis,
-            question_card_binding=question_card_binding,
-        )
-        self._persist_source_question_asset(
-            request=prepared_request,
-            request_snapshot=request_snapshot,
-            source_question_analysis=source_question_analysis,
-            question_card_binding=question_card_binding,
-        )
-        materials, material_warnings = self._resolve_generation_materials(
-            request=prepared_request,
-            standard_request=standard_request,
-            source_question_analysis=source_question_analysis,
-            question_card_binding=question_card_binding,
-            request_snapshot=request_snapshot,
-            effective_count=effective_count,
-        )
+        with trace_stage("source_question_analysis"):
+            source_question_analysis = self.source_question_analyzer.analyze(
+                source_question=prepared_request.source_question,
+                question_type=standard_request["question_type"],
+                business_subtype=standard_request.get("business_subtype"),
+            )
+            request_snapshot = self._build_request_snapshot(
+                prepared_request,
+                standard_request,
+                decoded,
+                request_id=request_id,
+                source_question_analysis=source_question_analysis,
+                question_card_binding=question_card_binding,
+            )
+            self._persist_source_question_asset(
+                request=prepared_request,
+                request_snapshot=request_snapshot,
+                source_question_analysis=source_question_analysis,
+                question_card_binding=question_card_binding,
+            )
+        with trace_stage("resolve_materials"):
+            materials, material_warnings = self._resolve_generation_materials(
+                request=prepared_request,
+                standard_request=standard_request,
+                source_question_analysis=source_question_analysis,
+                question_card_binding=question_card_binding,
+                request_snapshot=request_snapshot,
+                effective_count=effective_count,
+            )
         if question_card_binding.get("warning"):
             material_warnings.insert(0, question_card_binding["warning"])
 
@@ -705,28 +746,29 @@ class QuestionGenerationService:
         rejected_attempts: list[dict] = []
         rejected_candidates: list[dict] = []
         selected_materials = materials[: max(1, effective_count)]
-        for material_index, material in enumerate(selected_materials):
-            retry_result = self._run_primary_candidate_with_retries(
-                material=material,
-                material_index=material_index,
-                retry_limit=3,
-                standard_request=standard_request,
-                source_question_analysis=source_question_analysis,
-                request_snapshot=request_snapshot,
-                batch_id=batch_id,
-                request_id=request_id,
-            )
-            rejected_attempts.extend(retry_result["rejected_attempts"])
-            if retry_result.get("best_rejected_candidate") is not None:
-                rejected_candidates.append(retry_result["best_rejected_candidate"])
-            if not retry_result["accepted"]:
-                break
-            built_item = retry_result["item"]
-            self.repository.save_version(built_item.pop("_version_record"))
-            self.repository.save_item(built_item)
-            items.append(built_item)
-            if len(items) >= effective_count:
-                break
+        with trace_stage("generate_candidates"):
+            for material_index, material in enumerate(selected_materials):
+                retry_result = self._run_primary_candidate_with_retries(
+                    material=material,
+                    material_index=material_index,
+                    retry_limit=3,
+                    standard_request=standard_request,
+                    source_question_analysis=source_question_analysis,
+                    request_snapshot=request_snapshot,
+                    batch_id=batch_id,
+                    request_id=request_id,
+                )
+                rejected_attempts.extend(retry_result["rejected_attempts"])
+                if retry_result.get("best_rejected_candidate") is not None:
+                    rejected_candidates.append(retry_result["best_rejected_candidate"])
+                if not retry_result["accepted"]:
+                    break
+                built_item = retry_result["item"]
+                self.repository.save_version(built_item.pop("_version_record"))
+                self.repository.save_item(built_item)
+                items.append(built_item)
+                if len(items) >= effective_count:
+                    break
 
         fallback_record_path: str | None = None
         if rejected_attempts and len(items) < effective_count:
@@ -793,7 +835,17 @@ class QuestionGenerationService:
             response["notes"].append(
                 "Forced user-material mode: skipped passage retrieval and returned generated output even when only blocked attempts were available."
             )
-        self.repository.save_batch(batch_id, response)
+        with trace_stage("persist_batch"):
+            self.repository.save_batch(batch_id, response)
+        note_trace_metadata(
+            batch_id=batch_id,
+            selected_material_count=len(selected_materials),
+            generated_item_count=len(items),
+            rejected_attempt_count=len(rejected_attempts),
+            generation_mode=prepared_request.generation_mode,
+            question_type=standard_request["question_type"],
+            difficulty_target=standard_request["difficulty_target"],
+        )
         return QuestionGenerationBatchResponse.model_validate(response).model_dump()
 
     def _resolve_generation_materials(
@@ -2948,6 +3000,7 @@ class QuestionGenerationService:
         built_item["preference_profile"] = self._preference_profile_from_snapshot(request_snapshot)
         built_item["feedback_snapshot"] = self._feedback_snapshot_from_material(material)
         built_item["revision_count"] = revision_count
+        built_item["difficulty_projection_fit"] = deepcopy(built_item.get("difficulty_fit") or {})
         if built_item["forced_generation"]:
             built_item["notes"] = built_item.get("notes", []) + [
                 "forced_user_material_generation",
@@ -2961,6 +3014,13 @@ class QuestionGenerationService:
             built_item=built_item,
             material=material,
         )
+        material = self._attach_difficulty_validator_contract(
+            material=material,
+            built_item=built_item,
+        )
+        built_item["material_selection"] = material.model_dump()
+        built_item["material_text"] = material.text
+        built_item["material_source"] = material.source
         template_record = self._resolve_template(
             question_type=build_request.question_type,
             business_subtype=build_request.business_subtype,
@@ -3237,6 +3297,13 @@ class QuestionGenerationService:
             built_item["notes"] = built_item.get("notes", []) + [review_note]
         if quality_gate_errors:
             built_item["notes"] = built_item.get("notes", []) + ["evaluation_gate_applied"]
+        self._finalize_difficulty_control(
+            built_item=built_item,
+            generated_question=generated_question,
+            material=material,
+            validation_result=built_item["validation_result"],
+            source_question=request_source_question,
+        )
         runtime_snapshot = self.snapshot_builder.build(
             request_id=request_id,
             raw_input=request_snapshot.get("source_form", {}),
@@ -3271,6 +3338,112 @@ class QuestionGenerationService:
             runtime_snapshot=runtime_snapshot,
         )
         return built_item
+
+    def _attach_difficulty_validator_contract(
+        self,
+        *,
+        material: MaterialSelectionResult,
+        built_item: dict[str, Any],
+    ) -> MaterialSelectionResult:
+        projection = built_item.get("difficulty_projection")
+        projection_payload = projection.model_dump() if hasattr(projection, "model_dump") else (projection or {})
+        difficulty_contract = dict((projection_payload.get("validator_contract") or {}).get("difficulty_control") or {})
+        if not difficulty_contract:
+            return material
+        validator_contract = deepcopy(material.validator_contract or {})
+        validator_contract["difficulty_control"] = difficulty_contract
+        return material.model_copy(update={"validator_contract": validator_contract})
+
+    def _finalize_difficulty_control(
+        self,
+        *,
+        built_item: dict[str, Any],
+        generated_question: GeneratedQuestion | None,
+        material: MaterialSelectionResult,
+        validation_result: dict[str, Any],
+        source_question: dict[str, Any] | None,
+    ) -> None:
+        projection = built_item.get("difficulty_projection")
+        target_profile = built_item.get("difficulty_target_profile")
+        target_difficulty = str(built_item.get("difficulty_target") or "medium")
+        difficulty_assessment_service = self._get_difficulty_assessment_service()
+        difficulty_diff_service = self._get_difficulty_diff_service()
+        difficulty_calibration_service = self._get_difficulty_calibration_service()
+        actual_assessment = difficulty_assessment_service.assess(
+            question_type=built_item["question_type"],
+            target_difficulty=target_difficulty,
+            generated_question=generated_question,
+            material_text=material.text,
+            projection=projection,
+            resolved_slots=built_item.get("resolved_slots"),
+            validator_status=str(validation_result.get("validation_status") or ""),
+        )
+        gold_generated = self._source_question_to_generated_question(
+            question_type=built_item["question_type"],
+            business_subtype=built_item.get("business_subtype"),
+            pattern_id=built_item.get("pattern_id"),
+            source_question=source_question,
+        )
+        gold_assessment = None
+        if gold_generated is not None:
+            gold_assessment = difficulty_assessment_service.assess(
+                question_type=built_item["question_type"],
+                target_difficulty=target_difficulty,
+                generated_question=gold_generated,
+                material_text=str((source_question or {}).get("passage") or ""),
+                projection=projection,
+                resolved_slots=built_item.get("resolved_slots"),
+                validator_status="truth_reference",
+            )
+
+        normalized_target_profile = None
+        if hasattr(target_profile, "model_dump"):
+            normalized_target_profile = target_profile
+        elif isinstance(target_profile, dict):
+            normalized_target_profile = DifficultyTargetProfile.model_validate(target_profile)
+
+        fit_result = difficulty_diff_service.build_fit_result(
+            target_difficulty=target_difficulty,
+            target_profile=normalized_target_profile,
+            projection=projection,
+            actual_assessment=actual_assessment,
+            gold_assessment=gold_assessment,
+            validator_result=validation_result,
+            structural_changes=list(actual_assessment.structural_changes),
+        )
+        patch_candidates = difficulty_calibration_service.build_patch_candidates(
+            question_type=built_item["question_type"],
+            fit_result=fit_result,
+        )
+
+        built_item["actual_difficulty_assessment"] = actual_assessment.model_dump()
+        built_item["difficulty_fit"] = fit_result.model_dump()
+        built_item["difficulty_calibration_patches"] = [patch.model_dump() for patch in patch_candidates]
+
+    @staticmethod
+    def _source_question_to_generated_question(
+        *,
+        question_type: str,
+        business_subtype: str | None,
+        pattern_id: str | None,
+        source_question: dict[str, Any] | None,
+    ) -> GeneratedQuestion | None:
+        payload = dict(source_question or {})
+        stem = str(payload.get("stem") or "").strip()
+        options = payload.get("options")
+        answer = str(payload.get("answer") or "").strip()
+        analysis = str(payload.get("analysis") or "").strip()
+        if not stem or not isinstance(options, dict) or not answer:
+            return None
+        return GeneratedQuestion(
+            question_type=question_type,
+            business_subtype=business_subtype,
+            pattern_id=pattern_id,
+            stem=stem,
+            options={str(key): str(value or "") for key, value in options.items()},
+            answer=answer,
+            analysis=analysis or "truth_reference",
+        )
 
     def _run_race_candidate(
         self,
@@ -6611,6 +6784,9 @@ class QuestionGenerationService:
             material=material,
         )
         sections = [prompt_package["user_prompt"]]
+        difficulty_sections = self._build_difficulty_control_sections(built_item=built_item)
+        if difficulty_sections:
+            sections.extend(difficulty_sections)
         sections.extend(self._build_round1_fewshot_sections(prompt_package=prompt_package))
         sections.extend(
             self._build_material_context_sections(
@@ -6659,6 +6835,21 @@ class QuestionGenerationService:
             sections.extend(self._build_repair_requirement_sections(feedback_notes))
         sections.append(self._prompt_asset_text("final_generation_instruction"))
         return sections
+
+    def _build_difficulty_control_sections(self, *, built_item: dict[str, Any]) -> list[str]:
+        projection = built_item.get("difficulty_projection")
+        if projection is None:
+            return []
+        projection_payload = projection.model_dump() if hasattr(projection, "model_dump") else projection
+        try:
+            prompt_lines = self._get_difficulty_projection_service().build_prompt_sections(
+                projection=DifficultyProjection.model_validate(projection_payload),
+            )
+        except Exception:
+            return []
+        if not prompt_lines:
+            return []
+        return ["[Difficulty Control]", *prompt_lines]
 
     def _material_readability_contract_lines(self) -> list[str]:
         return self._prompt_asset_lines("material_readability_contract")

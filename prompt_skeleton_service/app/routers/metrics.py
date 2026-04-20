@@ -23,3 +23,12 @@ def get_review_summary(
             latest_action=latest_action,
         )
     )
+
+
+@router.get("/runtime-summary")
+def get_runtime_summary(
+    window_hours: int = 24,
+    sample_limit: int = 500,
+    repository: QuestionRepository = Depends(get_question_repository),
+) -> dict:
+    return repository.get_runtime_event_summary(window_hours=window_hours, limit=sample_limit)
