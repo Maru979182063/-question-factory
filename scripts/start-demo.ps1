@@ -250,12 +250,41 @@ function Read-DemoEnvFiles {
     }
 }
 
+function Warn-MissingLlmKeys {
+    param(
+        [hashtable]$PromptEnvMap,
+        [hashtable]$PassageEnvMap
+    )
+
+    $generationKey = $env:GENERATION_LLM_API_KEY
+    $materialKey = $env:MATERIAL_LLM_API_KEY
+    $passageKey = $env:PASSAGE_OPENAI_API_KEY
+
+    if (-not $generationKey -and $PromptEnvMap.ContainsKey("GENERATION_LLM_API_KEY")) {
+        $generationKey = $PromptEnvMap["GENERATION_LLM_API_KEY"]
+    }
+    if (-not $materialKey -and $PromptEnvMap.ContainsKey("MATERIAL_LLM_API_KEY")) {
+        $materialKey = $PromptEnvMap["MATERIAL_LLM_API_KEY"]
+    }
+    if (-not $passageKey -and $PassageEnvMap.ContainsKey("PASSAGE_OPENAI_API_KEY")) {
+        $passageKey = $PassageEnvMap["PASSAGE_OPENAI_API_KEY"]
+    }
+
+    if (-not $generationKey) {
+        Write-Host "Warning: GENERATION_LLM_API_KEY is not set. Prompt generation flows may fail." -ForegroundColor DarkYellow
+    }
+    if (-not $materialKey -and -not $passageKey) {
+        Write-Host "Warning: MATERIAL_LLM_API_KEY and PASSAGE_OPENAI_API_KEY are both missing. Material refinement may fall back or fail." -ForegroundColor DarkYellow
+    }
+}
+
 $promptEnvFiles = Resolve-EnvFileList -ExplicitPath $PromptEnvFile -DefaultPaths $activeProfile.PromptEnvFiles
 $passageEnvFiles = Resolve-EnvFileList -ExplicitPath $PassageEnvFile -DefaultPaths $activeProfile.PassageEnvFiles
 $promptEnvBundle = Read-DemoEnvFiles -Paths $promptEnvFiles
 $passageEnvBundle = Read-DemoEnvFiles -Paths $passageEnvFiles
 $promptEnv = $promptEnvBundle.Map
 $passageEnv = $passageEnvBundle.Map
+Warn-MissingLlmKeys -PromptEnvMap $promptEnv -PassageEnvMap $passageEnv
 
 if (-not (Test-Path $promptPython)) {
     throw "Prompt service Python runtime not found at $promptPython"
