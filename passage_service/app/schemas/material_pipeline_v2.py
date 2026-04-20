@@ -6,6 +6,8 @@ from pydantic import BaseModel, Field
 class MaterialV2SearchRequest(BaseModel):
     business_family_id: str
     question_card_id: str | None = None
+    status: str | None = None
+    release_channel: str | None = None
     article_ids: list[str] = Field(default_factory=list)
     business_card_ids: list[str] = Field(default_factory=list)
     preferred_business_card_ids: list[str] = Field(default_factory=list)
@@ -21,6 +23,11 @@ class MaterialV2SearchRequest(BaseModel):
     target_length: int | None = Field(default=None, ge=80, le=1600)
     length_tolerance: int = Field(default=120, ge=0, le=600)
     structure_constraints: dict = Field(default_factory=dict)
+    shadow_child_family_ids: list[str] = Field(default_factory=list)
+    shadow_selected_leaf_ids: list[str] = Field(default_factory=list)
+    shadow_ready: bool | None = None
+    fallback_to_business_card: bool | None = None
+    include_shadow_observation: bool = False
     enable_anchor_adaptation: bool = True
     preserve_anchor: bool = True
     review_gate_mode: str = "stable_relaxed"

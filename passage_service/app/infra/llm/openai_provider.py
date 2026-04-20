@@ -8,6 +8,7 @@ import httpx
 
 from app.core.config import get_settings
 from app.core.config import get_config_bundle
+from app.core.config import get_env_file_paths
 from app.infra.llm.base import BaseLLMProvider
 
 
@@ -67,7 +68,7 @@ class OpenAIResponsesProvider(BaseLLMProvider):
             data = self._request_with_retry("/chat/completions", chat_payload, allow_fallback=True)
             text_output = self._extract_chat_text(data)
         except httpx.HTTPStatusError as exc:
-            if not self._should_fallback_to_responses(exc):
+            if not self._responses_fallback_enabled() or not self._should_fallback_to_responses(exc):
                 raise
             data = self._request_with_retry("/responses", responses_payload, allow_fallback=False)
             text_output = self._extract_responses_text(data)
@@ -173,18 +174,24 @@ class OpenAIResponsesProvider(BaseLLMProvider):
             or "https://api.openai.com/v1"
         )
 
+    def _responses_fallback_enabled(self) -> bool:
+        raw = (
+            os.getenv("PASSAGE_OPENAI_RESPONSES_FALLBACK")
+            or self._read_local_env_value("PASSAGE_OPENAI_RESPONSES_FALLBACK", "")
+            or "true"
+        )
+        return str(raw).strip().lower() not in {"0", "false", "no", "off"}
+
     def _read_local_env_value(self, key: str, default: str | None = None) -> str | None:
-        env_path = Path(__file__).resolve().parents[3] / ".env"
-        if not env_path.exists():
-            return default
-        try:
-            for raw_line in env_path.read_text(encoding="utf-8").splitlines():
-                line = raw_line.strip()
-                if not line or line.startswith("#") or "=" not in line:
-                    continue
-                name, value = line.split("=", 1)
-                if name.strip().lstrip("\ufeff") == key:
-                    return value.strip()
-        except OSError:
-            return default
+        for env_path in reversed(get_env_file_paths()):
+            try:
+                for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+                    line = raw_line.strip()
+                    if not line or line.startswith("#") or "=" not in line:
+                        continue
+                    name, value = line.split("=", 1)
+                    if name.strip().lstrip("\ufeff") == key:
+                        return value.strip()
+            except OSError:
+                continue
         return default

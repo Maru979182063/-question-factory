@@ -242,6 +242,14 @@ class MaterialIntegrityGate:
             (signals["starts_with_soft_dependency"] and signals["paragraph_count"] <= 1)
             or signals["long_without_closure"]
             or (signals["char_count"] >= 260 and signals["sentence_count"] >= 5 and not signals["has_summary_closure"])
+            or (
+                signals["char_count"] >= 120
+                and (signals["sentence_count"] >= 3 or signals["paragraph_count"] >= 2)
+                and not signals["has_summary_closure"]
+                and not signals["starts_with_context_dependency"]
+                and not signals["starts_with_soft_dependency"]
+                and not signals["is_truncated_signal"]
+            )
         )
 
     def _llm_review(self, *, text: str, paragraph_count: int, sentence_count: int, signals: dict[str, Any]) -> dict[str, Any]:

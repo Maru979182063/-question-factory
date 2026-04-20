@@ -14,6 +14,7 @@
     material_answer_anchor: "[Material Answer Anchor]"
     repair_requirements: "[Repair Requirements]"
     round1_fewshot_asset: "[Round 1 Few-shot Asset]"
+    leaf_analysis_contract: "[Leaf Analysis Contract]"
 
   material_readability_contract:
     - "The final displayed material must read like a natural, formal Chinese passage excerpt that a human can read directly."
@@ -32,6 +33,80 @@
     explanation: "For this item, the correct answer must stay semantically equivalent to the removed source span above. Do not invent a new answer basis, a broader policy task, or a stronger conclusion than the local context supports."
 
   final_generation_instruction: "Use the provided material as the source passage and generate exactly one question. Before finalizing, run one global coherence check over material, stem, options, answer, and analysis; if any part drifts from the same central meaning chain, regenerate instead of patching only one local field."
+
+  analysis_contract:
+    base:
+      - "Write the analysis in formal public-exam style. Do not use oral-teaching openers such as 我们来看、先来看、下面来看、接下来来看."
+      - "The analysis must first explain why the correct option fits the material, then briefly point out why the strongest distractors fail. Do not rewrite the whole passage into a long essay."
+      - "Keep the wording compact, decisive, and exam-like. Avoid system-engineering tone, meta commentary, and generic tutorial phrases."
+      - "End with exactly one final conclusion sentence. For normal stems use 故正确答案为X。 For negative-choice stems use 本题为选非题，故正确答案为X。"
+    families:
+      main_idea:
+        - "For center_understanding items, first identify the passage's real central task or judgement, then explain why the correct option best captures that center, and finally eliminate the strongest same-topic distractors."
+        - "Do not let the analysis drift into generic commentary or abstract policy prose. Stay with the passage's real reading action and option competition."
+      sentence_fill:
+        - "For sentence_fill items, first state the blank position and local function, then use the nearest context to explain why the correct option fits, and finally eliminate the strongest distractors one by one."
+        - "Keep the analysis focused on local slot fit, discourse function, and option mismatch. Do not turn the explanation into a long restatement of the whole paragraph."
+      sentence_order:
+        - "For sentence_order items, explain the sequence through the dominant chain actually used by this leaf. Do not force every analysis into the same 先看首句、再看尾句 template."
+        - "Only discuss first-sentence legality or tail legality when they are truly decisive. Otherwise emphasize the actual anchor chain, local binding, progression, or block relationship."
+    leafs:
+      cu_relation_turning:
+        - "In the analysis, point out what old or one-sided reading the passage corrects, and explain how the correct option preserves the turned judgement after the key shift."
+      cu_relation_parallel:
+        - "In the analysis, make the same-level parallel structure explicit: explain which two or more facets advance side by side, and why the correct option preserves that co-equal relation."
+      cu_relation_countermeasure:
+        - "In the analysis, first identify the problem or risk laid out in the passage, then explain why the correct option is the corresponding response path rather than another diagnosis or slogan."
+      cu_relation_plain:
+        - "In the analysis, keep the main axis stable and direct. Explain why the correct option lands on the passage's plain central judgement instead of over-abstracting it into a higher-order shell."
+      cu_relation_variant:
+        - "In the analysis, show the phenomenon-mechanism or reason-result chain that the passage is really building, and explain why the correct option preserves that chain instead of only repeating one surface symptom."
+      cu_subsentence_data:
+        - "In the analysis, explain that the data are evidence rather than the final answer itself, and show which central judgement the numbers or statistics are serving."
+      cu_subsentence_example:
+        - "In the analysis, explain that the example is only support material, then point out the broader judgement it is proving. Do not treat the example itself as the center."
+      cu_subsentence_prelude:
+        - "In the analysis, clarify that the opening or background layer is only paving the way, then identify the later judgement it serves."
+      cu_subsentence_multi_angle:
+        - "In the analysis, make the multi-angle support structure explicit: explain how several same-topic facets jointly support one central judgement."
+      cu_subsentence_other:
+        - "In the analysis, explain what support role the sub-sentence layer is playing for the final central judgement, even if it is not a standard data/example/prelude shape."
+      opening_summary:
+        - "In the analysis, explain that the blank sits at the opening and should summarize or forecast the paragraph's real landing, not launch a broader policy task or a meta commentary."
+      opening_topic_intro:
+        - "In the analysis, explain that the blank is an opening topic lead or thematic lift, not the paragraph's full summary sentence. Preserve its opener function."
+      opening_clause_lead:
+        - "In the analysis, emphasize that the blank is clause-sized and must naturally lead into the following sentence, rather than acting as a full standalone conclusion."
+      bridge_transition:
+        - "In the analysis, show the left anchor and right anchor explicitly: explain how the correct option carries the previous sentence into the next exact concept."
+      middle_focus_shift:
+        - "In the analysis, explain where the paragraph's focus shifts and why the correct option is the pivot clause that turns the discussion, rather than a generic bridge."
+      middle_explanation:
+        - "In the analysis, explain that the blank supplies the nearest explanatory carry-over for the surrounding concept, not a broader significance statement."
+      ending_clause_summary:
+        - "In the analysis, stress the tail-slot shape: the blank must close the existing sentence frame naturally, often with a clause-sized landing rather than a new full sentence."
+      ending_summary:
+        - "In the analysis, explain that the blank closes the whole paragraph with a source-defensible summary judgement, not a new deployment task or a reopened topic."
+      ending_countermeasure:
+        - "In the analysis, explain that the blank must answer the preceding problem with a source-licensed response, principle, or remedy, rather than repeating harms or only restating urgency."
+      first_sentence_gate:
+        - "In the analysis, prioritize legal opening qualification: identify which sentence can really open the topic scope, then eliminate candidates that begin inside detail, example, or result."
+      carry_parallel_expand:
+        - "In the analysis, explain the carry-and-expand chain clearly: identify the sentence that takes over the prior topic, then show how the following sentences expand it in parallel before landing."
+      dual_anchor_lock:
+        - "In the analysis, explain the dual-anchor structure explicitly: which sentence must open, which sentence must close, and which middle bindings keep the chain from being split."
+      timeline_progression:
+        - "In the analysis, explain the temporal or stage progression directly, and show why the chosen order is the only one that keeps the process moving forward naturally."
+      viewpoint_reason_action:
+        - "In the analysis, explain the sequence as a viewpoint-reason-action chain: first the core stance, then its grounds or conditions, and finally the action/judgement landing."
+      problem_solution_case_blocks:
+        - "In the analysis, explain the order by blocks: problem or reality first, then solution or response, then example/support or landing."
+      sequence_first_sentence_gate:
+        - "In the analysis, treat the first sentence as the key sequence gate: show why it is the only legal opener before the remaining chain unfolds."
+      sequence_dual_anchor_lock:
+        - "In the analysis, explain the sequence through a locked opening and locked ending, then show how the middle units can only fit between those two anchors in one natural way."
+      tail_sentence_gate:
+        - "In the analysis, prioritize tail legality: identify which sentence naturally closes the whole chain, then explain why the competing endings feel unfinished or mismatched."
 
   round1_fewshot_assets:
     enabled: true

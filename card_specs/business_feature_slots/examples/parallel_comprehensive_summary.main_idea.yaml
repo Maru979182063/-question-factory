@@ -3,7 +3,7 @@ schema_version: business_slot.v1
 card_meta:
   business_card_id: parallel_comprehensive_summary__main_idea
   display_name: 并列关系-全面概括
-  description: 适用于多方面并列展开、需要统一概括中心的文段。
+  description: 适用于整段主结构由多个分支或角度并行推进、最终需要统一概括中心的文段；不要把仅作为支持层的多角度材料机械吞并进来。
   mother_family_id: main_idea
   business_subtype: center_understanding
   enabled: true
@@ -15,7 +15,7 @@ card_meta:
 feature_signature:
   relation_type: 并列关系
   relation_family: 并列
-  relation_focus: 全面概括
+  relation_focus: 多个分支共同构成主结构，答案要对这些分支做统一回收
   typical_formats:
     - 一方面……另一方面……
     - 同时……此外……
@@ -56,6 +56,9 @@ feature_signature:
 schema_alignment:
   schema_status: aligned_v2
   canonical_card_type: main_idea
+  applicability_notes:
+    - 只有当并列分支本身构成整段主结构时，才优先用本卡
+    - 若多个角度只是支持层，共同托举一个更稳定中心，应警惕落入 subsentence multi_angle
   structure_schema:
     argument_structure:
       preferred_values:
@@ -91,10 +94,10 @@ retrieval_profile:
       - 此外
       - 另外
   ranking_weights:
-    relation_match: 0.35
-    marker_match: 0.15
+    relation_match: 0.28
+    marker_match: 0.08
     structural_match: 0.25
-    semantic_completeness: 0.15
+    semantic_completeness: 0.22
     readability: 0.10
   fallback_policy:
     allow_marker_loosen: true

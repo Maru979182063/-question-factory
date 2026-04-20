@@ -24,12 +24,22 @@ class MaterialV2ObservabilityRequest(BaseModel):
     status: str | None = "promoted"
     release_channel: str | None = "stable"
     review_gate_mode: str = "stable_relaxed"
+    shadow_child_family_ids: list[str] = Field(default_factory=list)
+    shadow_selected_leaf_ids: list[str] = Field(default_factory=list)
+    shadow_ready: bool | None = None
+    fallback_to_business_card: bool | None = None
+    shadow_sample_limit: int = Field(default=3, ge=1, le=20)
     limit: int = Field(default=10000, ge=1, le=50000)
 
 
 @router.post("/materials/v2/search")
 def search_materials_v2(payload: MaterialV2SearchRequest, db: Session = Depends(get_db)) -> dict:
     return MaterialPipelineV2Service(db).search(payload.model_dump(exclude_none=True))
+
+
+@router.post("/materials/v2/shadow-search")
+def search_materials_v2_shadow(payload: MaterialV2SearchRequest, db: Session = Depends(get_db)) -> dict:
+    return MaterialPipelineV2Service(db).shadow_search(payload.model_dump(exclude_none=True))
 
 
 @router.post("/materials/v2/precompute")

@@ -1,0 +1,200 @@
+2. 新增题型时，到底改哪些地方
+
+以后每次加题，按这张表做就行。
+
+情况 A：新题型属于已有 5 个母类之一
+
+比如你后来又加一个：
+
+概括归纳型下面的新变体
+衔接补位型下面的新空位功能
+尾段续写型下面的新延展方向
+要改的地方
+1）configs/subtypes/ 新增一个 subtype 配置文件
+
+例如：
+
+configs/subtypes/new_subtype_xxx.yaml
+
+里面写：
+
+family
+subtype_name
+required_features
+positive_signals
+negative_signals
+score_formula
+distractor_modes
+generation_template_key
+2）registries/subtype_registry.py
+
+把这个 subtype 注册进去。
+
+例如：
+
+SUBTYPE_REGISTRY = {
+    "新题型名": {
+        "family": "概括归纳型",
+        "config_path": "configs/subtypes/new_subtype_xxx.yaml"
+    }
+}
+3）对应 family 的 tagger
+
+只改所属母类那个文件，比如：
+
+概括归纳型 → family_taggers/summarization_family_tagger.py
+标题命名型 → family_taggers/title_family_tagger.py
+衔接补位型 → family_taggers/fill_family_tagger.py
+顺序重建型 → family_taggers/ordering_family_tagger.py
+尾段续写型 → family_taggers/continuation_family_tagger.py
+
+这里一般只需要：
+
+加这个 subtype 的评分逻辑
+让它能读取新 subtype config
+产出 subtype_score
+
+不是重写整个 tagger。
+
+4）如果它需要新的插槽卡，就改 registries/card_registry.py
+
+增加：
+
+母卡
+细卡
+特征命中规则
+典型误判模式
+5）如果这个题型后面要出题，再改题目服务的消费模板
+
+这一部分你现在还没开始做，但后面一定会有：
+
+题型模板
+解析模板
+校验模板
+
+这一步不应该反向污染文段服务。
+
+不该改的地方
+
+这种情况下一般不要动：
+
+services/universal_tagger.py
+services/family_router.py
+schemas/material_record.py
+routers/ 主入口
+数据表主结构
+情况 B：新题型还是老母类，但当前通用特征不够用
+
+比如你加一个题，发现你现在的通用粗标没有：
+
+rhetoric_strength
+emotion_shift_strength
+definition_signal_strength
+
+这种情况才需要补通用层。
+
+要改的地方
+1）schemas/universal_profile.py
+
+新增字段
+
+2）services/universal_tagger.py
+
+修改 prompt 输出字段和解析逻辑
+
+3）prompts/universal_tagger_prompt.md
+
+补充字段说明和输出 schema
+
+4）rules/family_rules.py
+
+让 family router 能用新字段算分
+
+注意
+
+只有满足下面条件才值得加进通用层：
+
+这个特征以后会被多个母类复用
+它不是某一个小题型才需要的私有字段
+
+否则就放在 family-specific tagger 里，不要污染通用层。
+
+情况 C：这是全新的母类
+
+比如你以后加：
+
+病句判断型
+细节定位型
+语义匹配型
+
+这些和现有 5 个母类不是同一个任务本质。
+
+要改的地方
+1）新增 family 配置文件
+configs/families/new_family.yaml
+2）registries/family_registry.py
+
+注册新 family
+
+3）新增 family tagger
+services/family_taggers/new_family_tagger.py
+4）新增 family prompt
+prompts/family/new_family.md
+5）services/family_router.py
+
+加一条这个母类的路由规则
+
+6）registries/card_registry.py
+
+新增这类题的母卡/细卡
+
+7）configs/subtypes/
+
+新增这个 family 下面的 subtype 配置们
+
+3. 最推荐的“加题 checklist”
+
+以后每来一个新题型，让 Codex 按这个 checklist 判断：
+
+1. 这个题属于已有母类，还是新母类？
+2. 现有 universal_profile 能否大致识别它？
+3. 它新增的是“题型目标”，还是“结构特征”，还是“误判模式”？
+4. 是否需要新增通用字段？
+5. 是否只需新增 subtype config + family-specific scoring？
+6. 是否需要新增生成模板和校验模板？
+4. 最推荐的工程原则
+
+你可以直接把这几条给 Codex：
+
+原则 1
+
+新增题型时，优先新增：
+
+config
+registry
+card
+prompt
+
+不要优先改主流程。
+
+原则 2
+
+通用层只放“跨题型长期复用”的特征。
+
+原则 3
+
+母类路由优先规则映射，不让模型直接自由判定 family。
+
+原则 4
+
+小类打标只对 Top1 / Top2 family 执行，不全跑。
+
+原则 5
+
+所有打标结果都要保留：
+
+primary_route
+secondary_candidates
+reject_reason
+
+不要强行唯一标签。

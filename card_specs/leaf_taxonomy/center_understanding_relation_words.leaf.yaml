@@ -6,6 +6,7 @@ notes:
   - leaf_id is the runtime identity for generation/validation/logging.
   - each leaf_id currently maps to one business card id; this is transitional until full leaf-only migration.
   - source docs in this batch are expected to provide 50 questions per leaf.
+  - relation-word leaves should be judged by dominant reading action and axis recovery, not only by explicit connective markers.
 
 leaves:
   - leaf_id: cu_relation_turning
@@ -14,6 +15,9 @@ leaves:
     expected_question_type: main_idea
     expected_business_subtype: center_understanding
     source_doc_alias: turning.docx
+    prompt_guard_lines:
+      - Turning is valid only when the post-turn segment actually resets or settles the main axis.
+      - Do not classify by marker alone if the post-turn sentence does not carry the real center judgment.
 
   - leaf_id: cu_relation_parallel
     display_name: 并列
@@ -21,6 +25,9 @@ leaves:
     expected_question_type: main_idea
     expected_business_subtype: center_understanding
     source_doc_alias: parallel.docx
+    prompt_guard_lines:
+      - Parallel requires multiple branches to function as the main structure of the passage, not merely as support angles.
+      - Recover the unified judgment across branches instead of shrinking to one branch or flattening into a generic importance summary.
 
   - leaf_id: cu_relation_countermeasure
     display_name: 对策
@@ -28,6 +35,9 @@ leaves:
     expected_question_type: main_idea
     expected_business_subtype: center_understanding
     source_doc_alias: countermeasure.docx
+    prompt_guard_lines:
+      - Countermeasure does not require explicit necessary-condition wording if the passage ultimately lands on what should be done.
+      - Keep problem/risk analysis as support and recover the action, governance path, or key response as the answer axis.
 
   - leaf_id: cu_relation_plain
     display_name: 普通考法
@@ -38,6 +48,9 @@ leaves:
     risk_flags:
       - weak_legacy_business_card
       - replace_with_plain_main_recovery_leaf_card_later
+    prompt_guard_lines:
+      - Plain is not a theme-word checklist; it is the stable default when object scope and judgment axis remain steady without a stronger special relation.
+      - Do not downgrade a passage to plain only because it lacks obvious markers if another dominant reading action is present.
 
   - leaf_id: cu_relation_variant
     display_name: 变形考法
@@ -45,3 +58,6 @@ leaves:
     expected_question_type: main_idea
     expected_business_subtype: center_understanding
     source_doc_alias: variant.docx
+    prompt_guard_lines:
+      - Variant includes phenomenon, mechanism, cause, or result chains that finally recover one center judgment.
+      - Do not require overt causal markers if the explanatory chain is semantically clear and the answer still belongs to the recovered judgment.

@@ -1,0 +1,18 @@
+version: "shadow_material_pilot.batch50.v1"
+
+notes:
+  - "Batch50 keeps the current clean shadow scope and only enlarges the pilot window."
+  - "This run is for manual reading and failure triage, not for dual-read evaluation."
+  - "Sources stay constrained to CSSN, GMW Culture, and KepuChina."
+
+pilot_sources:
+  - "cssn_shadow"
+  - "gmw_culture_shadow"
+  - "kepuchina_shadow"
+
+source_article_limits:
+  cssn_shadow: 6
+  gmw_culture_shadow: 22
+  kepuchina_shadow: 22
+
+dual_read_queries: []

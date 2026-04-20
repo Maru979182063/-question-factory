@@ -87,6 +87,8 @@ class QuestionGenerateRequest(BaseModel):
     type_slots: dict[str, Any] = Field(default_factory=dict)
     extra_constraints: dict[str, Any] | None = None
     material_policy: MaterialPolicy | None = None
+    shadow_child_family_ids: list[str] = Field(default_factory=list)
+    shadow_selected_leaf_ids: list[str] = Field(default_factory=list)
     source_question: SourceQuestionPayload | None = None
     user_material: UserMaterialPayload | None = None
 

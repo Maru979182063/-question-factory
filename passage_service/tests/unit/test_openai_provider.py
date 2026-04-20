@@ -1,4 +1,5 @@
 import json
+import os
 import unittest
 from unittest.mock import patch
 
@@ -51,6 +52,13 @@ class OpenAIProviderRetryTests(unittest.TestCase):
         _FakeClient.responses = []
         _FakeClient.calls = 0
         _FakeClient.paths = []
+        self._original_fallback = os.environ.get("PASSAGE_OPENAI_RESPONSES_FALLBACK")
+
+    def tearDown(self) -> None:
+        if self._original_fallback is None:
+            os.environ.pop("PASSAGE_OPENAI_RESPONSES_FALLBACK", None)
+        else:
+            os.environ["PASSAGE_OPENAI_RESPONSES_FALLBACK"] = self._original_fallback
 
     def test_generate_json_retries_transient_failures_up_to_success(self) -> None:
         provider = OpenAIResponsesProvider.__new__(OpenAIResponsesProvider)
@@ -166,3 +174,32 @@ class OpenAIProviderRetryTests(unittest.TestCase):
 
         self.assertEqual(result["decision"], "fallback_accept")
         self.assertEqual(_FakeClient.paths, ["/chat/completions", "/responses"])
+
+    def test_generate_json_stays_on_chat_when_responses_fallback_disabled(self) -> None:
+        os.environ["PASSAGE_OPENAI_RESPONSES_FALLBACK"] = "false"
+
+        provider = OpenAIResponsesProvider.__new__(OpenAIResponsesProvider)
+        provider.settings = type("Settings", (), {"openai_api_key": "test-key", "openai_base_url": "https://example.test"})()
+        provider.timeout_seconds = 1
+        provider.max_attempts = 1
+
+        _FakeClient.responses = [_FakeResponse(404, {"error": "not found"}, path="/chat/completions")]
+
+        with patch("app.infra.llm.openai_provider.httpx.Client", _FakeClient), patch("app.infra.llm.openai_provider.time.sleep", lambda *_: None):
+            with self.assertRaises(httpx.HTTPStatusError):
+                provider.generate_json(
+                    model="gpt-4.1-mini",
+                    instructions="test",
+                    input_payload={
+                        "prompt": "hello",
+                        "schema_name": "test_schema",
+                        "schema": {
+                            "type": "object",
+                            "properties": {"decision": {"type": "string"}},
+                            "required": ["decision"],
+                            "additionalProperties": False,
+                        },
+                    },
+                )
+
+        self.assertEqual(_FakeClient.paths, ["/chat/completions"])

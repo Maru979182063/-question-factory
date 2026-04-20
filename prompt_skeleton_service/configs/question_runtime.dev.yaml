@@ -65,12 +65,19 @@
         model_key: text_modify
 
 materials:
-  base_url: http://127.0.0.1:8101
+  base_url: http://127.0.0.1:8001
   search_path: /materials/search
   v2_search_path: /materials/v2/search
   default_status: promoted
   default_release_channel: stable
+  review_gate_mode: stable_relaxed
   candidate_pool_size: 24
+  bridge_mode: leaf_only
+  shadow_base_url: http://127.0.0.1:8101
+  shadow_v2_search_path: /materials/v2/shadow-search
+  shadow_default_status: gray
+  shadow_default_release_channel: gray
+  shadow_review_gate_mode: stable_relaxed
 
 persistence:
   sqlite_path: data/question_workbench.dev.db

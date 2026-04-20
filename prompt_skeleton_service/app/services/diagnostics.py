@@ -28,6 +28,11 @@ def build_prompt_diagnostics() -> dict[str, Any]:
         _prompt_template_check(),
         _runtime_registry_check(runtime),
         _passage_service_check(runtime),
+        _single_passage_endpoint_check(
+            name="shadow_passage_service",
+            base_url=getattr(getattr(runtime, "materials", None), "shadow_base_url", None),
+            search_path=getattr(getattr(runtime, "materials", None), "shadow_v2_search_path", None),
+        ),
     ]
     return {
         "service": "prompt_skeleton_service",
@@ -136,6 +141,8 @@ def _runtime_registry_check(runtime: Any) -> dict[str, Any]:
         }
     details["materials_base_url"] = runtime.materials.base_url
     details["materials_v2_search_path"] = runtime.materials.v2_search_path
+    details["shadow_base_url"] = runtime.materials.shadow_base_url
+    details["shadow_v2_search_path"] = runtime.materials.shadow_v2_search_path
     details["llm_provider"] = runtime.llm.active_provider
     return {
         "name": "runtime_registry",
@@ -153,6 +160,7 @@ def _passage_service_check(runtime: Any) -> dict[str, Any]:
             "critical": True,
             "details": {"reason": "Runtime config unavailable."},
         }
+    bridge_mode = getattr(getattr(runtime, "materials", None), "bridge_mode", "legacy_only")
     base_url = runtime.materials.base_url.rstrip("/")
     health_url = f"{base_url}/healthz"
     ready_url = f"{base_url}/readyz"
@@ -160,6 +168,7 @@ def _passage_service_check(runtime: Any) -> dict[str, Any]:
         "base_url": base_url,
         "health_url": health_url,
         "ready_url": ready_url,
+        "bridge_mode": bridge_mode,
     }
     try:
         with httpx.Client(timeout=3.0, trust_env=False) as client:
@@ -209,13 +218,61 @@ def _passage_service_check(runtime: Any) -> dict[str, Any]:
                         details[key] = database_check[key]
         status = "ok" if response.is_success else "error"
     except Exception as exc:  # noqa: BLE001
-        status = "error"
+        status = "warning" if bridge_mode == "leaf_only" else "error"
         details["reachable"] = False
         details["reason"] = str(exc)
     return {
         "name": "passage_service",
         "status": status,
-        "critical": True,
+        "critical": bridge_mode != "leaf_only",
+        "details": details,
+    }
+
+
+def _single_passage_endpoint_check(*, name: str, base_url: str | None, search_path: str | None = None) -> dict[str, Any]:
+    normalized = str(base_url or "").rstrip("/")
+    if not normalized:
+        return {
+            "name": name,
+            "status": "warning",
+            "critical": False,
+            "details": {"reason": "Not configured."},
+        }
+    health_url = f"{normalized}/healthz"
+    ready_url = f"{normalized}/readyz"
+    details: dict[str, Any] = {
+        "base_url": normalized,
+        "health_url": health_url,
+        "ready_url": ready_url,
+    }
+    if search_path:
+        details["search_path"] = search_path
+    try:
+        with httpx.Client(timeout=3.0, trust_env=False) as client:
+            response = client.get(ready_url)
+            if response.status_code == 404:
+                response = client.get(health_url)
+                payload = None
+            else:
+                payload = response.json() if "application/json" in response.headers.get("content-type", "") else None
+        details["status_code"] = response.status_code
+        details["reachable"] = response.is_success
+        if isinstance(payload, dict):
+            details["service_status"] = payload.get("status")
+            settings_payload = payload.get("settings") or {}
+            if isinstance(settings_payload, dict):
+                for key in ("resolved_database_path", "database_mode", "allow_non_primary_database"):
+                    if key in settings_payload:
+                        details[key] = settings_payload[key]
+        status = "ok" if response.is_success else "error"
+    except Exception as exc:  # noqa: BLE001
+        status = "error"
+        details["reachable"] = False
+        details["reason"] = str(exc)
+    return {
+        "name": name,
+        "status": status,
+        "critical": False,
         "details": details,
     }
 

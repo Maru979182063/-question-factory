@@ -70,7 +70,14 @@ materials:
   v2_search_path: /materials/v2/search
   default_status: promoted
   default_release_channel: stable
+  review_gate_mode: stable_relaxed
   candidate_pool_size: 24
+  bridge_mode: legacy_only
+  shadow_base_url: http://127.0.0.1:8101
+  shadow_v2_search_path: /materials/v2/search
+  shadow_default_status: promoted
+  shadow_default_release_channel: stable
+  shadow_review_gate_mode: stable_relaxed
 
 persistence:
   sqlite_path: data/question_workbench.db

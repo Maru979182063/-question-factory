@@ -1,0 +1,2009 @@
+[
+  {
+    "question_id": "5893741",
+    "stem": "最高人民法院对近年来生效裁判进行系统化、常态化梳理，深入总结提炼在审理过程中形成的价值理念、司法经验和裁判规则，推动形成体系完备、门类齐全、科学权威、便捷适用的裁判要旨提炼编撰体系。最高人民法院还出台了法律适用分歧解决机制的实施办法和统一法律适用工作实施办法，有效解决生效裁判之间存在的法律适用分歧问题，创新“点对点”法律适用分歧解决机制，推动法律适用分歧解决机制运行更加精准有效、灵活快捷，切实防止司法正义因地域、城乡、行业差异而打折扣。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "统一裁判尺度，维护社会公平",
+      "B": "以法律适用统一提升执法水平",
+      "C": "用良法善治夯实法治之基",
+      "D": "消除“同案不同判”迫在眉睫"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "裁判规则",
+        "裁判要旨提炼编撰体系",
+        "法律适用分歧解决机制",
+        "统一法律适用工作实施办法",
+        "生效裁判"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "style_domain": "法律司法",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 233
+    }
+  },
+  {
+    "question_id": "16283166",
+    "stem": "美国犹他州的潘多森林是一片由近5万棵克隆体植株组成的大规模无性系颤杨林，其地下部分来自同一个庞大的根系。研究人员对其中500多棵植株的体细胞组织样本进行遗传测序分析，通过构建系统发育模型，结合附近湖泊沉积物中的古花粉证据，确认其已存活了16000～80000年，是地球上最古老的生物之一。通过分析潘多森林在反复克隆自身时出现的近4000个体细胞遗传突变，发现整个森林的遗传信息呈现出较为均匀的混合模式。这暗示了植物中或许存在某种遗传机制，可以防止有害突变在克隆体基因组之间的积累和传播，因此它们不会因持续克隆而患病或严重退化。 最适合做这段文字标题的是（ ）。",
+    "options": {
+      "A": "先天具备克隆本领的植物",
+      "B": "发现地球上最古老的生物",
+      "C": "研究揭示潘多森林的长寿秘诀",
+      "D": "自我复制成就最庞大的克隆体"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "克隆体",
+        "无性系颤杨林",
+        "体细胞组织",
+        "遗传测序",
+        "系统发育模型",
+        "遗传突变"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.86,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.75,
+      "text_length": 278
+    }
+  },
+  {
+    "question_id": "19283936",
+    "stem": "如今，文艺工作者深入挖掘传统绘画与传统舞蹈之间的内在联系，将诗、书、画、乐、舞融于一体，形成新的审美表达。比如，杭州亚运会开幕式文艺表演环节，第一个节目《水墨入诗画》便以中国画为基本元素，身着青绿色长裙的舞者在山水画卷中翩翩起舞，营造出“人在画中游”的优美意境。舞蹈诗剧《只此青绿》同样以经典山水画为灵感，通过舞蹈再现画家王希孟创作《千里江山图》的过程，并以刚柔相济的肢体语言、精心设计的舞蹈动作呈现山水神韵。在这些作品中，传统绘画与舞蹈的创意融合产生叠加效应，使传统文化与现代审美相谐适，产生了广泛的社会影响。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "青绿热：传统与现代的双向奔赴",
+      "B": "传统与现代：审美表达的异与同",
+      "C": "人在画中游：穿越千年的艺术盛宴",
+      "D": "画与舞：跨界融合激发艺术新活力"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "刚柔相济",
+        "人在画中游"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 269
+    }
+  },
+  {
+    "question_id": "19526304",
+    "stem": "随着我国城镇化率逐步提高，城市已经成为人口集聚的主要空间。要实现智慧城市的发展目标，必须紧跟新一代数字技术发展趋势，找准数字技术融入市域社会治理的“小切口”，促进两者深度融合。可建设区、街、社（村）三层结构的数智化基层治理平台，覆盖社区治理全域组织工作场景，有效破解基层治理“小马拉大车”的突出问题。通过建设数智化基层治理平台，加快实现市域社会管理手段、管理模式、管理理念创新，推动城市治理和运行从数字化到智能化再到智慧化的转型升级。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "变“治理”为“智理”，提升城市智治水平",
+      "B": "从“数字”到“数智”，打造基层治理平台",
+      "C": "数字技术：提升基层治理的新手段",
+      "D": "基层治理：从末梢发力向智慧升级"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "小马拉大车"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "智慧城市",
+        "数智化基层治理平台",
+        "市域社会治理",
+        "数字技术"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "style_domain": "政治治理",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.85,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.61,
+        "distractor_strength_level": "高",
+        "distractor_strength_score": 0.84
+      },
+      "option_similarity_score": 0.83,
+      "text_length": 230
+    }
+  },
+  {
+    "question_id": "19526313",
+    "stem": "民主真正落地，需基于明确、可操作的行动指南，行动指南要依托科学规范的程序文本来呈现，在这个意义上，科学民主的程序文本是民主得以从理念转化为现实不可或缺的载体，也是维护民主之实的基本保证。一方面，可借鉴他山之石，一定程度地吸纳其他国家较为成熟的，基于民主、公正、法治原则所建立起的议事规则；另一方面，须扎根实际，不能将程序简单视为政治制度的“飞来峰”，照抄照搬或简而化之，需要注重历史和现实、理论和实践、形式和内容有机统一，找到正确的方式方法。此外，还应构建长效化的程序完善机制，不断夯实程序之基。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "以程序保障之力强化实质民主之效",
+      "B": "以程序内容之基筑牢实质民主之实",
+      "C": "以程序运行之效提升实质民主之质",
+      "D": "以程序科学之道阐释实质民主之义"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "他山之石",
+        "照抄照搬"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "程序文本",
+        "议事规则",
+        "程序完善机制"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "style_domain": "政治治理",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.86,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.63
+      },
+      "option_similarity_score": 0.85,
+      "text_length": 261
+    }
+  },
+  {
+    "question_id": "2680214",
+    "stem": "人们一直梦想着重塑火星气候，使其适合人类居住，科学家提出了各种方法，但都不能实现。现在，来自美国和英国的研究人员提出了一种在局部进行的新方法：在火星表面区域添加一层薄薄的二氧化硅气凝胶。通过建模和实验，研究人员证明，一块2-3厘米厚的二氧化硅气凝胶就可以传输足够的可见光用于光合作用，阻挡有害的紫外线辐射，并将其下的温度永久地升高到水的熔点之上，且实现所有这些都不需要任何内部热源。有专家表示，这种使火星宜居的区域方法比改变火星整个大气更容易实现，而且使用的都是现有的材料和技术。 最适合做这段文字标题的是（ ）。",
+    "options": {
+      "A": "让火星宜居转化为现实还要走多远",
+      "B": "人类提高火星整体温度的全新尝试",
+      "C": "二氧化硅气凝胶或让火星变得宜居",
+      "D": "火星的局部地区性改造需要新思路"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "二氧化硅气凝胶",
+        "光合作用",
+        "紫外线辐射"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 255
+    }
+  },
+  {
+    "question_id": "1746700",
+    "stem": "无论导演还是监制，都是非常复杂的工种，经验的积累非常重要。没有经历过片场的摸爬滚打，在现场的执行能力就会有问题。因此，在一些电影产业成熟的国家，新人从学校毕业之后，要先在制片厂当学徒，从写剧本开始，再经过副导演、执行导演等环节，在各方面技能掌握齐全之后，最终成长为一名合格的导演，此后再“导而优则监”。 下列哪句话最能概括这段文字所包含的道理？",
+    "options": {
+      "A": "纸上得来终觉浅，绝知此事要躬行",
+      "B": "书山有路勤为径，学海无涯苦作舟",
+      "C": "天才是 的天赋加 的努力",
+      "D": "不想当将军的士兵不是好士兵"
+    },
+    "label": {
+      "question_type": "主旨概括",
+      "idiom_terms": [
+        "摸爬滚打",
+        "导而优则监"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "制片厂",
+        "副导演",
+        "执行导演"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.58,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.68,
+      "text_length": 171
+    }
+  },
+  {
+    "question_id": "1746776",
+    "stem": "纵观世界，新的垃圾处理时代正在到来。前不久，俄罗斯科学家已经可以利用等离子技术来处理垃圾焚烧过程中产生的有害气体，并对城市生活制造的“污泥浊水”进行无害化处理，使其转为腐殖酸肥料。德国科学家造出“风拣技术”，令世界看到了垃圾处理的广阔未来。该技术终结了垃圾的人工分拣，让风代替人去对垃圾中的塑料、玻璃、纸张等进行分拣，从而将垃圾处理工艺提高到了一个前所未有的新阶段。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "垃圾：放错地方的资源",
+      "B": "科技：垃圾处理的关键",
+      "C": "风力：新时代的“机器人”",
+      "D": "无害化：垃圾处理的未来"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "等离子技术",
+        "腐殖酸肥料",
+        "风拣技术"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.58,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.68,
+      "text_length": 196
+    }
+  },
+  {
+    "question_id": "2028422",
+    "stem": "海洋学家揭开了珊瑚礁颜色绚丽多变的秘密。原来，珊瑚虫体内负责控制色素生成的基因存在多种变异，激活的基因越多，珊瑚颜色就越明亮鲜艳。这些色素对与珊瑚共生并为之提供食物的海藻有保护作用。在日照强烈的地方，为了避免海藻被阳光杀死，珊瑚虫便会生成更多色素，珊瑚的颜色就会更鲜艳。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "保卫海藻",
+      "B": "多彩珊瑚之谜",
+      "C": "阳光与珊瑚",
+      "D": "乐于奉献的珊瑚虫"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "基因",
+        "色素",
+        "珊瑚虫",
+        "海藻"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 148
+    }
+  },
+  {
+    "question_id": "2028474",
+    "stem": "印象中，文物给我的常是一种高冷、神秘、刻板、枯燥的印象，仿佛都是遥不可及的东西，和百科知识别无二致，与普通人的生活多有隔膜。尔后，逐渐有一些机会听到收藏家回忆他们和某一文物相遇、相守的故事，或充满人情世故，或有彼此坚守，交织着个人的情感，也打捞起历史的点滴。我便开始对文物有了新鲜的认识，似乎还能感受到老物件的温度，意识到原来“文”是中心，“物”只是载体；收藏文物的目的就是传播文化，而不是仅仅将其作为物品小心翼翼地收藏起来。 根据这段文字，下列哪项最好地阐明了作者对文物的看法？",
+    "options": {
+      "A": "睹物思人",
+      "B": "物尽其用",
+      "C": "超然物外",
+      "D": "寄情于物"
+    },
+    "label": {
+      "question_type": "主旨概括",
+      "idiom_terms": [
+        "睹物思人",
+        "超然物外",
+        "寄情于物"
+      ],
+      "idiom_count": 3,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "观点提出",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.58,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 239
+    }
+  },
+  {
+    "question_id": "2133790",
+    "stem": "下列哪项最适合做本文的标题？",
+    "options": {
+      "A": "“第六感”的基因证据",
+      "B": "寻找神秘的“第六感”",
+      "C": "“第六感”是如何形成的",
+      "D": "破译“第六感”的遗传密码"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "基因",
+        "遗传密码"
+      ],
+      "term_count": 2,
+      "passage_function": "其他",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.86,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.83,
+      "text_length": 14
+    }
+  },
+  {
+    "question_id": "2264381",
+    "stem": "染色食品曝光后，许多人表示无法理解：食品色素仅仅是改变颜色，只有“悦目”的作用，为什么一定要染色呢？事实并非如此。食物的颜色会改变人们对食物的味觉体验，进而影响对食物的选择。现代食品技术中有一个领域，就是专门研究食物的各种性质如何影响人们对食物的感受的。成分和加工过程完全相同的食物，仅仅是所采用的颜色不同，就会导致人们对它们的评价显著不同，还会影响人们对食物的选择。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "你不知道的食品添加剂",
+      "B": "食品色素背后的心理学",
+      "C": "哪些因素影响食物味道",
+      "D": "现代食品制作中的染色技术"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "食品色素",
+        "现代食品技术"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.58,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.68,
+      "text_length": 197
+    }
+  },
+  {
+    "question_id": "2264465",
+    "stem": "同样是基于这种神秘的想象，欧洲人认为香料具有圣洁之气。在基督徒丧葬火化时，香味必须越浓越好。把香料涂抹在遗体上或者同遗体一起焚烧，有着赎罪的意涵。 这段文字最适合放到文中哪一位置？",
+    "options": {
+      "A": "①和②之间",
+      "B": "②和③之间",
+      "C": "④和⑤之间",
+      "D": "⑤和⑥之间"
+    },
+    "label": {
+      "question_type": "细节判断",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "基督徒丧葬火化"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "低",
+        "semantic_similarity_score": 0.27,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.87,
+        "distractor_strength_level": "低",
+        "distractor_strength_score": 0.23
+      },
+      "option_similarity_score": 0.58,
+      "text_length": 89
+    }
+  },
+  {
+    "question_id": "2264473",
+    "stem": "最适合做所给材料标题的是：",
+    "options": {
+      "A": "香料传奇：欲望创造的历史",
+      "B": "航海轶事：香料与神秘东方",
+      "C": "天堂想象：“香气氤氲”的基督教",
+      "D": "世界开端：大航海时代的财富追逐"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "香气氤氲"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.61
+      },
+      "option_similarity_score": 0.73,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "2448458",
+    "stem": "交流互鉴是人类社会进步的标识，是文明发展的尺度。从古老的丝绸之路、茶叶之路、香料之路上经贸交往的互通有无，到新时代“一带一路”“两廊一圈”等合作建设的开展，亚洲各国为实现互通发展，战胜挑战，克服困难和艰险。文明交融促进了亚洲国家生产力的发展，打破了民族的原始闭关状态，亚洲人民借此开阔了眼界、建立了友谊、收获了富足。在相互影响、相互交流、相互融合、相互建构的文明互动中，东方文化也与西方文化包容共进，不断迈向人类进步新阶段。“光明来自东方”这句古希腊谚语正是对东西文明交融成果生动而诗意的说明。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "文化交融，亚洲生产力发展的动力",
+      "B": "“一带一路”，文明传播的通道",
+      "C": "交流互鉴，推动人类文明永续发展",
+      "D": "包容共进，构建东西方文明互动"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "互通有无",
+        "包容共进"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "丝绸之路",
+        "茶叶之路",
+        "香料之路",
+        "一带一路",
+        "两廊一圈"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.86,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.61,
+        "distractor_strength_level": "高",
+        "distractor_strength_score": 0.86
+      },
+      "option_similarity_score": 0.85,
+      "text_length": 260
+    }
+  },
+  {
+    "question_id": "2448584",
+    "stem": "最适合做这段文字标题的是：",
+    "options": {
+      "A": "古人是如何戴冠的",
+      "B": "服饰制度与治国之道",
+      "C": "冠冕的演变史",
+      "D": "“冠冕”何以“堂皇”"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "冠冕堂皇"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "2719344",
+    "stem": "“藏粮于地、藏粮于技”是习近平总书记对粮食安全的战略部署，“软硬件”同时发力将助力提升农业生产率和土地产出率。随着现代科技手段的注入，农业科技创新既帮助农民不断克服疫情带来的影响，又让农业生产更加精准高效。袁隆平的超级杂交水稻、李登海的紧凑型杂交玉米······一批又一批领先国际的粮食品种不断被培育出来。从地瘠“斗笠田”到丰产“吨粮田”，从“汗滴禾下土”到“无接触式春耕”，从“灾殃难测”到“高科技防灾”，现代科技为我国农耕注入了“硬核生产力”。这就意味着粮食丰收，库存充裕，藏粮于民，才会国泰民安。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "民为国基，谷为民命",
+      "B": "粮食生产“稳”字当头",
+      "C": "藏粮于民，才能国泰民安",
+      "D": "提升科技水平，保障粮食安全"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "国泰民安"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "粮食安全",
+        "农业生产率",
+        "土地产出率",
+        "农业科技创新",
+        "超级杂交水稻",
+        "紧凑型杂交玉米"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 264
+    }
+  },
+  {
+    "question_id": "2719442",
+    "stem": "最适合做这段文字标题的是：",
+    "options": {
+      "A": "筷子是如何“后来居上”的",
+      "B": "何为“匕”，何为“箸”",
+      "C": "中国古代饮食习惯的变迁",
+      "D": "文化交流对饮食工具的影响"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "后来居上"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.87,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.62
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "4639344",
+    "stem": "目前，我国自主选育品种播种面积占95%以上，良种对粮食增产贡献率已超过45%，为粮食连年丰收和重要农产品稳产保供提供了关键支撑。然而，我国种业自主创新水平与发达国家还有差距，一些品种、领域和环节会影响农业发展速度、质量和效益。这就要求我们加强农业种质资源保护利用，加快推进关键核心技术攻关，缩小玉米、大豆等品种和国际先进水平的差距，确保重要农产品种源自主可控。同时，打通种子生产、加工、销售、技术服务等环节，逐步完善产学研用深度融合的创新链条，加快提升种业产业化水平，让一粒粒好种子长成农民的致富希望。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "打造种子这枚农业“芯片”",
+      "B": "要让创新为中国农业赋能",
+      "C": "种出农民致富的新希望",
+      "D": "种业产业化发展的启示"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "致富希望"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "自主选育品种",
+        "良种",
+        "种业自主创新",
+        "农业种质资源",
+        "关键核心技术",
+        "产学研用"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "style_domain": "经济发展",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 264
+    }
+  },
+  {
+    "question_id": "4639347",
+    "stem": "最适合做这篇文章标题的是：",
+    "options": {
+      "A": "人类的祖先是猎人还是猎物",
+      "B": "你从哪里来？化石知道答案",
+      "C": "人类的攻击性来自远古狩猎生活",
+      "D": "智慧大脑帮助人类走出非洲草原"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.55,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.86,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "4639348",
+    "stem": "最适合做这篇文章标题的是：",
+    "options": {
+      "A": "是什么让老鼠不怕猫",
+      "B": "刚地弓形虫的生存秘籍",
+      "C": "焦虑症研究的新突破",
+      "D": "动物行为学家看“勇敢”"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.86,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.73,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "5445735",
+    "stem": "当前，社会治理形势复杂，仅靠职能部门、专业力量远远不够，迫切需要人民群众和社会各界的积极支持与参与，共同创造公共价值。众包是公众和外包的组合词，意指发包方依托互联网或其衍生工具，在数字平台上设计规则与任务并向广泛、非确定的公众发包，公众根据自身能力自愿接包并完成特定事务。众包强调大众参与的开放式合作，促使组织边界向更广泛的大众群体开放，旨在挖掘隐藏在公众中的巨大潜力。因此，相较于政府购买等专业性较强的政府合同外包服务，政府众包展现出更开放的社会治理格局。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "众包：共享经济下的新型用工模式",
+      "B": "政府众包：公众参与社会治理新方式",
+      "C": "公众参与：开放式合作的新形式",
+      "D": "“互联网+”：公共管理新范式"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "众包",
+        "政府合同外包服务",
+        "政府众包",
+        "互联网"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "style_domain": "政治治理",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 242
+    }
+  },
+  {
+    "question_id": "5445902",
+    "stem": "宋仁宗天圣五年（1027年），北宋翰林医官院的医官王惟一设计并主持铸造了两具针灸铜人，被称为“天圣针灸铜人”，这是中国历史上最早的针灸铜人。这两具铜人中空，体表标有354个穴位，所有穴位都凿成小孔。每当医官院进行针灸考试，考官会将水银注入铜人体内，再将铜人体表涂上黄蜡，完全遮盖经脉穴位。应试者一旦准确扎中穴位，水银就会从穴位中流出，医学史书把这一奇特的现象称之为“针入汞出”。天圣针灸铜人的出现，不仅开创了铜人作为人体模型进行针灸教学的先河，也是中国古代针灸文化的象征，此后历代均有铜人问世。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "从针灸铜人看中国针灸的传承",
+      "B": "北宋医官院如何进行针灸考试",
+      "C": "针灸铜人：古代针灸教学的人体模型",
+      "D": "天圣针灸铜人：中医经脉理论的结晶"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "针灸铜人",
+        "天圣针灸铜人",
+        "翰林医官院",
+        "水银",
+        "经脉穴位"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 260
+    }
+  },
+  {
+    "question_id": "5445836",
+    "stem": "早在1938年，毛泽东同志就说过：“我们这个民族有数千年的历史，有它的特点，有它的许多珍贵品。对于这些，我们还是小学生。今天的中国是历史的中国的一个发展；我们是马克思主义的历史主义者，我们不应当割断历史。从孔夫子到孙中山，我们应当给以总结，承继这一份珍贵的遗产。这对于指导当前的伟大的运动，是有重要的帮助的。” 这段文字最适合做下列哪一观点的例证？",
+    "options": {
+      "A": "拥有马克思主义科学理论指导是我们党坚定信仰信念、把握历史主动的根本所在",
+      "B": "我们党历来用历史唯物主义的立场观点方法看待中华民族历史，继承和弘扬中华优秀传统文化",
+      "C": "中华文明源远流长、博大精深，是中华民族独特的精神标识，是当代中国文化的根基",
+      "D": "我们党的每一段革命历史，都是一部理想信念的生动教材"
+    },
+    "label": {
+      "question_type": "意图判断",
+      "idiom_terms": [
+        "割断历史"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "马克思主义",
+        "历史主义者",
+        "孔夫子",
+        "孙中山"
+      ],
+      "term_count": 4,
+      "passage_function": "观点提出",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 173
+    }
+  },
+  {
+    "question_id": "5445893",
+    "stem": "最适合做这篇文章标题的是：",
+    "options": {
+      "A": "古代海洋石刻：海洋文明兴衰的见证",
+      "B": "沿海地区的记忆坐标：海洋石刻文书",
+      "C": "复原海洋记忆的钥匙：海洋石刻发掘",
+      "D": "海洋石刻遗产：海洋文明的记忆镌刻"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "海洋石刻",
+        "海洋文明",
+        "海洋石刻文书",
+        "海洋石刻遗产"
+      ],
+      "term_count": 4,
+      "passage_function": "其他",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.86,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.83,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "5445907",
+    "stem": "最适合做这篇文章标题的是：",
+    "options": {
+      "A": "云层里可能住着控制气候的生灵",
+      "B": "雨水中的维生素究竟来自哪里",
+      "C": "活跃在万米高空的完整生态链",
+      "D": "空中“棉花糖”里有哪些微生物"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.86,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.73,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "5894945",
+    "stem": "隋唐盛世的形成主要得益于制度创新。东晋南朝以来，世家大族把持朝政，皇权极不稳定。隋文帝取代北周后，为防止关陇集团等势力过分强大，威胁大一统的中央集权，废除了察举制这一士族赖以维系的选举工具，打破了以门第和军功为主的选拔标准，通过考核治理国家的专门知识，选拔人才参与新政权的管理，实现了贵族官僚政治向文官政治的转变，为成就隋唐盛世打下了坚实基础，奠定了后世王朝选官的基本格局，在中国选举制史上具有重大意义。 这是一篇文章的引言，文章标题应该是：",
+    "options": {
+      "A": "科举制度在唐代政治中的利与弊",
+      "B": "贵族官僚政治瓦解的制度原因探析",
+      "C": "中国古代选官制度的变迁及启示",
+      "D": "科举制度创建对选官制度变革的影响"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "打下了坚实基础"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "察举制",
+        "选举制",
+        "中央集权",
+        "文官政治",
+        "贵族官僚政治"
+      ],
+      "term_count": 5,
+      "passage_function": "背景引入",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.6,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.62
+      },
+      "option_similarity_score": 0.75,
+      "text_length": 220
+    }
+  },
+  {
+    "question_id": "5893757",
+    "stem": "最适合做这篇文章标题的是（ ）。",
+    "options": {
+      "A": "“万物有灵”的新证据",
+      "B": "充满植物声音的世界",
+      "C": "植物受到压力会“哭叫”",
+      "D": "假如人能听到超声波"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.87,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.75,
+      "text_length": 15
+    }
+  },
+  {
+    "question_id": "5893750",
+    "stem": "最适合做这篇文章标题的是（ ）。",
+    "options": {
+      "A": "中国古代的长江大桥",
+      "B": "宋代横跨长江的大浮桥",
+      "C": "长江天险是怎样被突破的",
+      "D": "世界桥梁史上的伟大创举"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.55,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.89,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.73,
+      "text_length": 15
+    }
+  },
+  {
+    "question_id": "19283858",
+    "stem": "“足国之道，节用裕民，而善臧其余。”党政机关过紧日子不是一时之需、权宜之策，而是一贯的、长期的、常态化的工作要求。一个国家可调配的资源总量是有限的，唯有坚持该花的花、该省的省，才能集中财力办大事，把更多真金白银用于发展紧要处、民生急需上。一路走来，艰苦奋斗、勤俭节约始终是我们党的优良作风，也是我们党不断发展壮大的重要保证。“党和政府带头过紧日子，目的是为老百姓过好日子”。这本国之大账，是民生大账，亦是民心大账。 这段文字是一篇文章的开头，最适合做文章标题的是：",
+    "options": {
+      "A": "节用裕民，“过紧日子”算的是国之大账",
+      "B": "严格落实党政机关“过紧日子”的要求",
+      "C": "在“过紧日子”中诠释忠诚干净担当",
+      "D": "落实落细，把“过紧日子”的要求贯穿始终"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "艰苦奋斗",
+        "勤俭节约"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "观点提出",
+      "style_domain": "政治治理",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 231
+    }
+  },
+  {
+    "question_id": "19283987",
+    "stem": "最适合做这篇文章标题的是：",
+    "options": {
+      "A": "休耕与复种：中国古代先民的农耕智慧",
+      "B": "中国古代的土地利用方式演变史",
+      "C": "古代中原地区的农作物种植制度",
+      "D": "早期农作物：人类如何从狩猎走向农耕"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.87,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.75,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "19283992",
+    "stem": "最适合做这篇文章标题的是：",
+    "options": {
+      "A": "砷绿：十九世纪致命流行色",
+      "B": "复古花卉壁纸：华丽与危机",
+      "C": "清新色彩风：迷人的田园假象",
+      "D": "美丽的诱惑：来自实验室的毒药"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.62
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "19526313",
+    "stem": "民主真正落地，需基于明确、可操作的行动指南，行动指南要依托科学规范的程序文本来呈现，在这个意义上，科学民主的程序文本是民主得以从理念转化为现实不可或缺的载体，也是维护民主之实的基本保证。一方面，可借鉴他山之石，一定程度地吸纳其他国家较为成熟的，基于民主、公正、法治原则所建立起的议事规则；另一方面，须扎根实际，不能将程序简单视为政治制度的“飞来峰”，照抄照搬或简而化之，需要注重历史和现实、理论和实践、形式和内容有机统一，找到正确的方式方法。此外，还应构建长效化的程序完善机制，不断夯实程序之基。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "以程序保障之力强化实质民主之效",
+      "B": "以程序内容之基筑牢实质民主之实",
+      "C": "以程序运行之效提升实质民主之质",
+      "D": "以程序科学之道阐释实质民主之义"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "他山之石",
+        "照抄照搬"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "程序文本",
+        "议事规则",
+        "程序完善机制"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "style_domain": "政治治理",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.86,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.63
+      },
+      "option_similarity_score": 0.85,
+      "text_length": 261
+    }
+  },
+  {
+    "question_id": "19526413",
+    "stem": "最适合做这篇文章标题的是：",
+    "options": {
+      "A": "大汉王朝的“官方招待所”",
+      "B": "汉代简牍上的丝路盛况",
+      "C": "驿站小人物与历史大事件",
+      "D": "悬泉汉简里的丝路往事"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "大汉王朝",
+        "汉代简牍",
+        "丝路",
+        "驿站",
+        "悬泉汉简"
+      ],
+      "term_count": 5,
+      "passage_function": "其他",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.87,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.62
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "5510063",
+    "stem": "中国古代诗学从唐代“野”字意象的逐渐增多，到宋代“野水”意象的异军突起，不仅意味着唐宋诗学从“大物山水”到“小景山水”的转向，而且从杜甫所开创的“野水”美学至中唐诗人“野水”写作传统的逐渐形成，幽远寻仙的峻险之趣的传统有所消歇，宋人萧散简淡、静观自我的“野水”美学成为时代意趣。“野水”的审美价值不仅在于可游，更在于可居。“可游可居”作为野水山水美学的具体展开，与“可行可望”的彼岸山水美学成为中国诗学的两大传统。 最适合做这段文字标题的一项是：",
+    "options": {
+      "A": "中国诗歌“野水”意象的发展",
+      "B": "“野水”意象与唐宋诗学的转向",
+      "C": "中国山水诗学的两大话语传统",
+      "D": "作为时代意趣的“野水”美学"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "异军突起",
+        "幽远寻仙",
+        "峻险之趣"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "野水",
+        "大物山水",
+        "小景山水",
+        "野水美学",
+        "彼岸山水美学"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.86,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.61,
+        "distractor_strength_level": "高",
+        "distractor_strength_score": 0.86
+      },
+      "option_similarity_score": 0.85,
+      "text_length": 222
+    }
+  },
+  {
+    "question_id": "5509949",
+    "stem": "“手撕钢”是一种超薄不锈精密带钢，不仅有精美的表面、平整的板型，而且有良好的微观组织和性能。生产“手撕钢”，是把一卷原始钢带放进轧机里，轧辊像擀面杖一样把钢带从厚擀薄。其生产有一个重要环节是光亮退火，这是“手撕钢”变软的关键。研发团队历经711次试验，攻克452个工艺难题，终于研制出宽600毫米、厚0.015毫米的国产不锈精密带钢，创造了新的世界纪录。国产“手撕钢”的横空出世，打破了国外技术封锁和产品垄断，从航空航天、高端电子、新能源等重点领域，到当下流行的折叠屏手机，都有它的身影。 最适合做这段文字标题的一项是：",
+    "options": {
+      "A": "以无厚者入于有间",
+      "B": "精诚所至金石为开",
+      "C": "百炼钢化为绕指柔",
+      "D": "以尽精微而致广大"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "横空出世",
+        "技术封锁",
+        "产品垄断"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "手撕钢",
+        "不锈精密带钢",
+        "光亮退火",
+        "轧机",
+        "航空航天",
+        "折叠屏手机"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 259
+    }
+  },
+  {
+    "question_id": "5510064",
+    "stem": "运动不足已经成为21世纪最大的公共卫生问题。“运动医学之父”赫罗迪科斯（Herodicus）认为健康受损主要是因为饮食和身体活动之间的不平衡，因此建议严格控制饮食、持续参加身体活动和进行有规律的训练，通过这样的方式维持良好的健康。2007年，美国运动医学学会对赫罗迪科斯运动和医学相结合的理念进行了回顾总结，并和美国医学会一起将“运动是良医”这一思想作为一种学术理念和健康促进项目正式提出。2012年，中国在“运动是良医”理念的基础上进一步提出了“体医融合”概念，强调预防第一，预防和治疗同等重要。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "体医融合",
+      "B": "运动是良医",
+      "C": "“运动医学之父”赫罗迪科斯",
+      "D": "运动不足已成为最大公共卫生问题"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "运动医学",
+        "体医融合",
+        "公共卫生",
+        "健康促进项目"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.58,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.68,
+      "text_length": 262
+    }
+  },
+  {
+    "question_id": "19181433",
+    "stem": "最适合做这篇文章标题的是：",
+    "options": {
+      "A": "玻璃——如何让人类爱上你",
+      "B": "玻璃材料散发智慧之光",
+      "C": "玻璃的前世今生",
+      "D": "玻璃材料是未来的“明星”"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "style_domain": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.87,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.75,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "10204464",
+    "stem": "随着大数据、物联网、云计算等现代智能技术的发展，人类社会进入了智慧治理时代。智慧治理对于推进国家治理体系和治理能力现代化具有重要现实意义。当前正在推进的智慧治理面临治理效率低下、数据信息安全存隐患等困境和风险。对智慧治理面临新任务新期待的理论认识不足、主动适应不够，以及过度依赖智能技术对智慧治理的定位不准是导致困境和风险的重要原因。解决智慧治理中存在的问题，需要实现从智能技术赋能到技术融合的转变，理念融合、过程融合及目标融合是实现这一转变的重要路径。 假如这是一篇文章的摘要，那么这篇文章的标题可能是：",
+    "options": {
+      "A": "迈向技术融合的智慧治理",
+      "B": "理论认识不足制约智慧治理",
+      "C": "智能技术赋能的智慧治理路径",
+      "D": "智慧治理存在的问题及成因分析"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "大数据",
+        "物联网",
+        "云计算",
+        "智慧治理",
+        "国家治理体系",
+        "治理能力现代化"
+      ],
+      "term_count": 6,
+      "passage_function": "总结归纳",
+      "style_domain": "政治治理",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 252
+    }
+  },
+  {
+    "question_id": "17900923",
+    "stem": "我们常说，雨水会将空气中的污染物、颗粒物冲刷下来，变成近似污水的“初期雨水”。其实，只有降雨达到天气预报所说的“中雨”，才有这种效果。如果只是微微细雨，不足以将颗粒物沉降。空气湿度增大，颗粒物尤其细颗粒物的吸湿性会增长，就是说PM2.5遇到湿气会膨胀，导致浓度不降反升。即使在强降雨时，前两个小时PM2.5浓度也有可能出现不降反升的情况。另外，湿度大的时候，近地面大气一般比较稳定，扩散能力弱，许多污染物易溶于水并发生化学反应，产生新的污染物，导致空气更浑浊。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "雨后的空气质量",
+      "B": "当PM2.5遇到雨水",
+      "C": "雨后空气就会清新吗",
+      "D": "为何雨后空气质量会变差"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "PM2.5"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "style_domain": "生态环境",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.58,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.68,
+      "text_length": 243
+    }
+  },
+  {
+    "question_id": "12882003",
+    "stem": "钙钛矿太阳能电池属于新概念太阳能电池。经过多年发展，这类电池的效率得到显著提升，但是稳定性仍是一道难题。最近，科学家首次发现钙钛矿阳离子面外分布不均匀是影响电池性能的主要原因。研究团队通过研究设计制备出均匀化的钙钛矿薄膜，获得了最高达26.1%的光电转换效率。这一研究开辟了提升电池器件稳定性的新途径，为进一步得到高效、稳定的钙钛矿太阳能电池提供了明确方向。 对这段文字主旨概括最恰当的一项是（ ）",
+    "options": {
+      "A": "钙钛矿太阳能电池研发已取得突破性进展",
+      "B": "钙钛矿太阳能电池稳定性差的原因被发现",
+      "C": "钙钛矿太阳能电池稳定性难题被有效破解",
+      "D": "钙钛矿太阳能电池发展前景将更高效稳定"
+    },
+    "label": {
+      "question_type": "主旨概括",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "钙钛矿太阳能电池",
+        "钙钛矿阳离子",
+        "光电转换效率",
+        "钙钛矿薄膜"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 197
+    }
+  },
+  {
+    "question_id": "13504635",
+    "stem": "最适合做这篇短文标题的是：",
+    "options": {
+      "A": "AI文本缘何难以鉴别",
+      "B": "AI与人类在文本领域的博弈",
+      "C": "AI生成式文本创作的利与弊",
+      "D": "为何要发展AI文本识别技术"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "AI",
+        "AI文本",
+        "AI生成式文本",
+        "AI文本识别技术"
+      ],
+      "term_count": 4,
+      "passage_function": "其他",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.87,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.62
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 13
+    }
+  },
+  {
+    "question_id": "10297052",
+    "stem": "脊髓损伤是一种极具破坏性的疾病，常常导致患者面临瘫痪等严重后果。损伤发生后，神经细胞的轴突投射被切断，引发从损伤部位开始的神经“死亡”过程。同时，伤口处形成的病变或间隙成为阻碍神经细胞再生的天然屏障，而这一过程对于受损功能的恢复至关重要。为了解决这一医学难题，有研究团队巧妙地开发出一种可植入的导电性3D打印支架。这一创新设计不仅能够有效填补脊髓损伤后的间隙，还利用导电生物材料模仿脊髓的自然结构，为受损神经元提供了一条“再生之路”。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "导电生物材料——受损神经元的“再生之路”",
+      "B": "链接神经细胞轴突投射是脊髓恢复功能的关键",
+      "C": "3D打印支架——让脊髓不怕再受伤",
+      "D": "导电性3D打印植入物促进受损脊髓修复"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "再生之路"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "脊髓损伤",
+        "神经细胞",
+        "轴突投射",
+        "导电性3D打印支架",
+        "导电生物材料",
+        "神经元"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 230
+    }
+  },
+  {
+    "question_id": "13504374",
+    "stem": "我国农业中最富特色的资源，是基于特定区域生态与文化内涵的地理标志农产品。围绕地理标志专用标志、区域公用品牌创建与管理的理论研究成果数量日增，例如，以农业品牌、农产品区域公用品牌为关键词的论文数量不断增多，农业品牌建设的理论支撑体系不断构建。各高校相关团队的理论研究推动了我国农业品牌发展，特别是优质土特产的品牌化进程，也推动了相关支持政策的出台。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "理论研究助力农业品牌化发展",
+      "B": "农业品牌理论研究迈上新台阶",
+      "C": "高校研究驱动农业产业提档升级",
+      "D": "加强地理标志农产品建设与保护"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "地理标志农产品",
+        "地理标志专用标志",
+        "区域公用品牌",
+        "农业品牌"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "style_domain": "经济发展",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 186
+    }
+  },
+  {
+    "question_id": "13504682",
+    "stem": "上门代厨、上门收纳整理、上门推拿、上门养老······近年来，各类上门服务新业态涌现，为市场经济输入新鲜血液。但“上门经济”并非只有红利没有烦恼。调查发现，目前“上门经济”面临监管存在盲区、消费者维权难、取证溯源难等问题，亟待加强规范引导。规范是保障行业健康有序发展、维护各方合法权益的基础。只有把规矩立起来，加强规范引导，才能促进“上门经济”良性发展。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "“上门经济”规范有序方能行稳致远",
+      "B": "“上门经济”并非只有红利没有烦恼",
+      "C": "“上门经济”为市场经济输入新血液",
+      "D": "“上门经济”既要敞开门也要守好门"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "行稳致远"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "上门经济",
+        "市场经济"
+      ],
+      "term_count": 2,
+      "passage_function": "观点提出",
+      "style_domain": "经济发展",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 190
+    }
+  },
+  {
+    "question_id": "13319271",
+    "stem": "在众多用于建筑的保温材料中，蛭石因其良好的保温性能而广受青睐。蛭石是一种含镁的水铝硅酸盐次生变质矿物，具有二维层状结构，受热时会失水膨胀，因形状类似水蛭而得名。经高温煅烧后，蛭石体积能瞬间膨胀十几倍，每块膨胀蛭石里有很多毛细孔，且每个毛细孔都是微纳米级孔径。这些小空隙就是一个个保温空间。蛭石膨胀倍数越高，空隙越发达，保温性能也就越好。更重要的是，蛭石在生产加工过程中对生态环境污染很小，产品废弃后还能回收再利用，非常符合建筑领域十分推崇的可持续发展理念。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "蛭石为什么可以保温",
+      "B": "蛭石：一种神奇的矿石",
+      "C": "你所不知道的“蛭石”真面貌",
+      "D": "蛭石：让建筑物更加绿色节能"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "蛭石",
+        "水铝硅酸盐",
+        "次生变质矿物",
+        "微纳米级孔径",
+        "可持续发展理念"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 241
+    }
+  },
+  {
+    "question_id": "13319280",
+    "stem": "作为一类代谢功能多样的特殊微生物，光合细菌具有强大的生化催化能力和营养益生功能，可以制备多种多样的生物制剂。目前国内科研院所和医药厂商对光合细菌在医药产品开发领域的研究仍处于起步阶段。随着科学技术水平不断进步，研究者对光合细菌类群特殊代谢能力的理解将进一步加深，有助于持续激发该类细菌的产业化潜力。除生产新式治疗药物外，还可利用光合细菌适应极端环境的生存优势，结合基因工程技术，设计开发工程菌株，通过微生物催化作用实现分子结构重组，用以大量生产重要原料药物，或可替代化学制药技术。总体而言，深度拓展光合细菌在医药研究领域的研究，具有良好的应用前景与实践意义，有望推动微生物制药工程可持续发展。 从这段文字提取关键词最恰当的一项是：",
+    "options": {
+      "A": "特殊微生物 光合细菌 生物制药",
+      "B": "特殊微生物 代谢能力 产业化",
+      "C": "光合细菌 产业化 制药技术",
+      "D": "光合细菌 代谢功能 医药应用"
+    },
+    "label": {
+      "question_type": "细节判断",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "光合细菌",
+        "生化催化能力",
+        "基因工程技术",
+        "工程菌株",
+        "微生物催化作用",
+        "原料药物"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.85,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.82,
+      "text_length": 314
+    }
+  },
+  {
+    "question_id": "13319307",
+    "stem": "下列最适合做这篇文章标题的是：",
+    "options": {
+      "A": "作物种质库里的未来农业",
+      "B": "平凡的种子，不平凡的“家”",
+      "C": "国家作物种质库：生命的起点",
+      "D": "“种子诺亚方舟”守护农业火种"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "诺亚方舟"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "作物种质库",
+        "种质库",
+        "农业"
+      ],
+      "term_count": 3,
+      "passage_function": "其他",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.85,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "高",
+        "distractor_strength_score": 0.84
+      },
+      "option_similarity_score": 0.81,
+      "text_length": 15
+    }
+  },
+  {
+    "question_id": "13504682",
+    "stem": "上门代厨、上门收纳整理、上门推拿、上门养老······近年来，各类上门服务新业态涌现，为市场经济输入新鲜血液。但“上门经济”并非只有红利没有烦恼。调查发现，目前“上门经济”面临监管存在盲区、消费者维权难、取证溯源难等问题，亟待加强规范引导。规范是保障行业健康有序发展、维护各方合法权益的基础。只有把规矩立起来，加强规范引导，才能促进“上门经济”良性发展。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "“上门经济”规范有序方能行稳致远",
+      "B": "“上门经济”并非只有红利没有烦恼",
+      "C": "“上门经济”为市场经济输入新血液",
+      "D": "“上门经济”既要敞开门也要守好门"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "行稳致远"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "上门经济",
+        "市场经济"
+      ],
+      "term_count": 2,
+      "passage_function": "观点提出",
+      "style_domain": "经济发展",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 190
+    }
+  },
+  {
+    "question_id": "13504682",
+    "stem": "上门代厨、上门收纳整理、上门推拿、上门养老······近年来，各类上门服务新业态涌现，为市场经济输入新鲜血液。但“上门经济”并非只有红利没有烦恼。调查发现，目前“上门经济”面临监管存在盲区、消费者维权难、取证溯源难等问题，亟待加强规范引导。规范是保障行业健康有序发展、维护各方合法权益的基础。只有把规矩立起来，加强规范引导，才能促进“上门经济”良性发展。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "“上门经济”规范有序方能行稳致远",
+      "B": "“上门经济”并非只有红利没有烦恼",
+      "C": "“上门经济”为市场经济输入新血液",
+      "D": "“上门经济”既要敞开门也要守好门"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "行稳致远"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "上门经济",
+        "市场经济"
+      ],
+      "term_count": 2,
+      "passage_function": "观点提出",
+      "style_domain": "经济发展",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.86,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.75,
+      "text_length": 190
+    }
+  },
+  {
+    "question_id": "10297283",
+    "stem": "最近一年，之江实验室天文计算研究中心基于FAST的观测数据共发现了31颗脉冲星，其中包括15颗长周期脉冲星。该研究中心团队曾仅用170小时完成约172TB数据的处理，相当于每小时速览1024部容量为1GB的电影。团队负责人表示，利用中心自研的AI算法等智能计算技术辅助处理数据，可以让研究人员从繁重的数据分析中解放出来，将更多精力投入到理解数据背后的物理图像中，大大提高科研效率。 如果想夸赞之江实验室天文计算研究中心的成就，这段文字可用的标题是：",
+    "options": {
+      "A": "炼得“金刚钻”敢揽“瓷器活”",
+      "B": "只有勇于探索才能遥遥领先",
+      "C": "高效源于专业成功源于细节",
+      "D": "不经一番寒彻骨怎得梅花扑鼻香"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "FAST",
+        "脉冲星",
+        "AI算法",
+        "智能计算技术"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "style_domain": "科技科普",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.56,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.58,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.59
+      },
+      "option_similarity_score": 0.68,
+      "text_length": 223
+    }
+  },
+  {
+    "question_id": "10297274",
+    "stem": "体育文化是我国传统文化的重要组成部分，随着科技革命的不断深入，体育文化传承发展迎来了新的机遇。数字科技能够提供新的体育文化传播发展平台，将先进的数字设备应用到体育赛事活动中，通过云数据平台进行赛事活动宣传，丰富赛事的文化内涵。数字体育还可通过技术创新，不断推出数字化的体育文化产品，进一步达到普及体育运动的目的。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "数字技术：促进体育文化繁荣的新媒介",
+      "B": "数字体育：体育产业高质量发展新动能",
+      "C": "体育文化：普及全民体育运动的新抓手",
+      "D": "体育传播：数字技术带来发展的新机遇"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "数字科技",
+        "云数据平台",
+        "数字体育",
+        "数字化体育文化产品"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 169
+    }
+  },
+  {
+    "question_id": "13504352",
+    "stem": "近年来，相关地区依托长城保护修复实践基地，将长城保护工作重心由一般性保护工程向研究性修缮项目转变。与以往修缮过程中各专业技术人员作业相对分离不同，研究性修缮从工程启动便形成协同模式：以考古挖掘为开端，多学科研究为手段，数字化跟踪记录为保障，考古、设计、勘察、施工等人员在前期研究与勘察、设计方案制定、施工执行、成果整理等各环节协同配合，形成全专业全周期的合作。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "研究性修缮：考古保护新范式",
+      "B": "研究性修缮如何进行多学科协同",
+      "C": "长城保护：研究性修缮的协同新模式",
+      "D": "研究性修缮揭开长城科学保护的细节"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "长城保护",
+        "研究性修缮",
+        "数字化跟踪记录"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "style_domain": "文化社科",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.86,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.61,
+        "distractor_strength_level": "高",
+        "distractor_strength_score": 0.86
+      },
+      "option_similarity_score": 0.85,
+      "text_length": 193
+    }
+  },
+  {
+    "question_id": "18643644",
+    "stem": "中华民族自古以来就秉持“六合同风，九州共贯”“天下大同”的理念，把大一统看作是“天地之常经，古今之通义”。自秦统一中国后，无论哪个民族入主中原，都以统一天下为己任，都始终坚持国土不可分、国家不可乱、民族不可散、文明不可断的共同信念。历史充分证明，我们统一的多民族国家是由各民族共同缔造的，也必须由各民族共同维护、巩固和发展。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "各民族情感相亲，是中华民族一家亲的坚强纽带",
+      "B": "各民族经济相依，是中华民族构建统一经济体的强大力量",
+      "C": "各民族文化相通，是中华民族铸就多元一体文明格局的文化基因",
+      "D": "各民族信念相同，是中华民族缔造统一的多民族国家的内生动力"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "六合同风",
+        "九州共贯",
+        "天下大同"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "大一统",
+        "多民族国家"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "style_domain": "政治治理",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.58,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "高",
+        "collocation_similarity_score": 0.88,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.62
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 175
+    }
+  },
+  {
+    "question_id": "18643653",
+    "stem": "在广大基层，人们对话剧、戏曲、音乐会等文艺形式的欣赏愿望不断高涨。可是，基层能够提供的文化产品数量与质量有限。这背后存在着地方剧团生存难的问题。日前，一些基层政府以购买公共服务或是引入社会力量等方式给予剧院补贴，公众则以一块钱的投入就能看一场文艺演出。此举不仅使群众欣赏到优质的精神文化“大餐”，也使地方剧团得以进一步发展。这既提高了公共文化服务的普惠性与可及性，又在潜移默化中培养了公众的文化消费习惯，挖掘了新生的消费市场，释放出文化惠民的叠加效应。 最适合做这段文字标题的是：",
+    "options": {
+      "A": "文化下乡：让群众共享精彩",
+      "B": "惠民演出：托起文化新热潮",
+      "C": "一元剧场：好戏在基层开场",
+      "D": "政府补贴：激活文艺新市场"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "潜移默化",
+        "叠加效应"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "公共文化服务",
+        "文化消费习惯",
+        "消费市场",
+        "文化惠民"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "style_domain": "民生社会",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "中",
+        "semantic_similarity_score": 0.59,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.85,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.59,
+        "distractor_strength_level": "中",
+        "distractor_strength_score": 0.6
+      },
+      "option_similarity_score": 0.72,
+      "text_length": 239
+    }
+  },
+  {
+    "question_id": "12019681",
+    "stem": "“发展是人类社会永恒的主题”“贫穷是实现人权的最大障碍”······这些朴素而深刻的论断，构成了中国人权观的重要认知基础。正如习近平主席所强调的，对于发展中国家来说，“生存权、发展权是首要的基本人权”，要“在发展中保障和改善民生，保护和促进人权”。离开了发展，其他一切权利的实现便如同空中楼阁、无源之水。正是基于这一根本遵循，中国走出了一条将人权的普遍性原则与本国实际相结合、以发展促进和保障人权的特色道路。 以下选项中，最适合作为这段文字标题的是（ ）。",
+    "options": {
+      "A": "以发展之钥，启人权之门",
+      "B": "发展：人权治理的全球方案",
+      "C": "生存和发展——人类的基本权利",
+      "D": "发展权优先：人权保障的基本共识"
+    },
+    "label": {
+      "question_type": "标题选择",
+      "idiom_terms": [
+        "空中楼阁",
+        "无源之水"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "人权",
+        "生存权",
+        "发展权"
+      ],
+      "term_count": 3,
+      "passage_function": "观点提出",
+      "style_domain": "政治治理",
+      "option_similarity_detail": {
+        "semantic_similarity_level": "高",
+        "semantic_similarity_score": 0.86,
+        "pos_style_similarity_level": "高",
+        "pos_style_similarity_score": 0.86,
+        "collocation_similarity_level": "中",
+        "collocation_similarity_score": 0.61,
+        "distractor_strength_level": "高",
+        "distractor_strength_score": 0.86
+      },
+      "option_similarity_score": 0.85,
+      "text_length": 226
+    }
+  }
+]

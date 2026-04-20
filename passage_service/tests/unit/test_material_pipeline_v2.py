@@ -82,6 +82,330 @@ def test_candidate_planner_materializes_llm_specs_when_provider_is_available() -
     assert any("第二段先提出明确观点" in item["text"] for item in candidates)
 
 
+def test_candidate_planner_prompt_marks_front_matter_as_unanchorable() -> None:
+    pipeline = MaterialPipelineV2()
+    article = SimpleNamespace(
+        id="article-front-matter-prompt",
+        title="前言壳标注",
+        clean_text=(
+            "◎ 科技日报记者 杨仑"
+            "\n\n"
+            "超级铜箔的突破不只是新闻结果，还需要解释其结构设计为什么成立。"
+        ),
+        raw_text=None,
+        source="kepu",
+        source_url="http://example.com/front-matter-prompt",
+        domain="example.com",
+    )
+
+    prompt = pipeline._build_candidate_planner_prompt(
+        article_context=pipeline._build_article_context(article),
+        selected_types={"closed_span", "multi_paragraph_unit"},
+    )
+
+    assert "[P0] role=front_matter anchorable=no" in prompt
+    assert "[P1] role=body anchorable=yes" in prompt
+
+
+def test_materialize_candidate_spec_trims_front_matter_anchor_to_first_body_paragraph() -> None:
+    pipeline = MaterialPipelineV2()
+    article = SimpleNamespace(
+        id="article-front-matter-trim",
+        title="前言壳前移",
+        clean_text=(
+            "◎ 科技日报记者 杨仑"
+            "\n\n"
+            "超级铜箔的突破不只是结果陈述，还需要解释梯度微结构为何能兼顾强度与导电性。"
+        ),
+        raw_text=None,
+        source="kepu",
+        source_url="http://example.com/front-matter-trim",
+        domain="example.com",
+    )
+    article_context = pipeline._build_article_context(article)
+
+    candidate = pipeline._materialize_candidate_spec(
+        article_context=article_context,
+        spec={
+            "candidate_type": "closed_span",
+            "paragraph_start": 0,
+            "paragraph_end": 1,
+            "sentence_start_in_first_paragraph": None,
+            "sentence_end_in_last_paragraph": None,
+            "composition": "adjacent_paragraph_pair",
+            "priority": 0.86,
+            "reason": "Keep the real explanatory body, not the byline.",
+        },
+        rank=1,
+    )
+
+    assert candidate is not None
+    assert "记者" not in candidate["text"]
+    assert candidate["text"].startswith("超级铜箔的突破不只是结果陈述")
+    assert candidate["meta"]["paragraph_range"] == [1, 1]
+    assert candidate["meta"]["raw_paragraph_range"] == [0, 1]
+    assert candidate["meta"]["front_matter_trimmed"] == [0]
+
+
+def test_materialize_candidate_spec_rejects_front_matter_only_candidate() -> None:
+    pipeline = MaterialPipelineV2()
+    article = SimpleNamespace(
+        id="article-front-matter-only",
+        title="前言壳拒绝",
+        clean_text=(
+            "◎ 科技日报记者 杨仑"
+            "\n\n"
+            "第二段是真正文体。"
+        ),
+        raw_text=None,
+        source="kepu",
+        source_url="http://example.com/front-matter-only",
+        domain="example.com",
+    )
+    article_context = pipeline._build_article_context(article)
+
+    candidate = pipeline._materialize_candidate_spec(
+        article_context=article_context,
+        spec={
+            "candidate_type": "closed_span",
+            "paragraph_start": 0,
+            "paragraph_end": 0,
+            "sentence_start_in_first_paragraph": None,
+            "sentence_end_in_last_paragraph": None,
+            "composition": "paragraph_span",
+            "priority": 0.42,
+            "reason": "This is only the byline.",
+        },
+        rank=1,
+    )
+
+    assert candidate is None
+
+
+def test_materialize_candidate_spec_accepts_paragraph_range_style_llm_output() -> None:
+    pipeline = MaterialPipelineV2()
+    article = SimpleNamespace(
+        id="article-front-matter-range",
+        title="范围式返回",
+        clean_text=(
+            "◎ 科技日报记者 杨仑"
+            "\n\n"
+            "第一段说明铜箔的重要性。"
+            "\n\n"
+            "第二段解释梯度序构设计为何能够破解不可能三角。"
+        ),
+        raw_text=None,
+        source="kepu",
+        source_url="http://example.com/front-matter-range",
+        domain="example.com",
+    )
+    article_context = pipeline._build_article_context(article)
+
+    candidate = pipeline._materialize_candidate_spec(
+        article_context=article_context,
+        spec={
+            "candidate_type": "multi_paragraph_unit",
+            "paragraph_range": [0, 2],
+            "anchor_paragraph": 1,
+            "reason": "Use the semantic body paragraphs.",
+        },
+        rank=1,
+    )
+
+    assert candidate is not None
+    assert candidate["meta"]["paragraph_range"] == [1, 2]
+    assert candidate["meta"]["anchor_paragraph"] == 1
+    assert candidate["meta"]["front_matter_trimmed"] == [0]
+    assert candidate["text"].startswith("第一段说明铜箔的重要性。")
+
+
+def test_materialize_candidate_spec_recovers_range_from_anchor_paragraph_when_provider_drifts() -> None:
+    pipeline = MaterialPipelineV2()
+    article = SimpleNamespace(
+        id="article-anchor-recovery",
+        title="锚点回收",
+        clean_text=(
+            "首段只是导语，不该成为正式候选。\n\n"
+            "第二段提出问题：中国为什么会形成新的科研吸引力？\n\n"
+            "第三段解释机制：持续投入、平台建设与人才政策共同作用。\n\n"
+            "第四段回收结果：这使得中国更像一个稳定的研发实验室。"
+        ),
+        raw_text=None,
+        source="probe",
+        source_url="http://example.com/anchor-recovery",
+        domain="example.com",
+    )
+    article_context = pipeline._build_article_context(article)
+
+    candidate = pipeline._materialize_candidate_spec(
+        article_context=article_context,
+        spec={
+            "candidate_type": "multi_paragraph_unit",
+            "paragraph_start": 0,
+            "paragraph_end": 0,
+            "anchor_paragraph": 1,
+            "reason": "Provider drifted to the schema default 0-0 but the semantic anchor is later.",
+        },
+        rank=1,
+    )
+
+    assert candidate is not None
+    assert candidate["meta"]["paragraph_range"] == [1, 3]
+    assert candidate["meta"]["anchor_paragraph"] == 1
+    assert candidate["meta"]["anchor_range_recovered_from_anchor_paragraph"] is True
+    assert candidate["text"].startswith("第二段提出问题")
+
+
+def test_extract_llm_candidate_specs_normalizes_live_provider_aliases() -> None:
+    raw_result = [
+        {
+            "candidate_type": "multi_paragraph_unit",
+            "start_paragraph": 2,
+            "end_paragraph": 6,
+            "justification": "Use the later explanatory block.",
+        }
+    ]
+
+    specs = MaterialPipelineV2._extract_llm_candidate_specs(raw_result)
+
+    assert specs == [
+        {
+            "candidate_type": "multi_paragraph_unit",
+            "start_paragraph": 2,
+            "end_paragraph": 6,
+            "justification": "Use the later explanatory block.",
+            "paragraph_start": 2,
+            "paragraph_end": 6,
+            "paragraph_range": [2, 6],
+            "reason": "Use the later explanatory block.",
+            "priority": 0.0,
+        }
+    ]
+
+
+def test_center_understanding_candidate_expansion_excludes_functional_slot_units() -> None:
+    pipeline = MaterialPipelineV2()
+
+    formal_types = pipeline._formal_material_candidate_types()
+    expanded_types = pipeline._expand_candidate_types(
+        ["closed_span", "multi_paragraph_unit"],
+        business_family_id="center_understanding",
+    )
+
+    assert "functional_slot_unit" not in formal_types
+    assert "functional_slot_unit" not in expanded_types
+
+
+def test_sentence_fill_candidate_expansion_keeps_functional_slot_units() -> None:
+    pipeline = MaterialPipelineV2()
+
+    expanded_types = pipeline._expand_candidate_types(
+        ["closed_span", "multi_paragraph_unit"],
+        business_family_id="sentence_fill",
+    )
+
+    assert "functional_slot_unit" in expanded_types
+
+
+def test_candidate_plan_score_prefers_problem_mechanism_opening_over_release_shell_opening() -> None:
+    pipeline = MaterialPipelineV2()
+    article = SimpleNamespace(
+        id="article-kepu-preference",
+        title="科普候选偏好",
+        clean_text=(
+            "4月17日，记者从研究团队了解到，他们取得了新突破。相关成果在线发布。"
+            "\n\n"
+            "长期以来，这项材料在强度与导电性之间存在难以兼得的困境。"
+            "此次突破的核心在于新的微观结构设计。"
+            "\n\n"
+            "实验显示，该设计在保持导电性的同时显著提升了强度，并破解了行业瓶颈。"
+        ),
+        raw_text=None,
+        source="kepu",
+        source_url="http://example.com/kepu-preference",
+        domain="example.com",
+    )
+    article_context = pipeline._build_article_context(article)
+    release_led_candidate = {
+        "candidate_id": "release-led",
+        "candidate_type": "multi_paragraph_unit",
+        "text": (
+            "4月17日，记者从研究团队了解到，他们取得了新突破。相关成果在线发布。"
+            "\n\n"
+            "长期以来，这项材料在强度与导电性之间存在难以兼得的困境。此次突破的核心在于新的微观结构设计。"
+            "\n\n"
+            "实验显示，该设计在保持导电性的同时显著提升了强度，并破解了行业瓶颈。"
+        ),
+        "meta": {"paragraph_range": [0, 2], "composition": "paragraph_span", "planner_source": "llm_candidate_planner"},
+        "quality_flags": [],
+    }
+    mechanism_led_candidate = {
+        "candidate_id": "mechanism-led",
+        "candidate_type": "closed_span",
+        "text": (
+            "长期以来，这项材料在强度与导电性之间存在难以兼得的困境。此次突破的核心在于新的微观结构设计。"
+            "\n\n"
+            "实验显示，该设计在保持导电性的同时显著提升了强度，并破解了行业瓶颈。"
+        ),
+        "meta": {"paragraph_range": [1, 2], "composition": "paragraph_span", "planner_source": "llm_candidate_planner"},
+        "quality_flags": [],
+    }
+
+    release_profile = pipeline._build_neutral_signal_profile(article_context=article_context, candidate=release_led_candidate)
+    mechanism_profile = pipeline._build_neutral_signal_profile(article_context=article_context, candidate=mechanism_led_candidate)
+    release_score = pipeline._candidate_plan_score(article_context=article_context, candidate=release_led_candidate, neutral_signal_profile=release_profile)
+    mechanism_score = pipeline._candidate_plan_score(article_context=article_context, candidate=mechanism_led_candidate, neutral_signal_profile=mechanism_profile)
+
+    assert mechanism_score > release_score
+
+
+def test_candidate_planner_retries_once_when_first_llm_result_is_empty() -> None:
+    class FlakyProvider:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def is_enabled(self) -> bool:
+            return True
+
+        def generate_json(self, *, model, instructions, input_payload):
+            self.calls += 1
+            if self.calls == 1:
+                return {"candidates": []}
+            return [
+                {
+                    "candidate_type": "closed_span",
+                    "paragraph_range": [1, 1],
+                    "anchor_paragraph": 1,
+                    "reason": "Retry returns the real body paragraph.",
+                }
+            ]
+
+    pipeline = MaterialPipelineV2()
+    pipeline.provider = FlakyProvider()
+    article = SimpleNamespace(
+        id="article-llm-retry",
+        title="重试候选",
+        clean_text=(
+            "◎ 科技日报记者 杨仑"
+            "\n\n"
+            "真正的正文段会在第二段出现，并解释核心机制。"
+        ),
+        raw_text=None,
+        source="kepu",
+        source_url="http://example.com/llm-retry",
+        domain="example.com",
+    )
+
+    candidates = pipeline._derive_candidates_with_llm(
+        article_context=pipeline._build_article_context(article),
+        selected_types={"closed_span"},
+    )
+
+    assert pipeline.provider.calls == 2
+    assert len(candidates) == 1
+    assert candidates[0]["text"] == "真正的正文段会在第二段出现，并解释核心机制。"
+
+
 def test_candidate_planner_scores_complete_sentence_block_above_contextual_fragment() -> None:
     pipeline = MaterialPipelineV2()
     article = SimpleNamespace(

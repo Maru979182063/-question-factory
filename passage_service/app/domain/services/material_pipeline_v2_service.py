@@ -96,6 +96,36 @@ class MaterialPipelineV2Service(ServiceBase):
         )
         return self._apply_external_fallback_if_needed(payload=payload, base_result=result)
 
+    def shadow_search(self, payload: dict) -> dict:
+        cached_result = self._search_cached(payload)
+        if cached_result is not None:
+            annotated = dict(cached_result)
+            annotated["result_mode"] = "shadow_cache_hit"
+            warnings = [str(entry) for entry in (annotated.get("warnings") or []) if str(entry).strip()]
+            if payload.get("status") or payload.get("release_channel"):
+                warnings.append(
+                    f"shadow_cache_filters:{payload.get('status') or '*'}:{payload.get('release_channel') or '*'}"
+                )
+            annotated["warnings"] = warnings
+            return annotated
+        return {
+            "question_card": {
+                "card_id": str(payload.get("question_card_id") or "") or None,
+                "business_family_id": str(payload.get("business_family_id") or "") or None,
+            },
+            "available_business_cards": [],
+            "items": [],
+            "warnings": [
+                "shadow_cache_miss:no_indexed_shadow_materials_matched",
+                f"shadow_cache_filters:{payload.get('status') or '*'}:{payload.get('release_channel') or '*'}",
+            ],
+            "article_count": 0,
+            "article_ids": [],
+            "cache_hit": False,
+            "index_version": self.pipeline.INDEX_VERSION,
+            "result_mode": "shadow_cache_miss",
+        }
+
     def build_formal_material_candidates(
         self,
         article_id: str,
@@ -317,7 +347,51 @@ class MaterialPipelineV2Service(ServiceBase):
         return merged
 
     @staticmethod
-    def _cached_item_matches_front_filters(*, cached_item: dict, payload: dict) -> bool:
+    def _shadow_observation_from_item(cached_item: dict) -> dict | None:
+        shadow_mount = dict(cached_item.get("shadow_mount") or {})
+        if not shadow_mount:
+            return None
+        return {
+            "shadow_status": shadow_mount.get("status"),
+            "child_family_id": shadow_mount.get("child_family_id"),
+            "selected_leaf_id": shadow_mount.get("selected_leaf_id"),
+            "shadow_ready": shadow_mount.get("shadow_ready"),
+            "fallback_to_business_card": shadow_mount.get("fallback_to_business_card"),
+            "leaf_trace_version": shadow_mount.get("leaf_trace_version"),
+        }
+
+    @classmethod
+    def _shadow_filter_requested(cls, payload: dict) -> bool:
+        return bool(
+            payload.get("shadow_child_family_ids")
+            or payload.get("shadow_selected_leaf_ids")
+            or payload.get("shadow_ready") is not None
+            or payload.get("fallback_to_business_card") is not None
+        )
+
+    @classmethod
+    def _shadow_item_matches_filters(cls, *, cached_item: dict, payload: dict) -> bool:
+        observation = cls._shadow_observation_from_item(cached_item)
+        requested_child_ids = {str(value).strip() for value in (payload.get("shadow_child_family_ids") or []) if str(value).strip()}
+        requested_leaf_ids = {str(value).strip() for value in (payload.get("shadow_selected_leaf_ids") or []) if str(value).strip()}
+        requested_shadow_ready = payload.get("shadow_ready")
+        requested_fallback = payload.get("fallback_to_business_card")
+        if not any([requested_child_ids, requested_leaf_ids, requested_shadow_ready is not None, requested_fallback is not None]):
+            return True
+        if not observation:
+            return False
+        if requested_child_ids and str(observation.get("child_family_id") or "") not in requested_child_ids:
+            return False
+        if requested_leaf_ids and str(observation.get("selected_leaf_id") or "") not in requested_leaf_ids:
+            return False
+        if requested_shadow_ready is not None and bool(observation.get("shadow_ready")) is not bool(requested_shadow_ready):
+            return False
+        if requested_fallback is not None and bool(observation.get("fallback_to_business_card")) is not bool(requested_fallback):
+            return False
+        return True
+
+    @classmethod
+    def _cached_item_matches_front_filters(cls, *, cached_item: dict, payload: dict) -> bool:
         article_profile = dict(cached_item.get("article_profile") or {})
         local_profile = dict(cached_item.get("local_profile") or {})
         text = "\n".join(
@@ -341,6 +415,8 @@ class MaterialPipelineV2Service(ServiceBase):
             return False
         requested_direction = str(payload.get("text_direction") or "").strip()
         if requested_direction and requested_direction not in text:
+            return False
+        if not cls._shadow_item_matches_filters(cached_item=cached_item, payload=payload):
             return False
         return True
 
@@ -420,6 +496,9 @@ class MaterialPipelineV2Service(ServiceBase):
         )
         if not gate_passed:
             return None
+        shadow_observation = self._shadow_observation_from_item(refreshed)
+        if shadow_observation is not None:
+            refreshed["shadow_observation"] = shadow_observation
         return refreshed
 
     def _load_review_status_map(self, material_ids: list[str]) -> dict[str, str]:
@@ -471,6 +550,94 @@ class MaterialPipelineV2Service(ServiceBase):
             "excluded_status_counts": dict(excluded_status_counts),
         }
         return included, trace
+
+    def _build_shadow_observability(self, *, materials: list[object], payload: dict) -> dict:
+        requested_business_family_id = str(payload.get("business_family_id") or "").strip()
+        requested_child_ids = {str(value).strip() for value in (payload.get("shadow_child_family_ids") or []) if str(value).strip()}
+        requested_leaf_ids = {str(value).strip() for value in (payload.get("shadow_selected_leaf_ids") or []) if str(value).strip()}
+        requested_shadow_ready = payload.get("shadow_ready")
+        requested_fallback = payload.get("fallback_to_business_card")
+        sample_limit = max(1, min(int(payload.get("shadow_sample_limit") or 3), 20))
+
+        entries: list[dict] = []
+        for material in materials:
+            payload_map = dict(getattr(material, "v2_index_payload", {}) or {})
+            for family_id, item in payload_map.items():
+                if requested_business_family_id and family_id != requested_business_family_id:
+                    continue
+                if not isinstance(item, dict):
+                    continue
+                observation = self._shadow_observation_from_item(item)
+                if observation is None:
+                    continue
+                if requested_child_ids and str(observation.get("child_family_id") or "") not in requested_child_ids:
+                    continue
+                if requested_leaf_ids and str(observation.get("selected_leaf_id") or "") not in requested_leaf_ids:
+                    continue
+                if requested_shadow_ready is not None and bool(observation.get("shadow_ready")) is not bool(requested_shadow_ready):
+                    continue
+                if requested_fallback is not None and bool(observation.get("fallback_to_business_card")) is not bool(requested_fallback):
+                    continue
+                entries.append(
+                    {
+                        "material_id": material.id,
+                        "family_id": family_id,
+                        "selected_business_card": str(((item.get("question_ready_context") or {}).get("selected_business_card")) or ""),
+                        "selected_material_card": str(((item.get("question_ready_context") or {}).get("selected_material_card")) or ""),
+                        "selected_leaf_id": str(observation.get("selected_leaf_id") or ""),
+                        "child_family_id": str(observation.get("child_family_id") or ""),
+                        "shadow_status": str(observation.get("shadow_status") or ""),
+                        "shadow_ready": bool(observation.get("shadow_ready")),
+                        "fallback_to_business_card": bool(observation.get("fallback_to_business_card")),
+                        "leaf_trace_version": observation.get("leaf_trace_version"),
+                        "text_preview": str(item.get("text") or "")[:180],
+                    }
+                )
+
+        family_with_leaf_counts: Counter[str] = Counter()
+        child_family_counts: Counter[str] = Counter()
+        leaf_counts: Counter[str] = Counter()
+        status_counts: Counter[str] = Counter()
+        shadow_ready_count = 0
+        fallback_count = 0
+        sample_by_leaf: dict[str, list[dict]] = {}
+
+        for entry in entries:
+            if entry["shadow_status"]:
+                status_counts[entry["shadow_status"]] += 1
+            if entry["child_family_id"]:
+                child_family_counts[entry["child_family_id"]] += 1
+            if entry["selected_leaf_id"]:
+                family_with_leaf_counts[entry["family_id"]] += 1
+                leaf_counts[entry["selected_leaf_id"]] += 1
+                bucket = sample_by_leaf.setdefault(entry["selected_leaf_id"], [])
+                if len(bucket) < sample_limit:
+                    bucket.append(
+                        {
+                            "material_id": entry["material_id"],
+                            "family_id": entry["family_id"],
+                            "selected_business_card": entry["selected_business_card"] or None,
+                            "child_family_id": entry["child_family_id"] or None,
+                            "text_preview": entry["text_preview"],
+                        }
+                    )
+            if entry["shadow_ready"]:
+                shadow_ready_count += 1
+            if entry["fallback_to_business_card"]:
+                fallback_count += 1
+
+        total = len(entries)
+        return {
+            "entry_count": total,
+            "families_with_selected_leaf_id": dict(family_with_leaf_counts),
+            "child_family_counts": dict(child_family_counts),
+            "leaf_counts": dict(leaf_counts),
+            "mapped_unique_ratio": round(status_counts.get("mapped_unique", 0) / max(1, total), 4),
+            "fallback_to_business_card_ratio": round(fallback_count / max(1, total), 4),
+            "shadow_ready_ratio": round(shadow_ready_count / max(1, total), 4),
+            "shadow_status_counts": dict(status_counts),
+            "leaf_samples": sample_by_leaf,
+        }
 
     def observability(self, payload: dict | None = None) -> dict:
         payload = payload or {}
@@ -572,6 +739,7 @@ class MaterialPipelineV2Service(ServiceBase):
             "usage_distribution": usage_distribution,
             "quality_usage": quality_usage,
             "v2_family_counts": dict(family_counts),
+            "shadow_observability": self._build_shadow_observability(materials=materials, payload=payload),
         }
 
     @staticmethod

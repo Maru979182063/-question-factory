@@ -94,7 +94,8 @@ child_families:
       control_logic_special_fields:
         child_family_focus: relation_words
       prompt_guard_lines:
-        - For relation-word leaves, keep the relation type explicit and do not flatten turning, parallel, countermeasure, or variant logic into a generic importance summary.
+        - For relation-word leaves, respect the dominant reading action and recovered axis instead of classifying by connective markers alone.
+        - Do not flatten turning, parallel, countermeasure, plain, or variant into a generic importance summary; each one changes where the true answer axis lands.
 
   center_understanding_special_types:
     mother_family_id: center_understanding
@@ -158,7 +159,8 @@ child_families:
       control_logic_special_fields:
         child_family_focus: subsentence_features
       prompt_guard_lines:
-        - For subsentence-feature leaves, treat examples, data, and preludes as support layers. The correct option should answer the judgment they jointly support, not simply restate the support layer itself.
+        - For subsentence-feature leaves, treat examples, data, preludes, and multi-angle branches as support layers. The correct option should answer the judgment they jointly support, not simply restate the support layer itself.
+        - Use subsentence other for concept, factor, or theory support patterns when no stronger subtype dominates.
 
   sentence_fill_head_start:
     mother_family_id: sentence_fill

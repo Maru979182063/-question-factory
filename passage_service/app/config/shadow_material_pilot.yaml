@@ -1,0 +1,53 @@
+version: "shadow_material_pilot.v1"
+
+notes:
+  - "首轮影子试抓只跑小批量，优先证明材料质量和题感改善。"
+  - "不碰正式库，不启用正式定时任务。"
+  - "优先民生、文化、科普、社科普及，避免军事、涉台、国际冲突、地产证券。"
+
+pilot_sources:
+  - "cssn_shadow"
+  - "gmw_culture_shadow"
+  - "cyol_edu_shadow"
+  - "kepuchina_shadow"
+
+dual_read_queries:
+  - id: "family_education_title"
+    label: "家庭教育 / 青年角色"
+    business_family_id: "title_selection"
+    query_terms: ["家庭教育", "家长会", "爸爸", "就业模式"]
+    topic: "家庭教育"
+    document_genre: "评论"
+    candidate_limit: 3
+    article_limit: 8
+    review_gate_mode: "stable_relaxed"
+
+  - id: "river_civilization_title"
+    label: "河流文明 / 历史文化"
+    business_family_id: "title_selection"
+    query_terms: ["河流", "文明", "长江", "黄河"]
+    topic: "文明与历史"
+    document_genre: "社科普及"
+    candidate_limit: 3
+    article_limit: 8
+    review_gate_mode: "stable_relaxed"
+
+  - id: "fitness_fill"
+    label: "全民健身 / 生活科普"
+    business_family_id: "sentence_fill"
+    query_terms: ["全民健身", "运动", "生活"]
+    topic: "全民健身"
+    document_genre: "报道"
+    candidate_limit: 3
+    article_limit: 8
+    review_gate_mode: "stable_relaxed"
+
+  - id: "science_health_title"
+    label: "中药材 / 科技健康"
+    business_family_id: "title_selection"
+    query_terms: ["中药材", "替代", "科学", "健康"]
+    topic: "科技与健康"
+    document_genre: "科普"
+    candidate_limit: 3
+    article_limit: 8
+    review_gate_mode: "stable_relaxed"

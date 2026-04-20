@@ -187,7 +187,7 @@ class MaterialBridgeV2UnitTest(TestCase):
     def test_search_candidates_keeps_preferred_business_cards_as_soft_hint(self) -> None:
         payloads: list[dict] = []
 
-        def fake_post(payload: dict) -> dict:
+        def fake_post(payload: dict, **kwargs) -> dict:
             payloads.append(dict(payload))
             if len(payloads) == 1:
                 return {"items": []}
@@ -215,7 +215,10 @@ class MaterialBridgeV2UnitTest(TestCase):
             enable_anchor_adaptation=True,
         )
 
-        self.assertEqual(items["items"], [{"candidate_id": "mat-1"}])
+        self.assertEqual(
+            items["items"],
+            [{"candidate_id": "mat-1", "bridge_origin": "legacy", "bridge_mode": "legacy_only"}],
+        )
         self.assertEqual(payloads[0]["business_card_ids"], ["theme_word_focus__main_idea"])
         self.assertEqual(payloads[0]["preferred_business_card_ids"], ["turning_relation_focus__main_idea"])
         self.assertEqual(payloads[1]["business_card_ids"], ["theme_word_focus__main_idea"])
@@ -340,12 +343,73 @@ class MaterialBridgeV2UnitTest(TestCase):
             enable_anchor_adaptation=True,
         )
 
-        self.assertEqual(items["items"], [{"candidate_id": "mat-ok", "review_status": "auto_tagged"}])
+        self.assertEqual(
+            items["items"],
+            [
+                {
+                    "candidate_id": "mat-ok",
+                    "review_status": "auto_tagged",
+                    "bridge_origin": "legacy",
+                    "bridge_mode": "legacy_only",
+                }
+            ],
+        )
+
+    def test_shadow_pending_items_remain_servable_under_stable_relaxed_shadow_mode(self) -> None:
+        self.service = MaterialBridgeV2Service(
+            MaterialsConfig(
+                base_url="http://127.0.0.1:8001",
+                bridge_mode="shadow_prefer",
+                shadow_base_url="http://127.0.0.1:8101",
+                shadow_v2_search_path="/materials/v2/shadow-search",
+                shadow_default_status="gray",
+                shadow_default_release_channel="gray",
+                shadow_review_gate_mode="stable_relaxed",
+            )
+        )
+        item = {
+            "candidate_id": "mat-shadow",
+            "review_status": "review_pending",
+            "bridge_origin": "shadow",
+            "bridge_mode": "shadow_prefer",
+        }
+
+        filtered = self.service._filter_reviewable_items([item])
+
+        self.assertEqual(filtered, [item])
+
+    def test_build_v2_search_attempts_leaf_only_never_falls_back_to_legacy(self) -> None:
+        self.service = MaterialBridgeV2Service(
+            MaterialsConfig(
+                base_url="http://127.0.0.1:8001",
+                bridge_mode="leaf_only",
+                shadow_base_url="http://127.0.0.1:8101",
+                shadow_v2_search_path="/materials/v2/shadow-search",
+                shadow_default_status="gray",
+                shadow_default_release_channel="gray",
+                shadow_review_gate_mode="stable_relaxed",
+            )
+        )
+
+        attempts = self.service._build_v2_search_attempts(
+            {
+                "business_family_id": "center_understanding",
+                "question_card_id": "question.center_understanding.standard_v1",
+                "query_terms": ["人工智能"],
+            }
+        )
+
+        self.assertEqual(len(attempts), 1)
+        self.assertEqual(attempts[0]["origin"], "shadow")
+        self.assertEqual(attempts[0]["bridge_mode"], "leaf_only")
+        self.assertFalse(attempts[0]["allow_fallback"])
+        self.assertEqual(attempts[0]["base_url"], "http://127.0.0.1:8101")
+        self.assertEqual(attempts[0]["search_path"], "/materials/v2/shadow-search")
 
     def test_search_candidates_retries_remote_search_after_timeout(self) -> None:
         payloads: list[tuple[dict, int | None]] = []
 
-        def fake_post(payload: dict, *, timeout: int | None = None) -> dict:
+        def fake_post(payload: dict, *, timeout: int | None = None, **kwargs) -> dict:
             payloads.append((dict(payload), timeout))
             if len(payloads) == 1:
                 raise DomainError(
@@ -377,7 +441,17 @@ class MaterialBridgeV2UnitTest(TestCase):
             enable_anchor_adaptation=True,
         )
 
-        self.assertEqual(items["items"], [{"candidate_id": "mat-recovered", "review_status": "auto_tagged"}])
+        self.assertEqual(
+            items["items"],
+            [
+                {
+                    "candidate_id": "mat-recovered",
+                    "review_status": "auto_tagged",
+                    "bridge_origin": "legacy",
+                    "bridge_mode": "legacy_only",
+                }
+            ],
+        )
         self.assertEqual(len(payloads), 2)
         self.assertEqual(payloads[0][1], None)
         self.assertEqual(payloads[1][1], self.service.SEARCH_RETRY_TIMEOUT_SECONDS)

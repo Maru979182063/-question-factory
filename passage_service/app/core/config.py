@@ -121,8 +121,56 @@ class ConfigBundle(BaseModel):
     source_scope_catalog: dict[str, Any]
 
 
+def _read_env_file(path: Path) -> dict[str, str]:
+    env_map: dict[str, str] = {}
+    if not path.exists():
+        return env_map
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        name, value = line.split("=", 1)
+        env_map[name.strip().lstrip("\ufeff")] = value.strip().strip("\"'")
+    return env_map
+
+
+def _resolve_profile_env_path() -> Path | None:
+    service_root = Path(__file__).resolve().parents[2]
+    profile_raw = (os.getenv("PASSAGE_ENV_FILE") or "").strip()
+    if not profile_raw:
+        return None
+    profile_path = Path(profile_raw)
+    if not profile_path.is_absolute():
+        profile_path = (service_root / profile_path).resolve()
+    else:
+        profile_path = profile_path.resolve()
+    if not profile_path.exists():
+        return None
+    return profile_path
+
+
+def get_env_file_paths() -> tuple[Path, ...]:
+    service_root = Path(__file__).resolve().parents[2]
+    default_env = service_root / ".env"
+    paths: list[Path] = []
+    if default_env.exists():
+        paths.append(default_env)
+
+    profile_path = _resolve_profile_env_path()
+    if profile_path is not None and profile_path not in paths:
+        paths.append(profile_path)
+    return tuple(paths)
+
+
 @lru_cache
 def get_settings() -> Settings:
+    profile_path = _resolve_profile_env_path()
+    if profile_path is not None:
+        for name, value in _read_env_file(profile_path).items():
+            os.environ[name] = value
+    env_files = [str(path) for path in get_env_file_paths()]
+    if env_files:
+        return Settings(_env_file=env_files, _env_file_encoding="utf-8")
     return Settings()
 
 

@@ -415,3 +415,183 @@ sources:
     enabled: false
     schedule:
       cron: "0 11 * * *"
+
+  - id: "cssn_shadow"
+    site_name: "中国社会科学网（影子试抓）"
+    base_url: "https://www.cssn.cn"
+    entry_urls:
+      - "https://www.cssn.cn/lsx/"
+    allowed_domains: ["www.cssn.cn"]
+    article_url_patterns: ["/t\\d{8}_\\d+\\.shtml$", "/\\d{6}/t\\d{8}_\\d+\\.shtml$"]
+    required_url_patterns: ["^https?://www\\.cssn\\.cn/(?:lsx|kgx)/.+/t\\d{8}_\\d+\\.shtml(?:\\?.*)?$"]
+    exclude_url_patterns: ["/index\\.shtml$", "/node_\\d+\\.shtml$", "/zt_", "/zt/", "/video/", "/search", "/download/", "/lsx/lsx_tpxw/", "/skgz/bwyc/"]
+    exclude_title_patterns: ["招聘", "通报", "征稿", "会议通知", "论坛预告", "简讯", "书讯", "目录", "启事", "征文", "台湾", "台独", "两岸"]
+    page_type_reject_patterns:
+      - "公示"
+      - "名单"
+      - "结果公告"
+      - "启动(?:仪式|会)?"
+      - "会议(?:召开|举行|通知)"
+      - "研讨会(?:召开|举行)"
+      - "工作坊(?:召开|举行)"
+      - "论坛(?:预告|召开|举行)"
+      - "发布会"
+      - "新书发布"
+      - "分享"
+      - "图书评介"
+    priority_keywords: ["文明", "历史", "考古", "学术热点", "文化", "治理", "访谈", "河流"]
+    article_limit: 2
+    min_body_length: 220
+    auto_process_after_ingest: true
+    process_mode: "full"
+    language: "zh"
+    domain: "社科普及"
+    title_selectors: [".articleTitle", ".tit", "h1"]
+    content_selectors: [".TRS_Editor", ".article-content", ".content", ".text", ".article"]
+    date_selectors: [".info", ".time", ".source", ".date"]
+    enabled: false
+    schedule:
+      cron: "0 12 * * *"
+
+  - id: "gmw_culture_shadow"
+    site_name: "光明网文化频道（影子试抓）"
+    base_url: "https://culture.gmw.cn"
+    entry_urls:
+      - "https://culture.gmw.cn/"
+    allowed_domains: ["culture.gmw.cn"]
+    article_url_patterns: ["/\\d{4}-\\d{2}/\\d{2}/content_\\d+\\.htm$", "/content_\\d+\\.htm$"]
+    required_url_patterns: ["^https?://culture\\.gmw\\.cn/\\d{4}-\\d{2}/\\d{2}/content_\\d+\\.htm(?:\\?.*)?$"]
+    exclude_url_patterns: ["/node_\\d+\\.htm$", "/index\\.htm$", "/topics\\.", "/video/", "/photo/"]
+    exclude_title_patterns: ["招聘", "通报", "名单", "直播", "图解", "快讯", "电影市场", "总票房", "清明档"]
+    page_type_reject_patterns:
+      - "公示"
+      - "名单"
+      - "结果公告"
+      - "启动(?:仪式|会)?"
+      - "会议(?:召开|举行|通知)"
+      - "论坛(?:预告|召开|举行)"
+      - "发布会"
+      - "分享"
+      - "全部导航"
+      - "总票房"
+      - "放映场次"
+      - "片方供图"
+      - "剧照"
+    priority_keywords: ["文化", "非遗", "阅读", "国潮", "文明", "节日", "传统", "评论"]
+    article_limit: 2
+    min_body_length: 220
+    auto_process_after_ingest: true
+    process_mode: "full"
+    language: "zh"
+    domain: "文化评论"
+    title_selectors: [".u-title", ".m-title", "h1"]
+    content_selectors: [".u-mainText", ".g-main", ".m-content", ".content", ".article"]
+    date_selectors: [".m-con-time", ".u-source", ".time"]
+    enabled: false
+    schedule:
+      cron: "10 12 * * *"
+
+  - id: "cyol_edu_shadow"
+    site_name: "中国青年报教育社会（影子试抓）"
+    base_url: "https://www.cyol.com"
+    entry_urls:
+      - "https://www.cyol.com/"
+    allowed_domains: ["cyol.com"]
+    article_url_patterns: ["/gb/", "/content/", "/\\d{4}-\\d{2}/\\d{2}/", "\\.htm$"]
+    exclude_url_patterns: ["/gb/baobao/", "/gb/live/", "/video/", "/search", "/index\\.htm$", "/sports/", "/mil", "/tw"]
+    exclude_title_patterns: ["招聘", "公告", "通报", "直播", "名单", "快讯"]
+    required_title_keywords: ["教育", "家庭", "家长", "成长", "就业", "评论", "观察"]
+    page_type_reject_patterns:
+      - "公示"
+      - "名单"
+      - "结果公告"
+      - "启动(?:仪式|会|计划)?"
+      - "会议(?:召开|举行|通知)"
+      - "论坛(?:预告|召开|举行)"
+      - "发布会"
+      - "首届"
+      - "中越"
+    priority_keywords: ["家庭教育", "青年", "成长", "观察", "家长会", "就业", "评论"]
+    article_limit: 2
+    min_body_length: 220
+    auto_process_after_ingest: true
+    process_mode: "full"
+    language: "zh"
+    domain: "教育社会"
+    title_selectors: ["h1", ".title", ".article-title"]
+    content_selectors: [".content", ".article-content", ".TRS_Editor", ".text"]
+    date_selectors: [".info", ".time", ".source"]
+    enabled: false
+    schedule:
+      cron: "20 12 * * *"
+
+  - id: "kepuchina_shadow"
+    site_name: "科普中国（影子试抓）"
+    base_url: "https://www.kepuchina.cn"
+    entry_urls:
+      - "https://www.kepuchina.cn/"
+    allowed_domains: ["www.kepuchina.cn"]
+    article_url_patterns: ["/article/.+", "/science/.+"]
+    required_url_patterns: ["^https?://www\\.kepuchina\\.cn/article/articleinfo(?:\\?.*\\bar_id=\\d+.*)?$"]
+    exclude_url_patterns: ["/index\\.shtml$", "/more/", "/search", "/video/", "/special/"]
+    exclude_title_patterns: ["直播", "快讯", "征集", "活动通知"]
+    page_type_reject_patterns:
+      - "公示"
+      - "名单"
+      - "结果公告"
+      - "活动通知"
+      - "征集"
+      - "直播"
+    priority_keywords: ["科普", "科学", "健康", "生态", "实验", "中药材", "病毒", "自然"]
+    article_limit: 2
+    min_body_length: 220
+    auto_process_after_ingest: true
+    process_mode: "full"
+    language: "zh"
+    domain: "科技科普"
+    title_selectors: ["h1", ".title", ".article-title"]
+    content_selectors: [".content", ".article-content", ".TRS_Editor", ".text"]
+    date_selectors: [".info", ".time", ".source"]
+    enabled: false
+    schedule:
+      cron: "30 12 * * *"
+
+  - id: "people_feature_shadow"
+    site_name: "人民网专题子站（影子试抓）"
+    base_url: "http://www.people.com.cn"
+    entry_urls:
+      - "http://culture.people.com.cn/"
+      - "http://health.people.com.cn/"
+      - "http://scitech.people.com.cn/"
+      - "http://edu.people.com.cn/"
+    allowed_domains: ["people.com.cn"]
+    article_url_patterns: ["/n1/\\d{4}/\\d{2}/\\d{2}/c\\d+-\\d+\\.html$", "/n1/\\d{4}/\\d{4}/c\\d+-\\d+\\.html$"]
+    required_url_patterns:
+      - "^https?://(?:culture|health|scitech|edu)\\.people\\.com\\.cn/n1/\\d{4}/\\d{2}/\\d{2}/c\\d+-\\d+\\.html(?:\\?.*)?$"
+    exclude_url_patterns: ["/index\\.html$", "/GB/", "paper\\.people\\.com\\.cn"]
+    exclude_title_patterns: ["招聘", "面试通知", "通报", "名单", "公告", "通知", "图解", "直播", "快讯", "军事", "台湾", "两岸", "分享"]
+    page_type_reject_patterns:
+      - "公示"
+      - "名单"
+      - "结果公告"
+      - "启动(?:仪式|会)?"
+      - "会议(?:召开|举行|通知)"
+      - "论坛(?:预告|召开|举行)"
+      - "发布会"
+      - "分享"
+      - "全部导航"
+      - "直播"
+      - "图解"
+    priority_keywords: ["阅读", "文化", "文明", "健康", "科普", "科技", "教育", "家庭", "观察", "评论"]
+    article_limit: 2
+    min_body_length: 220
+    auto_process_after_ingest: true
+    process_mode: "full"
+    language: "zh"
+    domain: "民生文化科普"
+    title_selectors: ["h1"]
+    content_selectors: [".rm_txt_con", ".box_con", ".show_text", "#rwb_zw"]
+    date_selectors: [".box01 .fl", ".edit", ".clearfix .fl"]
+    enabled: false
+    schedule:
+      cron: "40 12 * * *"

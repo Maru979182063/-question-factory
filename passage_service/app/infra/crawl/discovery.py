@@ -9,6 +9,7 @@ def discover_article_urls(html: str, base_url: str, source_config: dict, limit: 
     soup = BeautifulSoup(html, "html.parser")
     allowed_domains = source_config.get("allowed_domains") or [urlparse(base_url).netloc]
     patterns = [re.compile(p) for p in source_config.get("article_url_patterns", [])]
+    required_url_patterns = [re.compile(p, re.IGNORECASE) for p in source_config.get("required_url_patterns", [])]
     exclude_patterns = [re.compile(p) for p in source_config.get("exclude_url_patterns", [])]
     exclude_title_patterns = [re.compile(p, re.IGNORECASE) for p in source_config.get("exclude_title_patterns", [])]
     keywords = tuple(source_config.get("priority_keywords", []))
@@ -25,6 +26,8 @@ def discover_article_urls(html: str, base_url: str, source_config: dict, limit: 
         if parsed.scheme not in {"http", "https"}:
             continue
         if not _is_allowed_domain(parsed.netloc, allowed_domains):
+            continue
+        if required_url_patterns and not any(pattern.search(url) for pattern in required_url_patterns):
             continue
         if any(pattern.search(url) for pattern in exclude_patterns):
             continue

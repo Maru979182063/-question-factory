@@ -119,6 +119,20 @@ class _SourceCrawler(ServiceBase):
         for article_url in candidates:
             try:
                 parsed = self._extract_article(source_id=source_id, source=source, article_url=article_url)
+                page_type_reject_reason = self._page_type_reject_reason(
+                    source=source,
+                    article_url=article_url,
+                    title=str(parsed.get("title") or ""),
+                    raw_text=str(parsed.get("raw_text") or ""),
+                )
+                if page_type_reject_reason:
+                    self.audit_repo.log(
+                        "crawl_article",
+                        article_url,
+                        "crawl_skip_page_type",
+                        {"source_id": source_id, "reason": page_type_reject_reason, "title": parsed.get("title")},
+                    )
+                    continue
                 raw_text = parsed.get("raw_text", "").strip()
                 if len(raw_text) < int(source.get("min_body_length", 180)):
                     self.audit_repo.log("crawl_article", article_url, "crawl_skip_short_body", {"source_id": source_id})
@@ -264,6 +278,37 @@ class _SourceCrawler(ServiceBase):
                 return parsed
         html = self.fetcher.fetch_text(article_url)
         return self.extractor.extract(html, article_url, source)
+
+    def _page_type_reject_reason(
+        self,
+        *,
+        source: dict,
+        article_url: str,
+        title: str,
+        raw_text: str,
+    ) -> str:
+        title_text = str(title or "").strip()
+        body_head = str(raw_text or "").strip()[:160]
+        combined = "\n".join([title_text, body_head])
+
+        for pattern in source.get("page_type_reject_patterns") or []:
+            try:
+                if re.search(pattern, combined, flags=re.IGNORECASE):
+                    return f"page_type_reject:{pattern}"
+            except re.error:
+                continue
+
+        for pattern in source.get("required_page_keywords") or []:
+            if pattern and pattern not in combined:
+                return f"missing_required_page_keyword:{pattern}"
+
+        for pattern in source.get("required_url_patterns") or []:
+            try:
+                if not re.search(pattern, article_url, flags=re.IGNORECASE):
+                    return f"url_not_in_shadow_whitelist:{pattern}"
+            except re.error:
+                continue
+        return ""
 
     def _extract_lifeweek_article(self, *, article_url: str, source: dict) -> dict | None:
         match = re.search(r"/article/(\d+)", article_url)

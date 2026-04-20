@@ -3613,7 +3613,27 @@ class QuestionValidatorService:
             sequence = self._extract_order_sequence(match)
             if len(sequence) >= 2:
                 sequences.append(sequence)
-        return sequences
+        for unit_count in (6, 5, 4):
+            anchored_patterns = [
+                rf"正确顺序(?:应为|为|是)[:：]?\s*([1-{unit_count}]{{{unit_count}}})(?!\d)",
+                rf"综合排序(?:应为|为|是)[:：]?\s*([1-{unit_count}]{{{unit_count}}})(?!\d)",
+                rf"最优顺序(?:应为|为|是)[:：]?\s*([1-{unit_count}]{{{unit_count}}})(?!\d)",
+                rf"排序(?:应为|为|是)[:：]?\s*([1-{unit_count}]{{{unit_count}}})(?!\d)",
+            ]
+            for pattern in anchored_patterns:
+                for candidate in re.findall(pattern, raw):
+                    sequence = [int(ch) for ch in str(candidate)]
+                    if len(sequence) == unit_count and sorted(sequence) == list(range(1, unit_count + 1)):
+                        sequences.append(sequence)
+        deduped: list[list[int]] = []
+        seen: set[tuple[int, ...]] = set()
+        for sequence in sequences:
+            key = tuple(sequence)
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(sequence)
+        return deduped
 
     def _extract_order_sequences_from_text(self, text: str) -> list[list[int]]:
         raw = str(text or "")

@@ -3,7 +3,7 @@ schema_version: business_slot.v1
 card_meta:
   business_card_id: theme_word_focus__main_idea
   display_name: 主题词-全文围绕同一话题
-  description: 适用于全文多句都围绕稳定主题词展开、正确项应包含主题词的文段。
+  description: 适用于全文对象与判断主轴都较稳定的文段；兼容层仍沿用“主题词”命名，但正确项应恢复持续主轴，而不是只复述主题词。
   mother_family_id: main_idea
   business_subtype: center_understanding
   enabled: true
@@ -11,11 +11,12 @@ card_meta:
   tags:
     - 主题词
     - 话题一致
+    - 主轴稳定
 
 feature_signature:
   relation_type: 主题词
   relation_family: 主题词
-  relation_focus: 每句话都围绕相同话题
+  relation_focus: 全文围绕同一对象与中心判断持续展开
   typical_formats: []
   explicit_markers:
     cause_markers: []
@@ -28,7 +29,7 @@ feature_signature:
   structural_features:
     conclusion_is_core: false
     conclusion_position: distributed
-    sentence_position_hint: repeated_theme_words
+    sentence_position_hint: stable_axis_recovery
     needs_multi_relation_analysis: false
   distractor_features:
     strong_modes:
@@ -36,6 +37,8 @@ feature_signature:
       - overgeneralization
       - undergeneralization
     non_key_content_sources:
+      - 局部材料替代主轴
+      - 单一例子替代全文判断
       - 主题词偷换
       - 范围扩大或缩小
   extraction_hints:
@@ -52,6 +55,7 @@ schema_alignment:
   canonical_card_type: main_idea
   applicability_notes:
     - 主题词只能做粗定位，不能单独解释主旨唯一性
+    - 真正判定应看对象与判断主轴是否稳定，而不是词面重复是否足够多
     - 仅保留为弱适用 legacy 卡，不再推荐作为主卡思路
   structure_schema:
     argument_structure:
@@ -77,20 +81,21 @@ retrieval_profile:
     preferred_document_genres:
       - 科普文
       - 评论文
-      - 宣传文
-      - 政策文
+      - 说明文
+      - 政策评论文
     preferred_material_structures:
       - 总分
       - 观点-论证
-      - 并列展开
+      - 现象-分析
+      - 背景-判断
     preferred_conclusion_position:
       - distributed
     preferred_markers: []
   ranking_weights:
-    relation_match: 0.20
-    marker_match: 0.05
-    structural_match: 0.20
-    semantic_completeness: 0.20
+    relation_match: 0.15
+    marker_match: 0.02
+    structural_match: 0.23
+    semantic_completeness: 0.25
     readability: 0.10
   fallback_policy:
     allow_marker_loosen: true
@@ -104,18 +109,18 @@ slot_projection:
     - single_claim_capture
     - whole_passage_integration
   type_slots:
-    structure_type: explicit_single_center
+    structure_type: progressive
     main_point_source: whole_passage
     abstraction_level: medium
     coverage_requirement: integrated
-    target_form: article_task
+    target_form: central_meaning
     distractor_modes:
       - topic_shift
       - overgeneralization
       - undergeneralization
     distractor_strength: high
     statement_visibility: low
-    argument_structure: parallel
+    argument_structure: phenomenon_analysis
     main_axis_source: global_abstraction
     distractor_types: [subject_shift, scope_too_wide, scope_too_narrow]
     uniqueness_source: [axis_coverage, abstraction_match]

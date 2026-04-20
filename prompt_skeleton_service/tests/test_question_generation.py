@@ -68,7 +68,13 @@ class QuestionGenerationUnitTest(TestCase):
             )
         )
         self.service.orchestrator.registry.list_enabled_patterns.side_effect = lambda question_type: {
-            "sentence_order": ["dual_anchor_lock", "carry_parallel_expand", "viewpoint_reason_action", "problem_solution_case_blocks"],
+            "sentence_order": [
+                "dual_anchor_lock",
+                "first_sentence_background_intro",
+                "carry_parallel_expand",
+                "viewpoint_reason_action",
+                "problem_solution_case_blocks",
+            ],
             "sentence_fill": [
                 "inserted_reference_match",
                 "opening_summary",
@@ -754,6 +760,122 @@ class QuestionGenerationUnitTest(TestCase):
         self.assertIn("source_strict", rules)
         self.assertNotIn("meaning_preserving", rules)
 
+    def test_build_generation_prompt_sections_includes_leaf_analysis_contract(self) -> None:
+        self.service.prompt_assets = {
+            "section_labels": {
+                "selected_material": "[Selected Material]",
+                "original_material_evidence": "[Original Material Evidence]",
+                "material_meta": "[Material Meta]",
+                "material_readability_contract": "[Material Readability Contract]",
+                "material_prompt_extras": "[Material Prompt Extras]",
+                "answer_grounding_contract": "[Answer Grounding Contract]",
+                "material_answer_anchor": "[Material Answer Anchor]",
+                "repair_requirements": "[Repair Requirements]",
+                "reference_question_template": "[Reference Question Template]",
+                "reference_question_analysis": "[Reference Question Analysis]",
+                "leaf_analysis_contract": "[Leaf Analysis Contract]",
+            },
+            "material_readability_contract": ["readability"],
+            "reference_guidance": [],
+            "final_generation_instruction": "final_instruction",
+            "answer_grounding": {
+                "base": {},
+                "main_idea": {},
+            },
+            "analysis_contract": {
+                "base": ["formal_style", "final_answer_line"],
+                "families": {
+                    "main_idea": ["center_family_contract"],
+                },
+                "leafs": {
+                    "cu_relation_turning": ["turning_contract"],
+                },
+            },
+        }
+        self.service._resolve_section_question_card_binding = Mock(
+            return_value={
+                "runtime_binding": {"question_type": "main_idea", "business_subtype": "center_understanding"},
+                "question_card": {"business_subtype_id": "center_understanding", "answer_grounding": {}},
+            }
+        )
+
+        sections = self.service._build_generation_prompt_sections(
+            built_item={
+                "question_type": "main_idea",
+                "business_subtype": "center_understanding",
+                "request_snapshot": {},
+            },
+            material=types.SimpleNamespace(
+                text="material text",
+                original_text="material text",
+                material_id="mat-1",
+                article_id="art-1",
+                selection_reason="selected",
+                source={"shadow_contract": {"selected_leaf_id": "cu_relation_turning"}},
+            ),
+            prompt_package={"user_prompt": "generate"},
+            feedback_notes=[],
+        )
+
+        self.assertIn("[Leaf Analysis Contract]", sections)
+        self.assertIn("formal_style", sections)
+        self.assertIn("center_family_contract", sections)
+        self.assertIn("turning_contract", sections)
+
+    def test_finalize_generated_analysis_strips_oral_opener_and_appends_final_answer(self) -> None:
+        question = GeneratedQuestion(
+            question_type="sentence_fill",
+            stem="填入画横线部分最恰当的一项是（ ）。",
+            options={"A": "甲", "B": "乙", "C": "丙", "D": "丁"},
+            answer="B",
+            analysis="我们来看一下，空位在结尾，B项最符合前后文，因此答案为B。",
+            metadata={},
+        )
+
+        finalized = self.service._finalize_generated_analysis(question)
+
+        self.assertFalse(finalized.analysis.startswith("我们来看"))
+        self.assertTrue(finalized.analysis.endswith("故正确答案为B。"))
+
+    def test_build_sentence_order_analysis_uses_leaf_specific_chain_for_viewpoint_reason_action(self) -> None:
+        analysis = self.service._build_sentence_order_analysis(
+            [1, 2, 3, 4],
+            [
+                "首先提出核心观点。",
+                "接着说明背后的原因。",
+                "随后补充现实条件。",
+                "最后提出行动要求。",
+            ],
+            {"A": "1234", "B": "1324", "C": "2134", "D": "1243"},
+            "A",
+            shadow_leaf_id="viewpoint_reason_action",
+        )
+
+        self.assertIn("观察选项", analysis)
+        self.assertIn("观点", analysis)
+        self.assertIn("理由", analysis)
+        self.assertTrue("行动" in analysis or "落点" in analysis)
+        self.assertNotIn("先看首句", analysis)
+        self.assertNotIn("再看尾句", analysis)
+
+    def test_build_sentence_order_analysis_uses_exam_style_for_first_sentence_gate(self) -> None:
+        analysis = self.service._build_sentence_order_analysis(
+            [2, 1, 3, 4],
+            [
+                "进一步说明背景。",
+                "长期以来，相关讨论多停留在表层。",
+                "接着引出核心分歧。",
+                "最后落到现实判断。",
+            ],
+            {"A": "1234", "B": "2134", "C": "2314", "D": "2143"},
+            "B",
+            shadow_leaf_id="first_sentence_gate",
+        )
+
+        self.assertIn("观察选项", analysis)
+        self.assertIn("首句", analysis)
+        self.assertNotIn("综合来看，只有", analysis)
+
     def test_effective_difficulty_target_does_not_raise_for_reference_question(self) -> None:
         self.assertEqual(
             self.service._effective_difficulty_target("easy", use_reference_question=True),
@@ -776,8 +898,8 @@ class QuestionGenerationUnitTest(TestCase):
         material = MaterialSelectionResult(
             material_id="m-1",
             article_id="a-1",
-            text="第一句交代背景。第二句承接说明。第三句收束观点。",
-            original_text="第一句交代背景。第二句承接说明。第三句收束观点。",
+            text="第一句交代背景。第二句承接说明。第三句补充论据。第四句收束观点。",
+            original_text="第一句交代背景。第二句承接说明。第三句补充论据。第四句收束观点。",
             source={"source_name": "src", "source_id": "src", "article_title": "title"},
             document_genre="news",
             selection_reason="test",
@@ -794,7 +916,7 @@ class QuestionGenerationUnitTest(TestCase):
 
         self.assertIn("____", prepared.text)
         self.assertEqual(prepared.text.count("____"), 1)
-        self.assertIn("第三句收束观点。", prepared.original_text or "")
+        self.assertIn("第四句收束观点。", prepared.original_text or "")
         prompt_extras = (prepared.source or {}).get("prompt_extras") or {}
         self.assertEqual(prompt_extras.get("blank_position"), "ending")
         self.assertEqual(prompt_extras.get("preferred_answer_shape"), "closing_summary")
@@ -804,8 +926,8 @@ class QuestionGenerationUnitTest(TestCase):
         material = MaterialSelectionResult(
             material_id="m-2",
             article_id="a-2",
-            text="“活到老学到老”是他的座右铭。第二句介绍人物经历。第三句展开事迹。",
-            original_text="“活到老学到老”是他的座右铭。第二句介绍人物经历。第三句展开事迹。",
+            text="“活到老学到老”是他的座右铭。第二句介绍人物经历。第三句展开事迹。第四句点明人物精神。",
+            original_text="“活到老学到老”是他的座右铭。第二句介绍人物经历。第三句展开事迹。第四句点明人物精神。",
             source={"source_name": "src", "source_id": "src", "article_title": "title"},
             document_genre="feature",
             selection_reason="test",
@@ -918,6 +1040,205 @@ class QuestionGenerationUnitTest(TestCase):
         self.assertEqual(prompt_extras.get("sortable_unit_count"), 6)
         self.assertEqual(len(prompt_extras.get("sortable_units") or []), 6)
         self.assertIn("sentence_order", prepared.validator_contract or {})
+
+    def test_prepare_question_service_material_applies_shadow_leaf_pattern_hint_for_sentence_order(self) -> None:
+        material = MaterialSelectionResult(
+            material_id="m-shadow-order",
+            article_id="a-shadow-order",
+            text=(
+                "短标题\n\n一年会发生什么？\n\n第一段先交代背景。第二段继续说明。"
+                "\n\n第三段转入主轴判断。第四段补充推进理由。第五段说明现实表现。"
+                "\n\n第六段收出阶段结论。"
+            ),
+            original_text=(
+                "短标题\n\n一年会发生什么？\n\n第一段先交代背景。第二段继续说明。"
+                "\n\n第三段转入主轴判断。第四段补充推进理由。第五段说明现实表现。"
+                "\n\n第六段收出阶段结论。"
+            ),
+            source={
+                "source_name": "src",
+                "source_id": "src",
+                "article_title": "title",
+                "shadow_contract": {"selected_leaf_id": "first_sentence_gate"},
+            },
+            document_genre="analysis",
+            selection_reason="test",
+        )
+        request_snapshot = {"question_type": "sentence_order", "type_slots": {}, "source_question_analysis": {}}
+
+        prepared = self.service._prepare_question_service_material(
+            material=material,
+            question_type="sentence_order",
+            request_snapshot=request_snapshot,
+        )
+
+        self.assertEqual(request_snapshot["pattern_id"], "first_sentence_background_intro")
+        prompt_extras = (prepared.source or {}).get("prompt_extras") or {}
+        sortable_units = prompt_extras.get("sortable_units") or []
+        self.assertEqual(len(sortable_units), 6)
+        sentence_counts = [len([part for part in self.service._split_sentence_order_sentences(unit) if part]) for unit in sortable_units]
+        self.assertTrue(all(count in {1, 2} for count in sentence_counts))
+        self.assertEqual(prompt_extras.get("head_anchor_text"), sortable_units[0])
+
+    def test_prepare_question_service_material_supports_shadow_carry_parallel_expand_leaf(self) -> None:
+        material = MaterialSelectionResult(
+            material_id="m-shadow-order-carry",
+            article_id="a-shadow-order-carry",
+            text=(
+                "技术出海何以可能？\n\n"
+                "这不是偶然的市场回响，而是长期积累后的集中显现。"
+                "第一，靠自主创新把关键能力握在手里。第二，靠上下游协同把整车、平台和服务串成体系。"
+                "第三，靠开放合作把本土经验转化为共享能力。"
+                "因此，技术出海的背后，是创新、协同与开放共同托举起来的整体跃升。"
+            ),
+            original_text=(
+                "技术出海何以可能？\n\n"
+                "这不是偶然的市场回响，而是长期积累后的集中显现。"
+                "第一，靠自主创新把关键能力握在手里。第二，靠上下游协同把整车、平台和服务串成体系。"
+                "第三，靠开放合作把本土经验转化为共享能力。"
+                "因此，技术出海的背后，是创新、协同与开放共同托举起来的整体跃升。"
+            ),
+            source={
+                "source_name": "src",
+                "source_id": "src",
+                "article_title": "title",
+                "shadow_contract": {"selected_leaf_id": "carry_parallel_expand"},
+            },
+            document_genre="analysis",
+            selection_reason="test",
+        )
+        request_snapshot = {"question_type": "sentence_order", "type_slots": {}, "source_question_analysis": {}}
+
+        prepared = self.service._prepare_question_service_material(
+            material=material,
+            question_type="sentence_order",
+            request_snapshot=request_snapshot,
+        )
+
+        self.assertEqual(request_snapshot["pattern_id"], "carry_parallel_expand")
+        prompt_extras = (prepared.source or {}).get("prompt_extras") or {}
+        sortable_units = prompt_extras.get("sortable_units") or []
+        self.assertEqual(len(sortable_units), 6)
+        sentence_counts = [len([part for part in self.service._split_sentence_order_sentences(unit) if part]) for unit in sortable_units]
+        self.assertTrue(all(count in {1, 2} for count in sentence_counts))
+        self.assertEqual(prompt_extras.get("tail_anchor_text"), sortable_units[-1])
+
+    def test_prepare_question_service_material_supports_shadow_viewpoint_reason_action_leaf(self) -> None:
+        material = MaterialSelectionResult(
+            material_id="m-shadow-order-viewpoint",
+            article_id="a-shadow-order-viewpoint",
+            text=(
+                "慢功夫不能少。\n\n"
+                "很多事情看似起飞很快，其实都离不开长时间的打磨。"
+                "如果方向不清、路径不稳，再多投入也难以形成持续势能。"
+                "正因为如此，既要看清要解决什么问题，也要看清为什么值得长期坚持。"
+                "最终，还是要把稳扎稳打、久久为功落到行动上。"
+            ),
+            original_text=(
+                "慢功夫不能少。\n\n"
+                "很多事情看似起飞很快，其实都离不开长时间的打磨。"
+                "如果方向不清、路径不稳，再多投入也难以形成持续势能。"
+                "正因为如此，既要看清要解决什么问题，也要看清为什么值得长期坚持。"
+                "最终，还是要把稳扎稳打、久久为功落到行动上。"
+            ),
+            source={
+                "source_name": "src",
+                "source_id": "src",
+                "article_title": "title",
+                "shadow_contract": {"selected_leaf_id": "viewpoint_reason_action"},
+            },
+            document_genre="analysis",
+            selection_reason="test",
+        )
+        request_snapshot = {"question_type": "sentence_order", "type_slots": {}, "source_question_analysis": {}}
+
+        prepared = self.service._prepare_question_service_material(
+            material=material,
+            question_type="sentence_order",
+            request_snapshot=request_snapshot,
+        )
+
+        self.assertEqual(request_snapshot["pattern_id"], "viewpoint_reason_action")
+        prompt_extras = (prepared.source or {}).get("prompt_extras") or {}
+        sortable_units = prompt_extras.get("sortable_units") or []
+        self.assertIn(len(sortable_units), {5, 6})
+        sentence_counts = [len([part for part in self.service._split_sentence_order_sentences(unit) if part]) for unit in sortable_units]
+        self.assertTrue(all(count in {1, 2} for count in sentence_counts))
+        self.assertEqual(prompt_extras.get("head_anchor_text"), sortable_units[0])
+        self.assertEqual(prompt_extras.get("tail_anchor_text"), sortable_units[-1])
+
+    def test_prepare_question_service_material_applies_shadow_leaf_pattern_hint_for_main_idea(self) -> None:
+        material = MaterialSelectionResult(
+            material_id="m-shadow-center",
+            article_id="a-shadow-center",
+            text="先说现象。再说问题。最后落到真正需要警惕的风险。",
+            original_text="先说现象。再说问题。最后落到真正需要警惕的风险。",
+            source={
+                "source_name": "src",
+                "source_id": "src",
+                "article_title": "title",
+                "shadow_contract": {"selected_leaf_id": "cu_relation_turning"},
+            },
+            document_genre="analysis",
+            selection_reason="test",
+        )
+        request_snapshot = {
+            "question_type": "main_idea",
+            "type_slots": {"structure_type": "explicit_single_center", "main_axis_source": "final_summary"},
+            "source_question_analysis": {},
+        }
+
+        self.service._prepare_question_service_material(
+            material=material,
+            question_type="main_idea",
+            request_snapshot=request_snapshot,
+        )
+
+        self.assertEqual(request_snapshot["pattern_id"], "conclusion_sentence_refinement")
+        self.assertEqual(request_snapshot["type_slots"]["structure_type"], "turning")
+        self.assertEqual(request_snapshot["type_slots"]["main_axis_source"], "transition_after")
+
+    def test_prepare_question_service_material_applies_shadow_leaf_pattern_hint_for_sentence_fill(self) -> None:
+        material = MaterialSelectionResult(
+            material_id="m-shadow-fill",
+            article_id="a-shadow-fill",
+            text=(
+                "面对直播带货中的夸大宣传，消费者往往先被低价吸引，随后才发现服务和承诺并不匹配。"
+                "一些平台虽然设置了提示和举报入口，但对高频违规话术、重复换壳账号的识别仍然不够及时。"
+                "如果只在问题爆发后再补救，维权成本就会层层转移到普通消费者身上。"
+                "为此，平台、商家和监管部门都要把规则执行和责任追溯真正落到实处。"
+            ),
+            original_text=(
+                "面对直播带货中的夸大宣传，消费者往往先被低价吸引，随后才发现服务和承诺并不匹配。"
+                "一些平台虽然设置了提示和举报入口，但对高频违规话术、重复换壳账号的识别仍然不够及时。"
+                "如果只在问题爆发后再补救，维权成本就会层层转移到普通消费者身上。"
+                "为此，平台、商家和监管部门都要把规则执行和责任追溯真正落到实处。"
+            ),
+            source={
+                "source_name": "src",
+                "source_id": "src",
+                "article_title": "title",
+                "shadow_contract": {"selected_leaf_id": "ending_countermeasure"},
+            },
+            document_genre="analysis",
+            selection_reason="test",
+        )
+        request_snapshot = {
+            "question_type": "sentence_fill",
+            "type_slots": {"blank_position": "middle", "function_type": "bridge", "logic_relation": "continuation"},
+            "source_question_analysis": {},
+        }
+
+        self.service._prepare_question_service_material(
+            material=material,
+            question_type="sentence_fill",
+            request_snapshot=request_snapshot,
+        )
+
+        self.assertEqual(request_snapshot["pattern_id"], "ending_summary")
+        self.assertEqual(request_snapshot["type_slots"]["blank_position"], "ending")
+        self.assertEqual(request_snapshot["type_slots"]["function_type"], "countermeasure")
+        self.assertEqual(request_snapshot["type_slots"]["logic_relation"], "action")
 
     def test_prepare_question_service_material_can_polish_sentence_order_presentation(self) -> None:
         self.service.llm_gateway.generate_json.return_value = {

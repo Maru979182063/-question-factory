@@ -58,6 +58,14 @@ from app.services.text_readability import (
 
 logger = logging.getLogger(__name__)
 
+_ANALYSIS_ORAL_OPENER_PATTERNS = (
+    r"^\s*我们(?:先)?来看(?:一下)?(?:这道题|本题)?[，,:：]?\s*",
+    r"^\s*先来看(?:一下)?(?:这道题|本题)?[，,:：]?\s*",
+    r"^\s*下面来看(?:一下)?(?:这道题|本题)?[，,:：]?\s*",
+    r"^\s*接下来来看(?:一下)?(?:这道题|本题)?[，,:：]?\s*",
+    r"^\s*我们先看(?:这道题|本题)?[，,:：]?\s*",
+)
+
 _SENTENCE_ORDER_CANONICAL_CANDIDATE_TYPE = "sentence_block_group"
 _SENTENCE_ORDER_CANDIDATE_TYPE_ALIASES = {
     "sentence_block_group": "sentence_block_group",
@@ -233,6 +241,242 @@ class QuestionGenerationService:
                 "middle_structure_type": "cause_effect_chain",
                 "closing_anchor_type": "summary",
             },
+        },
+    }
+    SHADOW_SENTENCE_ORDER_PATTERN_BY_LEAF = {
+        "first_sentence_gate": "first_sentence_background_intro",
+        "sequence_first_sentence_gate": "first_sentence_background_intro",
+        "dual_anchor_lock": "dual_anchor_lock",
+        "sequence_dual_anchor_lock": "dual_anchor_lock",
+        "carry_parallel_expand": "carry_parallel_expand",
+        "timeline_progression": "carry_parallel_expand",
+        "viewpoint_reason_action": "viewpoint_reason_action",
+        "problem_solution_case_blocks": "problem_solution_case_blocks",
+        "tail_sentence_gate": "dual_anchor_lock",
+    }
+    SHADOW_MAIN_IDEA_PATTERN_BY_LEAF = {
+        "cu_relation_turning": "conclusion_sentence_refinement",
+        "cu_relation_parallel": "whole_passage_integration",
+        "cu_relation_countermeasure": "conclusion_sentence_refinement",
+        "cu_relation_plain": "single_claim_capture",
+        "cu_relation_variant": "whole_passage_integration",
+        "cu_subsentence_data": "whole_passage_integration",
+        "cu_subsentence_example": "hidden_thesis_abstraction",
+        "cu_subsentence_prelude": "hidden_thesis_abstraction",
+        "cu_subsentence_multi_angle": "whole_passage_integration",
+        "cu_subsentence_other": "hidden_thesis_abstraction",
+    }
+    SHADOW_MAIN_IDEA_SLOT_HINTS_BY_LEAF = {
+        "cu_relation_turning": {
+            "structure_type": "turning",
+            "main_point_source": "tail_sentence",
+            "abstraction_level": "medium",
+            "coverage_requirement": "integrated",
+            "argument_structure": "phenomenon_analysis",
+            "main_axis_source": "transition_after",
+        },
+        "cu_relation_parallel": {
+            "structure_type": "contrast",
+            "main_point_source": "whole_passage",
+            "abstraction_level": "medium",
+            "coverage_requirement": "integrated",
+            "argument_structure": "parallel",
+            "main_axis_source": "global_abstraction",
+        },
+        "cu_relation_countermeasure": {
+            "structure_type": "progressive",
+            "main_point_source": "tail_sentence",
+            "abstraction_level": "medium",
+            "coverage_requirement": "integrated",
+            "argument_structure": "problem_solution",
+            "main_axis_source": "solution_conclusion",
+        },
+        "cu_relation_plain": {
+            "structure_type": "explicit_single_center",
+            "main_point_source": "conclusion_sentence",
+            "abstraction_level": "low",
+            "coverage_requirement": "close_rephrase",
+            "argument_structure": "total_sub",
+            "main_axis_source": "final_summary",
+            "statement_visibility": "high",
+        },
+        "cu_relation_variant": {
+            "structure_type": "progressive",
+            "main_point_source": "whole_passage",
+            "abstraction_level": "medium",
+            "coverage_requirement": "integrated",
+            "argument_structure": "phenomenon_analysis",
+            "main_axis_source": "transition_after",
+        },
+        "cu_subsentence_data": {
+            "structure_type": "progressive",
+            "main_point_source": "whole_passage",
+            "abstraction_level": "medium",
+            "coverage_requirement": "integrated",
+            "argument_structure": "example_conclusion",
+            "main_axis_source": "global_abstraction",
+        },
+        "cu_subsentence_example": {
+            "structure_type": "multi_paragraph_hidden",
+            "main_point_source": "whole_passage",
+            "abstraction_level": "high",
+            "coverage_requirement": "abstract_generalization",
+            "argument_structure": "example_conclusion",
+            "main_axis_source": "example_elevation",
+            "statement_visibility": "low",
+        },
+        "cu_subsentence_prelude": {
+            "structure_type": "multi_paragraph_hidden",
+            "main_point_source": "whole_passage",
+            "abstraction_level": "high",
+            "coverage_requirement": "abstract_generalization",
+            "argument_structure": "sub_total",
+            "main_axis_source": "global_abstraction",
+            "statement_visibility": "low",
+        },
+        "cu_subsentence_multi_angle": {
+            "structure_type": "contrast",
+            "main_point_source": "whole_passage",
+            "abstraction_level": "medium",
+            "coverage_requirement": "integrated",
+            "argument_structure": "parallel",
+            "main_axis_source": "global_abstraction",
+        },
+        "cu_subsentence_other": {
+            "structure_type": "multi_paragraph_hidden",
+            "main_point_source": "whole_passage",
+            "abstraction_level": "high",
+            "coverage_requirement": "abstract_generalization",
+            "argument_structure": "phenomenon_analysis",
+            "main_axis_source": "global_abstraction",
+            "statement_visibility": "low",
+        },
+    }
+    SHADOW_SENTENCE_FILL_PATTERN_BY_LEAF = {
+        "opening_summary": "opening_summary",
+        "opening_topic_intro": "opening_summary",
+        "opening_clause_lead": "opening_summary",
+        "bridge_transition": "bridge_transition",
+        "middle_focus_shift": "middle_focus_shift",
+        "middle_explanation": "middle_explanation",
+        "ending_clause_summary": "ending_summary",
+        "ending_summary": "ending_summary",
+        "ending_countermeasure": "ending_summary",
+    }
+    SHADOW_SENTENCE_FILL_SLOT_HINTS_BY_LEAF = {
+        "opening_summary": {
+            "blank_position": "opening",
+            "function_type": "summary",
+            "logic_relation": "summary",
+            "abstraction_level": "high",
+        },
+        "opening_topic_intro": {
+            "blank_position": "opening",
+            "function_type": "topic_intro",
+            "logic_relation": "transition",
+            "abstraction_level": "medium",
+        },
+        "opening_clause_lead": {
+            "blank_position": "opening",
+            "function_type": "topic_intro",
+            "logic_relation": "transition",
+            "abstraction_level": "low",
+        },
+        "bridge_transition": {
+            "blank_position": "middle",
+            "function_type": "bridge",
+            "logic_relation": "continuation",
+        },
+        "middle_focus_shift": {
+            "blank_position": "middle",
+            "function_type": "lead_next",
+            "logic_relation": "focus_shift",
+            "context_dependency": "high",
+        },
+        "middle_explanation": {
+            "blank_position": "middle",
+            "function_type": "carry_previous",
+            "logic_relation": "explanation",
+            "context_dependency": "medium",
+        },
+        "ending_clause_summary": {
+            "blank_position": "ending",
+            "function_type": "conclusion",
+            "logic_relation": "summary",
+            "abstraction_level": "low",
+        },
+        "ending_summary": {
+            "blank_position": "ending",
+            "function_type": "conclusion",
+            "logic_relation": "summary",
+            "abstraction_level": "high",
+        },
+        "ending_countermeasure": {
+            "blank_position": "ending",
+            "function_type": "countermeasure",
+            "logic_relation": "action",
+            "abstraction_level": "medium",
+        },
+    }
+    SHADOW_SENTENCE_ORDER_SLOT_HINTS_BY_LEAF = {
+        "first_sentence_gate": {
+            "opening_anchor_type": "background_intro",
+            "opening_signal_strength": "high",
+            "middle_structure_type": "mixed_layers",
+            "closing_signal_strength": "low",
+            "block_order_complexity": "high",
+        },
+        "sequence_first_sentence_gate": {
+            "opening_anchor_type": "background_intro",
+            "opening_signal_strength": "high",
+            "middle_structure_type": "mixed_layers",
+            "closing_signal_strength": "low",
+            "block_order_complexity": "high",
+        },
+        "dual_anchor_lock": {
+            "opening_anchor_type": "explicit_topic",
+            "opening_signal_strength": "high",
+            "middle_structure_type": "local_binding",
+            "closing_anchor_type": "conclusion",
+            "closing_signal_strength": "high",
+        },
+        "sequence_dual_anchor_lock": {
+            "opening_anchor_type": "explicit_topic",
+            "opening_signal_strength": "high",
+            "middle_structure_type": "local_binding",
+            "closing_anchor_type": "conclusion",
+            "closing_signal_strength": "high",
+        },
+        "carry_parallel_expand": {
+            "opening_anchor_type": "upper_context_link",
+            "middle_structure_type": "parallel_expansion",
+            "closing_anchor_type": "summary",
+            "block_order_complexity": "high",
+        },
+        "timeline_progression": {
+            "opening_anchor_type": "upper_context_link",
+            "middle_structure_type": "parallel_expansion",
+            "closing_anchor_type": "summary",
+            "block_order_complexity": "high",
+        },
+        "viewpoint_reason_action": {
+            "opening_anchor_type": "viewpoint_opening",
+            "middle_structure_type": "cause_effect_chain",
+            "closing_anchor_type": "call_to_action",
+            "block_order_complexity": "medium",
+        },
+        "problem_solution_case_blocks": {
+            "opening_anchor_type": "problem_opening",
+            "middle_structure_type": "problem_solution_blocks",
+            "closing_anchor_type": "case_support",
+            "block_order_complexity": "high",
+        },
+        "tail_sentence_gate": {
+            "opening_anchor_type": "explicit_topic",
+            "opening_signal_strength": "medium",
+            "middle_structure_type": "local_binding",
+            "closing_anchor_type": "conclusion",
+            "closing_signal_strength": "high",
         },
     }
     def __init__(
@@ -608,6 +852,8 @@ class QuestionGenerationService:
             target_length=source_question_analysis.get("target_length"),
             length_tolerance=source_question_analysis.get("length_tolerance", 120),
             structure_constraints=bridge_hints["structure_constraints"],
+            shadow_child_family_ids=request.shadow_child_family_ids,
+            shadow_selected_leaf_ids=request.shadow_selected_leaf_ids,
             enable_anchor_adaptation=bool(source_question_analysis),
             preference_profile=request_snapshot.get("preference_profile"),
             usage_stats_lookup=self.repository.get_material_usage_stats,
@@ -1147,9 +1393,15 @@ class QuestionGenerationService:
                 material=material,
             )
         if built_item["question_type"] == "sentence_order":
-            generated_question = self.build_sentence_order_question(generated_question, material_text=material.text)
+            generated_question = self.build_sentence_order_question(
+                generated_question,
+                material_text=material.text,
+                material_source=material.source,
+            )
             generated_question = self._enforce_sentence_order_six_unit_output(generated_question)
-        return self._remap_answer_position(generated_question), response
+        generated_question = self._remap_answer_position(generated_question)
+        generated_question = self._finalize_generated_analysis(generated_question)
+        return generated_question, response
 
     @staticmethod
     def _can_fallback_sentence_order_from_gateway_error(exc: DomainError) -> bool:
@@ -1189,6 +1441,7 @@ class QuestionGenerationService:
         fallback_question = self.build_sentence_order_question(
             fallback_question,
             material_text=material.text,
+            material_source=material.source,
         )
         fallback_question = self._enforce_sentence_order_six_unit_output(fallback_question)
         return self._remap_answer_position(fallback_question)
@@ -1899,7 +2152,11 @@ class QuestionGenerationService:
             metadata=metadata,
         )
         if item["question_type"] == "sentence_order":
-            revised_question = self.build_sentence_order_question(revised_question, material_text=material.text)
+            revised_question = self.build_sentence_order_question(
+                revised_question,
+                material_text=material.text,
+                material_source=material.source,
+            )
             revised_question = self._enforce_sentence_order_six_unit_output(revised_question)
         item["generated_question"] = self._remap_answer_position(revised_question).model_dump()
         validation_result = self.validator.validate(
@@ -2139,7 +2396,11 @@ class QuestionGenerationService:
             }
         )
         if item.get("question_type") == "sentence_order":
-            edited_question = self.build_sentence_order_question(edited_question, material_text=edited_material.text)
+            edited_question = self.build_sentence_order_question(
+                edited_question,
+                material_text=edited_material.text,
+                material_source=edited_material.source,
+            )
             edited_question = self._enforce_sentence_order_six_unit_output(edited_question)
 
         revised_item = deepcopy(item)
@@ -3024,8 +3285,14 @@ class QuestionGenerationService:
     ) -> dict:
         material = self._annotate_material_usage(material)
         if standard_request["question_type"] == "sentence_order":
-            adapted_material = self._coerce_sentence_order_material(
+            self._apply_shadow_request_hints(
                 material=material,
+                request_snapshot=request_snapshot,
+                question_type="sentence_order",
+            )
+            adapted_material = self._coerce_sentence_order_material_with_shadow_support(
+                material=material,
+                request_snapshot=request_snapshot,
                 source_question_analysis=source_question_analysis,
             )
             if adapted_material is None:
@@ -3122,6 +3389,37 @@ class QuestionGenerationService:
                 "rank_score": self._accepted_attempt_rank_score(built_item),
             },
         }
+
+    def _coerce_sentence_order_material_with_shadow_support(
+        self,
+        *,
+        material: MaterialSelectionResult,
+        request_snapshot: dict[str, Any],
+        source_question_analysis: dict[str, Any] | None,
+    ) -> MaterialSelectionResult | None:
+        raw_text = self._clean_material_text(material.text or material.original_text or "")
+        if not raw_text:
+            return None
+        shadow_leaf_id = self._extract_shadow_selected_leaf_id(material.source or {})
+        target_unit_count = self._sentence_order_target_unit_count(source_question_analysis) or 6
+        shadow_units = self._derive_shadow_sentence_order_units(
+            raw_text=raw_text,
+            leaf_id=shadow_leaf_id,
+            target_count=target_unit_count,
+        )
+        if shadow_units:
+            return material.model_copy(
+                update={
+                    "text": self._format_sortable_units(shadow_units),
+                    "original_text": material.original_text or raw_text,
+                    "text_refined": True,
+                    "refinement_reason": f"shadow_sentence_order_units::{shadow_leaf_id or 'unknown'}",
+                }
+            )
+        return self._coerce_sentence_order_material(
+            material=material.model_copy(update={"text": raw_text, "original_text": material.original_text or raw_text}),
+            source_question_analysis=source_question_analysis,
+        )
 
     def _run_primary_candidate_with_retries(
         self,
@@ -3226,6 +3524,8 @@ class QuestionGenerationService:
             "extra_constraints": merged_extra_constraints,
             "preference_profile": normalized_preference_profile,
             "material_policy": request.material_policy.model_dump() if request.material_policy else None,
+            "shadow_child_family_ids": list(request.shadow_child_family_ids or []),
+            "shadow_selected_leaf_ids": list(request.shadow_selected_leaf_ids or []),
             "source_question": source_question_payload,
             "user_material": user_material_payload,
             "source_question_analysis": normalized_source_question_analysis,
@@ -3260,18 +3560,96 @@ class QuestionGenerationService:
         )
 
         if question_type == "sentence_fill":
+            self._apply_shadow_request_hints(
+                material=base_material,
+                request_snapshot=request_snapshot,
+                question_type=question_type,
+            )
             return self._derive_sentence_fill_ready_material(
                 material=base_material,
                 request_snapshot=request_snapshot,
             )
 
         if question_type == "sentence_order":
+            self._apply_shadow_request_hints(
+                material=base_material,
+                request_snapshot=request_snapshot,
+                question_type=question_type,
+            )
             return self._derive_sentence_order_ready_material(
                 material=base_material,
                 request_snapshot=request_snapshot,
             )
 
+        if question_type == "main_idea":
+            self._apply_shadow_request_hints(
+                material=base_material,
+                request_snapshot=request_snapshot,
+                question_type=question_type,
+            )
+
         return base_material
+
+    def _apply_shadow_request_hints(
+        self,
+        *,
+        material: MaterialSelectionResult,
+        request_snapshot: dict[str, Any],
+        question_type: str,
+    ) -> None:
+        shadow_leaf_id = self._extract_shadow_selected_leaf_id(material.source or {})
+        if not shadow_leaf_id:
+            return
+        if str(request_snapshot.get("question_type") or "").strip() != question_type:
+            return
+        pattern_map: dict[str, str]
+        slot_hints_by_leaf: dict[str, dict[str, Any]]
+        if question_type == "sentence_order":
+            pattern_map = self.SHADOW_SENTENCE_ORDER_PATTERN_BY_LEAF
+            slot_hints_by_leaf = self.SHADOW_SENTENCE_ORDER_SLOT_HINTS_BY_LEAF
+        elif question_type == "sentence_fill":
+            pattern_map = self.SHADOW_SENTENCE_FILL_PATTERN_BY_LEAF
+            slot_hints_by_leaf = self.SHADOW_SENTENCE_FILL_SLOT_HINTS_BY_LEAF
+        elif question_type == "main_idea":
+            pattern_map = self.SHADOW_MAIN_IDEA_PATTERN_BY_LEAF
+            slot_hints_by_leaf = self.SHADOW_MAIN_IDEA_SLOT_HINTS_BY_LEAF
+        else:
+            return
+        if not str(request_snapshot.get("pattern_id") or "").strip():
+            mapped_pattern_id = pattern_map.get(shadow_leaf_id)
+            if mapped_pattern_id:
+                request_snapshot["pattern_id"] = mapped_pattern_id
+        type_slots = deepcopy(request_snapshot.get("type_slots") or {})
+        slot_hints = slot_hints_by_leaf.get(shadow_leaf_id) or {}
+        for key, value in slot_hints.items():
+            type_slots[key] = value
+        if slot_hints:
+            request_snapshot["type_slots"] = type_slots
+
+    @staticmethod
+    def _extract_shadow_selected_leaf_id(source: dict[str, Any] | None) -> str | None:
+        if not isinstance(source, dict):
+            return None
+        shadow_contract = source.get("shadow_contract") if isinstance(source.get("shadow_contract"), dict) else {}
+        manual_backfill = source.get("manual_backfill") if isinstance(source.get("manual_backfill"), dict) else {}
+        prompt_extras = source.get("prompt_extras") if isinstance(source.get("prompt_extras"), dict) else {}
+        selected_business_card = str(source.get("selected_business_card") or "").strip()
+        candidates = [
+            shadow_contract.get("selected_leaf_id"),
+            manual_backfill.get("selected_leaf_id"),
+            prompt_extras.get("manual_shadow_leaf_id"),
+        ]
+        for value in candidates:
+            normalized = str(value or "").strip()
+            if normalized:
+                return normalized
+        manual_shadow_match = re.match(
+            r"^(?:sentence_order|sentence_fill)__manual_shadow__(?P<leaf_id>[A-Za-z0-9_]+)$",
+            selected_business_card,
+        )
+        if manual_shadow_match:
+            return str(manual_shadow_match.group("leaf_id") or "").strip() or None
+        return None
 
     def _derive_sentence_fill_ready_material(
         self,
@@ -3875,17 +4253,16 @@ class QuestionGenerationService:
             return material
 
         source_question_analysis = request_snapshot.get("source_question_analysis") or {}
-        coerced = self._coerce_sentence_order_material(
-            material=material.model_copy(update={"text": raw_text, "original_text": material.original_text or raw_text}),
+        coerced = self._coerce_sentence_order_material_with_shadow_support(
+            material=material,
+            request_snapshot=request_snapshot,
             source_question_analysis=source_question_analysis,
         )
         prepared_material = coerced or material.model_copy(
             update={"text": raw_text, "original_text": material.original_text or raw_text}
         )
         units = self._extract_sortable_units_from_text(prepared_material.text or "")
-        target_unit_count = self._sentence_order_target_unit_count(source_question_analysis) or (
-            len(units) if len(units) in {4, 5, 6} else 6
-        )
+        target_unit_count = self._sentence_order_target_unit_count(source_question_analysis) or (len(units) if len(units) in {4, 5, 6} else 6)
         normalized_units = (
             self._normalize_sentence_order_units_to_six(units, target_count=target_unit_count)
             or self._normalize_sentence_order_units_to_six(units)
@@ -3962,6 +4339,156 @@ class QuestionGenerationService:
                 "refinement_reason": "sentence_order_consumption_ready",
             }
         )
+
+    def _derive_shadow_sentence_order_units(
+        self,
+        *,
+        raw_text: str,
+        leaf_id: str | None,
+        target_count: int,
+    ) -> list[str]:
+        normalized_leaf_id = str(leaf_id or "").strip()
+        if normalized_leaf_id not in {
+            "first_sentence_gate",
+            "sequence_first_sentence_gate",
+            "dual_anchor_lock",
+            "sequence_dual_anchor_lock",
+            "tail_sentence_gate",
+            "carry_parallel_expand",
+            "timeline_progression",
+            "viewpoint_reason_action",
+            "problem_solution_case_blocks",
+        }:
+            return []
+        if target_count not in {4, 5, 6}:
+            return []
+        window_text = self._select_shadow_sentence_order_window(
+            raw_text=raw_text,
+            leaf_id=normalized_leaf_id,
+            target_count=target_count,
+        )
+        if not window_text:
+            return []
+        sentences = self._split_sentence_order_sentences(window_text)
+        if len(sentences) < target_count or len(sentences) > target_count * 2:
+            return []
+        group_sizes = self._plan_shadow_sentence_order_group_sizes(
+            sentence_count=len(sentences),
+            target_count=target_count,
+            leaf_id=normalized_leaf_id,
+        )
+        if not group_sizes:
+            return []
+        units: list[str] = []
+        cursor = 0
+        for size in group_sizes:
+            chunk = "".join(sentences[cursor : cursor + size]).strip()
+            clean_chunk = self._clean_sentence_order_sortable_unit(chunk)
+            if not clean_chunk:
+                return []
+            units.append(clean_chunk)
+            cursor += size
+        return units if len(units) == target_count else []
+
+    def _select_shadow_sentence_order_window(
+        self,
+        *,
+        raw_text: str,
+        leaf_id: str,
+        target_count: int,
+    ) -> str:
+        paragraphs = [segment.strip() for segment in re.split(r"\n\s*\n|\n", raw_text or "") if str(segment).strip()]
+        if not paragraphs:
+            return ""
+        if len(paragraphs) >= 2 and len(paragraphs[0]) <= 28 and not paragraphs[0].endswith(("。", "！", "？", "!", "?")):
+            paragraphs = paragraphs[1:]
+        if not paragraphs:
+            return ""
+        if leaf_id in {"first_sentence_gate", "sequence_first_sentence_gate"}:
+            candidates = paragraphs
+        elif leaf_id == "tail_sentence_gate":
+            candidates = list(reversed(paragraphs))
+        else:
+            candidates = paragraphs
+
+        collected: list[str] = []
+        sentence_total = 0
+        for paragraph in candidates:
+            paragraph_sentences = self._split_sentence_order_sentences(paragraph)
+            if not paragraph_sentences:
+                continue
+            if sentence_total and sentence_total + len(paragraph_sentences) > target_count * 2:
+                break
+            collected.append(paragraph)
+            sentence_total += len(paragraph_sentences)
+            if sentence_total >= target_count:
+                break
+
+        if leaf_id == "tail_sentence_gate":
+            collected = list(reversed(collected))
+        return "\n".join(collected).strip()
+
+    def _split_sentence_order_sentences(self, text: str) -> list[str]:
+        return [
+            clean
+            for clean in (
+                self._clean_sentence_order_sortable_unit(item)
+                for item in re.split(r"(?<=[。！？!?；;])\s*|\n+", normalize_prompt_text(text or ""))
+            )
+            if clean
+        ]
+
+    def _plan_shadow_sentence_order_group_sizes(
+        self,
+        *,
+        sentence_count: int,
+        target_count: int,
+        leaf_id: str,
+    ) -> list[int] | None:
+        if sentence_count < target_count or sentence_count > target_count * 2:
+            return None
+        forced_single: set[int] = set()
+        if leaf_id in {
+            "first_sentence_gate",
+            "sequence_first_sentence_gate",
+            "dual_anchor_lock",
+            "sequence_dual_anchor_lock",
+            "viewpoint_reason_action",
+            "problem_solution_case_blocks",
+        }:
+            forced_single.add(0)
+        if leaf_id in {
+            "tail_sentence_gate",
+            "dual_anchor_lock",
+            "sequence_dual_anchor_lock",
+            "carry_parallel_expand",
+            "timeline_progression",
+            "viewpoint_reason_action",
+            "problem_solution_case_blocks",
+        }:
+            forced_single.add(sentence_count - 1)
+
+        def backtrack(start: int, groups_left: int, two_sentence_groups_left: int) -> list[int] | None:
+            if groups_left == 0:
+                return [] if start == sentence_count and two_sentence_groups_left == 0 else None
+            remaining = sentence_count - start
+            if remaining < groups_left or remaining > groups_left + two_sentence_groups_left:
+                return None
+            for size in (1, 2):
+                if size == 2:
+                    if two_sentence_groups_left <= 0 or start + 1 >= sentence_count:
+                        continue
+                    if start in forced_single or start + 1 in forced_single:
+                        continue
+                elif start in forced_single:
+                    pass
+                next_start = start + size
+                result = backtrack(next_start, groups_left - 1, two_sentence_groups_left - (1 if size == 2 else 0))
+                if result is not None:
+                    return [size, *result]
+            return None
+
+        return backtrack(0, target_count, sentence_count - target_count)
 
     def _derive_sentence_order_binding_pairs(self, units: list[str]) -> list[tuple[int, int]]:
         pairs: list[tuple[int, int]] = []
@@ -4842,6 +5369,7 @@ class QuestionGenerationService:
         original_sentences: list[str],
         options: dict[str, str],
         answer: str,
+        shadow_leaf_id: str | None = None,
     ) -> str:
         order_text = self._format_order_sequence(correct_order)
         ordered_sentences = [
@@ -4867,39 +5395,159 @@ class QuestionGenerationService:
                 tail_mismatch_letters.append(letter)
         pieces = []
         pieces.append(f"正确顺序为{order_text}。")
-        if first_hint:
-            first_hint_display = first_hint if any(mark in first_hint for mark in ("“", "”", "\"")) else f"“{first_hint}”"
-            if first_role == "thesis":
-                pieces.append(
-                    f"先看首句，{self._format_order_sequence([correct_order[0]])}句先提出{first_hint_display}这一总领性判断，更适合作为全段起点。"
-                )
-            else:
-                pieces.append(
-                    f"先看首句，{self._format_order_sequence([correct_order[0]])}句以{first_hint_display}起笔，更适合作为全段起点。"
-                )
-            if first_mismatch_letters:
-                pieces.append(f"据此可先排除{ '、'.join(first_mismatch_letters) }项中首句放置不当的组合。")
-        if len(correct_order) >= 4:
-            middle_text = self._format_order_sequence(correct_order[1:-1])
-            pieces.append(f"中间部分按{middle_text}依次展开，前后承接、语意推进和局部照应都更顺。")
-        if last_hint:
-            last_hint_display = last_hint if any(mark in last_hint for mark in ("“", "”", "\"")) else f"“{last_hint}”"
-            if last_role == "conclusion" and last_sentence.endswith(("?", "？")):
-                pieces.append(
-                    f"再看尾句，{self._format_order_sequence([correct_order[-1]])}句以{last_hint_display}设问收束，把前文讨论自然引向结尾。"
-                )
-            elif last_role == "conclusion":
-                pieces.append(
-                    f"再看尾句，{self._format_order_sequence([correct_order[-1]])}句以{last_hint_display}形成收束，更符合完整行文。"
-                )
-            else:
-                pieces.append(
-                    f"再看尾句，{self._format_order_sequence([correct_order[-1]])}句落在{last_hint_display}，能和前文形成自然照应。"
-                )
-            if tail_mismatch_letters:
-                pieces.append(f"由此还能进一步排除{ '、'.join(tail_mismatch_letters) }项中尾句收束不当的排序。")
-        pieces.append(f"综合来看，只有{answer}项与正确顺序 {order_text} 完全一致，因此答案为{answer}。")
+        pieces.extend(
+            self._build_sentence_order_leaf_analysis_body(
+                correct_order=correct_order,
+                first_hint=first_hint,
+                last_hint=last_hint,
+                first_role=first_role,
+                last_role=last_role,
+                first_mismatch_letters=first_mismatch_letters,
+                tail_mismatch_letters=tail_mismatch_letters,
+                shadow_leaf_id=shadow_leaf_id,
+                order_text=order_text,
+                last_sentence=last_sentence,
+            )
+        )
+        pieces.append(f"据此，正确顺序应为{order_text}，对应{answer}项")
         return "".join(pieces)
+
+    def _build_sentence_order_leaf_analysis_body(
+        self,
+        *,
+        correct_order: list[int],
+        first_hint: str,
+        last_hint: str,
+        first_role: str,
+        last_role: str,
+        first_mismatch_letters: list[str],
+        tail_mismatch_letters: list[str],
+        shadow_leaf_id: str | None,
+        order_text: str,
+        last_sentence: str,
+    ) -> list[str]:
+        first_unit = self._format_order_sequence([correct_order[0]])
+        last_unit = self._format_order_sequence([correct_order[-1]])
+        middle_text = self._format_order_sequence(correct_order[1:-1]) if len(correct_order) >= 4 else ""
+        first_hint_display = (
+            first_hint if any(mark in first_hint for mark in ("“", "”", "\"")) else f"“{first_hint}”"
+        ) if first_hint else ""
+        last_hint_display = (
+            last_hint if any(mark in last_hint for mark in ("“", "”", "\"")) else f"“{last_hint}”"
+        ) if last_hint else ""
+        leaf_id = str(shadow_leaf_id or "").strip()
+        pieces: list[str] = []
+
+        if leaf_id in {"first_sentence_gate", "sequence_first_sentence_gate"}:
+            pieces.append("观察选项，差异首先集中在首句能否成立。")
+            if first_hint:
+                lead = "总领性判断" if first_role == "thesis" else "话题引入"
+                pieces.append(f"{first_unit}句以{first_hint_display}完成{lead}，能自然打开全文。")
+            if first_mismatch_letters:
+                pieces.append(f"因此可先排除{'、'.join(first_mismatch_letters)}项中首句失当的组合。")
+            if middle_text:
+                pieces.append(f"其余句子按{middle_text}顺次承接，把背景、解释和落点逐层带出。")
+            if last_hint:
+                pieces.append(f"最后由{last_unit}句落到{last_hint_display}，收束自然。")
+            if tail_mismatch_letters:
+                pieces.append(f"同时可排除{'、'.join(tail_mismatch_letters)}项中尾句落点不当的排序。")
+            return pieces
+
+        if leaf_id in {"dual_anchor_lock", "sequence_dual_anchor_lock"}:
+            pieces.append("观察选项，关键在首尾双锚是否同时锁定。")
+            if first_hint:
+                pieces.append(f"{first_unit}句以{first_hint_display}打开话题，不能后置。")
+            if last_hint:
+                pieces.append(f"{last_unit}句以{last_hint_display}形成结尾，也不能前移。")
+            if middle_text:
+                pieces.append(f"中间{middle_text}围绕这两个锚点完成局部捆绑和层层推进，拆开后语意会断。")
+            if first_mismatch_letters:
+                pieces.append(f"据此可先排除{'、'.join(first_mismatch_letters)}项中首句安排失当的组合。")
+            if tail_mismatch_letters:
+                pieces.append(f"再排除{'、'.join(tail_mismatch_letters)}项中尾句收束失衡的排序。")
+            return pieces
+
+        if leaf_id == "carry_parallel_expand":
+            pieces.append("观察选项，关键在承接句和并列展开顺序。")
+            if first_hint:
+                pieces.append(f"{first_unit}句先用{first_hint_display}起笔，承担承上启下的作用。")
+            if middle_text:
+                pieces.append(f"随后{middle_text}围绕同一中心并列展开，先接住前意，再把同层信息铺开。")
+            if last_hint:
+                pieces.append(f"最后由{last_unit}句落到{last_hint_display}，把前文并列信息收束起来。")
+            if first_mismatch_letters:
+                pieces.append(f"据此可排除{'、'.join(first_mismatch_letters)}项中承接起点放置不当的组合。")
+            if tail_mismatch_letters:
+                pieces.append(f"也可排除{'、'.join(tail_mismatch_letters)}项中总结句位置失衡的排序。")
+            return pieces
+
+        if leaf_id == "timeline_progression":
+            pieces.append("观察选项，关键在时间或阶段推进是否顺序展开。")
+            if first_hint:
+                pieces.append(f"{first_unit}句先交代{first_hint_display}这一时间或阶段起点，不能后置。")
+            if middle_text:
+                pieces.append(f"随后{middle_text}按时间推进或阶段递进顺次展开，语序一乱，进程关系就会失真。")
+            if last_hint:
+                pieces.append(f"{last_unit}句以{last_hint_display}形成阶段性落点，适合作为结尾。")
+            return pieces
+
+        if leaf_id == "viewpoint_reason_action":
+            pieces.append("观察选项，关键不只是首尾，而是“观点—理由—落点”这条主链。")
+            if first_hint:
+                pieces.append(f"{first_unit}句以{first_hint_display}起笔，先把讨论对象或核心判断立住。")
+            if middle_text:
+                pieces.append(f"{middle_text}依次补出原因、依据或现实条件，必须紧跟在观点之后。")
+            if last_hint:
+                pieces.append(f"最后由{last_unit}句落到{last_hint_display}这一判断或行动要求，整条链才算闭合。")
+            if first_mismatch_letters:
+                pieces.append(f"据此可排除{'、'.join(first_mismatch_letters)}项中一上来就偏离主链起点的组合。")
+            if tail_mismatch_letters:
+                pieces.append(f"同时可排除{'、'.join(tail_mismatch_letters)}项中最终落点不对的排序。")
+            return pieces
+
+        if leaf_id == "problem_solution_case_blocks":
+            pieces.append("观察选项，关键在块状顺序是否合理。")
+            if first_hint:
+                pieces.append(f"{first_unit}句先提出{first_hint_display}这一问题或现实处境，适合作为全段起点。")
+            if middle_text:
+                pieces.append(f"中间{middle_text}依次转入解决思路和支撑材料，要保持“问题—应对—支撑”的块状顺序。")
+            if last_hint:
+                pieces.append(f"{last_unit}句以{last_hint_display}补足案例或落点，放在结尾更顺。")
+            return pieces
+
+        if leaf_id == "tail_sentence_gate":
+            pieces.append("观察选项，关键在尾句是否成立。")
+            if middle_text:
+                pieces.append(f"前面{self._format_order_sequence(correct_order[:-1])}先把背景、展开和铺垫交代完整。")
+            if last_hint:
+                if last_role == "conclusion" and last_sentence.endswith(("?", "？")):
+                    pieces.append(f"再由{last_unit}句以{last_hint_display}设问或收束，作为尾句最自然。")
+                else:
+                    pieces.append(f"再由{last_unit}句以{last_hint_display}完成总结或照应，适合作为最后一句。")
+            if tail_mismatch_letters:
+                pieces.append(f"因此可排除{'、'.join(tail_mismatch_letters)}项中尾句位置不当的排序。")
+            return pieces
+
+        pieces.append("观察选项，先判断起句和收束句，再看中间承接关系。")
+        if first_hint:
+            if first_role == "thesis":
+                pieces.append(f"{first_unit}句先提出{first_hint_display}这一总领性判断，更适合作为全段起点。")
+            else:
+                pieces.append(f"{first_unit}句以{first_hint_display}起笔，更适合作为全段起点。")
+            if first_mismatch_letters:
+                pieces.append(f"据此可先排除{'、'.join(first_mismatch_letters)}项中首句放置不当的组合。")
+        if middle_text:
+            pieces.append(f"中间部分按{middle_text}依次展开，前后承接和语意推进都更顺。")
+        if last_hint:
+            if last_role == "conclusion" and last_sentence.endswith(("?", "？")):
+                pieces.append(f"{last_unit}句以{last_hint_display}设问收束，把前文讨论自然引向结尾。")
+            elif last_role == "conclusion":
+                pieces.append(f"{last_unit}句以{last_hint_display}形成收束，更符合完整行文。")
+            else:
+                pieces.append(f"{last_unit}句落在{last_hint_display}，能和前文形成自然照应。")
+            if tail_mismatch_letters:
+                pieces.append(f"由此还能进一步排除{'、'.join(tail_mismatch_letters)}项中尾句收束不当的排序。")
+        return pieces
 
     def _synchronize_sentence_order_analysis_answer(self, analysis: str, answer: str) -> str:
         cleaned = str(analysis or "").strip()
@@ -4910,7 +5558,13 @@ class QuestionGenerationService:
         cleaned = re.sub(r"因此答案为\s*[A-D]\s*[。.]?$", f"因此答案为{resolved_answer}。", cleaned)
         return cleaned
 
-    def build_sentence_order_question(self, question: GeneratedQuestion, *, material_text: str) -> GeneratedQuestion:
+    def build_sentence_order_question(
+        self,
+        question: GeneratedQuestion,
+        *,
+        material_text: str,
+        material_source: dict[str, Any] | None = None,
+    ) -> GeneratedQuestion:
         extracted_units = self._extract_sortable_units_from_text(material_text)
         normalized_units = self._normalize_sentence_order_units_to_six(extracted_units) or extracted_units
         material_units = normalized_units[:]
@@ -4938,7 +5592,14 @@ class QuestionGenerationService:
             (letter for letter, value in rebuilt_options.items() if self._extract_order_sequence(value) == correct_order),
             "A",
         )
-        rebuilt_analysis = self._build_sentence_order_analysis(correct_order, original_sentences, rebuilt_options, rebuilt_answer)
+        shadow_leaf_id = self._extract_shadow_selected_leaf_id(material_source or {})
+        rebuilt_analysis = self._build_sentence_order_analysis(
+            correct_order,
+            original_sentences,
+            rebuilt_options,
+            rebuilt_answer,
+            shadow_leaf_id=shadow_leaf_id,
+        )
         rebuilt_analysis = self._synchronize_sentence_order_analysis_answer(rebuilt_analysis, rebuilt_answer)
         metadata = dict(question.metadata or {})
         metadata["sentence_order_recomputed"] = True
@@ -4946,6 +5607,8 @@ class QuestionGenerationService:
         metadata["sentence_order_display_sequence_source"] = display_sequence_source
         metadata["sentence_order_display_sequence"] = display_sequence
         metadata["sentence_order_analysis_source"] = "rebuilt"
+        if shadow_leaf_id:
+            metadata["sentence_order_shadow_leaf_id"] = shadow_leaf_id
         metadata["sentence_order_model_answer_sequence"] = answer_sequence
         metadata["sentence_order_model_analysis_sequence"] = analysis_sequence
         metadata["sentence_order_model_existing_correct_order"] = existing_correct_order
@@ -4960,6 +5623,32 @@ class QuestionGenerationService:
                 "metadata": metadata,
             }
         )
+
+    def _finalize_generated_analysis(self, question: GeneratedQuestion) -> GeneratedQuestion:
+        cleaned = normalize_readable_text(str(question.analysis or "")).strip()
+        for pattern in _ANALYSIS_ORAL_OPENER_PATTERNS:
+            cleaned = re.sub(pattern, "", cleaned)
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+        if not cleaned:
+            return question
+        resolved_answer = str(question.answer or "").strip().upper()
+        if resolved_answer in {"A", "B", "C", "D"}:
+            negative_prefix = "本题为选非题，" if self._stem_is_negative_selection(question.stem) else ""
+            final_sentence = f"{negative_prefix}故正确答案为{resolved_answer}。"
+            cleaned = re.sub(
+                r"(?:本题为选非题，)?故正确答案为\s*[A-D]\s*[。.]?$",
+                "",
+                cleaned,
+            ).rstrip("。.;； ")
+            cleaned = re.sub(r"因此答案为\s*[A-D]\s*[。.]?$", "", cleaned).rstrip("。.;； ")
+            cleaned = f"{cleaned}。{final_sentence}"
+        return question.model_copy(update={"analysis": cleaned})
+
+    @staticmethod
+    def _stem_is_negative_selection(stem: str) -> bool:
+        stem_text = normalize_readable_text(str(stem or ""))
+        negative_markers = ("不正确", "不恰当", "不符合", "错误", "不属于", "不能推出", "不包括", "不可能", "不应当")
+        return any(marker in stem_text for marker in negative_markers)
 
     def _remap_option_references(self, text: str, mapping: dict[str, str]) -> str:
         if not text:
@@ -5886,6 +6575,8 @@ class QuestionGenerationService:
             target_length=source_question_analysis.get("target_length"),
             length_tolerance=source_question_analysis.get("length_tolerance", 120),
             structure_constraints=bridge_hints["structure_constraints"],
+            shadow_child_family_ids=request_snapshot.get("shadow_child_family_ids"),
+            shadow_selected_leaf_ids=request_snapshot.get("shadow_selected_leaf_ids"),
             enable_anchor_adaptation=bool(source_question_analysis),
             exclude_material_ids={material_selection.get("material_id")} if material_selection.get("material_id") else None,
             limit=limit,
@@ -5958,6 +6649,12 @@ class QuestionGenerationService:
                     answer_anchor_text=section_context["answer_anchor_text"],
                 )
             )
+        sections.extend(
+            self._build_leaf_analysis_contract_sections(
+                built_item=built_item,
+                material=material,
+            )
+        )
         if feedback_notes:
             sections.extend(self._build_repair_requirement_sections(feedback_notes))
         sections.append(self._prompt_asset_text("final_generation_instruction"))
@@ -5984,7 +6681,50 @@ class QuestionGenerationService:
             "source_question_analysis": request_snapshot.get("source_question_analysis") or {},
             "material_prompt_extras": material_prompt_extras,
             "answer_anchor_text": str(material_prompt_extras.get("answer_anchor_text") or "").strip(),
+            "shadow_selected_leaf_id": self._extract_shadow_selected_leaf_id(material.source or {}),
         }
+
+    def _build_leaf_analysis_contract_sections(
+        self,
+        *,
+        built_item: dict,
+        material: MaterialSelectionResult,
+    ) -> list[str]:
+        lines = self._leaf_analysis_contract_lines(
+            question_type=str(built_item.get("question_type") or "").strip(),
+            business_subtype=str(built_item.get("business_subtype") or "").strip(),
+            shadow_leaf_id=self._extract_shadow_selected_leaf_id(material.source or {}),
+        )
+        if not lines:
+            return []
+        return self._make_prompt_section("leaf_analysis_contract", lines)
+
+    def _leaf_analysis_contract_lines(
+        self,
+        *,
+        question_type: str,
+        business_subtype: str,
+        shadow_leaf_id: str | None,
+    ) -> list[str]:
+        lines: list[str] = []
+        lines.extend(self._optional_prompt_asset_lines("analysis_contract", "base"))
+        family_key = self._analysis_contract_family_key(
+            question_type=question_type,
+            business_subtype=business_subtype,
+        )
+        if family_key:
+            lines.extend(self._optional_prompt_asset_lines("analysis_contract", "families", family_key))
+        if shadow_leaf_id:
+            lines.extend(self._optional_prompt_asset_lines("analysis_contract", "leafs", shadow_leaf_id))
+        return list(dict.fromkeys(normalize_prompt_text(line) for line in lines if str(line or "").strip()))
+
+    @staticmethod
+    def _analysis_contract_family_key(*, question_type: str, business_subtype: str) -> str | None:
+        if question_type == "main_idea" and business_subtype == "center_understanding":
+            return "main_idea"
+        if question_type in {"sentence_fill", "sentence_order"}:
+            return question_type
+        return None
 
     def _build_material_context_sections(
         self,
@@ -7094,6 +7834,18 @@ class QuestionGenerationService:
                 )
             node = node[key]
         return node
+
+    def _prompt_asset_node_or_none(self, *path: str):
+        try:
+            return self._prompt_asset_node(*path)
+        except DomainError:
+            return None
+
+    def _optional_prompt_asset_lines(self, *path: str) -> list[str]:
+        node = self._prompt_asset_node_or_none(*path)
+        if not isinstance(node, list):
+            return []
+        return [normalize_prompt_text(item) for item in node if str(item or "").strip()]
 
     def _should_accept_quality_retry(
         self,

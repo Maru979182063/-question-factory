@@ -1,0 +1,6324 @@
+[
+  {
+    "question_id": "5893511",
+    "stem": "所谓环境影响评价，是指对规划和建设项目实施后可能造成的环境影响进行分析、预测和评估，提出预防或减轻不良环境影响的对策和措施，进行跟踪监测的方法与制度。可以说，环境影响评价是控制环境风险的“ ”，也是在发展中守住绿水青山的第一道防线，对协同推进经济高质量发展和生态环境高水平保护发挥着重要作用。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "预警机",
+      "B": "安全阀",
+      "C": "试金石",
+      "D": "缓冲器"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "第一道防线"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "环境影响评价",
+        "环境风险",
+        "绿水青山",
+        "经济高质量发展",
+        "生态环境高水平保护"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 160
+    }
+  },
+  {
+    "question_id": "5893751",
+    "stem": "现在，我国经济金融领域风险隐患很多，但总体可控。要坚持底线思维。古人说：“祸几始作，当杜其萌；疾证方形，当绝其根。”我们要发挥好党的领导和我国社会主义制度优势， ，抓早抓小，着力避免发生重大风险或危机。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "对症下药",
+      "B": "审时度势",
+      "C": "见微知著",
+      "D": "当机立断"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "底线思维"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "经济金融领域",
+        "社会主义制度"
+      ],
+      "term_count": 2,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 115
+    }
+  },
+  {
+    "question_id": "5893832",
+    "stem": "战场上未解之惑、未识之物、未通之理皆可疑。战场中的善疑并非一味多疑或疑而无度，而是要从全局出发，围绕作战目的、作战对手、作战体系而“疑”，观察战场态势，分析关联要点，力求对敌方的军事行动 ，对敌方的结构体系心知肚明，从而把握重心，掌握大局。 填入画横线部分最恰当的一项是（ ）",
+    "options": {
+      "A": "洞若观火",
+      "B": "防患未然",
+      "C": "胸有成竹",
+      "D": "未卜先知"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "心知肚明"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "作战目的",
+        "作战对手",
+        "作战体系",
+        "战场态势",
+        "军事行动"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 135
+    }
+  },
+  {
+    "question_id": "5893523",
+    "stem": "推进乡村振兴必须规避两种倾向：一是“只见树木、不见森林”，打造“样板村”，并将资源或政策向其倾斜；二是“ 、平均用力”，即将单一发展方式套用到所有农村，或将资源进行简单分解。只有尊重农村发展实际和市场规律， 实施振兴政策，才能使广大农民得到实惠。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "一视同仁 脚踏实地",
+      "B": "等量齐观 因地制宜",
+      "C": "面面俱到 坚定不移",
+      "D": "不偏不倚 步步为营"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "只见树木、不见森林"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "对比辨析",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 138
+    }
+  },
+  {
+    "question_id": "5893514",
+    "stem": "史书是古人写就的，有些内容可能会因有人随意取舍、记忆有误或者心存故意而 历史真实。运用基因等高科技手段的考古研究是科学，它以客观而非主观的科学事实和科学数据得出结论。科学可以检验，可以用重复操作检验此前的研究成果是否准确、正确，从而 了人为造假的可能。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "违背 化解",
+      "B": "掩盖 规避",
+      "C": "虚构 杜绝",
+      "D": "偏离 降低"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "基因",
+        "高科技手段",
+        "考古研究",
+        "科学事实",
+        "科学数据"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 141
+    }
+  },
+  {
+    "question_id": "5893824",
+    "stem": "应急情境下妥善治理谣言，考验的是应急处置能力的临场发挥，更是应急处置能力的建设。网络谣言治理主要有治标与治本两条路径，前者针对既成事实， ，即时奏效；后者侧重于“治未病”， ，久久为功。两条路径有机结合，方可有效遏制互联网谣言的生产与传播。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "亡羊补牢 曲突徙薪",
+      "B": "双管齐下 未雨绸缪",
+      "C": "惩前毖后 深谋远虑",
+      "D": "补偏救弊 先发制人"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "久久为功"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "应急处置能力",
+        "网络谣言治理",
+        "互联网谣言"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.82,
+        "collocation_similarity": 0.75,
+        "distractor_strength": 0.8
+      },
+      "option_similarity_score": 0.79,
+      "text_length": 135
+    }
+  },
+  {
+    "question_id": "5893512",
+    "stem": "从长远看，保护个人信息，并不是把信息数据与互联网经济 开来，而是应当探讨如何在必要、合理、合规的基础上，实现信息保护与利用的共赢。在大数据、信息化时代，如何在海量个人信息中 敏感信息、利用好其他可用信息，对发展信息产业、平衡数据应用与用户权益之间的关系，都具有重要意义。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "独立 屏蔽",
+      "B": "分离 甄别",
+      "C": "区别 剔除",
+      "D": "隔绝 剥离"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "个人信息",
+        "互联网经济",
+        "大数据",
+        "信息化时代",
+        "信息产业",
+        "数据应用"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 150
+    }
+  },
+  {
+    "question_id": "5893513",
+    "stem": "“潜”是“显”的基础，“显”是“潜”的结果。对于事关长远、事关基础的任务，“一口吃不成个胖子”，就要扎扎实实、稳步有序推进。这些工作并不 ，政绩也并非 ，但有助于各项事业全面发展、长足进步，是真正对党、对人民、对历史负责的体现。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "声势浩大 家喻户晓",
+      "B": "惊天动地 有目共睹",
+      "C": "显山露水 一目了然",
+      "D": "轰轰烈烈 引人注目"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "声势浩大",
+        "家喻户晓",
+        "惊天动地",
+        "有目共睹"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.95,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.87,
+      "text_length": 129
+    }
+  },
+  {
+    "question_id": "5893823",
+    "stem": "在音乐文化中， 并不会形成传播壁垒，反而会引发人们对不同文化背景下的音乐进行探索。电影是讲好中国故事的重要媒介，面对跨文化背景下的观众，应当充分发挥音乐这一艺术形式的作用，让优秀的中国故事、中国精神、中国文化更好地与全球不同层次的观众实现 。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "多元化 互动",
+      "B": "差异性 共鸣",
+      "C": "独特性 连接",
+      "D": "本土化 沟通"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "跨文化背景",
+        "中国故事",
+        "中国精神",
+        "中国文化"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 136
+    }
+  },
+  {
+    "question_id": "5893630",
+    "stem": "马克思主义理论必须随着实践发展而发展，必须中国化才能 、本土化才能深入人心。马克思主义中国化的进程是中国共产党人解放思想、统一思想的过程。解放思想不是脱离国情的 ，也不是闭门造车的主观想象，而是要求我们一切从实际出发。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "薪火相传 高谈阔论",
+      "B": "枝繁叶茂 空穴来风",
+      "C": "落地生根 异想天开",
+      "D": "生生不息 海市蜃楼"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "解放思想",
+        "闭门造车",
+        "一切从实际出发"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "马克思主义理论",
+        "中国化",
+        "本土化"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 124
+    }
+  },
+  {
+    "question_id": "5893516",
+    "stem": "“木刻分水”是哈尼族在长期梯田农耕活动中形成的 分配水源的制度，具体做法是：根据沟渠所能灌溉的梯田面积，经过集体协商，确定每份梯田应得水量，刻在横木上，作为分配水源的尺子。哈尼人用其量水、分水，取之有度，用之有节，既体现出对大自然的崇敬，也实现了对水资源的 。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "公平 精打细算",
+      "B": "便捷 物尽其用",
+      "C": "科学 量入为出",
+      "D": "精确 开源节流"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "取之有度",
+        "用之有节"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 145
+    }
+  },
+  {
+    "question_id": "5893828",
+    "stem": "民生服务的创新不应忽略老年人的感受，很多对年轻人而言 的操作却给老年人带来不小烦恼，甚至成为难以逾越的数字鸿沟。因此，大力推进数字技术适老化改造势在必行。这需要全社会成员 站在老年人的角度，感受他们可能遭遇的困境，让适老化理念贯彻民生服务始终。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "司空见惯 设身处地",
+      "B": "烂熟于心 推己及人",
+      "C": "手到擒来 将心比心",
+      "D": "习以为常 感同身受"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "司空见惯",
+        "设身处地",
+        "烂熟于心",
+        "推己及人"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "数字鸿沟",
+        "数字技术",
+        "适老化改造",
+        "适老化理念",
+        "民生服务"
+      ],
+      "term_count": 5,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 137
+    }
+  },
+  {
+    "question_id": "5893517",
+    "stem": "北极地区常年漂浮着体积巨大、厚薄不一的海冰。面对这些海冰，绝大部分战舰只能 ，唯有破冰船和冰面下的潜艇敢于一试身手。当前，世界上力量最强的破冰船，排水量可达3.3万吨，能够 地破开近3米厚的坚冰，堪称北极航线上的开路先锋。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "望而却步 轻而易举",
+      "B": "束手无策 易如反掌",
+      "C": "退避三舍 游刃有余",
+      "D": "裹足不前 长驱直入"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "望而却步",
+        "束手无策",
+        "退避三舍",
+        "裹足不前"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "破冰船",
+        "排水量",
+        "北极航线"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 126
+    }
+  },
+  {
+    "question_id": "5893520",
+    "stem": "许多老大难问题之所以长期无解，重要原因是调查研究流于形式，导致情况吃得不透、病根找得不准。有的是“盲人摸象”式调研，眼中只有一个个孤立的“盆景”，得出的结论往往是 ；有的是“刻舟求剑”式调研，对新情况多凭主观判断下结论，导致出台的政策 不强。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "以偏概全 针对性",
+      "B": "老生常谈 科学性",
+      "C": "一孔之见 时效性",
+      "D": "闭门造车 可行性"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "盲人摸象",
+        "刻舟求剑"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 136
+    }
+  },
+  {
+    "question_id": "5893521",
+    "stem": "量子理论描述了微观粒子的诸多反直觉行为，广义相对论描述了引力的本质，并做出许多 的预言，比如黑洞、引力波、引力透镜等。这两种理论在各自领域都运作得非常好，却无法以一种 的方式结合起来。因此，寻找能将这两种理论统一起来的量子引力理论，是物理学家最大的 之一。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "奇特 完美 目标",
+      "B": "著名 直观 难题",
+      "C": "大胆 简便 挑战",
+      "D": "神秘 合理 困惑"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "量子理论",
+        "广义相对论",
+        "黑洞",
+        "引力波",
+        "引力透镜",
+        "量子引力理论"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 142
+    }
+  },
+  {
+    "question_id": "5893518",
+    "stem": "读书学习的过程，实际上是一个不断思考认知的过程。思考是阅读的 ，是认知的必然，是把书读活的关键。如果只是机械地阅读、被动地接受、 地浏览，没有思考， ，再好的知识也难以吸收和消化。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "延伸 浮泛 敷衍了事",
+      "B": "升华 肤浅 走马观花",
+      "C": "深化 简单 人云亦云",
+      "D": "转化 消极 挂一漏万"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "走马观花",
+        "人云亦云",
+        "挂一漏万",
+        "敷衍了事"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 104
+    }
+  },
+  {
+    "question_id": "5894960",
+    "stem": "载人航天是系统最复杂、科技最 、创新最活跃的工程之一，它 力学、天文学、地球科学、航天医学、空间科学等众多科学领域，涉及系统工程、自动控制、计算机、航天动力、通信、遥感、新能源、新材料等诸多工程技术，是 的国家科技成果的“集大成者”。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "广泛 融合 众望所归",
+      "B": "密集 涵盖 当之无愧",
+      "C": "尖端 集中 独占鳌头",
+      "D": "先进 兼顾 不折不扣"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "众望所归",
+        "当之无愧",
+        "独占鳌头",
+        "不折不扣"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "载人航天",
+        "航天医学",
+        "空间科学",
+        "系统工程",
+        "自动控制",
+        "航天动力"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 131
+    }
+  },
+  {
+    "question_id": "5893716",
+    "stem": "基层工作 ，调研起来难免千头万绪。调查研究要从“小切口”入题，从民生实事选题定向。同时，调研要坚持“一根竿子插到底”， 直面“真问题”，克服认知盲区和思维局限，秉持更加开阔的视野，方能 基层“最后一公里”的症结。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "盘根错节 高屋建瓴 治理",
+      "B": "错综复杂 追根溯源 洞见",
+      "C": "包罗万象 抽丝剥茧 破解",
+      "D": "任重道远 实事求是 缓解"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "千头万绪",
+        "一根竿子插到底"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "基层工作",
+        "调查研究",
+        "民生实事"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 120
+    }
+  },
+  {
+    "question_id": "5893798",
+    "stem": "生命科学界普遍认同“科学数据共享”，研究人员在使用数据库的同时，将自己研究发现的基因序列或蛋白质结构数据存入数据库，同时成为数据库的使用者和 。如今，数据库已经成为生命史书最 的纪录载体和强大的数据分析平台，为整个生命科学研究所 。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "维护者 完备 期待",
+      "B": "推广者 稳定 认可",
+      "C": "贡献者 可靠 依赖",
+      "D": "建设者 坚定 欢迎"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "科学数据共享",
+        "基因序列",
+        "蛋白质结构数据",
+        "数据库",
+        "生命科学"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.76
+      },
+      "option_similarity_score": 0.8,
+      "text_length": 130
+    }
+  },
+  {
+    "question_id": "5893522",
+    "stem": "守正是创新的前提，创新是守正的路径。守正不是 、循规蹈矩，而是守住本和源、根和魂；创新也不是凭空幻想、 ，而是在把握事物发展规律的基础上充分发挥主观能动性。只有守正，才能恪守正道、 ；只有创新，才能与时俱进、推陈出新。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "陈陈相因 纸上谈兵 正本清源",
+      "B": "抱残守缺 天马行空 返璞归真",
+      "C": "食古不化 向壁虚造 拨乱反正",
+      "D": "墨守成规 恣意妄为 固本强基"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "循规蹈矩",
+        "凭空幻想",
+        "与时俱进",
+        "推陈出新"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 123
+    }
+  },
+  {
+    "question_id": "5893727",
+    "stem": "，让绿水青山充分发挥经济社会效益，关键是要树立正确的发展思路，因地制宜选择好发展产业。在内蒙古大兴安岭的北岸林场，林业工人在护林的同时，围绕“林”字做活“绿文章”，发展森林旅游，实现了“不砍树照样能致富”；在陕西延安，依托自然生态优势，“小苹果”形成大产业，助村民挑起“金扁担”······思路一变天地宽。生态保护和经济发展不是矛盾对立关系，积极探索绿水青山转化为金山银山的新路径，利用自然优势发展特色产业，因地制宜壮大“美丽经济”，就能创造更多“点绿成金”的新奇迹。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "党旗红，引领生态绿",
+      "B": "思路决定出路",
+      "C": "农业发展要因地制宜",
+      "D": "美丽经济是发展新出路"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "思路一变天地宽",
+        "点绿成金"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "绿水青山",
+        "金山银山",
+        "美丽经济"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 249
+    }
+  },
+  {
+    "question_id": "5893742",
+    "stem": "良法是善治的前提。“法非从天下，非从地出，发于人间，合乎人心而已。” ，发挥好人大及其常委会在立法工作中的主导作用，坚持尊重和体现客观规律，坚持为了人民、依靠人民，坚持严格依照法定权限和法定程序，深入推进科学立法、民主立法、依法立法。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "要抓住提高立法质量这个关键",
+      "B": "人大要统筹运用法定监督方式",
+      "C": "法律体系须与时俱进加以完善",
+      "D": "治国理政要保障人民当家作主"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "良法善治"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "立法工作",
+        "科学立法",
+        "民主立法",
+        "依法立法"
+      ],
+      "term_count": 4,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 131
+    }
+  },
+  {
+    "question_id": "5893737",
+    "stem": "。我们党当初为什么要创办中央党校？就是为人民解放事业培养骨干力量。90年来，各级党校特别是中央党校与党的事业同频共振、按需施训，教育培训了一批又一批领导干部，肩负起为党育才的神圣职责，推动党的事业从胜利走向新的胜利。例如，党校创办初期，马克思共产主义学校一年多时间里共培训了 1000 多名干部；延安时期，中央党校常规班次培养各类骨干上万人，其中约 65%的七大代表有中央党校的学习工作经历。党的十八大以来，中央党校举办的主体班次共培训轮训干部8.8万人，其中省部级干部1.3万余人。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "党校是领导干部锤炼党性的“大熔炉 ”",
+      "B": "党校是干部教育培训的主阵地",
+      "C": "党校是传承党的精神血脉的殿堂",
+      "D": "党校是党的意识形态工作的重要前沿阵地"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "同频共振",
+        "按需施训"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "中央党校",
+        "马克思共产主义学校",
+        "七大代表"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.82
+      },
+      "option_similarity_score": 0.81,
+      "text_length": 254
+    }
+  },
+  {
+    "question_id": "5893745",
+    "stem": "“ 。”人民代表大会制度之所以具有强大生命力和显著优越性，关键在于深深植根于人民之中。一切国家机关和国家工作人员必须牢固树立人民公仆意识，把人民放在心中最高位置，保持同人民的密切联系，倾听人民意见和建议，接受人民监督，努力为人民服务。要丰富人大代表联系人民群众的内容和形式，拓宽联系渠道，积极回应社会关切，更好接地气、察民情、聚民智、惠民生。各级人大常委会要加强代表工作能力建设，支持和保障代表更好依法履职，使发挥各级人大代表作用成为人民当家作主的重要体现。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "人视水见形，视民知治不",
+      "B": "为政之要，以顺民心为本",
+      "C": "善为政者，弊则补之，决则塞之",
+      "D": "苟利于民，不必法古；苟周于事，不必循俗"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "人民公仆"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "人民代表大会制度",
+        "人大代表",
+        "人大常委会"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 243
+    }
+  },
+  {
+    "question_id": "5893831",
+    "stem": "①与以往依靠自身装甲抵御弹药不同，战车主动防护系统实施贴身或近距离防御且强调先敌主动出击、御“敌拳”于车体之外 ②从第二次世界大战至今，装甲车辆尤其是坦克的性能和数量一直是影响陆战胜负的重要因素 ③如果面对的是轻型反坦克武器的近距离突袭，主动防护系统甚至能使装甲车辆的生存概率提高3~4倍 ④随着反坦克武器弹药的发展，装甲车辆仅靠自身装甲抗衡来袭弹药的时代已渐渐远去 ⑤有关测试资料显示，加装主动防护系统后，装甲车辆的生存概率可以提高1倍以上 ⑥主动防护系统是通过雷达和光电等探测装置，感知并获取来袭弹药的运动轨迹和特征，然后由计算机控制对抗装置，有针对性地进行自卫 将以上6个句子重新排列，语序正确的一项是：",
+    "options": {
+      "A": "②④①⑥⑤③",
+      "B": "②④⑥①③⑤",
+      "C": "④⑥①②⑤③",
+      "D": "④①②③⑥⑤"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "主动防护系统",
+        "装甲车辆",
+        "坦克",
+        "反坦克武器",
+        "雷达",
+        "光电"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 299
+    }
+  },
+  {
+    "question_id": "5893703",
+    "stem": "①当前，我国荒漠化、沙化土地治理呈现出“整体好转、改善加速”的良好态势，但沙化土地面积大、分布广、程度重、治理难的基本面尚未根本改变 ②现实表明，我国荒漠化防治和防沙治沙工作形势依然严峻 ③我国是世界上荒漠化最严重的国家之一，荒漠化土地主要分布在三北地区，而且荒漠化地区与经济欠发达区、少数民族聚居区等高度耦合 ④荒漠化、风沙危害和水土流失导致的生态灾害，制约着三北地区经济社会发展，对中华民族的生存、发展构成挑战 ⑤我们要充分认识防沙治沙工作的长期性、艰巨性、反复性和不确定性，进一步提高站位，增强使命感和紧迫感 ⑥这两年，受气候变化异常影响，我国北方沙尘天气次数有所增加 将以上6个句子重新排列，语序正确的一项是：",
+    "options": {
+      "A": "①③⑥⑤②④",
+      "B": "②⑤⑥①④③",
+      "C": "④①③②⑥⑤",
+      "D": "③④①⑥②⑤"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "整体好转",
+        "改善加速",
+        "高度耦合"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "荒漠化",
+        "沙化土地",
+        "三北地区",
+        "风沙危害",
+        "水土流失",
+        "生态灾害"
+      ],
+      "term_count": 6,
+      "passage_function": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.68,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.58
+      },
+      "option_similarity_score": 0.62,
+      "text_length": 303
+    }
+  },
+  {
+    "question_id": "5893701",
+    "stem": "①据有关机构估算，每年损失浪费的食物超过22.7%，约9200亿斤，若能挽回一半的损失，就够1.9亿人吃一年 ②食物节约减损既可有效减轻供给压力，也可减少资源使用，善莫大焉 ③我国居民食用油和“红肉”人均消费量，分别超过膳食指南推荐标准约1倍和2倍 ④当前，食物采收、储运、加工、销售、消费每个环节都有“跑冒滴漏”，情况还相当严重 ⑤要树立节约减损就是增产的理念，推进全链条节约减损，健全常态化、长效化工作机制，每个环节都要有具体抓手，越是损失浪费严重的环节越要抓得实 ⑥消费环节大有文章可做，不仅要制止“舌尖上的浪费”，深入开展“光盘行动”，还要提倡健康饮食 将以上6个句子重新排列，语序正确的一项是：",
+    "options": {
+      "A": "①⑥③②④⑤",
+      "B": "①③④⑤②⑥",
+      "C": "④①⑥③②⑤",
+      "D": "④②⑤③①⑥"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "善莫大焉",
+        "舌尖上的浪费",
+        "光盘行动"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "膳食指南"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 296
+    }
+  },
+  {
+    "question_id": "16283183",
+    "stem": "每个人都是自己健康的第一责任人，健康促进也需要从倡导文明健康的生活方式入手。爱国卫生运动是把群众路线运用于卫生防病工作的成功实践，坚持党的领导、促进全民参与，才能取得最好效果。对偏远地区特别是农村地区而言，群众健康素养水平还有待提升，健康科普还（ ）。",
+    "options": {
+      "A": "方兴未艾",
+      "B": "任重道远",
+      "C": "拭目以待",
+      "D": "适当其时"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "群众路线",
+        "爱国卫生运动"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "健康促进",
+        "健康素养",
+        "健康科普"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 125
+    }
+  },
+  {
+    "question_id": "16283179",
+    "stem": "生成式AI出现后，面向大众的“情感陪伴”聊天机器人大量涌现。有心理咨询行业人士认为，在短时间的交谈中，AI的表现甚至可能比初级咨询师更好，但是直到目前，真正建立在严谨治疗框架上且经过临床验证的产品仍然（ ）。",
+    "options": {
+      "A": "少之又少",
+      "B": "差强人意",
+      "C": "虚无缥缈",
+      "D": "良莠不齐"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "少之又少",
+        "差强人意",
+        "虚无缥缈",
+        "良莠不齐"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "生成式AI",
+        "情感陪伴",
+        "聊天机器人",
+        "心理咨询",
+        "临床验证"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.75,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.73,
+      "text_length": 103
+    }
+  },
+  {
+    "question_id": "16283184",
+    "stem": "人多车多噪声大是大城市难以避免的弊端，这些噪声不仅让居住在城市的人类烦心，也同样（ ）着野生动物们。比如猫头鹰，它们进化出了复杂且精妙的耳朵，收集周围的声音，寻找猎物，但是（ ）的环境让觅食变得很难。人类很难听出1分贝的差别，但是对猫头鹰来说，噪音每增加1分贝，觅食成功率就会降低8%。",
+    "options": {
+      "A": "扰乱 多变",
+      "B": "侵害 喧哗",
+      "C": "冲击 凌乱",
+      "D": "影响 嘈杂"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.82
+      },
+      "option_similarity_score": 0.84,
+      "text_length": 141
+    }
+  },
+  {
+    "question_id": "16283186",
+    "stem": "地球板块运动所造成的海陆变迁，过去有，现在有，未来仍会继续。不同地貌的形成都是板块运动的一部分。未来，青藏高原也许会继续（ ），也许会走向垮塌。那么，它影响范围内的地形、水系和气候也会改变，并随之（ ）新的地貌物质基础或新的侵蚀力量。",
+    "options": {
+      "A": "崛起 衍生",
+      "B": "突起 迸发",
+      "C": "隆升 酝酿",
+      "D": "推升 孕育"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "板块运动",
+        "青藏高原"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.82
+      },
+      "option_similarity_score": 0.81,
+      "text_length": 115
+    }
+  },
+  {
+    "question_id": "16283188",
+    "stem": "职称要“与职相称”，农民获得职称的业绩和能力是实实在在的“与职相称”，惯常认识中将职称与论文、科研成果、发明专利等挂钩，把职称认知（ ）在高校、科研院所等视野范围。农民职称突破了这些要素，但依然体现了职称是衡量技术水平和专业能力的主要标志，（ ）。",
+    "options": {
+      "A": "限定 不容置疑",
+      "B": "控制 顺理成章",
+      "C": "束缚 一脉相承",
+      "D": "局限 实至名归"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "与职相称",
+        "实至名归"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "职称",
+        "论文",
+        "科研成果",
+        "发明专利",
+        "高校",
+        "科研院所"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 122
+    }
+  },
+  {
+    "question_id": "16283190",
+    "stem": "截至2025年5月，全球共发射了超过70颗旨在观测和研究太阳的人造卫（行）星。中国在轨运行卫星“羲和一号”和“夸父一号”实现了我国天基太阳探测卫星的 突破，开启了综合性太阳探测的新时代。为研究太阳磁场、太阳耀斑和日冕物质抛射等现象提供了 的观测能力，使科学家们能够更深入地了解太阳活动的形成、演化、相互作用和可能存在的因果关联。",
+    "options": {
+      "A": "集成式 举世瞩目",
+      "B": "跨越式 前所未有",
+      "C": "爆发式 鹤立鸡群",
+      "D": "创新式 望尘莫及"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "举世瞩目",
+        "前所未有",
+        "鹤立鸡群",
+        "望尘莫及"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "太阳磁场",
+        "太阳耀斑",
+        "日冕物质抛射",
+        "天基太阳探测卫星"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 162
+    }
+  },
+  {
+    "question_id": "16283192",
+    "stem": "在出租车行业中，向乘客收取空驶费是许多城市的通行做法。以此推论，网约车“ ”不算随意加价。然而，相关平台对此却没有 的细则，一般是让司机与乘客协商解决。平台此举有变相推卸责任、逃避矛盾纠纷的嫌疑。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "亦步亦趋 落地",
+      "B": "萧规曹随 明确",
+      "C": "东施效颦 配套",
+      "D": "见贤思齐 适用"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "亦步亦趋",
+        "萧规曹随",
+        "东施效颦",
+        "见贤思齐"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "空驶费",
+        "网约车"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 115
+    }
+  },
+  {
+    "question_id": "16283193",
+    "stem": "语言是文化的载体，一些“黑话”“烂梗”基于对历史和经典文本的片面解构得出，未成年人______地接触到这些语言，很可能对历史、名著产生曲解；反之，如果早期摄入足够经典和优秀的文本，习得更好、更美的语言，就会自然而然地对这些低质的、庸俗的表达产生免疫力和______。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "先入为主 抵抗力",
+      "B": "不明就里 应变力",
+      "C": "耳濡目染 自制力",
+      "D": "轻而易举 辨识力"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "耳濡目染"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "因果论证",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.68,
+      "text_length": 152
+    }
+  },
+  {
+    "question_id": "16283155",
+    "stem": "保障劳动者权益，不是给企业加“包袱”，社会责任与商业效率可以 。为骑手缴纳社保，不仅能够解除他们的 ，也可以激发他们的工作热情，从而提升服务品质，推动企业收入增长。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "相辅相成 后顾之忧",
+      "B": "此唱彼和 心腹之患",
+      "C": "相得益彰 池鱼之虑",
+      "D": "声气相通 当务之急"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "相辅相成",
+        "后顾之忧"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.75
+      },
+      "option_similarity_score": 0.8,
+      "text_length": 99
+    }
+  },
+  {
+    "question_id": "16283158",
+    "stem": "近年来，有些地方干部在推荐文旅上很（ ），对于推介地方农产品却缺乏热情。实际上，农产品“走俏”并不比文旅“出圈”的价值低一等。因此，应该乐见更多地方将主动带头推介的精神和对互联网营销的（ ）态度，更（ ）地用在地方农产品的推销上，多上心，多些创意。",
+    "options": {
+      "A": "专注 宽容 广泛",
+      "B": "积极 接纳 精准",
+      "C": "娴熟 肯定 高效",
+      "D": "认真 钻研 充分"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "互联网营销"
+      ],
+      "term_count": 1,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 121
+    }
+  },
+  {
+    "question_id": "16283160",
+    "stem": "过去，科研人员进行遗传育种，主要“靠天吃饭”，许多鱼类有（ ）的繁殖周期，基本上一年才产一次卵，其繁殖受到季节和环境的严格限制，育种工作者只能在鱼类自然繁殖季节进行相关操作。这使得育种进程在很大程度上（ ）于自然繁殖周期。而使用现代循环水系统的遗传育种研究平台，可以（ ）这一周期的限制，助力鱼类遗传育种发展。",
+    "options": {
+      "A": "确定 取决 破除",
+      "B": "固定 借助 去除",
+      "C": "特定 依赖 突破",
+      "D": "一定 受制 攻破"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "靠天吃饭"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "遗传育种",
+        "循环水系统"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 152
+    }
+  },
+  {
+    "question_id": "16283163",
+    "stem": "不同植物的花蜜糖分和粘度各异，最甜美的花蜜通常也最粘稠、最难采集，蜜蜂可以通过多毛的中唇舌很容易地（ ）高粘度的花蜜，也能主动（ ）口器操控方法，用其喙部直接吸食花冠深处的花蜜，这使得转运低粘度的远处液体更有效率，蜜蜂这种特化的口器结构和摄食（ ），是通过上亿年与植物的共同演化逐渐成熟的。",
+    "options": {
+      "A": "吸附 调整 任务",
+      "B": "舔食 改进 途径",
+      "C": "蘸取 变换 策略",
+      "D": "稀释 更新 方法"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "花蜜",
+        "蜜蜂",
+        "中唇舌",
+        "喙部",
+        "口器结构"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 142
+    }
+  },
+  {
+    "question_id": "18649963",
+    "stem": "在教学实践中，教师既要学会用有效精准的问题架构课堂，又要锚定课程目标，对问题进行（ ）、链条式推进，这一过程中，要根据课程目标合理设置主干问题、辅助问题、承上启下的介质问题，形成层层递进、重点突出、（ ）的闭环链条。这样一来，既能让学生构筑起理论知识的大厦，又能让他们掌握其四梁八柱、内在机理，在消化知识时（ ）。",
+    "options": {
+      "A": "全方位 严丝合缝 抽丝剥茧",
+      "B": "阶段性 连续不断 洞若观火",
+      "C": "一站式 环环相扣 了然于胸",
+      "D": "整体化 首尾呼应 游刃有余"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "四梁八柱"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 154
+    }
+  },
+  {
+    "question_id": "16283171",
+    "stem": "婚姻不仅是情感的纽带，更是财产的共同经营。然而，在现实中，夫妻一方擅自将共同财产赠送给婚外第三者的行为（ ），这不仅破坏家庭信任，还可能引发（ ）的法律纠纷。民法典婚姻家庭编的解释（二）第7条首次对这类行为进行了（ ）规制，明确了无效认定、财产返还和过错追责等核心问题。",
+    "options": {
+      "A": "不足为奇 直接 流程化",
+      "B": "由来已久 潜在 层级化",
+      "C": "屡见不鲜 复杂 系统性",
+      "D": "层出不穷 隐性 针对性"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "情感的纽带"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "民法典婚姻家庭编",
+        "法律纠纷"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 132
+    }
+  },
+  {
+    "question_id": "16283173",
+    "stem": "说起欧洲，人们会（ ）地谈起每个国家的特色，历史与当下，优点与缺点；但是说起非洲，似乎只是“非洲”——没有具体的国家，没有鲜明的文化面貌，有的只是一个模糊的、（ ）的概念，一个遥远的、与现实脱节的标签，并且往往被贫穷、饥饿、暴力、疾病等（ ）词语所裹挟，我们对世界的认知，是如此不平衡。",
+    "options": {
+      "A": "津津乐道 框架性 消极",
+      "B": "绘声绘色 历史性 具象",
+      "C": "眉飞色舞 抽象性 悲观",
+      "D": "兴致勃勃 总括性 负面"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "津津乐道",
+        "绘声绘色",
+        "眉飞色舞",
+        "兴致勃勃"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "对比辨析",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 140
+    }
+  },
+  {
+    "question_id": "16283172",
+    "stem": "当前，我国城镇化进程还在持续，城乡居民收入不断增长，生活改善和体验升级的需求还很多。这意味着， ，也要看到，新型消费领域发展还存在基础设施不足、服务能力偏弱、监管规范滞后等问题。加快补齐基础设施和服务能力短板，规范创新监管方式，新型消费才能在新赛道上跑出加速度、迈上新台阶，在拓宽经济增长空间、提高人民生活品质等方面发挥更大作用。 填入文中横线处最恰当的一项是（ ）。",
+    "options": {
+      "A": "新型消费有很大增长空间",
+      "B": "人民的消费意愿持续提升",
+      "C": "拓宽经济增长空间很重要",
+      "D": "城镇化发展尚需补齐短板"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "城镇化",
+        "新型消费",
+        "基础设施",
+        "服务能力",
+        "创新监管"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 181
+    }
+  },
+  {
+    "question_id": "16283174",
+    "stem": "①每次地震以后，人们心里总是不自觉地犯嘀咕：我这里会不会发生地震？会发生多大的地震？ ②事实上，通过对中国多年积累资料的分析，地质工作者已经分析出中国哪些地方容易发生地震 ③如果掌握了相关信息，就有可能针对性地进行预防：建设更牢固的房屋，进行防震演练 ④21世纪，汶川地震、玉树地震、芦山地震、岷县地震和鲁甸地震相继发生，对当地人的生命和财产造成重大创伤 ⑤而地震，就容易发生在这些地块的边缘地带 ⑥他们把中国划分为六个一级地块（即青藏、西域、南华、滇缅、华北和东北亚），并进一步划分出多个次一级的块体 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "①②⑤⑥④③",
+      "B": "①③②④⑤⑥",
+      "C": "④①③②⑥⑤",
+      "D": "④②⑥⑤③①"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "地震",
+        "地质工作者",
+        "一级地块"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.68,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.61,
+      "text_length": 267
+    }
+  },
+  {
+    "question_id": "16283176",
+    "stem": "①但整体而言，这些定向能武器的技术成熟度仍不够高，例如激光武器功率偏低，对无人机持续照射数秒才能将其击落，难以应对大批无人机来袭 ②目前许多国家都在研制和装备新一代精确制导火箭弹，希望用这种成本相对较低的精确制导武器拦截飞行路线固定的无人机 ③其中枪支和速射炮射程与精度有限，对无人机的毁伤效果不好 ④激光和高功率微波武器发射时只消耗电力，成本最低，因此也受到各国青睐 ⑤防空导弹虽然命中率高，但成本过于昂贵，价格动辄数万甚至数十万美元，远远超过多旋翼无人机的价格 ⑥针对无人机的硬杀伤手段种类较多，从传统的枪支或防空速射炮，到防空导弹和精确制导火箭弹，再到激光或高功率微波等定向能武器，大都已经投入实战或进入测试阶段 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "②④③①⑥⑤",
+      "B": "④②⑥③①⑤",
+      "C": "⑤③②④⑥①",
+      "D": "⑥③⑤②④①"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "定向能武器",
+        "激光武器",
+        "无人机",
+        "精确制导火箭弹",
+        "高功率微波武器",
+        "防空导弹"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.76
+      },
+      "option_similarity_score": 0.8,
+      "text_length": 325
+    }
+  },
+  {
+    "question_id": "13192133",
+    "stem": "迂回穿插，是中国古代兵家对进攻路线的战术优化。这一作战思维，是要在与敌人陷入正面对抗时，打破战场僵局，避免蛮打硬拼的持久消耗，通过绕弯路、走远路，出其不意地打击敌人侧后方的薄弱点，以达到 的奇袭效果。 填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "反客为主",
+      "B": "避实击虚",
+      "C": "声东击西",
+      "D": "暗度陈仓"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "蛮打硬拼",
+        "出其不意"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "迂回穿插"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 116
+    }
+  },
+  {
+    "question_id": "13192245",
+    "stem": "当我们告别旧环境一段时间，再返回时，会冒出一种 的感觉，那种心境类似“轻舟已过万重山”。这是因为，当心理距离拉远后，人就可以从一个不同的角度来看待自己的生活和问题，这种视角转换可以帮助大脑“刷新认知框架”。 填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "豁然开朗",
+      "B": "恍如隔世",
+      "C": "心旷神怡",
+      "D": "耳目一新"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "轻舟已过万重山"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "认知框架"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 119
+    }
+  },
+  {
+    "question_id": "13191983",
+    "stem": "很多人认为天然色素的安全性比化学合成的更高，实际情况可能并非如此。天然色素提取工艺复杂，提取物中往往含有一些无法被 的有害物质，其在加工过程中也易发生结构改变，这都会带来安全风险。因此，在食品科学领域，安全是 的，天然色素不一定就比合成色素更安全，只有通过风险评估，才能被允许使用。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "分解 有限",
+      "B": "剔除 必需",
+      "C": "分离 相对",
+      "D": "清除 模糊"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "天然色素",
+        "化学合成",
+        "食品科学",
+        "风险评估"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 158
+    }
+  },
+  {
+    "question_id": "13191985",
+    "stem": "在新技术背景之下，技术公司凭借其技术获取与处理优势，深刻 到社会政治经济体系的微观运行过程中，进一步增加了政府的治理成本。同时，技术巨头的资本与商业运行逻辑， 了信息与数据的集中，使得“超级权力体”与“超级垄断体”逐渐形成。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "嵌入 加剧",
+      "B": "接驳 促进",
+      "C": "渗透 激发",
+      "D": "衔接 鼓励"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "技术公司",
+        "治理成本",
+        "技术巨头",
+        "资本",
+        "商业运行逻辑",
+        "超级权力体"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 129
+    }
+  },
+  {
+    "question_id": "13191987",
+    "stem": "刚进入数字时代时，社交网络和自媒体不仅带来意见的多样化，也能对人们持续不断地进行思想灌输，使一些人变得更加（ ），容易出现思想茧房，这很大程度上影响了社会意识和社会规范的形成。社会系统的复杂性大大增加，传统的社会系统管理方式（ ），出现一系列前所未有的社会问题。",
+    "options": {
+      "A": "极端 独木难支",
+      "B": "短视 鞭长莫及",
+      "C": "冲动 捉襟见肘",
+      "D": "从众 力有不逮"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "思想灌输",
+        "思想茧房"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "社交网络",
+        "自媒体",
+        "社会系统",
+        "社会规范"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 129
+    }
+  },
+  {
+    "question_id": "13192139",
+    "stem": "文脉，是每个民族披肝沥胆守护的 。5000多年历史长河，中华文明是世界古代文明中唯一没有中断的文明。中华优秀传统文化是中华民族文化自信的 。 依次填入画横线处最恰当的一项是（ ）。",
+    "options": {
+      "A": "生命线 基石",
+      "B": "桃花源 根本",
+      "C": "避风港 源泉",
+      "D": "象牙塔 灵魂"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "披肝沥胆"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 86
+    }
+  },
+  {
+    "question_id": "13191990",
+    "stem": "随着卫星小型化、微型化技术的发展，微小卫星因具有制造成本低、研发速度快等优势，在卫星领域（ ），成为了一支不可小觑的力量。为了（ ）微小卫星的发射需求，发射成本低、运载能力合适的小型火箭成为长征系列火箭新的发展目标。",
+    "options": {
+      "A": "横空出世 激发",
+      "B": "异军突起 适配",
+      "C": "锋芒毕露 满足",
+      "D": "崭露头角 对应"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "异军突起",
+        "横空出世",
+        "锋芒毕露",
+        "崭露头角"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "微小卫星",
+        "小型火箭",
+        "长征系列火箭"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.75,
+        "distractor_strength": 0.8
+      },
+      "option_similarity_score": 0.83,
+      "text_length": 106
+    }
+  },
+  {
+    "question_id": "13192143",
+    "stem": "法律对个人权益的限制，只有在合乎防止犯罪目的所需的最小限度内，在程序及实体方面均为适当时才能进行。因此，反对重刑配置应当是现代刑法立法的（ ）。立法涉及错综复杂的关系，与整个社会系统的（ ）特别强。如果立法大幅增加对特定犯罪的最高刑，该类犯罪也许会下降，但是，另外的关联犯罪也许会上升。",
+    "options": {
+      "A": "必由之路 匹配性",
+      "B": "重中之重 协调性",
+      "C": "当务之急 依存性",
+      "D": "题中之义 互动性"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "必由之路",
+        "重中之重",
+        "当务之急",
+        "题中之义"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "刑法立法",
+        "最高刑"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 141
+    }
+  },
+  {
+    "question_id": "13192038",
+    "stem": "浮游植物是海洋食物网的（ ），维持着磷虾、鱼类、海鸟和海洋哺乳动物等一系列海洋生命。大量富含叶绿素的浮游植物也是海洋（ ）和储存二氧化碳的强大助力。因此，（ ）整个表层海洋的浮游植物，并了解这些重要群落如何应对气候变化，是科学家们非常感兴趣的课题。",
+    "options": {
+      "A": "基础 转化 研究",
+      "B": "底层 吸收 保护",
+      "C": "支柱 捕获 监测",
+      "D": "要素 运输 追踪"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "浮游植物",
+        "海洋食物网",
+        "叶绿素",
+        "二氧化碳",
+        "气候变化"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 121
+    }
+  },
+  {
+    "question_id": "13192054",
+    "stem": "哲学爱智慧，追求智慧；爱真理，追求真理。爱与追求都是 的，不能把智慧和真理看成一成不变的，而要不停地追求，决不满足既有结论。因此，哲学本质上是具有 的反思学问，它要求对既有结论不停地再思考。既没有终极真理，也没有超人智慧。真理到顶峰，智慧到超人，都是 哲学辩证法本性的。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "变化 逻辑性 突破",
+      "B": "动态 批判性 违背",
+      "C": "主观 指向性 偏离",
+      "D": "多元 个体性 超越"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.78,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.76,
+      "text_length": 151
+    }
+  },
+  {
+    "question_id": "13192210",
+    "stem": "后母戊鼎作为国之重器，承载中华民族的基因和血脉，已经成为________的文化符号，因此，它的名称择用须____________。目前，学界对于称“司母戊鼎”还是“后母戊鼎”，皆可备一说，在掌握更加________的古文字学证据之前，应该鼓励学术争鸣，尊重古文字学研究及其发展的规律，让真理越辩越明。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "公认 三思而行 原始",
+      "B": "标准 有理有据 关键",
+      "C": "著名 字斟句酌 充足",
+      "D": "典型 慎之又慎 确凿"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "三思而行",
+        "字斟句酌",
+        "慎之又慎"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "后母戊鼎",
+        "司母戊鼎",
+        "古文字学"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 169
+    }
+  },
+  {
+    "question_id": "13192060",
+    "stem": "爱国主义教育需要营造良好的制度环境，健全惩罚制度和激励机制，并且强化制度的可行性和（ ）。我国现有法律中不乏关于爱国主义教育的规范，但关于爱国主义教育的内容多为原则性规定，概括性较强，整体法治化程度还不高，而且呈现出一定的（ ）特征。通过明确和统一爱国教育的主要概念、基本原则和一般规则，能推进爱国教育制度的整合，提升爱国教育制度规范性、体系性和（ ）。",
+    "options": {
+      "A": "公信力 两极化 立体性",
+      "B": "约束力 差异化 多样性",
+      "C": "执行力 碎片化 稳定性",
+      "D": "感召力 模糊化 创新性"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "爱国主义教育",
+        "惩罚制度",
+        "激励机制",
+        "法治化"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 174
+    }
+  },
+  {
+    "question_id": "13192144",
+    "stem": "在民间艺术阶段，戏曲最初的功能主要是娱乐、教化，在愉悦人心的同时 、警醒世人。在成熟发展过程中，戏曲的讽谏教化功能被强化， 作者的善恶、美丑、是非等价值观念和价值判断。如黄梅戏《六尺巷》对宽容礼让、睦邻友好的 ，无不是在传扬中华传统美德。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "借古讽今 渗透 弘扬",
+      "B": "讽一劝百 凝聚 提倡",
+      "C": "以儆效尤 夹杂 崇尚",
+      "D": "针砭时弊 融入 推崇"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "借古讽今",
+        "以儆效尤",
+        "针砭时弊"
+      ],
+      "idiom_count": 3,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 135
+    }
+  },
+  {
+    "question_id": "13192101",
+    "stem": "人类是一个命运共同体。只有让和平的薪火代代相传，才能让发展的动力 、文明的光芒熠熠生辉。历史上，一些国家通过战争、殖民、掠夺等方式实现现代化，其自身文明的发展以其他文明的 为代价，给广大发展中国家人民带来苦难。中国式现代化坚定站在人类文明进步的一边，传承发展中华文明 、协和万邦的外交之道，努力为人类和平与发展作出贡献。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "步步为营 停滞 勠力同心",
+      "B": "源源不断 凋敝 亲仁善邻",
+      "C": "生生不息 衰落 肝胆相照",
+      "D": "欣欣向荣 牺牲 和衷共济"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "命运共同体",
+        "协和万邦"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "中国式现代化"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.82
+      },
+      "option_similarity_score": 0.81,
+      "text_length": 176
+    }
+  },
+  {
+    "question_id": "13192153",
+    "stem": "全面从严治党，既要靠治标， ，重典治乱，也要靠治本，正心修身，涵养文化，守住为政之本。领导干部要清正廉洁、 ，发挥好“关键少数”的表率作用，也要在全社会积极 崇廉拒腐的良好风尚，推动形成廉荣贪耻的社会氛围。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "猛药去疴 以身作则 营造",
+      "B": "惩前毖后 一马当先 构建",
+      "C": "刮骨疗毒 真抓实干 宣扬",
+      "D": "手到病除 严于律己 引领"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "全面从严治党",
+        "正心修身"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 119
+    }
+  },
+  {
+    "question_id": "13192181",
+    "stem": "阅读教学的本质是多重对话。师生在与文本对话、与作者对话和相互对话中，沟通彼此的历史文化语境，建构知识，形成理解。对话的基础是有效参与，只有积极主动、有所准备地投入其中，才能保障教学效果。为此， ，双方事先有了准备，对话过程才会具备“共同语言”，发生思想碰撞。 填入文中横线处最恰当的一项是（ ）。",
+    "options": {
+      "A": "阅读整本书的过程对教师和学生均充满挑战",
+      "B": "阅读教学的首要难题就是如何保障阅读时间",
+      "C": "阅读教学离不开教师备课和学生预习的环节",
+      "D": "明确阅读目标对顺利开展教学活动极其重要"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 145
+    }
+  },
+  {
+    "question_id": "13192244",
+    "stem": "以互联网为代表的信息技术的快速发展，对传统教育产生了前所未有的影响。从基础教育领域来观察，教育信息化的推进，不仅深刻改变着教育环境设施、教学内容资源、教学模式、评价方式、教育管理，甚至还影响到教育均衡发展和教育整体质量提升。教育出版的职责和根本使命，是为教育提供优质的内容资源和服务。因此，教育出版的自身发展不仅直接受到信息技术的影响，____________。传统教育出版必须转型升级，才能应对挑战；只有打造适应教育教学需求的新业态，才能实现新的发展。 填入文中横线处最恰当的一项是（ ）。",
+    "options": {
+      "A": "也面临着教育教学变化所带来的冲击",
+      "B": "也应该对其角色地位的变化有所准备",
+      "C": "也必然承受来自政策管理方面的压力",
+      "D": "也会促进信息技术在教育领域的普及"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "信息技术",
+        "教育信息化",
+        "教育出版"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 244
+    }
+  },
+  {
+    "question_id": "13192095",
+    "stem": "①常用的非交互式零知识证明系统的安全性建立在生成可信的真随机数的假设之上 ②此前有研究认为这种方法存在安全隐患，不过量子物理学的内禀随机性为解决这一问题提供了全新方案 ③非交互式零知识证明是零知识证明的一种最重要的变体，其特点是通信双方无需多次信息交换 ④零知识证明是一种基本的密码学工具，允许互不信任的通信双方之间，一方向另一方证明某个命题的有效性，同时不泄露任何额外信息 ⑤由于其简单易行并且互相通信次数少，非交互式零知识证明广泛应用于数字签名、区块链和身份认证等领域 ⑥然而实践中真随机数生成器难以实现，通常会使用确定性的伪随机数算法来替代 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "③①④②⑤⑥",
+      "B": "③④①⑥②⑤",
+      "C": "④②③⑤①⑥",
+      "D": "④③⑤①⑥②"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "非交互式零知识证明",
+        "真随机数",
+        "量子物理学",
+        "零知识证明",
+        "密码学工具",
+        "区块链"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.82,
+        "collocation_similarity": 0.75,
+        "distractor_strength": 0.8
+      },
+      "option_similarity_score": 0.79,
+      "text_length": 289
+    }
+  },
+  {
+    "question_id": "13192097",
+    "stem": "①千百年来，马推动着中国的历史进程，自《诗经》形成的马文化，影响着仁人志士的精神风貌，是中华民族精神的典型代表 ②先秦典籍对马多有记载，中国最早的诗歌总集《诗经》对马的记载尤为丰富 ③马是与人类关系最密切的动物之一，在人们的日常生活、政治、军事、经济等方面发挥着重要作用 ④据统计，《诗经》中提到马120余次，共有48篇在内容上涉及马 ⑤除广泛应用于战争、祭祀、婚嫁等社会生活，《诗经》还以马比兴、言情托志，马成为君子和英雄的象征 ⑥诗歌中出现马的名称有28种，根据毛色可分为骊、骐、骆等，根据体型可称为驹、騋等，根据性别可分为牡、牝，彰显出古人对马的细致观察 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "①④⑤⑥②③",
+      "B": "②①⑥③④⑤",
+      "C": "③②④⑥⑤①",
+      "D": "④⑥③⑤①②"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "仁人志士",
+        "精神风貌",
+        "典型代表",
+        "言情托志"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "马文化",
+        "先秦典籍",
+        "《诗经》"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 296
+    }
+  },
+  {
+    "question_id": "19283948",
+    "stem": "我们想问题、作决策、办事情，首先要考虑人口基数问题，考虑我国城乡区域发展水平差异大等实际，既不能 ，也不能因循守旧，要保持历史耐心，坚持稳中求进、循序渐进、持续推进。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "朝令夕改",
+      "B": "寅吃卯粮",
+      "C": "好高骛远",
+      "D": "一厢情愿"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "因循守旧",
+        "稳中求进",
+        "循序渐进",
+        "持续推进"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "人口基数",
+        "城乡区域发展水平"
+      ],
+      "term_count": 2,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 97
+    }
+  },
+  {
+    "question_id": "19283856",
+    "stem": "《营造法式》刊行之后，两浙一带的建筑技术借助官方的推广完全融入了中国古典木构建筑技术的主流。以抬梁式为梁柱结构，屋面重量通过椽、檩、梁、斗栱、柱传递至基础的方案，形成此后中国官式建筑 的发展路径。这种结构开间大，立柱少，气势恢宏，可细分为殿堂式与厅堂式，满足不同礼制等级的需要。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "源远流长",
+      "B": "标新立异",
+      "C": "一枝独秀",
+      "D": "一以贯之"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "《营造法式》",
+        "抬梁式",
+        "梁柱结构",
+        "斗栱"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.55,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.5
+      },
+      "option_similarity_score": 0.64,
+      "text_length": 153
+    }
+  },
+  {
+    "question_id": "19283885",
+    "stem": "兔和羚羊等食草动物获取食物时动作敏捷，牛类有瘤胃可以囤积食物，到安全环境中再慢慢消化。大熊猫既没有这样的敏捷度，也没有瘤胃结构，所以“ ”，选择了其他动物不吃的食物种类，也出现了一些与进食、消化有关的基因突变，形成了独特的食性——将箭竹作为主食。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "扬长避短",
+      "B": "顺水推舟",
+      "C": "因陋就简",
+      "D": "另辟蹊径"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "瘤胃",
+        "基因突变",
+        "箭竹"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 137
+    }
+  },
+  {
+    "question_id": "19283929",
+    "stem": "人才培养是循序渐进的过程，需认识、 、尊重人才成长规律，坚持“严管”和“厚爱”相结合。人才干事创业中难免有失误，如果培养者因为害怕犯错而顾虑重重、 ，则违背了人才培育的初衷。所以，要为人才“松绑”，建立健全正向激励和容错纠错机制，为人才成长创造宽容的环境。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "把握 因噎废食",
+      "B": "顺应 矫枉过正",
+      "C": "运用 半途而废",
+      "D": "归纳 瞻前顾后"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "因噎废食",
+        "矫枉过正",
+        "半途而废",
+        "瞻前顾后"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 143
+    }
+  },
+  {
+    "question_id": "19283873",
+    "stem": "党的规模大了，一些人容易出现搞小山头、小圈子、小团伙现象，容易出现 、自行其是问题，破坏党的团结统一，影响党的凝聚力战斗力。随着改革开放逐步深入，社会利益多元化、思想多样化也深刻影响到党员干部的观念和行为。我们必须在重大问题、严峻形势面前始终心往一处想、劲往一处使，做到凝心聚力、 ，确保全党紧密团结在党中央周围，步调一致向前进。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "分崩离析 群策群力",
+      "B": "南辕北辙 和衷共济",
+      "C": "尾大不掉 众志成城",
+      "D": "阳奉阴违 同仇敌忾"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "自行其是",
+        "心往一处想",
+        "劲往一处使",
+        "凝心聚力"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.72,
+        "distractor_strength": 0.8
+      },
+      "option_similarity_score": 0.79,
+      "text_length": 180
+    }
+  },
+  {
+    "question_id": "19283863",
+    "stem": "能量的产生和使用不一定 。可再生能源发电如风力发电、太阳能发电等，会因为天气、季节、地理位置的不同，存在不同时间尺度的间歇性，而用电需求也有 ，时多时少。低成本大规模的储能系统可以突破可再生能源“即发即用、不能存储”的瓶颈，显著提高风、光等可再生能源的消纳水平。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "同步 波动性",
+      "B": "协调 机动性",
+      "C": "平衡 规律性",
+      "D": "匹配 差异性"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "可再生能源",
+        "风力发电",
+        "太阳能发电",
+        "储能系统"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 146
+    }
+  },
+  {
+    "question_id": "19283842",
+    "stem": "各国正逐步形成以无人机、巡航导弹、弹道导弹、轰炸机等为主力的高效空袭体系，可以实现对目标空域的饱和袭击。这让只能命中单一目标的防空导弹陷入 的境地。面对复杂多样的战场威胁，防空导弹不再 ，而是“攥指成拳”，朝着防空导弹系统升级转变。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "腹背受敌 各自为战",
+      "B": "鞭长莫及 形单影只",
+      "C": "捉襟见肘 故步自封",
+      "D": "孤掌难鸣 单打独斗"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "腹背受敌",
+        "各自为战",
+        "鞭长莫及",
+        "形单影只"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "无人机",
+        "巡航导弹",
+        "弹道导弹",
+        "轰炸机",
+        "防空导弹",
+        "防空导弹系统"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.78,
+        "distractor_strength": 0.75
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 131
+    }
+  },
+  {
+    "question_id": "19283945",
+    "stem": "推进中国式现代化是一个探索性事业，还有许多未知领域，需要我们在实践中去大胆探索，通过改革创新来推动事业发展，决不能 、守株待兔。各地区各部门要结合各自具体实际开拓创新，特别是在前沿实践、未知领域，鼓励大胆探索、 ，寻求有效解决新矛盾新问题的思路和办法，努力创造可复制、可推广的新鲜经验。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "刻舟求剑 敢为人先",
+      "B": "坐井观天 踔厉奋发",
+      "C": "望梅止渴 推陈出新",
+      "D": "画地为牢 大展拳脚"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "守株待兔",
+        "开拓创新",
+        "敢为人先"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "中国式现代化",
+        "改革创新",
+        "前沿实践"
+      ],
+      "term_count": 3,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.72,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 158
+    }
+  },
+  {
+    "question_id": "19283918",
+    "stem": "降水总量增多、变率减弱可能是最让人 的变化型，这意味着未来的雨水不仅丰盈，还会以“润物细无声”的方式滋养大地。遗憾的是，全球几乎没有哪个地区的降水类型属于这一变化型。我国大部分地区的降水变化型属于“更湿润且波动更大”，意味着降水的 将增强，这须引起广泛重视。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "望眼欲穿 偶然性",
+      "B": "翘首以盼 持续性",
+      "C": "津津乐道 集中性",
+      "D": "喜闻乐见 极端性"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "润物细无声",
+        "喜闻乐见",
+        "津津乐道",
+        "翘首以盼"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 144
+    }
+  },
+  {
+    "question_id": "19283921",
+    "stem": "当前，改革发展任务繁重，需要各级各部门和广大干部高质高效地完成各项任务，才能在日趋激烈的发展竞争中赢得 。而处理日常纷繁复杂的工作，就如同“十个指头弹钢琴”，需要合理分配力量和节奏。一味强求自加压力，势必使某个或多个指头的力量受到影响，导致工作 ，工作效能不理想也就在意料之中了。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "主动 左支右绌",
+      "B": "优势 进退维谷",
+      "C": "认可 手忙脚乱",
+      "D": "先机 拖泥带水"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "十个指头弹钢琴"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.58,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.61,
+      "text_length": 155
+    }
+  },
+  {
+    "question_id": "19283923",
+    "stem": "面对企业，干部洁身自好只是最低要求，担当作为才是责任所系。民营企业所遇到的困难和问题仍不少，干部不仅要守住廉洁底线，更应主动为企业 。干部同企业家打交道要把握分寸，并不意味着可以对企业家的正当要求 ，对企业的合法权益不予保护，而是要积极主动为企业服务。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "雪中送炭 充耳不闻",
+      "B": "保驾护航 退避三舍",
+      "C": "嘘寒问暖 熟视无睹",
+      "D": "排忧解难 置若罔闻"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "洁身自好",
+        "担当作为",
+        "守住廉洁底线",
+        "把握分寸"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "民营企业",
+        "企业家",
+        "合法权益"
+      ],
+      "term_count": 3,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 141
+    }
+  },
+  {
+    "question_id": "19283900",
+    "stem": "刺沙蓬也叫风滚草，一株可以携带约20万粒种子。在随风滚动时， 的翻滚会帮助它抖落出种子，散落在地面上，时机成熟就会长成新的刺沙蓬，如此 。并且，它们对水分的需求量较少，对盐度有较好的耐受性，在海滩、草原和戈壁沙漠中都能 生长。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "连续 环环相扣 广泛",
+      "B": "突然 周而复始 野蛮",
+      "C": "剧烈 循环往复 肆意",
+      "D": "急促 绵绵不绝 疯狂"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "循环往复"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 127
+    }
+  },
+  {
+    "question_id": "19283864",
+    "stem": "借鉴各地耕保的好经验、好做法，可以少走弯路，但不可将借鉴当作 。比如，平原地区的耕地恢复方法不一定适合山区，粮食主产区与主销区可能 。有些经验做法依托的是当地经济基础和民风社情，外地可能“借”不来也“学”不好，盲目推广可能导致 、劳民伤财。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "套用 背道而驰 功亏一篑",
+      "B": "照搬 大相径庭 水土不服",
+      "C": "复制 截然不同 物极必反",
+      "D": "效仿 天差地别 弄巧成拙"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "背道而驰",
+        "功亏一篑",
+        "大相径庭",
+        "水土不服"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "耕保",
+        "耕地恢复",
+        "粮食主产区",
+        "主销区"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.82
+      },
+      "option_similarity_score": 0.81,
+      "text_length": 134
+    }
+  },
+  {
+    "question_id": "19283922",
+    "stem": "手枪短小轻便、易于隐藏，是军队 的装备。早期手枪由于使用黑火药，燃烧速度较慢，射击速度和射程受到很大限制。随着无烟火药的发明，弹药技术迎来革命性突破，弹匣手枪 。无烟火药燃烧速度快，可大幅提升射击速度和射程，弹匣手枪依托这一技术优势 。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "不可或缺 应运而生 崭露头角",
+      "B": "首当其冲 横空出世 声名鹊起",
+      "C": "必不可少 初露锋芒 后来居上",
+      "D": "屡见不鲜 大放异彩 脱颖而出"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "不可或缺",
+        "应运而生",
+        "崭露头角",
+        "首当其冲"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "手枪",
+        "黑火药",
+        "无烟火药",
+        "弹匣手枪",
+        "弹药技术"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.95,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.87,
+      "text_length": 132
+    }
+  },
+  {
+    "question_id": "19283901",
+    "stem": "改进文风就要多写“短实新”的好文章。“实”就是讲符合实际的话不讲脱离实际的话，讲管用的话不讲空话，讲反映自己思考的话不讲 的话，讲有感而发的话不讲 的话，讲通俗明白的话不讲故作高深的话， ，用朴实的语言阐述深刻的理论。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "故弄玄虚 装腔作势 由表及里",
+      "B": "照本宣科 无病呻吟 深入浅出",
+      "C": "人云亦云 言不由衷 举一反三",
+      "D": "陈词滥调 冠冕堂皇 言简意赅"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "脱离实际",
+        "故作高深"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 123
+    }
+  },
+  {
+    "question_id": "19283937",
+    "stem": "相对于狭义的农业即种植业而言，大农业是指广义的农业，不仅包括种植业、林草业、畜牧业和渔业，还包括产前的技术研发、品种繁育与推广、水利建设、农机生产与销售、农资储备与供应等，产后的烘干、储藏、运输、加工、营销与进出口贸易等，由此形成一个与农业发展有关、为农业发展服务的庞大产业体系。可以说， 。发展现代化大农业就是要构建一个现代化的大农业产业体系，这也是当前我国构建现代乡村产业体系的核心所在。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "大农业是对农业及其紧密联系的相关产业的高度概括",
+      "B": "农村产业融合化发展是当今乡村产业发展的必然趋势",
+      "C": "大农业是在当前技术条件下实现的对小农经济的超越",
+      "D": "发展现代化大农业应该因地制宜推进农业规模化经营"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "大农业",
+        "种植业",
+        "林草业",
+        "畜牧业",
+        "渔业",
+        "现代化大农业产业体系"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 210
+    }
+  },
+  {
+    "question_id": "19283928",
+    "stem": "①但目前来看，新一代AI都表现出一定的回避提问的意图，这可能与模型试图节约算力资源有关 ②在目前的法律框架内，数字生命还不是可以承担法律责任的主体，而被认为是程序、代码，或是人在网络空间中的一个身份 ③如果机器向人输出了错误或者不能理解的内容，这是算法故障，应当要求开发、维护人员尽快修复，而不是指令机器“立刻改正” ④不过一旦模型有自主选择逃避人类提问的能力，并且已经脱离了开发人员的控制，AI没有法律人格的结论就要面临挑战了 ⑤一般认为，创造数字生命的人，就是对数字生命负责的人，例如程序的开发者、AI的使用者等 ⑥这除了伦理上的考虑，还有其不具备承担责任可能的因素 将以上6个句子重新排列，语序正确的一项是：",
+    "options": {
+      "A": "②⑤⑥①④③",
+      "B": "⑤②⑥④①③",
+      "C": "②⑥⑤③①④",
+      "D": "⑤③②⑥④①"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "AI",
+        "数字生命",
+        "法律人格",
+        "算法故障"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 301
+    }
+  },
+  {
+    "question_id": "19283857",
+    "stem": "①严格执法与公正司法是相辅相成的 ②加强行政执法与刑事司法衔接，是为了确保二者之间既能互不干扰，又能高效转换，从而更有力地实施法律 ③前端为后端减负、后端为前端增力，才能更好地让严格执法与公正司法共同发力，促进法律有效实施，保障社会公平正义 ④特别是在环境保护、食品安全等关系人民切身利益的重点领域，行政执法与刑事司法脱节会导致法律威慑力不足 ⑤习近平总书记指出，“要加强行政执法与刑事司法有机衔接，坚决克服有案不移、以罚代刑等现象” ⑥严格执法位于前端，通过行政手段依法保障人民群众的生命财产安全；公正司法位于后端，定分止争，是公平正义的最后一道防线 将以上6个句子重新排列，语序正确的一项是：",
+    "options": {
+      "A": "①⑥⑤②④③",
+      "B": "①②④⑤③⑥",
+      "C": "⑤③⑥④①②",
+      "D": "⑤⑥②③①④"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "相辅相成",
+        "定分止争"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "行政执法",
+        "刑事司法",
+        "公正司法",
+        "严格执法"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 292
+    }
+  },
+  {
+    "question_id": "19283933",
+    "stem": "与传统业态相比，新业态顺应多元化、多样化、个性化的产品或服务需求，实现产业与互联网、大数据、云计算、人工智能等新技术深度融合，通过采用新技术和新模式，为市场引入新元素、丰富新场景，促进新岗位、新就业形态不断涌现，创造更多就业机会。新业态既提供新的高技能岗位，扩大对高水平劳动力的需求，又通过带动传统产业转型升级，实现对传统职业和岗位的再造，释放新的就业需求。当前，我国有超2亿灵活就业人员，新就业形态 。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "已经成为吸纳就业的重要“蓄水池”",
+      "B": "有助于促进区域间劳动资源的互补与共享",
+      "C": "为高技能劳动力流动提供充足机会",
+      "D": "是有效缓解重点群体就业压力的“缓冲器”"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "互联网",
+        "大数据",
+        "云计算",
+        "人工智能",
+        "新业态",
+        "新就业形态"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 216
+    }
+  },
+  {
+    "question_id": "19526312",
+    "stem": "2024年，我国脱贫县农民人均可支配收入增幅高于全国平均水平，脱贫人口务工就业规模保持稳中有增。2025年是巩固拓展脱贫攻坚成果同乡村振兴有效衔接5年过渡期的最后一年，越是这个时候，越要扛稳责任， ，做好监测帮扶工作。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "步步为营",
+      "B": "行稳致远",
+      "C": "慎终如始",
+      "D": "绵绵用力"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "扛稳责任"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "脱贫县",
+        "人均可支配收入",
+        "脱贫人口",
+        "务工就业",
+        "脱贫攻坚",
+        "乡村振兴"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.73,
+      "text_length": 123
+    }
+  },
+  {
+    "question_id": "19526234",
+    "stem": "在太空实验室开展的脑电测试实验中，航天员戴的“小红帽”叫作脑电帽，里面嵌入了众多微小的触头，它们像一群 的小侦探，精准捕捉大脑每一个微妙的波动。这顶帽子赋予航天员神奇的能力——无须言语，无须动作，仅仅通过思维就能给电脑下指令，操控各种设备。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "未卜先知",
+      "B": "明察秋毫",
+      "C": "洞若观火",
+      "D": "随机应变"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "脑电测试实验",
+        "脑电帽"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.79,
+      "text_length": 134
+    }
+  },
+  {
+    "question_id": "19526373",
+    "stem": "党员干部生活作风的蜕变，往往是从吃喝等看似小事的地方开始的。“堤溃蚁孔，气泄针芒”，这句古训就是强调 的重要性。习近平同志曾在《之江新语》中写道：“小事小节是一面镜子，能够反映人品，反映作风。”党员干部要严格对照中央八项规定精神，深刻认识小与大的辩证关系，主动“照镜子”自查。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "防微杜渐",
+      "B": "积微成著",
+      "C": "慎小谨微",
+      "D": "曲突徙薪"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "堤溃蚁孔",
+        "气泄针芒"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "中央八项规定精神"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.88,
+        "distractor_strength": 0.83
+      },
+      "option_similarity_score": 0.87,
+      "text_length": 152
+    }
+  },
+  {
+    "question_id": "19526292",
+    "stem": "通用人工智能对重大情报的挖掘和精确预测，确实能够提高情报准确性，有利于减少误判；但有时也可能会使人类盲目自信，刺激其 。通用人工智能带来的进攻优势，导致最佳防御战略就是“ ”，这会打破进攻与防御的平衡，引发新型安全困境，反而增加了战争爆发的风险。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "孤注一掷 避实击虚",
+      "B": "轻举妄动 以攻为守",
+      "C": "刚愎自用 攻其不备",
+      "D": "铤而走险 先发制人"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "盲目自信",
+        "进攻优势",
+        "进攻与防御的平衡",
+        "安全困境"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "通用人工智能",
+        "情报",
+        "防御战略"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 138
+    }
+  },
+  {
+    "question_id": "19526382",
+    "stem": "新史料被发掘，有赖于史家具有证据意识。若是史家不认为某个史料可以作为证据，该史料可能会被 。比如甲骨文，起初甲骨被当作龙骨入药，不被史家关注。但晚清学者王懿荣意识到龙骨非同寻常，后经考证确认甲骨文是商代文字，之后史家以此为证据重构殷商历史，为中华文明起源这一重大问题提供了 支点。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "视而不见 稳固",
+      "B": "弃如敝屣 崭新",
+      "C": "断章取义 可靠",
+      "D": "束之高阁 坚实"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "视而不见",
+        "弃如敝屣",
+        "断章取义",
+        "束之高阁"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "甲骨文",
+        "商代文字",
+        "殷商历史",
+        "中华文明起源"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 155
+    }
+  },
+  {
+    "question_id": "19526384",
+    "stem": "利用网络存在的安全漏洞入网窃取数据信息，这种方式相当隐蔽，往往会使数据的安全响应 ；而且网络中流转数据的规模十分巨大，来源异常复杂，攻击者一旦掌握网络漏洞，入侵网络后就可以在网上“ ”，窃取数据。因此，必须严密防范数据在共享过程中可能遭受的各种攻击和泄露。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "防不胜防 按图索骥",
+      "B": "形同虚设 守株待兔",
+      "C": "名存实亡 偷天换日",
+      "D": "鞭长莫及 瓮中捉鳖"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "安全漏洞",
+        "数据安全响应",
+        "数据共享"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.58,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 143
+    }
+  },
+  {
+    "question_id": "19526240",
+    "stem": "五彩滩是一处著名的雅丹地貌景观，位于新疆维吾尔自治区，中国唯一一条注入北冰洋的河流额尔齐斯河穿其而过。南岸有绿洲、沙漠，北岸则是 的泥岩、砂岩及砂砾组成的奇石怪岩，这两种 的地貌遥相辉映，“一河隔两岸，胜似两重天”。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "鳞次栉比 大相径庭",
+      "B": "千姿百态 别具一格",
+      "C": "色彩斑斓 截然不同",
+      "D": "绚丽多姿 各有千秋"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "鳞次栉比",
+        "大相径庭",
+        "千姿百态",
+        "别具一格"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "雅丹地貌",
+        "额尔齐斯河",
+        "北冰洋"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 123
+    }
+  },
+  {
+    "question_id": "19526241",
+    "stem": "面对新的形势和要求，必须进一步全面深化改革，继续完善各方面制度机制，因而制度建设的任务更为繁重艰巨，加强顶层设计更为重要。如果不能全景式俯瞰和把握制度建设全局，采取总体构想和战略谋划，做到胸中有数， 地层层系统设计，难免顾此失彼、 ，无法取得制度建设的成效。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "抽丝剥茧 捉襟见肘",
+      "B": "循序渐进 进退维谷",
+      "C": "由表及里 得不偿失",
+      "D": "自上而下 左支右绌"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "顾此失彼"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "顶层设计",
+        "制度建设",
+        "制度机制",
+        "战略谋划"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 144
+    }
+  },
+  {
+    "question_id": "19526267",
+    "stem": "未来特战力量可通过智能辅助，直接干扰或控制敌方指挥控制系统，造成敌方思想混乱、心理受挫甚至出现幻觉；或者通过伴随无人平台实施网络作战，篡改指控系统指令和数据实现“ ”，致使敌方指挥失灵、协同失效、人员失能， 地失去战斗力，从而实现“不战而屈人之兵”。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "移花接木 彻头彻尾",
+      "B": "釜底抽薪 无声无息",
+      "C": "暗度陈仓 潜移默化",
+      "D": "反客为主 浑然不觉"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "不战而屈人之兵"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "智能辅助",
+        "指挥控制系统",
+        "网络作战",
+        "无人平台"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 140
+    }
+  },
+  {
+    "question_id": "19526322",
+    "stem": "对于不符合著作权法、专利法、商标法等专门法保护条件的创新成果，反不正当竞争法为其提供了 保护。面对数字时代 的新型不正当竞争行为，反不正当竞争法通过一般条款的灵活解释和适用，能够及时规制尚未被其他专门法 的知识产权侵权行为，防止创新成果被不正当使用。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "补充 层出不穷 覆盖",
+      "B": "特殊 屡见不鲜 界定",
+      "C": "升级 五花八门 收录",
+      "D": "额外 应运而生 明确"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "层出不穷",
+        "屡见不鲜",
+        "五花八门",
+        "应运而生"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "著作权法",
+        "专利法",
+        "商标法",
+        "反不正当竞争法",
+        "知识产权"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 139
+    }
+  },
+  {
+    "question_id": "19526307",
+    "stem": "中生代寄生蠕虫的化石数量并不稀少，但由于其地质年代相较于寒武纪、奥陶纪等更年轻，常被认为难以 深层次的生物演化奥秘。其次，这些蠕虫往往体型微小，化石保存状况不佳。再者，它们形态单调、特征 ，使得分类鉴定难度极高。因此，中生代寄生蠕虫的相关研究仍然 。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "阐释 相似 凤毛麟角",
+      "B": "蕴含 泛化 停滞不前",
+      "C": "探寻 统一 无从下手",
+      "D": "揭示 模糊 屈指可数"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "凤毛麟角",
+        "屈指可数"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "中生代",
+        "寄生蠕虫",
+        "寒武纪",
+        "奥陶纪"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.58,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.64,
+      "text_length": 139
+    }
+  },
+  {
+    "question_id": "19526293",
+    "stem": "敢于正视问题的反面是回避矛盾、 ，个别表现在：发言提纲套用、借用、翻用，发言内容偏离主题、不及重点， 、似曾相识，剖析问题避重就轻、 ，相互批评官话、套话······凡此种种，致使民主生活会的批评和自我批评有形式而无实质内容和效果，必须防止和纠正。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "敷衍了事 老生常谈 隔靴搔痒",
+      "B": "虚与委蛇 长篇大论 大而化之",
+      "C": "畏首畏尾 陈词滥调 浮光掠影",
+      "D": "闪烁其词 不痛不痒 张冠李戴"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "回避矛盾",
+        "避重就轻"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "民主生活会",
+        "批评和自我批评"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 138
+    }
+  },
+  {
+    "question_id": "19526381",
+    "stem": "城镇化发展不宜 。城镇化率低且人口规模大的地区，应着重提升水平、挖掘潜力；城镇化率较高且人口持续集聚的地区，不妨促进大中小城市和小城镇 发展。在此过程中，要坚持系统观念，统筹城乡、双向发力。如此，才能在城乡一体、良性互动中，让城镇化成为一个顺势而为、 的发展过程。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "一步到位 共同 自然而然",
+      "B": "一哄而上 均衡 顺理成章",
+      "C": "千篇一律 融合 大势所趋",
+      "D": "整齐划一 协调 水到渠成"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "顺理成章",
+        "大势所趋",
+        "水到渠成"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "城镇化",
+        "城镇化率",
+        "城乡一体"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 146
+    }
+  },
+  {
+    "question_id": "19526402",
+    "stem": "领导干部领导水平的高低，很重要的一点就在于能否预见在先、 ，如果没有“草摇叶响知鹿过”的 、“窥一斑而知全豹”的预判，见事迟、反应慢，倾向性问题就可能不断叠加、 、升级，造成无法挽回的损失。因此，领导干部要做到早预警、早干预，避危于无形、止损于未发。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "独具慧眼 警惕 延伸",
+      "B": "见微知著 谨慎 激化",
+      "C": "胸有成竹 细致 辐射",
+      "D": "未雨绸缪 敏锐 演变"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "草摇叶响知鹿过",
+        "窥一斑而知全豹"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 139
+    }
+  },
+  {
+    "question_id": "19526320",
+    "stem": "进一步全面深化司法改革，必须聚焦改革的本质要求，严格依法依规推进改革，所有履职都要立足宪法法律赋权， 职能边界，不脱离法院职能，不超越法院职权，更不能 ，确保改革不偏离正确方向。积极发挥法治对改革的引导、推动、规范、 作用，确保重大改革依法有序、于法有据，增强改革的执行力、穿透力。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "遵循 各自为政 监督",
+      "B": "划定 为所欲为 震慑",
+      "C": "厘清 画地为牢 约束",
+      "D": "恪守 越俎代庖 保障"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "各自为政",
+        "为所欲为",
+        "画地为牢",
+        "越俎代庖"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "司法改革",
+        "宪法",
+        "法院职能",
+        "法院职权",
+        "法治"
+      ],
+      "term_count": 5,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.72,
+        "distractor_strength": 0.8
+      },
+      "option_similarity_score": 0.79,
+      "text_length": 155
+    }
+  },
+  {
+    "question_id": "19526302",
+    "stem": "何为担当作为？从字面上看，担当作为就是承担起应尽的责任和义务，发挥出应有的能力和能量，创造出应然的成绩和实效；从辩证法看，担当是作为的前提和基础，作为是担当的体现和成效，二者相辅相成。习近平总书记强调：“ 。”事业发展不可能一帆风顺，做事总有风险，因此才需要担当。有时候越怕事越容易出事，越想绕道走矛盾就越堵着道。只有敢于担当，豁得出去、敢闯敢干，矛盾和困难才可能得到解决。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "担当作为就要真抓实干、埋头苦干，决不能坐而论道、光说不练",
+      "B": "党把干部放在各个岗位上是要大家担当干事，而不是做官享福",
+      "C": "担当和作为是一体的，不作为就是不担当，有作为就要有担当",
+      "D": "如果不担当、不作为，没有执行力、战斗力，那是要打败仗的"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "一帆风顺",
+        "坐而论道",
+        "光说不练",
+        "豁得出去"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "辩证法",
+        "执行力",
+        "战斗力"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.75,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.74,
+      "text_length": 201
+    }
+  },
+  {
+    "question_id": "19526379",
+    "stem": "如何培育好独角兽企业，是一个大课题。不同类型的独角兽企业，需求完全不同。比如，有的企业需要大量计算资源的支持，有的企业需要与高校相关科研力量加速对接，有的企业则需要共性技术平台支持。显然，粗放式的政策供给难以满足不同类型独角兽企业的复杂需求， ，助力企业加速成长。未来，随着机制的不断创新和完善，将能培育出更多优质的独角兽企业，为经济的高质量发展注入强劲动力。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "有关部门应倾听独角兽企业的“声音”",
+      "B": "唯有精准施策方可解决不同的“烦恼”",
+      "C": "面向独角兽企业的“管家”应运而生",
+      "D": "机制创新无疑是解决问题的“又一村”"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "独角兽企业",
+        "共性技术平台",
+        "高质量发展"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.65,
+        "distractor_strength": 0.58
+      },
+      "option_similarity_score": 0.64,
+      "text_length": 194
+    }
+  },
+  {
+    "question_id": "19526385",
+    "stem": "①在这种条件下点火并稳定燃烧，好比在12级狂风中点燃一根火柴 ②在高超声速飞行器穿越云霄的征途中，动力推进技术就是打开高速大门的金钥匙 ③当燃烧室内气流流速超过声速时，会形成复杂的激波系，激波前后气流状态会产生突变 ④目前，超燃冲压发动机是这一领域的明星，它可以在大气中有效获取氧气，并且在高超声速条件下稳定燃烧 ⑤想象一下，让一个重达数吨的飞行器在空气稀薄的高空中以数倍声速疾驰，需要多么强大的发动机提供足够的推力 ⑥此时，常规的发动机技术完全不能适用，只有超燃冲压发动机才能在极短时间内将大量燃料转化为推力，并让飞行器加速稳定在高超声速 将以上6个句子重新排列，语序正确的一项是：",
+    "options": {
+      "A": "②⑥③①④⑤",
+      "B": "②⑤④③①⑥",
+      "C": "⑤④①⑥③②",
+      "D": "⑤③②④⑥①"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "高超声速飞行器",
+        "动力推进技术",
+        "燃烧室",
+        "激波系",
+        "超燃冲压发动机"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.68,
+        "pos_style_similarity": 0.72,
+        "collocation_similarity": 0.65,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 286
+    }
+  },
+  {
+    "question_id": "19526401",
+    "stem": "①非周期性意味着，由这种形状构成的整体图案，不能通过平移或旋转来恢复相同的图案 ②在后续的研究中，数学家们逐渐缩小这一数字，直到20世纪70年代，罗杰·彭罗斯仅使用两种不同的菱形，就完成了非周期性铺砌 ③“爱因斯坦”来源于德语，意思是“一块石头”，指的是单铺砌块 ④在数学的铺砌领域，寻找“爱因斯坦”是许多数学家追求了半个多世纪的“圣杯” ⑤单铺砌块指的是一个可以填满无限平面，且不会自我重复的非周期性铺砌块 ⑥早期的数学家需要多种形状来组成非周期铺砌块，比如首个可以覆盖无限平面的非周期铺砌是由2万多种形状组成的 将以上6个句子重新排列，语序正确的一项是：",
+    "options": {
+      "A": "③⑤①④⑥②",
+      "B": "④③⑤⑥②①",
+      "C": "⑤④③②①⑥",
+      "D": "⑥①②⑤③④"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "非周期性铺砌",
+        "单铺砌块",
+        "非周期性",
+        "铺砌领域"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.75
+      },
+      "option_similarity_score": 0.74,
+      "text_length": 273
+    }
+  },
+  {
+    "question_id": "19526376",
+    "stem": "自然界的微生物虽然能分解高盐废水中的部分污染物，但它们就像“偏科生”，每个菌种通常只擅长处理一两种特定污染物。当面对高盐废水中油污、重金属、放射性物质等组成的“混合垃圾”时，这些天然微生物就显得“力不从心”。此外，因微生物降解所涉及的基因种类和数目较多，常规基因工程技术对菌株设计和改造的速度和深度非常有限。近年来，合成生物学技术飞速发展为降解菌株的构建提供了可能。科学家们能够通过合成生物技术给微生物设计“智能工具箱”，不仅 ，还能让这些功能像积木一样精准搭配。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "能通过调控基因构建新菌株",
+      "B": "能使微生物快速识别可分解污染物",
+      "C": "能给细菌安装多种污染物分解能力",
+      "D": "能克服传统菌株“遇盐失活”的瓶颈"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "力不从心"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "高盐废水",
+        "基因工程技术",
+        "合成生物学技术",
+        "合成生物技术"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 246
+    }
+  },
+  {
+    "question_id": "19526383",
+    "stem": "。太阳系中的小行星数不胜数，它们是太阳系形成后遗留的残余碎片，仅在地球轨道周围就运行着数以千万计的小行星，它们与地球一样环绕太阳运行。当这些小行星与地球轨道发生交会时，如果其轨道能量与地球相近，它们就可能被地球引力捕获，成为地球的“迷你月亮”。根据科学家推断，地球周围随时都可能有“迷你月亮”在运行，只是目前人类观测能力有限，无法定位其具体位置。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "小行星的轨道受多种因素扰动",
+      "B": "地球的天然卫星并非只有一个",
+      "C": "小行星被地球引力捕获并不罕见",
+      "D": "小行星撞击地球的概率无法确知"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "太阳系",
+        "小行星",
+        "地球引力",
+        "迷你月亮"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 188
+    }
+  },
+  {
+    "question_id": "2052304",
+    "stem": "我甚至很少有闲散的时光了，它们都被微信上的即兴交流吞噬得干干净净。何止是闲散时光，我原本的阅读、思考时间都开始被 。至于写作，因为不断地迅速释放，我似乎再难找到那种 之后的充沛表达。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "压缩 酝酿",
+      "B": "蚕食 压抑",
+      "C": "侵占 封闭",
+      "D": "剥夺 积累"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.75
+      },
+      "option_similarity_score": 0.8,
+      "text_length": 108
+    }
+  },
+  {
+    "question_id": "2052306",
+    "stem": "字画投资的突出特征是其文化性比较高、投入比较大。人们对字画艺术品的 必然是在社会安定、生活水平日益提高、物质条件得到充分保障以后才有可能产生，同时，只有社会安定，才可能保证字画投资市场的运行不至 太大的系统风险。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "青睐 触及",
+      "B": "热衷 承担",
+      "C": "需求 出现",
+      "D": "收藏 引发"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "系统风险"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.58,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.61,
+      "text_length": 123
+    }
+  },
+  {
+    "question_id": "2052308",
+    "stem": "玩权术尽管名声不好，史书中就有不少诸如“权相”、“权臣”这些 着嘲讽贬抑意味的词汇。然而这种方法却也有效，有多少高官显宦，正是凭靠权术手腕，一生享尽荣华富贵。所以，尽管历史的耻辱柱上刻满“前车之鉴”，后继者仍 。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "充满 趋之若鹜",
+      "B": "充斥 有恃无恐",
+      "C": "充盈 数不胜数",
+      "D": "充塞 置若罔闻"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "前车之鉴"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 123
+    }
+  },
+  {
+    "question_id": "2052312",
+    "stem": "在哲学史上，关于普遍性和特殊性含义及其关系的各种理解和阐释，形成了不同的观点和学派，但 的根本以及划分的标准则集中在对普遍性概念的理解上：对普遍性是客观的还是主观的不同回答，展示了唯物和唯心的两军对垒；普遍性是指抽象单一的共同性还是包含特殊性在内的多样性统一，对此看法不同，则暴露了辩证法与形而上学的 。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "矛盾 差异",
+      "B": "讨论 分化",
+      "C": "争议 内涵",
+      "D": "分歧 界限"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "普遍性",
+        "特殊性",
+        "唯物",
+        "唯心",
+        "辩证法",
+        "形而上学"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.78,
+        "distractor_strength": 0.75
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 169
+    }
+  },
+  {
+    "question_id": "2052314",
+    "stem": "海洋承载着世界经济发展与合作共赢的希望，在英语里，“中国”与“瓷器”是同样的拼写，中国那些 的瓷器，最早就是通过海洋这一 进入了世界各国的橱窗。随着海洋交通的不断发展，逐步形成了全球贸易网络。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "栩栩如生 渠道",
+      "B": "巧夺天工 枢纽",
+      "C": "流光溢彩 纽带",
+      "D": "精美绝伦 通道"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "合作共赢"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 113
+    }
+  },
+  {
+    "question_id": "2052316",
+    "stem": "顾客是企业的争夺对象，理应被企业奉为上帝。如果服务质量差，即使产品本身质量好，顾客往往也会 ，因为谁也不愿花钱买气受。相反，如果企业及其推销员、售货员、维修人员真诚地尊重顾客，有时尽管商品价格高一点，或者质量不尽如人意，顾客感到 ，也乐于购买，甚至可能再次光顾。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "置之不理 意犹未尽",
+      "B": "弃之不顾 盛情难却",
+      "C": "避之不及 却之不恭",
+      "D": "弃如敝履 于心不忍"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "奉为上帝",
+        "花钱买气受"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.68,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.58
+      },
+      "option_similarity_score": 0.62,
+      "text_length": 148
+    }
+  },
+  {
+    "question_id": "2052318",
+    "stem": "俗话说“环境造就人”，但也不是说环境决定一切，而是环境能 人们内心的动机。如果一个环境中，人们普遍都在寻求利益，那么身处此境的个人也就难免会 ；如果一个环境中，人人讲求公德、道义，那么身处此境的个人也会讲公德和道义，这就是人性的“遇善则善，遇恶则恶”。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "产生 唯利是图",
+      "B": "唤醒 近墨者黑",
+      "C": "触发 随波逐流",
+      "D": "激起 同流合污"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "唯利是图",
+        "近墨者黑",
+        "随波逐流",
+        "同流合污"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 143
+    }
+  },
+  {
+    "question_id": "2052320",
+    "stem": "目前的“钱荒”并不是货币政策收紧所导致的，而是过去几年金融体系借助国内外宽松的货币政策环境，脱离实体经济 发展，金融资产过度膨胀在一个时间点的 爆发。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "畸形 突然",
+      "B": "飞速 恶性",
+      "C": "片面 系统",
+      "D": "盲目 集中"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "货币政策",
+        "金融体系",
+        "实体经济",
+        "金融资产"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 92
+    }
+  },
+  {
+    "question_id": "2052322",
+    "stem": "迭代思维，大数据思维……关于互联网思维的众多阐释尤其是实践心得，都有价值。不过，互联网思维并不是万能的救命稻草，抓住了就能 。如果罔顾互联网思维的本质，迷惑于它的表象，盲目套用这个“万能公式”，结果只会 。用好互联网思维，还要洗去它被打扮的妆容，看清“素颜”，需要立足于“互联网给我们带来的改变”去思考，也需要 ，从自身的特点来挑选和利用。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "起死回生 适得其反 量体裁衣",
+      "B": "化险为夷 事与愿违 随机应变",
+      "C": "转危为安 拔苗助长 随遇而安",
+      "D": "妙手回春 欲速不达 量力而行"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "救命稻草",
+        "万能公式"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "迭代思维",
+        "大数据思维",
+        "互联网思维"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 186
+    }
+  },
+  {
+    "question_id": "2052324",
+    "stem": "生态文明源于对发展的反思，也是对发展的 ，事关当代人的民生 和后代人的发展空间。中国把生态文明建设放在国家现代化建设更加突出的位置，坚持在发展中保护、在保护中发展， 生态文明体制机制，下大力气防治空气雾霾和水、土壤污染，推进能源资源生产和消费方式变革，继续实施重大生态工程，把良好生态环境作为公共产品向全民提供，努力建设一个生态文明的现代化中国。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "继承 幸福 保全",
+      "B": "提升 福祉 健全",
+      "C": "升华 利益 建立",
+      "D": "外化 问题 确立"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "生态文明",
+        "生态文明体制机制",
+        "生态环境",
+        "现代化中国"
+      ],
+      "term_count": 4,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.73,
+      "text_length": 189
+    }
+  },
+  {
+    "question_id": "2052328",
+    "stem": "在昆虫世界，通常会将蜜蜂与社会性行为联系起来。不过，根据一项最新研究，事实上真正离开同伴便活不了的是蚂蚁。美国科学媒体报道称，在仅仅隔离了6天后，蚂蚁就死掉了，而群居在一起的对照组蚂蚁活了66天。通常情况下，蚂蚁通过一种被称为嗉囊的内部结构，将食物搬回巢穴。而一旦回到巢穴，它们再将食物吐出来，和其他蚂蚁分享。蚂蚁在孤立状态下出现无法消化食物的现象，让科学家推测可能吐出食物的过程会改变食物成分，使其变得容易消化。或者说，这种社会互动改变了蚂蚁的肠道微生物，以某种方式促进了营养吸收。 这段文字旨在表明（ ）。",
+    "options": {
+      "A": "群居蚂蚁分享食物的行为",
+      "B": "人们对蚂蚁存在的认知误区",
+      "C": "蚂蚁与蜜蜂社会性行为的不同",
+      "D": "蚂蚁社会性行为的生理基础"
+    },
+    "label": {
+      "question_type": "主旨概括",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "肠道微生物"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.55,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.5
+      },
+      "option_similarity_score": 0.59,
+      "text_length": 253
+    }
+  },
+  {
+    "question_id": "2052330",
+    "stem": "市场波动受市场信息披露的影响相当大，决定蔬菜价格的因素包括产量、质量、库存量、出口量等等，而这些信息的披露，却向来没有超然于具体利益之外的第三方机构主导。一些从业人员在某关键节点上通过发布片面且真假难辨的信息来引导市场情绪，管理部门对此却束手无策。权威的第三方信息披露，本来就需要相关部门出面组织，而做好这样的日常服务，会比出事后再“强化监管”有效得多。 这段文字意在强调在蔬菜交易中（ ）。",
+    "options": {
+      "A": "市场信息披露应引入权威的第三方机构",
+      "B": "管理部门应对信息发布渠道强化监管",
+      "C": "应限制市场从业人员的信息发布权限",
+      "D": "市场信息的披露会直接影响蔬菜价格"
+    },
+    "label": {
+      "question_type": "意图判断",
+      "idiom_terms": [
+        "束手无策"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "市场信息披露",
+        "第三方机构",
+        "管理部门"
+      ],
+      "term_count": 3,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 194
+    }
+  },
+  {
+    "question_id": "2052332",
+    "stem": "科学传播理论中有一个欠缺模型，用以描述某类科普活动的动机，大意是指如果公众对某项科学活动不支持，可能是因为对相关知识的了解相对欠缺——因为不懂，所以恐慌。科学家的对策便是对公众进行科学普及，他们坚信一旦公众了解了细节知识，熟悉该门科学及其技术的运作过程，便会相信专家的判断。这类科普行为也有专门的称谓，即“公众理解科学”。这一行为的立场和首要目标受益者实际上是科学共同体，而非公众。 这段文字的关键词可以归纳为（ ）。",
+    "options": {
+      "A": "科学普及、公众理解科学",
+      "B": "科学传播理论、欠缺模型",
+      "C": "科学共同体、科普行为",
+      "D": "科普活动、动机"
+    },
+    "label": {
+      "question_type": "主旨概括",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "科学传播理论",
+        "欠缺模型",
+        "科学普及",
+        "公众理解科学",
+        "科学共同体"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 207
+    }
+  },
+  {
+    "question_id": "2052342",
+    "stem": "①近20年来，仿荷叶的人造超疏水表面不断涌现 ②水滴在荷叶上形成一个球形，而不是铺展开来，像这样的表面，被称为“超疏水表面” ③这便是荷叶“出淤泥而不染”的原因了 ④然而，这项技术由于种种限制，一直未能大规模应用 ⑤荷叶这种自清洁性能被称为“荷叶效应” ⑥这种超疏水表面可以有效防止被污水污染，表面的灰尘、杂质也会被雨水带走 将以上6个句子重新排列，语序正确的是（ ）。",
+    "options": {
+      "A": "①②⑥④③⑤",
+      "B": "②⑥③⑤①④",
+      "C": "①⑥④②⑤③",
+      "D": "②③①④⑤⑥"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "出淤泥而不染"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "超疏水表面",
+        "荷叶效应"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 178
+    }
+  },
+  {
+    "question_id": "2052344",
+    "stem": "①它借鉴了话剧的“嘴巴”（说）和电影的“眼睛”（看）两种表现特征，但“看远方的图画”始终是它的第一特征 ②与电影不同，电视剧的界限相对较为宽泛，可以涵盖众多形式，如戏曲、音乐甚至舞蹈 ③正如达•芬奇的观点：被称为灵魂之窗的眼睛是理解力的主要工具，它使人能最充分地欣赏自然界中无限的创造；而耳朵则是次要的，因为它之所以重要，是由于它能听到眼睛所看到的事物 ④所以“看电视”就是强调视知觉特征 ⑤电视剧没有向故事电影靠拢并非偶然，不论是艺术特征、拍摄手段还是服务对象，既不是戏剧的，又不是电影的，而是一门独立的、崭新的艺术 ⑥它可以向戏剧借鉴以语言（台词）为特征的表现手法，也可以借鉴电影的语言表达方式，形成自己的艺术语言系统 将以上6个句子重新排列，语序正确的是（ ）。",
+    "options": {
+      "A": "②⑤⑥①④③",
+      "B": "⑤⑥②④③①",
+      "C": "②⑥①⑤③④",
+      "D": "⑤②③④⑥①"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "电视剧",
+        "话剧",
+        "电影",
+        "戏曲",
+        "达•芬奇"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 327
+    }
+  },
+  {
+    "question_id": "2052346",
+    "stem": "纸质图书价格近年来一直在上涨。如今一本纸质图书动辄四五十元，比前几年贵出不止一倍。这让许多原本就不经常买书的人望而却步。数字化阅读则不一样，不仅正规出版的电子书远较纸质图书便宜，而且在电脑、手机等平台都可随时阅读，十分方便。电子书易于保存、便于检索，这也是数字化阅读的优点。种种因素决定了 。 填入画横线部分最恰当的一句是（ ）。",
+    "options": {
+      "A": "数字化阅读成为提高和拓宽全民阅读的必由之路",
+      "B": "未来会有越来越多的人通过数字化媒介进行阅读",
+      "C": "相对于纸质书的阅读来说，数字化阅读也很重要",
+      "D": "让阅读变得触手可及，才能创造全民阅读的氛围"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "数字化阅读",
+        "电子书"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.75,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.74,
+      "text_length": 162
+    }
+  },
+  {
+    "question_id": "2204090",
+    "stem": "历史是历史学家跟事实之间相互作用的连续不断的过程，是现在跟过去之间 的问答交谈。历史学家在不停地选择，一般的历史事件变成了档案馆里的文献，就是一种选择过程。所以，即使是原始文献，也是 因素渗透其中选择的结果。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "永无止境 主观",
+      "B": "针锋相对 偶然",
+      "C": "深入浅出 综合",
+      "D": "无所不在 外部"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.55,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.5
+      },
+      "option_similarity_score": 0.59,
+      "text_length": 121
+    }
+  },
+  {
+    "question_id": "2204100",
+    "stem": "在中国电影成为世界第二大票仓的当下，这个本该充满智慧的艺术却 空前的智慧危机与信誉危机——制作水准参差不齐，偶有 掀起热潮，却更像是对国产电影持久萎靡的报复性反弹，这是电影制作方的智慧缺失。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "陷入 后起之秀",
+      "B": "掀起 他山之石",
+      "C": "遭遇 上乘之作",
+      "D": "导致 点睛之笔"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "后起之秀",
+        "他山之石",
+        "上乘之作",
+        "点睛之笔"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 112
+    }
+  },
+  {
+    "question_id": "2204104",
+    "stem": "再写实的绘画也不可能像照相机那样如实地还原景象。诚然，摄影者对拍摄对象会有所取舍，观看者则根据自己的 从中获得自以为有趣的信息。观看者对于信息的关注与选择，往往与拍摄者的愿望大异其趣，有时摄影者作为画面的主体呈现给人的，观看者却 ，反而是画面里那些毫不起眼的什物引发了他的思绪。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "判断 浮想联翩",
+      "B": "偏好 熟视无睹",
+      "C": "经历 走马观花",
+      "D": "习惯 无动于衷"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "浮想联翩",
+        "熟视无睹",
+        "走马观花",
+        "无动于衷"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 156
+    }
+  },
+  {
+    "question_id": "2204112",
+    "stem": "在娱乐方式多元化的今天，“ ”是不少人特别是中青年群体对待戏曲的态度，这里面固然存在先入为主的偏见、难以静下心来欣赏戏曲之美等因素，却也绕不开另一个原因：戏曲本是广大群众 的大众艺术形式，但一些戏曲虽然与观众之间没有荧屏、银幕之隔，却用艺术化的表演讲述着与观众距离较远的生活。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "爱屋及乌 津津乐道",
+      "B": "不屑一顾 耳熟能详",
+      "C": "敬而远之 喜闻乐见",
+      "D": "心猿意马 信手拈来"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "先入为主",
+        "静下心来"
+      ],
+      "idiom_count": 2,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 155
+    }
+  },
+  {
+    "question_id": "2204117",
+    "stem": "在我们的印象中，大人物 ，指挥千军万马，气吞山河，建功立业，似乎历史是由他们决定和书写的。但实际上，很多时候我们翻开史书却发现，历史在无意中，被很多小人物不经意的举动或想法 了本来的走向，成为了我们今天看到的存在。 填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "纵横捭阖 颠覆",
+      "B": "举足轻重 改写",
+      "C": "名垂青史 影响",
+      "D": "叱咤风云 逆转"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "千军万马",
+        "气吞山河",
+        "建功立业"
+      ],
+      "idiom_count": 3,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "对比辨析",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 122
+    }
+  },
+  {
+    "question_id": "2204121",
+    "stem": "中国传统文献学的核心功能在于“辨章学术，考镜源流”。在具体的实践过程中，过分突出理论，会使文献学研究成为 ；过于偏重考证，则易使文献学研究流于 。因此，如何将传统文献学理论与实践有效地结合在一起，是当下中国古典文献学界学者面临的重大挑战。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "高文雅典 浅薄",
+      "B": "空中楼阁 琐碎",
+      "C": "海市蜃楼 艰涩",
+      "D": "阳春白雪 平庸"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "空中楼阁",
+        "海市蜃楼",
+        "阳春白雪"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "文献学",
+        "中国传统文献学",
+        "古典文献学"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.75,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.74,
+      "text_length": 136
+    }
+  },
+  {
+    "question_id": "2204086",
+    "stem": "虽然数字是年报中最 的部分，但年报其实远不止是 的数字堆砌。投资者通过年报判断公司的投资价值，监管机构通过监控年报发现并规避系统风险。可以说，年报是一个舞台，台上光怪陆离，台下看客云集。",
+    "options": {
+      "A": "眼花缭乱 随意",
+      "B": "一成不变 简单",
+      "C": "惊心动魄 枯燥",
+      "D": "扑朔迷离 机械"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "光怪陆离",
+        "看客云集",
+        "眼花缭乱",
+        "扑朔迷离"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "系统风险",
+        "投资价值"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 91
+    }
+  },
+  {
+    "question_id": "2204095",
+    "stem": "管理者往往对直观信息熟视无睹，对数字情有独钟。结果，他们就可能 一些关键线索，不能真正了解到对方的优势和劣势。由此导致的结果，要么是“ ”，要么是“交友不慎”。 依次填入画横线部分最恰当的一项（ ）。",
+    "options": {
+      "A": "遗漏 铤而走险",
+      "B": "轻视 畏首畏尾",
+      "C": "丢失 误入歧途",
+      "D": "忽略 坐失良机"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "铤而走险",
+        "畏首畏尾",
+        "误入歧途",
+        "坐失良机"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "因果论证",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.74,
+      "text_length": 96
+    }
+  },
+  {
+    "question_id": "2204101",
+    "stem": "移动终端快餐化、碎片化阅读受到大学生的推崇，但松散的阅读习惯很难使人构建 的思想体系。在浮躁的社会环境中，经典著作虽然能够对人有潜移默化的影响，但却不能像实用书籍那样 ，这也是部分读者远离经典的原因。 填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "完整 立竿见影",
+      "B": "深刻 行之有效",
+      "C": "系统 屡试不爽",
+      "D": "宏大 学以致用"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "潜移默化",
+        "立竿见影",
+        "行之有效",
+        "屡试不爽"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "对比辨析",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 115
+    }
+  },
+  {
+    "question_id": "2204093",
+    "stem": "中国的茶、饮茶方式、斗茶风气，茶具等传入日本后，逐渐与日本本土文化相结合，到了16世纪，形成了日本独特的茶文化——茶道。 。不过，日本茶道实际上是中日文化交流的结晶，如果没有中国茶树及茶文化的引入，茶道这个日本的国粹也就无从谈起了。 填入画横线部分最恰当的一句是：",
+    "options": {
+      "A": "日本原先既无茶树，也没有饮茶的习惯",
+      "B": "现代日本茶道中所用的抹茶，最初就是从中国引入的",
+      "C": "日本茶道数百年来持续发展，已经成为日本文化的一个象征",
+      "D": "唐代，大批日本使节来到中国学习，并把中国文化带回日本"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "茶道"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.55,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.5
+      },
+      "option_similarity_score": 0.59,
+      "text_length": 130
+    }
+  },
+  {
+    "question_id": "2204115",
+    "stem": "①因此有人认为，宇宙半径约为138亿光年 ②而且在宇宙大爆炸之后的37.8万年中，宇宙只是带电的粒子场，是高温高密度的电浆云，光子在这团电浆云里跑不远 ③如果要计算宇宙大小，光速是一个很好的指标 ④但真实情况并非如此，因为物理学家们已经反复证明，宇宙在加速膨胀 ⑤之后发生了名为重组的事件，粒子最终冷却到足够低的温度，首批原子形成，光才能自由移动 ⑥现有理论认为，宇宙产生于约138亿年前的一次大爆炸 将以上6个句子重新排列，语序正确的是：",
+    "options": {
+      "A": "③④⑥⑤②①",
+      "B": "③⑥①④②⑤",
+      "C": "⑥⑤①④③②",
+      "D": "⑥④③⑤①②"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "宇宙大爆炸",
+        "光速",
+        "电浆云",
+        "重组"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.58,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.64,
+      "text_length": 214
+    }
+  },
+  {
+    "question_id": "2204122",
+    "stem": "①信息泄露导致的垃圾信息、骚扰电话、精准诈骗日益威胁着人们的隐私、财产甚至生命安全 ②伴随着电子商务的普及，消费者成为个人信息泄露的主要受害群体 ③同时，消费者个人信息泄露还容易破坏市场秩序、制约经济发展，滋长各类犯罪、危害社会稳定，甚至引发公共安全及国家安全危机 ④具体而言，个人信息对自然人具有社会交往价值，对公权力主体具有管理价值，对企业具有商业价值 ⑤然而，在信息商业化过程中，信息失控已成为不争的事实 ⑥个人信息被誉为“21世纪最有价值的资源” 将以上6个句子重新排列，语序正确的是（ ）。",
+    "options": {
+      "A": "②⑥③④⑤①",
+      "B": "④②⑥①③⑤",
+      "C": "①⑤②⑥③④",
+      "D": "⑥④⑤②①③"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "信息泄露",
+        "电子商务",
+        "个人信息",
+        "市场秩序",
+        "公共安全",
+        "国家安全"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.68,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.58
+      },
+      "option_similarity_score": 0.62,
+      "text_length": 243
+    }
+  },
+  {
+    "question_id": "2680189",
+    "stem": "中国高速公路总里程世界第一，庞大的高速路网成为中国经济发展的动脉， 地在全国各地间运送物资。通过优化道路交通管理模式，物流成本还可以有不少降低的空间。 填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "川流不息",
+      "B": "源源不断",
+      "C": "一日千里",
+      "D": "经年累月"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 91
+    }
+  },
+  {
+    "question_id": "2680193",
+    "stem": "在人类与病毒的斗争中，病毒本身也在发生变化，以确保自身的繁衍。科学家必须不断研发新的疫苗， 。由此，便不难理解，为何新的疫病或寄生物变体出现时，我们会“全民皆兵”了。 填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "未雨绸缪",
+      "B": "见招拆招",
+      "C": "亡羊补牢",
+      "D": "兵来将挡"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "未雨绸缪",
+        "见招拆招",
+        "亡羊补牢",
+        "兵来将挡"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "疫苗",
+        "病毒",
+        "寄生物变体"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.78
+      },
+      "option_similarity_score": 0.81,
+      "text_length": 99
+    }
+  },
+  {
+    "question_id": "2680211",
+    "stem": "当金融体系发生一些特定情况，并有可能触发系统性风险的时候，必要的行政手段是必须的。但 使用行政命令去解决金融体系中的问题，固然可以化解 的金融风险，但最终可能造成新的金融风险。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "贸然 突发",
+      "B": "机械 持续",
+      "C": "过度 一时",
+      "D": "反复 潜在"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "金融体系",
+        "系统性风险",
+        "行政手段",
+        "行政命令",
+        "金融风险"
+      ],
+      "term_count": 5,
+      "passage_function": "因果论证",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 105
+    }
+  },
+  {
+    "question_id": "2680190",
+    "stem": "甲骨文发现后，学者们通过对殷墟甲骨文的研究，证明了《史记•殷本纪》的可信，证实了司马迁撰写的商代历史绝非 ，从而极大地提高了《史记》中有关夏朝历史记载的可信度。考古学家和历史学家正以《史记•夏本纪》的记载为 ，探寻夏代的历史文化，目前已取得了可观的成绩。因此，用出土文物去印证古代典籍，重建夏商周三代文明的可信历史，甲骨文起了举足轻重的作用。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "虚构 线索",
+      "B": "杜撰 蓝本",
+      "C": "捏造 佐证",
+      "D": "臆测 基础"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "甲骨文",
+        "殷墟甲骨文",
+        "《史记•殷本纪》",
+        "司马迁",
+        "《史记•夏本纪》",
+        "夏商周三代文明"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 188
+    }
+  },
+  {
+    "question_id": "2680195",
+    "stem": "除了“设计最短路线”“避开交通拥堵”之外，部分提供导航服务的企业，在安排线路时还渗入了其他 ，比如他们会让用户绕行一些企业暂时缺乏数据的路线，以 收集信息。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "理念 尝试",
+      "B": "想法 上报",
+      "C": "思路 补充",
+      "D": "考量 协助"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "导航服务"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 95
+    }
+  },
+  {
+    "question_id": "2680202",
+    "stem": "随着95后群体逐渐成为文化娱乐消费的主流人群，他们的消费观念和消费行为，将 市场上的相关产业。在某些领域中，这种 已经相当明显，甚至已经蔚为壮观。比如，近几年“应援经济”迅速崛起，其消费者就以95后群体为主。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "引导 模式",
+      "B": "渗透 潮流",
+      "C": "重塑 趋势",
+      "D": "改变 取向"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "蔚为壮观"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "应援经济"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 121
+    }
+  },
+  {
+    "question_id": "2680198",
+    "stem": "罗兰·巴特是法国当代杰出的思想家和符号学家，他从不囿于自己已形成的理论体系，总在不断探索、不断转变。一种对不确定性的 和对任何确定性的排斥与逃避，萦绕了巴特的一生。巴特曾同意萨特的观点，后来转向结构主义，而后又批评结构主义，转向解构主义。他就像一个理论的“流浪儿”， 、优哉游哉。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "追求 居无定所",
+      "B": "迷恋 飘忽不定",
+      "C": "依赖 随遇而安",
+      "D": "向往 随波逐流"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "居无定所",
+        "飘忽不定",
+        "随遇而安",
+        "随波逐流"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "结构主义",
+        "解构主义",
+        "符号学"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 157
+    }
+  },
+  {
+    "question_id": "2680207",
+    "stem": "随着互联网的发明和应用，世界从工业化时代迈入信息化时代，由于科技创新方向的错误及创新政策的 ，日本的主要创新单元，或在已有的领地上打转，或一次又一次爬错了科技树，从而使日本错过了互联网和移动互联网带来的新一轮巨变机遇，这才导致日本的经济奇迹 。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "滞后 半途而废",
+      "B": "缺位 偃旗息鼓",
+      "C": "僵化 昙花一现",
+      "D": "保守 戛然而止"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "爬错了科技树",
+        "经济奇迹"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "互联网",
+        "信息化时代",
+        "科技创新",
+        "创新政策",
+        "移动互联网"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 139
+    }
+  },
+  {
+    "question_id": "2680216",
+    "stem": "从构建人类命运共同体，到共建“一带一路”，从坚持正确义利观，到加强文明交流互鉴，中国始终高举和平发展、合作共赢旗帜，做世界和平的 、全球发展的贡献者、国际秩序的维护者，彰显负责任大国的 和底色。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "倡导者 归属",
+      "B": "守卫者 尝试",
+      "C": "建设者 定位",
+      "D": "受益者 担当"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "合作共赢",
+        "命运共同体",
+        "文明交流互鉴"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "一带一路",
+        "人类命运共同体"
+      ],
+      "term_count": 2,
+      "passage_function": "总结归纳",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 114
+    }
+  },
+  {
+    "question_id": "2680194",
+    "stem": "从可持续发展看，保护环境就是保护生产力，改善环境就是发展生产力。我们一定要树立大局观、长远观、整体观，不能 、急功近利。要坚持节约资源和保护环境的基本国策，推动形成绿色发展方式和生活方式，协同推进人民富裕、国家强盛、中国美丽，形成人与自然和谐发展的现代化建设新 。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "寅吃卯粮 格局",
+      "B": "管窥蠡测 态势",
+      "C": "坐井观天 思路",
+      "D": "饮鸩止渴 方式"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "急功近利"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "可持续发展",
+        "绿色发展方式",
+        "生活方式",
+        "现代化建设"
+      ],
+      "term_count": 4,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 149
+    }
+  },
+  {
+    "question_id": "2680201",
+    "stem": "国学教育要“随风潜入夜，润物细无声”， ，久久为功，才能有所感悟、有所收获。满足于“快充式”培训所得的 、一知半解，对于个人的国学水平提高作用不大。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "潜移默化 沧海一粟",
+      "B": "持之以恒 一鳞半爪",
+      "C": "按部就班 一孔之见",
+      "D": "日积月累 浮光掠影"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "国学教育"
+      ],
+      "term_count": 1,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 91
+    }
+  },
+  {
+    "question_id": "2680205",
+    "stem": "对抗激烈、 的信息化战场上，军事思维的重要性 。纵观战争对抗史，拥有技术优势的一方不一定是胜利者，处于技术劣势的一方也并非注定失败。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "变幻莫测 可想而知",
+      "B": "波谲云诡 不言而喻",
+      "C": "错综复杂 呼之欲出",
+      "D": "狼烟四起 有目共睹"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "变幻莫测",
+        "波谲云诡",
+        "错综复杂",
+        "狼烟四起"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "信息化战场",
+        "军事思维"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 83
+    }
+  },
+  {
+    "question_id": "2680199",
+    "stem": "电报行业的高利润和垄断带来的昂贵价格严重限制了这项技术的“社会使用”，恰恰因为公司与商业客户，才有可能通过集体谈判来 价格。美国早期电报需求的 由商业和新闻界所 ，到1900年为止，拉丁美洲海底电缆服务的 以上仅仅是来自于400家公司的客户。电报的高商业使用率反而 了它自身在普通消费者群体的沉降与普及，最终导致了电报行业的衰落。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "压制 占据 妨碍",
+      "B": "协商 实现 阻止",
+      "C": "调控 提出 隔离",
+      "D": "设定 利用 消除"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "电报行业",
+        "拉丁美洲海底电缆服务"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 179
+    }
+  },
+  {
+    "question_id": "2680208",
+    "stem": "随着数字技术、人工智能、可再生能源等一波波新技术浪潮的 ，世界各国都意识到紧抓第四次科技革命机遇、实现产业和经济结构创新现代化的重大意义。作为欧洲乃至全球的经济大国和制造业强国，德国多年前就 捕捉到这一重大趋势变化并制定了相应政策体系。德国推进工业现代化的进展与反思，对于 产业升级和经济结构现代化的其他国家和地区，有着重要参考价值。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "纷至沓来 敏锐 谋求",
+      "B": "炙手可热 明智 推进",
+      "C": "层出不穷 迅速 促使",
+      "D": "应运而生 准确 探索"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "层出不穷",
+        "应运而生",
+        "纷至沓来",
+        "炙手可热"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "数字技术",
+        "人工智能",
+        "可再生能源",
+        "第四次科技革命",
+        "产业升级",
+        "经济结构现代化"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.72,
+        "distractor_strength": 0.76
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 183
+    }
+  },
+  {
+    "question_id": "2680213",
+    "stem": "某80后作家曾炮轰“高考作文很蠢”，其休学、叛逆、成功之路一直被一些青少年所 ，但后来他承认，退学是一件很失败的事情，不值得学习。这是一位少年成长、成熟之后对后来者发出的 。在未来社会，“文盲”表现为读书太少、知识掌握不足、缺少持续学习的能力。如果到那时，再去妄谈“读书无用”，更是要 。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "效仿 警告 相形见绌",
+      "B": "尊崇 忏悔 误人子弟",
+      "C": "膜拜 告诫 贻笑大方",
+      "D": "青睐 劝解 悔不当初"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "贻笑大方",
+        "相形见绌",
+        "误人子弟",
+        "悔不当初"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.68,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.62,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.68,
+      "text_length": 160
+    }
+  },
+  {
+    "question_id": "2680219",
+    "stem": "声控灯的开关控制线路内装有麦克风、光敏管和延时电路，其中光敏管主要由可控硅组成。灯具的“开”和“关”一方面是靠可控硅的导通和阻断来实现，而可控硅的导通和阻断又是受环境光线的亮度所控制的；另一方面则是由麦克风拾取的声音的强度决定的。当环境光线足够强时，由可控硅组成的光敏管控制电路，使开关处于断开的状态；当环境光强不够时，光敏管的控制不再发挥作用，这时麦克风开始工作；当外界有足够强的声音时，麦克风拾取声音信号，使开关处于导通状态，灯具就会被点亮，灯亮后延时关闭电路工作，一定时间之后电路关闭，此时灯熄灭，由此便实现了用声音控制灯具的功能。 这段文字未提及的是声控灯的（ ）。",
+    "options": {
+      "A": "光控原理",
+      "B": "供电方式",
+      "C": "控制电路",
+      "D": "收音装置"
+    },
+    "label": {
+      "question_type": "细节判断",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "麦克风",
+        "光敏管",
+        "延时电路",
+        "可控硅"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.55,
+        "pos_style_similarity": 0.6,
+        "collocation_similarity": 0.5,
+        "distractor_strength": 0.58
+      },
+      "option_similarity_score": 0.56,
+      "text_length": 285
+    }
+  },
+  {
+    "question_id": "2680206",
+    "stem": "翻译工作，是一种成果供他人消费的智力劳动，作为劳动者的翻译工作者必须同一切劳动者一样，具备严谨的工匠精神，力求一丝不苟、精益求精，由于市场需要和数字技术发展，当今翻译市场上出现了快餐式翻译和人工智能翻译。这是翻译在传播领域中出现的新事物，有它的特点和特定环境的需要。市场既有需要，就应允许存在，让不同要求的翻译各行其道，由消费者各取所需。但这种翻译新形态，绝不能替代严谨的学术翻译，尤其是替代不了富含艺术想象力的文艺翻译。所以 。 填入画横线处最恰当的句子是（ ）。",
+    "options": {
+      "A": "学术和文艺翻译仍然是翻译工作的灵魂",
+      "B": "市场和技术发展有将翻译工作带入歧途的风险",
+      "C": "在翻译界倡导工匠精神仍然是十分必要的",
+      "D": "不同类型的翻译产品满足了市场的不同需求"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "一丝不苟",
+        "精益求精",
+        "各行其道",
+        "各取所需"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "快餐式翻译",
+        "人工智能翻译",
+        "学术翻译",
+        "文艺翻译"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 230
+    }
+  },
+  {
+    "question_id": "2680212",
+    "stem": "文人权力与地位在北宋初年获得迅速提升，这是中国社会对中晚唐以来国家整体危机的结构性反应。自755年安史之乱爆发，到1063年宋仁宗统治末期文官在行政与军事各领域都压过武人同僚，三百年中，统治精英所面对的同一个问题，那就是如何重建秩序，恢复一统，实现天下太平。在追溯这种较长时段的演变时， 。因为历史上的很多重大问题往往都被传统上以王朝为单位的研究方式所遮蔽了。“唐宋之际的文武关系”是这种精英力量调整最明显的表征。由此入手，可以窥见政治构造内部的变化，理解文官之治作为一项政治安排，一旦成形之后，何以竟能如此长寿。 填入画横线处最恰当的一项是（ ）。",
+    "options": {
+      "A": "打破朝代之间的区隔是必要的",
+      "B": "总会面对政治构造不同的现象",
+      "C": "必须关注文武关系这一重要的特征",
+      "D": "有必要理解制度深厚的内在逻辑"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "天下太平"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "文人权力",
+        "文官",
+        "武人",
+        "文武关系",
+        "文官之治"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 272
+    }
+  },
+  {
+    "question_id": "2680437",
+    "stem": "格陵兰孤悬于欧洲大陆之外，是世界上最大的岛屿，这座岛有 在北极圈之内，北部常年冰雪封冻，有经济和居住价值的，只有南部的一小部分领土。这里生活着5万多因纽特原住民，还有少量的丹麦人。这些丹麦人大多是派驻当地的官员和军人，负责彰显丹麦王室对格陵兰行使的主权。因为格陵兰，是丹麦的领土。不过， ，它具有高度的自治权。他们拥有自己的议会和政府，甚至能越过丹麦进行一些国际级别的发声，也能选择自己的贸易伙伴。 填入画横线处最恰当的一项是（ ）。",
+    "options": {
+      "A": "格陵兰的特殊之处并不只在于面积",
+      "B": "格陵兰在国际贸易中扮演重要角色",
+      "C": "格陵兰微妙的地缘价值令人刮目相看",
+      "D": "格陵兰的地位显然不同于一般的领土"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "北极圈",
+        "因纽特原住民",
+        "丹麦王室",
+        "自治权"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 213
+    }
+  },
+  {
+    "question_id": "2680200",
+    "stem": "炕围画俗称“炕围子”，是农村居民为防止土炕周围墙面脱落，蹭脏衣服、被褥，而在环炕的墙上涂上高约二尺的“围子”，融壁画、年画、建筑彩绘为一体，兼具实用和审美功能，在山西晋北一带十分流行。其中，以原平市最为驰名，这里的家家户户都有炕围画。炕围画的渊源可远追宋代。据《原平县志》记载：“从班村发掘的宋代墓葬壁画证实，早在北宋时期，原平的炕围画已在达官显贵的居室流行，至明末逐渐普及到广大乡村”。 这段文字主要介绍了炕围画的（ ）。",
+    "options": {
+      "A": "历史渊源和流传区域",
+      "B": "历史演变和传承技艺",
+      "C": "创作队伍和创新发展",
+      "D": "内容形式和文献记载"
+    },
+    "label": {
+      "question_type": "主旨概括",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "炕围画",
+        "炕围子",
+        "壁画",
+        "年画",
+        "建筑彩绘"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 210
+    }
+  },
+  {
+    "question_id": "2680204",
+    "stem": "①虽然很少有人否定职业教育的重要性，但现实生活中，人们对职业教育却抱有一定偏见。 ②中国拥有世界上规模最大的职教体系。 ③职校毕业生成了支撑中小企业集聚发展、区域产业迈向中高端的生力军。 ④这一问题的根源，就是以往的职业教育重在“升本”或学生的理论学习，而没有注重对“职”的培养。 ⑤职业教育是培养为社会直接创造价值的高素质劳动力和专门人才的教育。 ⑥产教融合难以落地、就业质量不高等都一直是困扰职业教育发展的难题。 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "①③②⑤④⑥",
+      "B": "⑤②③④①⑥",
+      "C": "②⑤③①⑥④",
+      "D": "⑥⑤②①③④"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "职业教育",
+        "职教体系",
+        "产教融合"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.68,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.58
+      },
+      "option_similarity_score": 0.62,
+      "text_length": 224
+    }
+  },
+  {
+    "question_id": "2680210",
+    "stem": "①在唐朝之前我们国家都没有菠菜的记载。 ②虽说菠菜有一种浓浓的乡土味道，但是它们真不是原产中土之物。 ③如今学界比较公认的菠菜传播路径是，先由波斯传入印度，之后大约公元647年的时候，才经尼泊尔传入中国。 ④曾经有学者认为菠菜是在张骞出使西域的时候就带回中国了，却没有实际的证据来支持这种说法。 ⑤至于菠菜的名字，有个说法就是从“波斯菜”演化而来，就跟它的来源有关。 ⑥菠菜的老家在波斯，也就是今天的伊朗及其周边区域。 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "①⑤④⑥③②",
+      "B": "②①⑥⑤④③",
+      "C": "②④⑤③①⑥",
+      "D": "⑥③④⑤②①"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "菠菜",
+        "波斯",
+        "尼泊尔",
+        "伊朗"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.58,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.64,
+      "text_length": 225
+    }
+  },
+  {
+    "question_id": "4553677",
+    "stem": "让学生接受马克思主义，离不开必要的灌输，但这不等于搞填鸭式的“硬灌输”。要注重启发式教育，引导学生发现问题、分析问题、思考问题，在不断启发中让学生 得出结论。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "潜移默化",
+      "B": "举一反三",
+      "C": "水到渠成",
+      "D": "融会贯通"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "得出结论"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "马克思主义",
+        "启发式教育"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 96
+    }
+  },
+  {
+    "question_id": "4553692",
+    "stem": "学术界时常有这样的情形，一些争论看似“你来我往很热闹”，但仔细考量，却发现论辩双方所争的是 的假问题、伪命题，这也是“学术泡沫”滋生的重要原因。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "子虚乌有",
+      "B": "荒诞不经",
+      "C": "一纸空文",
+      "D": "拾人牙慧"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "子虚乌有",
+        "荒诞不经",
+        "一纸空文",
+        "拾人牙慧"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "学术泡沫"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 89
+    }
+  },
+  {
+    "question_id": "4553701",
+    "stem": "艺术大师吴昌硕曾说，“学我，不能全像我。化我者生，破我者进，似我者死！”学生不能简单摹仿老师的作品，自己的作品要 ，正所谓“师其心而不师其迹”。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "推陈出新",
+      "B": "博采众长",
+      "C": "精益求精",
+      "D": "另辟蹊径"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "推陈出新",
+        "博采众长",
+        "精益求精",
+        "另辟蹊径"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.79,
+      "text_length": 89
+    }
+  },
+  {
+    "question_id": "4553715",
+    "stem": "市场经济的发展、国家开放程度的加深、技术变革的加快，始终需要生产力和生产关系、经济基础和上层建筑的不断调整、相互适应，这就需要随着变化发展的形势，以经济体制改革为 ，不断推进全面深化改革，努力冲破思想观念的障碍、突破利益固化的 、破解发展面临的各种难题和各方面的挑战。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "内核 壁垒",
+      "B": "主线 泥淖",
+      "C": "牵引 藩篱",
+      "D": "导向 瓶颈"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "利益固化"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "市场经济",
+        "经济体制改革",
+        "生产力",
+        "生产关系",
+        "经济基础",
+        "上层建筑"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 150
+    }
+  },
+  {
+    "question_id": "4553723",
+    "stem": "在一些城市的流调报告中，相继出现了“只提地点不提人”的信息公布新方式，得到了舆论的高度 。在新增确诊病例的流调报告中隐去患者的个人信息，改为以涉及区域和场所信息披露为主，这一做法受到了不少媒体和网民的称赞，“不提人”更显对人的 。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "关注 体谅",
+      "B": "认可 尊重",
+      "C": "评价 关爱",
+      "D": "肯定 重视"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "流调报告",
+        "确诊病例"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 131
+    }
+  },
+  {
+    "question_id": "4553729",
+    "stem": "减轻义务教育阶段学生作业负担和校外培训负担，被称为“双减”。与以往的减负措施相比，“双减”的最大亮点在于务实，不再 强调校内减负，而是追求整体减负。而“双减”能否起到减负的 ，也取决于能否将务实进行到底。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "片面 实效",
+      "B": "一味 目的",
+      "C": "单纯 意图",
+      "D": "盲目 作用"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "义务教育阶段",
+        "校外培训",
+        "双减"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 118
+    }
+  },
+  {
+    "question_id": "4553732",
+    "stem": "消费税是一种 比较宽的税，既有政府财政收入利益，也有企业与居民个人消费者的利益，牵一发而动全身。消费税是我国的主要税种，在财政收入中所占比重不断提高。因此，将消费税纳入立法轨道已成 。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "覆盖面 不易之论",
+      "B": "灵活性 重中之重",
+      "C": "涉及面 当务之急",
+      "D": "影响力 万全之策"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "牵一发而动全身"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "消费税",
+        "财政收入"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 108
+    }
+  },
+  {
+    "question_id": "4553741",
+    "stem": "20世纪后半叶，射电天文学 ，接连涌现类星体、脉冲星、星际分子和宇宙微波背景辐射四大天文发现。这些发现看上去高深而 ，却在某些方面改变了未来。比如射电天文学家研究中的副产品转化成了今天的无线局域网技术。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "方兴未艾 遥远",
+      "B": "如日中天 惊人",
+      "C": "欣欣向荣 晦涩",
+      "D": "风靡一时 复杂"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "方兴未艾",
+        "如日中天",
+        "欣欣向荣",
+        "风靡一时"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "射电天文学",
+        "类星体",
+        "脉冲星",
+        "星际分子",
+        "宇宙微波背景辐射",
+        "无线局域网技术"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 117
+    }
+  },
+  {
+    "question_id": "4553746",
+    "stem": "年画于南方是细腻柔媚，在北方是粗犷豪放，呈现出很强的 。若是再仔细分辨的话，区别就更大了。比如，河南朱仙镇的年画，传承着中古时期的典雅与大气；苏州桃花坞的年画，汲取了江南文化的精秀细巧······这些个性鲜明、 的年画，只有在农家的墙壁上才彰显出活力，是乡村屋舍的画龙点睛之笔。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "艺术性 美轮美奂",
+      "B": "独特性 栩栩如生",
+      "C": "差异性 五颜六色",
+      "D": "地域性 异彩纷呈"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "画龙点睛"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 155
+    }
+  },
+  {
+    "question_id": "4553774",
+    "stem": "从钻木取火、使用石器，到发明蒸汽机、燃气机和计算机，人类在技术创新的道路上从未停歇，所 的，正是创造一个更美好的世界。然而，只有亲自走过的人才会懂得，这条技术之路是多么 。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "梦寐以求 坎坷",
+      "B": "孜孜以求 艰辛",
+      "C": "念念不忘 漫长",
+      "D": "矢志不渝 孤独"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "钻木取火"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "蒸汽机",
+        "燃气机",
+        "计算机"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 102
+    }
+  },
+  {
+    "question_id": "4553716",
+    "stem": "也许在今天看来，某些人“为黑而黑”的把戏相当 。但不得不说，这个群体曾经一度在舆论场上呼风唤雨，粉丝拥趸动辄百万千万。“公知”为何走下神坛？从根本上说，是因为其所构建的那一套话术在现实冲击下正变得愈发无力。“中国之治”与“世界之乱”形成鲜明对照。更重要的是，随着越来越多中国人走出国门，对“发达国家不发达”的真相有了更为直观理性的认识。当爱国和自信愈发成为舆论场中的 ，“公知体”自然失去市场。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "浅薄 定盘星",
+      "B": "普遍 领头羊",
+      "C": "明显 顶梁柱",
+      "D": "拙劣 主旋律"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "呼风唤雨",
+        "走下神坛"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "舆论场",
+        "公知",
+        "中国之治",
+        "世界之乱"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 214
+    }
+  },
+  {
+    "question_id": "4553725",
+    "stem": "电影是“文化名片”，生动地展示着一个国家的形象；也是“文化底片”，形象地显影着一个国家的 ；电影是“文化芯片”，深刻地 着一个国家的精神密码。电影并不提供解决方案，但却让陌生的心灵相通，成为我们彼此贴近、 对方的“通行证”。 填入横线处最恰当的是（ ）。",
+    "options": {
+      "A": "内涵 传递 理解",
+      "B": "底蕴 揭示 抵达",
+      "C": "神采 谱写 拥抱",
+      "D": "气质 建构 接纳"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "文化名片",
+        "文化底片",
+        "文化芯片",
+        "精神密码"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.78,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.72,
+        "distractor_strength": 0.8
+      },
+      "option_similarity_score": 0.79,
+      "text_length": 122
+    }
+  },
+  {
+    "question_id": "4553731",
+    "stem": "众文明自涌现之日起，就一直处在被各种人类活动 的过程中。其中最重要的就是农业，它以丰富的品种和产量提供了一部分食物，也使人类深入 了植物的特性。其中的一些植物因为可以用来提炼香料和直接提供气味，而立刻获得特别的 并从此奠定了不可动摇的地位。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "支配 了解 关注",
+      "B": "影响 体察 重视",
+      "C": "塑造 掌握 青睐",
+      "D": "改变 学习 肯定"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 135
+    }
+  },
+  {
+    "question_id": "4553733",
+    "stem": "在医药行业的广告投放统计中，风湿骨病药物曾一度占据首位，大街小巷的小诊所广告也随处可见。在各种广告长年累月、 的洗脑下，很多人只要腿疼、手脚腕疼、关节僵硬，都以“风湿”二字 。无数人因为得不到 的治疗，在残疾和疼痛中度过余生。 填入横线处的词语最恰当的一项是（ ）。",
+    "options": {
+      "A": "积非成是 一视同仁 规范",
+      "B": "以讹传讹 混为一谈 及时",
+      "C": "潜移默化 一言蔽之 有效",
+      "D": "无孔不入 一概而论 正确"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "以讹传讹",
+        "混为一谈",
+        "潜移默化",
+        "无孔不入"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "风湿骨病药物"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 128
+    }
+  },
+  {
+    "question_id": "4553743",
+    "stem": "现代社会高度复杂，现代科技也有种种不确定性，形势发展 ，危机的后果往往难以预料。在这种情况下，科学家必须 不唯上、不唯书、只唯实的精神，敢于提出并坚持科学判断，特别是要及时为可能出现的风险隐患提出 。坚持科学判断，有时意味着要承受某种委屈，但这样的科学家才是真正的人民英雄。 填入横线处最恰当的是（ ）。",
+    "options": {
+      "A": "变幻莫测 沿袭 对策",
+      "B": "瞬息万变 秉持 预警",
+      "C": "日新月异 发扬 质疑",
+      "D": "一日千里 笃定 告诫"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 147
+    }
+  },
+  {
+    "question_id": "4553670",
+    "stem": "政治转型的一条规律是：一个国家启动现代政治经济转型之时，如果同时面临的转型任务数量越多，转型就越容易遭到挫败。 ，比如在领土、边疆、族群、宗教等问题上往往面临着更多挑战。 填入文中横线处最恰当的一项是（ ）。",
+    "options": {
+      "A": "执政者需要对转型任务有清晰的了解",
+      "B": "大国的转型难题正在于国家的复杂性",
+      "C": "大国往往难以处理好自我与他者的关系",
+      "D": "转型中遇到的问题有时会超出历史经验"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "政治转型",
+        "现代政治经济转型"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.58,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.61,
+      "text_length": 101
+    }
+  },
+  {
+    "question_id": "4553674",
+    "stem": "①18世纪法国音乐家特雷格里从C小调中读出了壮烈，柏辽兹则视之为阴暗和悲情 ②对古典时期的音乐家来说，D弦与D大调的呈现，皆是最舒适和自然的象征 ③从很早开始，人们即相信音乐的调性各有“性格”，但这种“性格”很难用形容词来表达，以至于不同的音乐家对其的阐释并不雷同 ④勃拉姆斯吃力地比照《贝五交响曲》，从而将其C小调的色彩搬运至自己难产的《第一部交响曲》第一乐章 ⑤当然，公认为美好而理想的D大调也许是例外 ⑥然而这些所谓的“性格”皆是不同音乐家自身的投射 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "①⑥③②④⑤",
+      "B": "②③④①⑤⑥",
+      "C": "③①④⑥⑤②",
+      "D": "④①⑥⑤②③"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "C小调",
+        "D弦",
+        "D大调",
+        "调性"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.68,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.58
+      },
+      "option_similarity_score": 0.62,
+      "text_length": 244
+    }
+  },
+  {
+    "question_id": "4553679",
+    "stem": "①清代因袭明代《宪纲条例》并结合国情创定的《钦定合规》，是历代监察法规之集大成，是封建社会最后的也是最有代表性的监察法典 ②回溯历史不难看出，古代监察法从形成、发展到成熟定型，是一个渐进式发展过程 ③鉴于权力监督在国家治理体系中的重要地位，历代都十分注重监察的制度化和法制化 ④从零散的带有监察法性质的诏、令，到《六条问事》等地方专门监察法规，再到隋唐《司隶六条》《监察六法》等专门化监察法出现，并非偶然 ⑤这也是封建社会权力运行监督体制不断走向系统完备、科学规范、有效运行的反映 ⑥这实际上是从分裂到统一、增强权力及对权力监督有效性的需要 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "①②④⑤③⑥",
+      "B": "②④①③⑥⑤",
+      "C": "③②⑤④⑥①",
+      "D": "④⑥⑤③①②"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "走向系统完备",
+        "科学规范",
+        "有效运行"
+      ],
+      "idiom_count": 3,
+      "term_terms": [
+        "《宪纲条例》",
+        "《钦定合规》",
+        "监察法规",
+        "监察法典",
+        "《六条问事》",
+        "《司隶六条》"
+      ],
+      "term_count": 6,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.68,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.61,
+      "text_length": 286
+    }
+  },
+  {
+    "question_id": "5396805",
+    "stem": "假说是对事物本质的猜测，这种猜测具有（ ）。一般情况下是很难直接进行验证的。因此需要从假说中推导或演绎出一些能够直接检验的推论，然后通过设计实验进行检验。",
+    "options": {
+      "A": "特殊性",
+      "B": "偶然性",
+      "C": "抽象性",
+      "D": "普遍性"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.55,
+        "pos_style_similarity": 0.95,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.5
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 76
+    }
+  },
+  {
+    "question_id": "5396808",
+    "stem": "从博士到博士后，这一阶段收获的主要是“（ ）”的增长，人的写作水平、眼界，还有逻辑思维能力都可以在此期间得到提升。更重要的是，跟日复一日的重复性工作相比，这种研究工作可以给人带来源源不断的（ ），因为做的每个课题都是不一样的。",
+    "options": {
+      "A": "内功 新鲜感",
+      "B": "学识 归属感",
+      "C": "经验 满足感",
+      "D": "心智 成就感"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 111
+    }
+  },
+  {
+    "question_id": "5396818",
+    "stem": "诗歌是一门语言艺术，它的材料就是语言，而任何一种语言系统都有巨大的（ ），诗歌语言也不例外，诗人生活在特定的语言环境中，要表达任何审美意识，都不得不运用（ ）的语言，即广义的“陈言”，因为从理论上讲，前人从未使用过的崭新语言是无法进行交流的。",
+    "options": {
+      "A": "严密性 相沿成习",
+      "B": "稳定性 循规蹈矩",
+      "C": "严谨性 陈陈相因",
+      "D": "稳固性 约定俗成"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "约定俗成"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.78
+      },
+      "option_similarity_score": 0.8,
+      "text_length": 119
+    }
+  },
+  {
+    "question_id": "5396825",
+    "stem": "包括健身在内的大众体育的兴起，首先依托于消费社会的（ ），闲暇时间与消费能力的过剩使得普通人也有机会从事体育、旅游等文化休闲活动。而在公众选择休闲活动的过程中，大众传媒的引导起到了（ ）的作用，其中健康、美丽、快乐无疑是出现最多的用语。",
+    "options": {
+      "A": "繁荣 潜移默化",
+      "B": "兴起 耳濡目染",
+      "C": "发展 推波助澜",
+      "D": "诞生 穿针引线"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "潜移默化",
+        "耳濡目染",
+        "推波助澜",
+        "穿针引线"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "大众体育",
+        "消费社会",
+        "大众传媒"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.78
+      },
+      "option_similarity_score": 0.77,
+      "text_length": 116
+    }
+  },
+  {
+    "question_id": "5396829",
+    "stem": "所谓“同时代史意识”是指研究者研究某一段历史时尽可能拒绝从这段历史的流向和终局之处（ ）历史，而是将这段历史当成是自己的同时代史，当成自己所置身的历史，用仿佛是第一次发现的、（ ）的目光注视着自己的时代。从而沉入到这段历史的内部，发现历史的幽微曲折之处。",
+    "options": {
+      "A": "推演 诧异",
+      "B": "研究 敏锐",
+      "C": "逆推 新奇",
+      "D": "预测 犀利"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "同时代史意识"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 125
+    }
+  },
+  {
+    "question_id": "5396833",
+    "stem": "数字通信技术提升了人们相互连接的能力与多样性，极大地（ ）了空间对于人际互动交流的限制，以智能手机为基础的数字化通信，强化了亲密关系如家庭成员之间的互动交流，但也可能带来线上线下关系之间的界限模糊，导致亲密关系的（ ），而实际上却是相对疏远的状态。",
+    "options": {
+      "A": "突破 幻象",
+      "B": "压缩 假象",
+      "C": "解放 错觉",
+      "D": "束缚 幻觉"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "数字通信技术",
+        "数字化通信",
+        "智能手机"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.78,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.76,
+      "text_length": 122
+    }
+  },
+  {
+    "question_id": "5396835",
+    "stem": "在语言交流中，词语的运用是很有讲究的。什么时候该用什么词语，词语之间如何搭配以及词语的感情色彩怎样选择等等，都必须根据语言环境来决定，不能随意变动和移用，否则就会影响意思的表达，（ ），但有时候我们有意使语言与语境错位，也可使人在（ ）之中体味到幽默。",
+    "options": {
+      "A": "贻笑大方 出乎意料",
+      "B": "弄巧成拙 词不达意",
+      "C": "适得其反 喜出望外",
+      "D": "南辕北辙 始料不及"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "贻笑大方",
+        "弄巧成拙",
+        "适得其反",
+        "南辕北辙"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.7,
+      "text_length": 124
+    }
+  },
+  {
+    "question_id": "5396839",
+    "stem": "大栅栏地区是戏班剧社云集之地，先后涌现了众多培养后继人才的“科班”演出场所和“戏院”。在大栅栏这片沃土上，剧种、行当 ，乐师、编剧等名家层出不穷，诸多梨园世家 ，为戏曲事业的繁荣与发展做出了应有的贡献。 依次填入画横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "丰富多彩 争奇斗艳",
+      "B": "异彩纷呈 人才辈出",
+      "C": "摇曳生姿 人才济济",
+      "D": "卓尔不群 百花齐放"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "人才辈出",
+        "人才济济",
+        "百花齐放"
+      ],
+      "idiom_count": 3,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.74,
+      "text_length": 118
+    }
+  },
+  {
+    "question_id": "5396847",
+    "stem": "中华传统价值体系是民族之“根”。培育了社会主义核心价值观的思想基础“先天下之忧而忧，后天下之乐而乐”所展示的政治抱负。“苟利国家生死以，岂因祸福避趋之”所呈现的报国情怀。“富贵不能淫，贫贱不能移，威武不能屈”所表现的（ ）。“人生自古谁无死，留取丹心照汗青”所传达的献身精神。流淌在一代代中国人的血脉之中，激励着我们（ ）。",
+    "options": {
+      "A": "铮铮铁骨 卧薪尝胆",
+      "B": "铁骨柔情 筚路蓝缕",
+      "C": "凛然大义 踟蹰前行",
+      "D": "浩然正气 砥砺前行"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "中华传统价值体系",
+        "社会主义核心价值观"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.72,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.78,
+        "distractor_strength": 0.75
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 160
+    }
+  },
+  {
+    "question_id": "5396853",
+    "stem": "有这样一则通俗的比喻：风力发电、光伏发电领域的弃风弃光，就像种菜，有些地方产量高，可本地吃不完，又没有足够的运力运出去，就只能白白丢掉。可惜，却实属无奈。当然，个中原因必定更为复杂，但道理却相通——无论是弃菜还是弃风弃光，（ ），浪费的是资源，制约的是产业，影响的是信心。解决弃风弃光问题，工具箱内的工具很多，各地应根据实际情况算综合账，（ ），按需取用。",
+    "options": {
+      "A": "长此以往 因地制宜",
+      "B": "旷日持久 对症下药",
+      "C": "日积月累 随机应变",
+      "D": "经年累月 量体裁衣"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "因地制宜",
+        "对症下药",
+        "随机应变",
+        "量体裁衣"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "风力发电",
+        "光伏发电",
+        "弃风弃光"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.74,
+      "text_length": 176
+    }
+  },
+  {
+    "question_id": "5396859",
+    "stem": "儿童文学不仅给孩子带来快乐，满足孩子的情感需求，还关乎心灵的（ ）和人格的完善。“趣”是很高的美学范畴，不是说哈哈一笑之后，（ ）。让孩子笑并不难，难的是传达一种理想的、有境界的“趣”。",
+    "options": {
+      "A": "纯净 云淡风轻",
+      "B": "净化 空无一物",
+      "C": "美化 烟消云散",
+      "D": "洗涤 别无长物"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "云淡风轻",
+        "烟消云散",
+        "别无长物"
+      ],
+      "idiom_count": 3,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 91
+    }
+  },
+  {
+    "question_id": "5396863",
+    "stem": "鲁迅的家教观在当时是完全新型的。他一扫传统父权社会（ ）的父亲至上的伦理观念，以父亲在人格、精神上的平等为基础，（ ）地提出了“以无我的爱施于儿女”的家教观。",
+    "options": {
+      "A": "相沿成习 大胆",
+      "B": "习焉不察 鲜明",
+      "C": "约定俗成 明确",
+      "D": "习以为常 勇敢"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "相沿成习",
+        "习焉不察",
+        "约定俗成",
+        "习以为常"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "对比辨析",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 77
+    }
+  },
+  {
+    "question_id": "5396867",
+    "stem": "虽然未来百年人类大概率也不会目睹到一颗直径超过140米的小行星撞向地球，但正如同第二只靴子终将落下，毁天灭地的小行星（ ）在某一天大驾光临。如果在此之前，人类还没有因为环境污染、全球变暖、大流行疾病、能源短缺、自相残杀等等而灭绝的话，届时，但愿我们可以（ ）地应对这颗来势汹汹的天外访客。",
+    "options": {
+      "A": "兴许 泰然自若",
+      "B": "终将 心平气和",
+      "C": "或许 气定神闲",
+      "D": "必将 从容不迫"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "泰然自若",
+        "心平气和",
+        "气定神闲",
+        "从容不迫"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "环境污染",
+        "全球变暖",
+        "大流行疾病",
+        "能源短缺"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 142
+    }
+  },
+  {
+    "question_id": "5396870",
+    "stem": "每个人的内心都需要点燃一盏灯，只有内心光明的人，才能开启心灵智慧，透视人性与灵魂，找到光明的生活以及快乐的人生，林清玄以其（ ）的文字，让我们摒弃了平日的（ ），收获内心的光明以及向上的力量。",
+    "options": {
+      "A": "明朗阳光 浮躁芜杂",
+      "B": "积极向上 消极落后",
+      "C": "满怀信心 灰心丧气",
+      "D": "精准恰当 烦闷焦躁"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.63,
+      "text_length": 94
+    }
+  },
+  {
+    "question_id": "5396872",
+    "stem": "情商能力能够使我们相对正确地（ ）自己或他人的情绪，有效地区分这些情绪的类型，并且利用这些信息去（ ）思维与行为，最终增强我们在社会环境中的（ ）。",
+    "options": {
+      "A": "甄别 引导 创造性",
+      "B": "辨别 左右 主动性",
+      "C": "识别 指导 适应性",
+      "D": "鉴别 调节 独立性"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "情商能力"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.82
+      },
+      "option_similarity_score": 0.84,
+      "text_length": 71
+    }
+  },
+  {
+    "question_id": "5396893",
+    "stem": "浪漫的古人，常借助一些动植物来表达爱情，常见的有鸳鸯、凤凰、大雁、红豆、梧桐等。为什么梧桐会成为爱情的象征呢？可能原因有二，一是梧桐雌雄异株，其中“梧”为雄株，“桐”为雌株，因此古人看见梧桐树，便联想到比翼双飞的爱情。另外一个原因，梧桐树高大茂密，常引来一些鸟儿共筑爱巢， 。 填入横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "由此可见，古人很早就有了对爱情的浪漫追求",
+      "B": "由此可见，爱情是人类永恒的主题",
+      "C": "这就是梧桐成为爱情象征的主要原因",
+      "D": "这就是常说的“栽下梧桐树，引来金凤凰”"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "比翼双飞"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.55,
+        "pos_style_similarity": 0.6,
+        "collocation_similarity": 0.5,
+        "distractor_strength": 0.45
+      },
+      "option_similarity_score": 0.53,
+      "text_length": 153
+    }
+  },
+  {
+    "question_id": "5396900",
+    "stem": "二十四节气背后蕴含着深刻的“天人合一”的科学思想和哲学理念， 这是我们中国人思考人与自然关系的智慧结晶。 填入横线部分最恰当的一项是（ ）。",
+    "options": {
+      "A": "讲的是天、地，安排的是社会生活，标示的则是自然",
+      "B": "标示的是自然，讲的是天、地，安排的则是社会生活",
+      "C": "讲的是天、地，标示的是自然，安排的则是社会生活",
+      "D": "标示的是自然，安排的是社会生活，讲的则是天、地"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "天人合一",
+        "智慧结晶"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "二十四节气"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.85,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.88
+      },
+      "option_similarity_score": 0.86,
+      "text_length": 67
+    }
+  },
+  {
+    "question_id": "5396912",
+    "stem": "①客人来了，除了有茶，还有围棋，时间就在茶香与棋趣中流逝 ②中国人所说的“琴棋书画”，其中的“棋”指的就是围棋 ③观棋的人得到的快乐丝毫不比下棋的人少 ④旧时无论在农村还是市井，人们常常可以见到这样的场面：两人对弈，旁观者一大片 ⑤正所谓“茶香至日夕，围棋自穷年” ⑥围棋不仅是竞赛项目，也是一种雅俗共赏的游戏活动 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "⑥①⑤②③④",
+      "B": "④③②⑥①⑤",
+      "C": "⑤②⑥①④③",
+      "D": "②⑥①⑤④③"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "琴棋书画",
+        "雅俗共赏"
+      ],
+      "idiom_count": 2,
+      "term_terms": [
+        "围棋"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 173
+    }
+  },
+  {
+    "question_id": "5396915",
+    "stem": "①但是，这么成熟、精美的刺绣，不应该是最原始的状态 ②已经发现的最早的刺绣实物，年代属西周 ③这就是陕西省宝鸡市茹家庄西周墓葬中出土的泥土上的刺绣印痕 ④泥土中印痕清晰鲜艳，有红、黄、褐、棕四种颜料 ⑤在此之前，还应该有更为初级的绣作 ⑥源于服饰的刺绣，诞生的年代可能比人们想象的要早 将以上六个句子重新排序，语序正确的是（ ）。",
+    "options": {
+      "A": "②③④①⑥⑤",
+      "B": "①⑤②③④⑥",
+      "C": "③①④⑥②⑤",
+      "D": "⑥②③④①⑤"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "刺绣",
+        "西周",
+        "墓葬"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.7,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.68
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 158
+    }
+  },
+  {
+    "question_id": "1746638",
+    "stem": "执行力的强弱已经成为影响企业成败的关键因素，世界级优秀企业总是能够让那些令人振奋的战略规划 地得到落实，达到甚至超出预期目标。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "一丝不苟",
+      "B": "不遗余力",
+      "C": "分毫不差",
+      "D": "滴水不漏"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "一丝不苟",
+        "不遗余力",
+        "分毫不差",
+        "滴水不漏"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.95,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.8,
+      "text_length": 77
+    }
+  },
+  {
+    "question_id": "1746646",
+    "stem": "世界上没有完美无缺的医疗体系，无论是免费医疗还是市场化的医疗体系，都各有弊端，但从生存权和人的尊严角度看，对个人免费或少量收费的医疗实乃 。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "大势所趋",
+      "B": "当务之急",
+      "C": "未雨绸缪",
+      "D": "万全之策"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "大势所趋",
+        "当务之急",
+        "未雨绸缪",
+        "万全之策"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.95,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.8,
+      "text_length": 84
+    }
+  },
+  {
+    "question_id": "1746660",
+    "stem": "在某种程度上，各地博物馆收藏化石，是对我国化石资源最大程度的保护，但 的是，这种方式的收藏也不能被 ，因为这就像吃鱼翅的人越多，遭到杀戮的鲨鱼就越多一样。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "遗憾 复制",
+      "B": "矛盾 鼓励",
+      "C": "不幸 推广",
+      "D": "尴尬 宣传"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "化石资源"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 92
+    }
+  },
+  {
+    "question_id": "1746668",
+    "stem": "中国教育，向来不缺批评声，这其中不乏 ，也难免过激之言。问题当然要直面，难题一定要破解。需要 的是，当批评蜂拥而至，不要无视那些被掩盖的优点和进步。唯有如此，才能在改革的道路上不彷徨、不摇摆，找到真正适合自己的发展道路。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "真知灼见 警惕",
+      "B": "远见卓识 担心",
+      "C": "深谋远虑 注意",
+      "D": "肺腑之言 反思"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "真知灼见",
+        "远见卓识",
+        "深谋远虑",
+        "肺腑之言"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "观点提出",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.95,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.73,
+      "text_length": 125
+    }
+  },
+  {
+    "question_id": "1746652",
+    "stem": "实际上雾霾形成的原因是多方面的，识别污染源是有效治理大气污染至关重要的环节。对京津冀区域而言，认清区域内污染源的共性及差别，有助于区域内地区________地对污染源进行综合治理。 填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "因地制宜",
+      "B": "正本清源",
+      "C": "齐心协力",
+      "D": "有的放矢"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "因地制宜",
+        "正本清源",
+        "齐心协力",
+        "有的放矢"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "污染源",
+        "大气污染",
+        "综合治理"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.71,
+      "text_length": 105
+    }
+  },
+  {
+    "question_id": "1746654",
+    "stem": "作为一种现代产权制度，知识产权制度的本质是通过保护产权形成 ，“给天才之火添加利益之油”，使全社会创新活力 ，创新成果涌流。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "吸引 释放",
+      "B": "刺激 膨胀",
+      "C": "激励 迸发",
+      "D": "促进 凸显"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "知识产权制度",
+        "产权"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.74,
+      "text_length": 77
+    }
+  },
+  {
+    "question_id": "1746678",
+    "stem": "筹算应用了大约两千年，对中国古代数学的发展功不可没。但筹算有个严重缺点，就是运算过程不保留。元朝数学家朱世杰能用筹算解四元高次方程，其数学水平居世界领先地位，但是他的方法难懂，运算过程又不能保留，因而 。中国古代数学不能发展为现代数学，筹算方法的 是个重要原因。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "形同虚设 束缚",
+      "B": "销声匿迹 片面",
+      "C": "后继无人 限制",
+      "D": "难以为继 约束"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "功不可没",
+        "形同虚设",
+        "销声匿迹",
+        "后继无人"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "筹算",
+        "高次方程",
+        "现代数学"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 146
+    }
+  },
+  {
+    "question_id": "1746692",
+    "stem": "在量子理论产生之前，人类在宏观世界里从未观测到任何负能量的物质。把真空的能量定为零的经典物理学，无法________一种比真空具有更少能量的物质。而在量子理论中，真空不再是________，每时每刻都有大量的虚粒子对（一种永远不能直接检测到，但其存在确实具有可测量效应的粒子）产生和湮灭。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "理解 高高在上",
+      "B": "相信 空空如也",
+      "C": "认可 一尘不染",
+      "D": "接受 一无所有"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "高高在上",
+        "空空如也",
+        "一尘不染",
+        "一无所有"
+      ],
+      "idiom_count": 4,
+      "term_terms": [
+        "量子理论",
+        "经典物理学",
+        "真空",
+        "虚粒子对"
+      ],
+      "term_count": 4,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.55
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 161
+    }
+  },
+  {
+    "question_id": "1746728",
+    "stem": "改进作风涉及习俗、文化、制度、利益等方方面面，本身就是一场攻坚战。无论是克服 的形式主义、官僚主义，还是打破思维定势、疗治沉疴顽疾，都需要有坚韧不拔的毅力。只有这样，才能 ，积小胜为大胜，取得让广大干部群众满意的成效。 依次填入画横线部分最恰当的一项是：",
+    "options": {
+      "A": "固步自封 渐入佳境",
+      "B": "老调重弹 稳操胜券",
+      "C": "抱残守缺 循序渐进",
+      "D": "根深蒂固 稳扎稳打"
+    },
+    "label": {
+      "question_type": "语句填空",
+      "idiom_terms": [
+        "形式主义",
+        "官僚主义",
+        "思维定势",
+        "沉疴顽疾"
+      ],
+      "idiom_count": 4,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.62,
+        "pos_style_similarity": 0.75,
+        "collocation_similarity": 0.68,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.66,
+      "text_length": 124
+    }
+  }
+]

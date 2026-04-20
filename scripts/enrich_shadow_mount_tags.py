@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+import re
 
 import yaml
 from sqlalchemy import text
@@ -18,7 +19,10 @@ PASSAGE_SERVICE_ROOT = ROOT / "passage_service"
 REPORTS_ROOT = ROOT / "reports" / "bootstrap_index"
 HIERARCHY_PATH = ROOT / "card_specs" / "normalized" / "runtime_mappings" / "distill_family_hierarchy_mapping.yaml"
 MATERIAL_MAPPING_PATH = ROOT / "card_specs" / "normalized" / "runtime_mappings" / "distill_material_card_id_mapping.yaml"
-SHADOW_VERSION = "shadow_mount.v1"
+LEAF_TAXONOMY_ROOT = ROOT / "card_specs" / "leaf_taxonomy"
+SHADOW_VERSION = "shadow_mount.v2"
+SHADOW_TRACE_KEY = "shadow_mount_v2"
+LEAF_TRACE_VERSION = "leaf_trace.v1"
 TARGET_MOTHER_FAMILIES = {
     "center_understanding",
     "sentence_fill",
@@ -41,6 +45,19 @@ class ChildFamilyRule:
     truth_blank_position: str | None = None
 
 
+@dataclass(frozen=True)
+class LeafRule:
+    leaf_id: str
+    child_family_id: str
+    mother_family_id: str
+    display_name: str
+    business_card_id: str | None = None
+    expected_material_card_id: str | None = None
+    signal_hints: tuple[str, ...] = ()
+    prompt_guard_lines: tuple[str, ...] = ()
+    batch_id: str | None = None
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Enrich existing v2 index payloads with isolated shadow mount tags.")
     parser.add_argument("--limit", type=int, default=0, help="0 means all eligible indexed materials.")
@@ -51,7 +68,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--release-channel", type=str, default="", help="Optional release channel filter.")
     parser.add_argument("--include-secondary", action="store_true", help="Include non-primary materials.")
     parser.add_argument("--only-missing-shadow", action="store_true", default=True, help="Skip family payloads that already contain this shadow version.")
-    parser.add_argument("--include-title-selection", action="store_true", help="Also inspect title_selection payloads for center shadow carryover. Default keeps only mapped mother families.")
     parser.add_argument("--write", action="store_true", help="Actually persist shadow tags to sqlite. Default is dry-run.")
     return parser.parse_args()
 
@@ -67,6 +83,7 @@ class ShadowMountMapper:
         child_families = dict(hierarchy.get("child_families") or {})
         self.child_rules: dict[str, ChildFamilyRule] = {}
         self.material_to_children: dict[tuple[str, str], list[str]] = defaultdict(list)
+        self.leaf_rules_by_child: dict[str, list[LeafRule]] = defaultdict(list)
         for child_family_id, cfg in child_families.items():
             rule = ChildFamilyRule(
                 child_family_id=child_family_id,
@@ -77,6 +94,7 @@ class ShadowMountMapper:
             self.child_rules[child_family_id] = rule
             for material_card_id in rule.material_card_ids:
                 self.material_to_children[(rule.mother_family_id, material_card_id)].append(child_family_id)
+        self._load_leaf_taxonomies()
 
     def build_shadow_mount(self, *, family: str, item: dict[str, Any]) -> dict[str, Any]:
         qrc = dict(item.get("question_ready_context") or {})
@@ -84,6 +102,7 @@ class ShadowMountMapper:
         selected_material_card = str(qrc.get("selected_material_card") or item.get("material_card_id") or "")
         selected_business_card = str(qrc.get("selected_business_card") or item.get("selected_business_card") or "")
         pattern_candidates = [str(x) for x in (qrc.get("pattern_candidates") or item.get("pattern_candidates") or []) if x]
+        text_value = str(item.get("text") or "")
 
         shadow: dict[str, Any] = {
             "version": SHADOW_VERSION,
@@ -100,6 +119,8 @@ class ShadowMountMapper:
 
         expected_material_card_id: str | None = None
         child_candidates: list[str] = list(self.material_to_children.get((family, selected_material_card), []))
+        leaf_hint: str | None = None
+        shadow_semantic_override: dict[str, Any] | None = None
 
         if family == "sentence_fill":
             expected_material_card_id = self._infer_fill_material_card(
@@ -124,6 +145,16 @@ class ShadowMountMapper:
             expected_material_card_id = self._infer_center_material_card(selected_material_card=selected_material_card)
             if expected_material_card_id:
                 child_candidates = list(self.material_to_children.get((family, expected_material_card_id), []))
+            shadow_semantic_override = self._infer_center_shadow_semantic_override(
+                text_value=text_value,
+                selected_material_card=selected_material_card,
+                selected_business_card=selected_business_card,
+                pattern_candidates=pattern_candidates,
+            )
+            if shadow_semantic_override:
+                child_candidates = [str(shadow_semantic_override.get("child_family_id") or "")]
+                expected_material_card_id = str(shadow_semantic_override.get("expected_material_card_id") or "") or expected_material_card_id
+                leaf_hint = str(shadow_semantic_override.get("selected_leaf_id") or "") or None
 
         status = "unmapped"
         if len(child_candidates) == 1:
@@ -135,18 +166,267 @@ class ShadowMountMapper:
         shadow["status"] = status
         shadow["child_family_candidates"] = child_candidates
         shadow["expected_material_card_id"] = expected_material_card_id
+        leaf_resolution = self._resolve_leaf_identity(
+            family=family,
+            child_family_id=str(shadow.get("child_family_id") or ""),
+            selected_material_card=selected_material_card,
+            selected_business_card=selected_business_card,
+            pattern_candidates=pattern_candidates,
+            text_value=text_value,
+            preferred_leaf_id=leaf_hint,
+        )
+        shadow["selected_leaf_id"] = leaf_resolution.get("selected_leaf_id")
+        shadow["leaf_trace_version"] = LEAF_TRACE_VERSION
+        shadow["fallback_to_business_card"] = bool(leaf_resolution.get("fallback_to_business_card"))
+        shadow["shadow_ready"] = bool(leaf_resolution.get("shadow_ready"))
+        shadow["leaf_trace"] = leaf_resolution.get("leaf_trace") or {}
+        if shadow_semantic_override:
+            shadow["semantic_override"] = shadow_semantic_override
         shadow["notes"] = self._build_notes(
             family=family,
             status=status,
             selected_material_card=selected_material_card,
             selected_business_card=selected_business_card,
             expected_material_card_id=expected_material_card_id,
+            selected_leaf_id=str(shadow.get("selected_leaf_id") or ""),
+            shadow_ready=bool(shadow.get("shadow_ready")),
         )
         return shadow
 
     def _infer_center_material_card(self, *, selected_material_card: str) -> str | None:
         if selected_material_card.startswith("center_material."):
             return selected_material_card
+        return None
+
+    def _load_leaf_taxonomies(self) -> None:
+        if not LEAF_TAXONOMY_ROOT.exists():
+            return
+        for path in sorted(LEAF_TAXONOMY_ROOT.glob("*.yaml")):
+            payload = _load_yaml(path)
+            mother_family_id = str(payload.get("mother_family_id") or "").strip()
+            raw_child_family_id = str(payload.get("child_family_id") or "").strip()
+            batch_id = str(payload.get("batch_id") or "").strip() or None
+            aliases = self._leaf_child_aliases(
+                mother_family_id=mother_family_id,
+                raw_child_family_id=raw_child_family_id,
+            )
+            canonical_child_id = next(iter(sorted(aliases)), raw_child_family_id)
+            for leaf in payload.get("leaves") or []:
+                rule = LeafRule(
+                    leaf_id=str(leaf.get("leaf_id") or "").strip(),
+                    child_family_id=canonical_child_id,
+                    mother_family_id=mother_family_id,
+                    display_name=str(leaf.get("display_name") or "").strip(),
+                    business_card_id=str(leaf.get("business_card_id") or "").strip() or None,
+                    expected_material_card_id=str(leaf.get("expected_material_card_id") or "").strip() or None,
+                    signal_hints=tuple(str(x).strip() for x in (leaf.get("signal_hints") or []) if str(x).strip()),
+                    prompt_guard_lines=tuple(str(x).strip() for x in (leaf.get("prompt_guard_lines") or []) if str(x).strip()),
+                    batch_id=batch_id,
+                )
+                if not rule.leaf_id:
+                    continue
+                for alias in aliases:
+                    self.leaf_rules_by_child[alias].append(rule)
+
+    def _leaf_child_aliases(self, *, mother_family_id: str, raw_child_family_id: str) -> set[str]:
+        aliases = {raw_child_family_id}
+        if mother_family_id == "center_understanding" and raw_child_family_id and not raw_child_family_id.startswith("center_understanding_"):
+            aliases.add(f"center_understanding_{raw_child_family_id}")
+        return {alias for alias in aliases if alias}
+
+    def _resolve_leaf_identity(
+        self,
+        *,
+        family: str,
+        child_family_id: str,
+        selected_material_card: str,
+        selected_business_card: str,
+        pattern_candidates: list[str],
+        text_value: str,
+        preferred_leaf_id: str | None = None,
+    ) -> dict[str, Any]:
+        if not child_family_id:
+            return {
+                "selected_leaf_id": None,
+                "fallback_to_business_card": bool(selected_business_card),
+                "shadow_ready": False,
+                "leaf_trace": {
+                    "resolver": "shadow_leaf_identity_resolver",
+                    "reason": "child_family_unresolved",
+                    "family": family,
+                },
+            }
+        rules = list(self.leaf_rules_by_child.get(child_family_id) or [])
+        if not rules:
+            return {
+                "selected_leaf_id": None,
+                "fallback_to_business_card": bool(selected_business_card),
+                "shadow_ready": False,
+                "leaf_trace": {
+                    "resolver": "shadow_leaf_identity_resolver",
+                    "reason": "leaf_taxonomy_missing",
+                    "family": family,
+                    "child_family_id": child_family_id,
+                },
+            }
+
+        ranked: list[dict[str, Any]] = []
+        for rule in rules:
+            score = 0.0
+            reasons: list[str] = []
+            if rule.expected_material_card_id and rule.expected_material_card_id == selected_material_card:
+                score += 0.75
+                reasons.append("selected_material_card_exact_match")
+            if rule.business_card_id and rule.business_card_id == selected_business_card:
+                if child_family_id == "center_understanding_relation_words":
+                    score += 0.6
+                    reasons.append("selected_business_card_transitional_match_relation_words")
+                else:
+                    score += 0.22
+                    reasons.append("selected_business_card_transitional_match")
+            signal_bonus, signal_reasons = self._leaf_signal_support(
+                child_family_id=child_family_id,
+                rule=rule,
+                text_value=text_value,
+                pattern_candidates=pattern_candidates,
+            )
+            score += signal_bonus
+            reasons.extend(signal_reasons)
+            if preferred_leaf_id and rule.leaf_id == preferred_leaf_id:
+                score += 0.35
+                reasons.append("shadow_semantic_override_leaf_hint")
+            ranked.append(
+                {
+                    "leaf_id": rule.leaf_id,
+                    "display_name": rule.display_name,
+                    "score": round(score, 4),
+                    "reasons": reasons,
+                    "batch_id": rule.batch_id,
+                }
+            )
+        ranked.sort(key=lambda item: (float(item.get("score") or 0.0), item.get("leaf_id") or ""), reverse=True)
+        best = ranked[0]
+        selected_leaf_id = str(best.get("leaf_id") or "") if float(best.get("score") or 0.0) >= 0.55 else ""
+        return {
+            "selected_leaf_id": selected_leaf_id or None,
+            "fallback_to_business_card": bool(selected_business_card) and not bool(selected_leaf_id),
+            "shadow_ready": bool(selected_leaf_id),
+            "leaf_trace": {
+                "resolver": "shadow_leaf_identity_resolver",
+                "family": family,
+                "child_family_id": child_family_id,
+                "selected_material_card": selected_material_card or None,
+                "selected_business_card": selected_business_card or None,
+                "candidates": ranked[:5],
+                "selected_reason": best.get("reasons") or [],
+                "selected_batch_id": best.get("batch_id"),
+            },
+        }
+
+    def _leaf_signal_support(
+        self,
+        *,
+        child_family_id: str,
+        rule: LeafRule,
+        text_value: str,
+        pattern_candidates: list[str],
+    ) -> tuple[float, list[str]]:
+        bonus = 0.0
+        reasons: list[str] = []
+        if rule.signal_hints and any(hint in text_value for hint in rule.signal_hints):
+            bonus += 0.08
+            reasons.append("text_signal_hint_match")
+        if child_family_id != "center_understanding_subsentence_features":
+            return bonus, reasons
+        if rule.leaf_id == "cu_subsentence_data":
+            if len(re.findall(r"\d", text_value)) >= 3:
+                bonus += 0.12
+                reasons.append("dense_metric_or_numeric_evidence")
+            if any(token in text_value for token in ["实验", "检测", "调查", "统计", "显示", "结果", "性能", "指标"]):
+                bonus += 0.10
+                reasons.append("evidence_chain_language")
+        elif rule.leaf_id == "cu_subsentence_example":
+            if any(token in text_value for token in ["例如", "比如", "譬如", "举例", "为例"]):
+                bonus += 0.16
+                reasons.append("example_frame_language")
+        elif rule.leaf_id == "cu_subsentence_prelude":
+            if any(token in text_value for token in ["近年来", "一直以来", "长期以来", "随着", "背景", "引出", "铺垫"]):
+                bonus += 0.10
+                reasons.append("prelude_frame_language")
+            if any(token in pattern_candidates for token in ["whole_passage_integration", "single_claim_capture"]):
+                bonus += 0.03
+                reasons.append("prelude_axis_recovery_possible")
+        elif rule.leaf_id == "cu_subsentence_multi_angle":
+            if any(token in text_value for token in ["一方面", "另一方面", "同时", "此外", "另外", "其一", "其二"]):
+                bonus += 0.16
+                reasons.append("multi_angle_discourse_markers")
+        elif rule.leaf_id == "cu_subsentence_other":
+            bonus += 0.02
+            reasons.append("other_leaf_fallback_bias")
+        return bonus, reasons
+
+    def _infer_center_shadow_semantic_override(
+        self,
+        *,
+        text_value: str,
+        selected_material_card: str,
+        selected_business_card: str,
+        pattern_candidates: list[str],
+    ) -> dict[str, Any] | None:
+        text_value = text_value or ""
+        numeric_density = len(re.findall(r"\d", text_value))
+        evidence_tokens = ["实验", "检测", "调查", "统计", "显示", "结果", "性能", "指标", "数据"]
+        example_tokens = ["例如", "比如", "譬如", "举例", "为例"]
+        multi_angle_tokens = ["一方面", "另一方面", "同时", "此外", "另外", "其一", "其二"]
+        prelude_tokens = ["近年来", "一直以来", "长期以来", "随着", "背景", "引出", "铺垫"]
+        closure_tokens = ["表明", "说明", "意味着", "成功破解", "由此可见", "证明了"]
+
+        if (
+            selected_material_card == "center_material.relation_parallel"
+            and selected_business_card == "parallel_comprehensive_summary__main_idea"
+            and numeric_density >= 3
+            and any(token in text_value for token in evidence_tokens)
+            and any(token in text_value for token in closure_tokens)
+        ):
+            return {
+                "reason": "support_layer_evidence_profile_overrides_parallel_surface",
+                "child_family_id": "center_understanding_subsentence_features",
+                "expected_material_card_id": "center_material.subsentence_data",
+                "selected_leaf_id": "cu_subsentence_data",
+                "signals": [
+                    "dense_metric_or_numeric_evidence",
+                    "evidence_chain_language",
+                    "closure_recovers_center_judgment",
+                ],
+            }
+
+        if selected_material_card.startswith("center_material.subsentence_"):
+            return None
+
+        if any(token in text_value for token in example_tokens):
+            return {
+                "reason": "support_layer_example_profile",
+                "child_family_id": "center_understanding_subsentence_features",
+                "expected_material_card_id": "center_material.subsentence_example",
+                "selected_leaf_id": "cu_subsentence_example",
+                "signals": ["example_frame_language"],
+            }
+        if any(token in text_value for token in multi_angle_tokens):
+            return {
+                "reason": "support_layer_multi_angle_profile",
+                "child_family_id": "center_understanding_subsentence_features",
+                "expected_material_card_id": "center_material.subsentence_multi_angle",
+                "selected_leaf_id": "cu_subsentence_multi_angle",
+                "signals": ["multi_angle_discourse_markers"],
+            }
+        if any(token in text_value for token in prelude_tokens) and any(token in pattern_candidates for token in ["whole_passage_integration", "single_claim_capture"]):
+            return {
+                "reason": "support_layer_prelude_profile",
+                "child_family_id": "center_understanding_subsentence_features",
+                "expected_material_card_id": "center_material.subsentence_prelude",
+                "selected_leaf_id": "cu_subsentence_prelude",
+                "signals": ["prelude_frame_language"],
+            }
         return None
 
     def _infer_fill_material_card(self, *, selected_material_card: str, resolved_slots: dict[str, Any]) -> str | None:
@@ -236,6 +516,8 @@ class ShadowMountMapper:
         selected_material_card: str,
         selected_business_card: str,
         expected_material_card_id: str | None,
+        selected_leaf_id: str,
+        shadow_ready: bool,
     ) -> list[str]:
         notes: list[str] = []
         if expected_material_card_id and expected_material_card_id != selected_material_card:
@@ -250,6 +532,10 @@ class ShadowMountMapper:
             notes.append("expected_material_card_unresolved")
         if not selected_business_card:
             notes.append("runtime_selected_business_card_missing")
+        if not selected_leaf_id:
+            notes.append("selected_leaf_id_unresolved")
+        if not shadow_ready:
+            notes.append("shadow_not_leaf_ready")
         return notes
 
 
@@ -341,6 +627,7 @@ def _build_report_markdown(report: dict[str, Any]) -> str:
                     f"  - `{sample['material_id']}` family=`{sample['family']}`"
                     f" status=`{sample['status']}`"
                     f" child=`{sample.get('child_family_id') or '-'}`"
+                    f" leaf=`{sample.get('selected_leaf_id') or '-'}`"
                     f" expected_card=`{sample.get('expected_material_card_id') or '-'}`"
                 )
                 lines.append(f"    preview: {sample.get('text_preview') or '-'}")
@@ -367,6 +654,7 @@ def _sample_shadow_outcomes(rows: list[MaterialSpanORM], *, sample_size: int) ->
                     "family": family,
                     "status": status,
                     "child_family_id": shadow.get("child_family_id"),
+                    "selected_leaf_id": shadow.get("selected_leaf_id"),
                     "expected_material_card_id": shadow.get("expected_material_card_id"),
                     "text_preview": _truncate(row.text or ""),
                 }
@@ -424,7 +712,7 @@ def main() -> int:
             for row in rows:
                 payload = dict(row.v2_index_payload or {})
                 decision_trace = dict(row.decision_trace or {})
-                shadow_trace = dict(decision_trace.get("shadow_mount_v1") or {})
+                shadow_trace = dict(decision_trace.get(SHADOW_TRACE_KEY) or {})
                 shadow_trace_families = dict(shadow_trace.get("families") or {})
                 row_changed = False
                 row_had_target = False
@@ -441,8 +729,12 @@ def main() -> int:
                     shadow_trace_families[family] = {
                         "status": shadow.get("status"),
                         "child_family_id": shadow.get("child_family_id"),
+                        "selected_leaf_id": shadow.get("selected_leaf_id"),
                         "child_family_candidates": shadow.get("child_family_candidates") or [],
                         "expected_material_card_id": shadow.get("expected_material_card_id"),
+                        "leaf_trace_version": shadow.get("leaf_trace_version"),
+                        "fallback_to_business_card": shadow.get("fallback_to_business_card"),
+                        "shadow_ready": shadow.get("shadow_ready"),
                     }
                     aggregate["family_status_counts"][f"{family}:{shadow.get('status')}"] += 1
                     chunk_target_payloads += 1
@@ -455,7 +747,7 @@ def main() -> int:
                 shadow_trace["version"] = SHADOW_VERSION
                 shadow_trace["updated_at"] = datetime.now().isoformat(timespec="seconds")
                 shadow_trace["families"] = shadow_trace_families
-                decision_trace["shadow_mount_v1"] = shadow_trace
+                decision_trace[SHADOW_TRACE_KEY] = shadow_trace
                 row.v2_index_payload = payload
                 row.decision_trace = decision_trace
                 changed_rows += 1
@@ -498,7 +790,6 @@ def main() -> int:
                     "release_channel": args.release_channel,
                     "include_secondary": bool(args.include_secondary),
                     "only_missing_shadow": bool(args.only_missing_shadow),
-                    "include_title_selection": bool(args.include_title_selection),
                     "write": bool(args.write),
                 },
             }

@@ -1,0 +1,392 @@
+[
+  {
+    "question_id": "1746648",
+    "stem": "跟石头和金属相比，木质砧板从表面上看也是硬邦邦一块，可“内心”柔软，内部的植物纤维虽紧密排列，但仍有很多细微的空隙。 这使它在受到剧烈冲击时， 内部结构发生弹性微调，既能避免与刀刃硬碰硬伤及刃口，又能吸收一部分冲击力，不会让刀刃在接触板面的一刹那，由于反弹力过大而“剑走偏锋”发生侧滑，这在连续切割，比如剁馅、切丝时尤为明显。 画线句子中的“这”指的是木质砧板的：",
+    "raw_content": "{\n  \"question_type\": \"词句理解\",\n  \"idiom_terms\": [\"剑走偏锋\"],\n  \"idiom_count\": 1,\n  \"term_terms\": [],\n  \"term_count\": 0,\n  \"passage_function\": \"解释说明\",\n  \"option_similarity_detail\": {\n    \"semantic_similarity\": 0.45,\n    \"pos_style_similarity\": 0.60,\n    \"collocation_similarity\": 0.55,\n    \"distractor_strength\": 0.50\n  },\n  \"option_similarity_score\": 0.53\n}",
+    "parsed": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "剑走偏锋"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.45,
+        "pos_style_similarity": 0.6,
+        "collocation_similarity": 0.55,
+        "distractor_strength": 0.5
+      },
+      "option_similarity_score": 0.53
+    },
+    "normalized": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "剑走偏锋"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.45,
+        "pos_style_similarity": 0.6,
+        "collocation_similarity": 0.55,
+        "distractor_strength": 0.5
+      },
+      "option_similarity_score": 0.53,
+      "text_length": 179
+    }
+  },
+  {
+    "question_id": "2264422",
+    "stem": "环境保护主义是一种信念，是一种重建人与自然关系的强烈愿望。要实现这一愿望，就必须树立一种自然共同体的意识，即将人类在共同体中的征服者角色，变为这一共同体中的普通一员。它暗含着对每个成员的尊敬，也包括对这个共同体本身的尊敬。只有树立了这样的一种道德意识，人们才有可能在运用其在这一共同体中的权利时，感到所负有的对这个共同体的义务。这不仅依赖对自然本质的科学理解，也依赖在了解基础上建立起的对自然的感情。 这段文字最后一句话中的“这”指的是：",
+    "raw_content": "{\n  \"question_type\": \"词句理解\",\n  \"idiom_terms\": [],\n  \"idiom_count\": 0,\n  \"term_terms\": [\n    \"环境保护主义\",\n    \"自然共同体\"\n  ],\n  \"term_count\": 2,\n  \"passage_function\": \"解释说明\",\n  \"option_similarity_detail\": {\n    \"semantic_similarity\": 0.65,\n    \"pos_style_similarity\": 0.90,\n    \"collocation_similarity\": 0.75,\n    \"distractor_strength\": 0.60\n  },\n  \"option_similarity_score\": 0.73\n}",
+    "parsed": {
+      "question_type": "词句理解",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "环境保护主义",
+        "自然共同体"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.75,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.73
+    },
+    "normalized": {
+      "question_type": "词句理解",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "环境保护主义",
+        "自然共同体"
+      ],
+      "term_count": 2,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.9,
+        "collocation_similarity": 0.75,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.73,
+      "text_length": 218
+    }
+  },
+  {
+    "question_id": "5445824",
+    "stem": "《新青年》创刊时名为《青年杂志》，因与《上海青年》杂志的名称部分雷同，从第二卷第一号开始，正式改名为《新青年》。这次更名本是被迫与无奈之举，但在陈独秀的巧妙处理下，却成为促进刊物发展的绝佳机遇。在更名后第一期杂志的篇首，刊登了陈独秀的文章，重新定义了“新青年”这一概念，提出要以“生理心理”的标准，而非“年龄”来区分新旧青年。这一期杂志还刊登了一则通告，告知读者杂志更名事宜。变被动为主动，赋予“新青年”三个字鲜明的时代意义与先锋的思想价值，也让《新青年》有了更加精准的办刊定位。 这段文字中的“巧妙处理”指的是：",
+    "raw_content": "{\n  \"question_type\": \"词句理解\",\n  \"idiom_terms\": [\"变被动为主动\"],\n  \"idiom_count\": 1,\n  \"term_terms\": [],\n  \"term_count\": 0,\n  \"passage_function\": \"解释说明\",\n  \"option_similarity_detail\": {\n    \"semantic_similarity\": 0.65,\n    \"pos_style_similarity\": 0.80,\n    \"collocation_similarity\": 0.70,\n    \"distractor_strength\": 0.60\n  },\n  \"option_similarity_score\": 0.69\n}",
+    "parsed": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "变被动为主动"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69
+    },
+    "normalized": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "变被动为主动"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 256
+    }
+  },
+  {
+    "question_id": "5445906",
+    "stem": "对最后一段中“成为日益暖化的地球上又一根新的稻草”理解最准确的是：",
+    "raw_content": "{\n  \"question_type\": \"词句理解\",\n  \"idiom_terms\": [\n    \"最后一根稻草\"\n  ],\n  \"idiom_count\": 1,\n  \"term_terms\": [\n    \"温室效应\",\n    \"自然生态系统\"\n  ],\n  \"term_count\": 2,\n  \"passage_function\": \"词句理解\",\n  \"option_similarity_detail\": {\n    \"semantic_similarity\": 0.75,\n    \"pos_style_similarity\": 0.85,\n    \"collocation_similarity\": 0.80,\n    \"distractor_strength\": 0.70\n  },\n  \"option_similarity_score\": 0.78\n}",
+    "parsed": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "最后一根稻草"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "温室效应",
+        "自然生态系统"
+      ],
+      "term_count": 2,
+      "passage_function": "词句理解",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.78
+    },
+    "normalized": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "最后一根稻草"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "温室效应",
+        "自然生态系统"
+      ],
+      "term_count": 2,
+      "passage_function": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 33
+    }
+  },
+  {
+    "question_id": "19526310",
+    "stem": "条叶庭荠和四齿芥是沙漠中常见的两种短命植物，其新成熟种子具有生理休眠特性，传播后的种子能在夏季高温中通过后熟作用，进入非休眠状态，随后在秋季土壤湿度适宜时萌发。未能在秋季萌发的种子，则会在冬季重新休眠。在早春湿润的雪融期，部分种子通过低温层积作用再次结束休眠，在早春季节萌发。这种一年两次的休眠循环机制使其能在一年内形成两个不同的萌发幼苗群体。这种适应策略可能是植物长期适应荒漠降水和温度胁迫生境的一种“两头下注”策略，有助于它们在极端环境下的维持和繁衍。 “‘两头下注’策略”指的是：",
+    "raw_content": "{\n  \"question_type\": \"词句理解\",\n  \"idiom_terms\": [\"两头下注\"],\n  \"idiom_count\": 1,\n  \"term_terms\": [\"生理休眠\", \"后熟作用\", \"非休眠状态\", \"低温层积作用\", \"休眠循环机制\"],\n  \"term_count\": 5,\n  \"passage_function\": \"解释说明\",\n  \"option_similarity_detail\": {\n    \"semantic_similarity\": 0.55,\n    \"pos_style_similarity\": 0.80,\n    \"collocation_similarity\": 0.60,\n    \"distractor_strength\": 0.65\n  },\n  \"option_similarity_score\": 0.65\n}",
+    "parsed": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "两头下注"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "生理休眠",
+        "后熟作用",
+        "非休眠状态",
+        "低温层积作用",
+        "休眠循环机制"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.55,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.65
+    },
+    "normalized": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "两头下注"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "生理休眠",
+        "后熟作用",
+        "非休眠状态",
+        "低温层积作用",
+        "休眠循环机制"
+      ],
+      "term_count": 5,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.55,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.6,
+        "distractor_strength": 0.65
+      },
+      "option_similarity_score": 0.65,
+      "text_length": 242
+    }
+  },
+  {
+    "question_id": "13628200",
+    "stem": "文章第四自然段画横线句子中的“这”指的是：",
+    "raw_content": "{\n  \"question_type\": \"词句理解\",\n  \"idiom_terms\": [],\n  \"idiom_count\": 0,\n  \"term_terms\": [\"AI\", \"人文精神\", \"提示词工程师\"],\n  \"term_count\": 3,\n  \"passage_function\": \"细节判断\",\n  \"option_similarity_detail\": {\n    \"semantic_similarity\": 0.65,\n    \"pos_style_similarity\": 0.80,\n    \"collocation_similarity\": 0.70,\n    \"distractor_strength\": 0.60\n  },\n  \"option_similarity_score\": 0.69\n}",
+    "parsed": {
+      "question_type": "词句理解",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "AI",
+        "人文精神",
+        "提示词工程师"
+      ],
+      "term_count": 3,
+      "passage_function": "细节判断",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69
+    },
+    "normalized": {
+      "question_type": "词句理解",
+      "idiom_terms": [],
+      "idiom_count": 0,
+      "term_terms": [
+        "AI",
+        "人文精神",
+        "提示词工程师"
+      ],
+      "term_count": 3,
+      "passage_function": "其他",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 21
+    }
+  },
+  {
+    "question_id": "13319272",
+    "stem": "口口相传的经验是讲故事的人的灵感来源。在劳动的氛围中讲故事，是一种交流方式。每一个讲故事的人都会在故事中留下自己的痕迹，就像制陶人会在陶器上留下自己的印记一样。人在放松的状态下听故事，内心会想记下这些故事，并有对他人转述故事的愿望，这就构成了听故事的人与讲故事的人之间的关系。讲故事的人就像智者一样，能讲出自己的人生经验，也能讲出他人的经验、历史的经验，他们能让故事的火把生活的灯芯点燃。 这段文字中“在故事中留下自己的痕迹”的含义最有可能是：",
+    "raw_content": "{\n  \"question_type\": \"词句理解\",\n  \"idiom_terms\": [\"口口相传\"],\n  \"idiom_count\": 1,\n  \"term_terms\": [],\n  \"term_count\": 0,\n  \"passage_function\": \"解释说明\",\n  \"option_similarity_detail\": {\n    \"semantic_similarity\": 0.75,\n    \"pos_style_similarity\": 0.85,\n    \"collocation_similarity\": 0.80,\n    \"distractor_strength\": 0.70\n  },\n  \"option_similarity_score\": 0.78\n}",
+    "parsed": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "口口相传"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.78
+    },
+    "normalized": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "口口相传"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 221
+    }
+  },
+  {
+    "question_id": "10297266",
+    "stem": "要让机器听清、听懂人类语言并不是一件容易的事。语音识别研究中有一道最具挑战性的典型难题被称为“鸡尾酒会”效应，即远场环境、噪声干扰、多人语音混叠等现象导致的语音识别困难。针对这一难题，研发团队提出了多通道语音信号时空分离建模方法，即先将人声和不同的噪音分离，再进行建模。同时，团队还提出多维度语音属性 解耦表征 方法。简单来说就是解耦、提取内容、韵律、音色等语音属性，以便更准确地识别和传达语音信息，使得复杂场景下语音识别准确率得到显著提升。 根据上下文，画线词“解耦表征”的意思是：",
+    "raw_content": "{\n  \"question_type\": \"词句理解\",\n  \"idiom_terms\": [\"鸡尾酒会效应\"],\n  \"idiom_count\": 1,\n  \"term_terms\": [\"语音识别\", \"多通道语音信号时空分离建模方法\", \"多维度语音属性解耦表征方法\"],\n  \"term_count\": 3,\n  \"passage_function\": \"解释说明\",\n  \"option_similarity_detail\": {\n    \"semantic_similarity\": 0.65,\n    \"pos_style_similarity\": 0.80,\n    \"collocation_similarity\": 0.70,\n    \"distractor_strength\": 0.60\n  },\n  \"option_similarity_score\": 0.69\n}",
+    "parsed": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "鸡尾酒会效应"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "语音识别",
+        "多通道语音信号时空分离建模方法",
+        "多维度语音属性解耦表征方法"
+      ],
+      "term_count": 3,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69
+    },
+    "normalized": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "鸡尾酒会效应"
+      ],
+      "idiom_count": 1,
+      "term_terms": [
+        "语音识别"
+      ],
+      "term_count": 1,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.65,
+        "pos_style_similarity": 0.8,
+        "collocation_similarity": 0.7,
+        "distractor_strength": 0.6
+      },
+      "option_similarity_score": 0.69,
+      "text_length": 239
+    }
+  },
+  {
+    "question_id": "12019781",
+    "stem": "生活在网络环境中，没有所谓的“空闲时间”，通勤时刷短视频、吃饭时看直播，甚至洗澡时也要戴着耳机听播客。人们即使在休憩或旅行中，也难以找到独处的状态：度假时，朋友圈定位与九宫格照片发布的优先级高于欣赏日出日落；户外运动时，隔十分钟就想看看手机，生怕错过“重要”信息。安静让他们变得烦躁不安，仿佛独处意味着被世界抛弃，必须用持续的信息输入填满每分钟。这种对“空闲”的恐惧，本质上是对自我的陌生——当剥离了网络标签和社交互动，我们是否还能认识那个独处的自己？ 文中“对‘空闲’的恐惧”指的是：",
+    "raw_content": "{\n  \"question_type\": \"词句理解\",\n  \"idiom_terms\": [\"九宫格照片\"],\n  \"idiom_count\": 1,\n  \"term_terms\": [],\n  \"term_count\": 0,\n  \"passage_function\": \"解释说明\",\n  \"option_similarity_detail\": {\n    \"semantic_similarity\": 0.75,\n    \"pos_style_similarity\": 0.85,\n    \"collocation_similarity\": 0.80,\n    \"distractor_strength\": 0.70\n  },\n  \"option_similarity_score\": 0.78\n}",
+    "parsed": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "九宫格照片"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.78
+    },
+    "normalized": {
+      "question_type": "词句理解",
+      "idiom_terms": [
+        "九宫格照片"
+      ],
+      "idiom_count": 1,
+      "term_terms": [],
+      "term_count": 0,
+      "passage_function": "解释说明",
+      "option_similarity_detail": {
+        "semantic_similarity": 0.75,
+        "pos_style_similarity": 0.85,
+        "collocation_similarity": 0.8,
+        "distractor_strength": 0.7
+      },
+      "option_similarity_score": 0.78,
+      "text_length": 242
+    }
+  }
+]

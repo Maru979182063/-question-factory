@@ -1,0 +1,15 @@
+{
+  "summary": {
+    "documents_processed": [
+      "/mnt/data/片段阅读-中心理解题.docx",
+      "/mnt/data/语句表达-语句排序题.docx",
+      "/mnt/data/语句表达-语句填空题.docx"
+    ],
+    "families": {
+      "中心理解": 10,
+      "语句排序": 10,
+      "语句填空": 10
+    },
+    "split_note": "suggested_split is balanced 5 train / 5 test per family"
+  }
+}

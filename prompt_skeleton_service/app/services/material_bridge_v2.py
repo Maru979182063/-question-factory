@@ -50,6 +50,8 @@ class MaterialBridgeV2Service:
         business_card_ids: list[str] | None = None,
         preferred_business_card_ids: list[str] | None = None,
         query_terms: list[str] | None = None,
+        shadow_child_family_ids: list[str] | None = None,
+        shadow_selected_leaf_ids: list[str] | None = None,
         target_length: int | None = None,
         length_tolerance: int = 120,
         structure_constraints: dict[str, Any] | None = None,
@@ -84,6 +86,8 @@ class MaterialBridgeV2Service:
             business_card_ids=business_card_ids or [],
             preferred_business_card_ids=preferred_business_card_ids or [],
             query_terms=query_terms or [],
+            shadow_child_family_ids=shadow_child_family_ids or [],
+            shadow_selected_leaf_ids=shadow_selected_leaf_ids or [],
             topic=topic,
             text_direction=text_direction,
             document_genre=document_genre,
@@ -311,6 +315,8 @@ class MaterialBridgeV2Service:
         business_card_ids: list[str] | None = None,
         preferred_business_card_ids: list[str] | None = None,
         query_terms: list[str] | None = None,
+        shadow_child_family_ids: list[str] | None = None,
+        shadow_selected_leaf_ids: list[str] | None = None,
         target_length: int | None = None,
         length_tolerance: int = 120,
         structure_constraints: dict[str, Any] | None = None,
@@ -347,6 +353,8 @@ class MaterialBridgeV2Service:
                 business_card_ids=business_card_ids or [],
                 preferred_business_card_ids=preferred_business_card_ids or [],
                 query_terms=query_terms or [],
+                shadow_child_family_ids=shadow_child_family_ids or [],
+                shadow_selected_leaf_ids=shadow_selected_leaf_ids or [],
                 topic=None,
                 text_direction=None,
                 document_genre=document_genre,
@@ -436,6 +444,8 @@ class MaterialBridgeV2Service:
             business_card_ids=[],
             preferred_business_card_ids=[],
             query_terms=[],
+            shadow_child_family_ids=[],
+            shadow_selected_leaf_ids=[],
             topic=None,
             text_direction=None,
             document_genre=None,
@@ -540,6 +550,8 @@ class MaterialBridgeV2Service:
         business_card_ids: list[str],
         preferred_business_card_ids: list[str],
         query_terms: list[str],
+        shadow_child_family_ids: list[str],
+        shadow_selected_leaf_ids: list[str],
         topic: str | None,
         text_direction: str | None,
         document_genre: str | None,
@@ -560,6 +572,9 @@ class MaterialBridgeV2Service:
             "business_card_ids": business_card_ids,
             "preferred_business_card_ids": preferred_business_card_ids,
             "query_terms": query_terms,
+            "shadow_child_family_ids": shadow_child_family_ids,
+            "shadow_selected_leaf_ids": shadow_selected_leaf_ids,
+            "include_shadow_observation": bool(shadow_child_family_ids or shadow_selected_leaf_ids),
             "topic": topic,
             "text_direction": text_direction,
             "document_genre": document_genre,
@@ -568,10 +583,113 @@ class MaterialBridgeV2Service:
             "length_tolerance": length_tolerance,
             "structure_constraints": structure_constraints,
             "enable_anchor_adaptation": enable_anchor_adaptation,
-            "review_gate_mode": "stable_relaxed",
+            "status": self.config.default_status,
+            "release_channel": self.config.default_release_channel,
+            "review_gate_mode": self.config.review_gate_mode,
         }
+        attempts = self._build_v2_search_attempts(payload)
+        last_error: DomainError | None = None
+        for attempt in attempts:
+            try:
+                data = self._execute_v2_search_attempt(
+                    attempt=attempt,
+                    query_terms=query_terms,
+                    business_card_ids=business_card_ids,
+                    preferred_business_card_ids=preferred_business_card_ids,
+                    structure_constraints=structure_constraints,
+                )
+            except DomainError as exc:
+                last_error = exc
+                if attempt.get("allow_fallback"):
+                    warnings.append(f"{attempt['origin']}_search_failed:{type(exc).__name__}")
+                    continue
+                raise
+            warnings.extend(self._extract_search_warnings(data))
+            items = data.get("items", [])
+            if not isinstance(items, list):
+                raise DomainError(
+                    "passage_service returned an invalid v2 materials payload.",
+                    status_code=502,
+                    details={"payload_keys": sorted(data.keys())},
+                )
+            filtered_items = self._filter_reviewable_items(items)
+            if filtered_items:
+                return {
+                    "items": filtered_items,
+                    "warnings": self._dedupe_warnings(warnings),
+                }
+            if items and attempt.get("allow_fallback"):
+                warnings.append(f"{attempt['origin']}_review_gate_filtered_fallback")
+                continue
+            if attempt.get("allow_fallback"):
+                warnings.append(f"{attempt['origin']}_empty_fallback")
+                continue
+        if last_error and str(self.config.bridge_mode or "").strip().lower() == "leaf_only":
+            raise last_error
+        return {
+            "items": [],
+            "warnings": self._dedupe_warnings(warnings),
+        }
+
+    def _build_v2_search_attempts(self, payload: dict[str, Any]) -> list[dict[str, Any]]:
+        bridge_mode = str(self.config.bridge_mode or "legacy_only").strip().lower()
+        shadow_filter_active = self._shadow_filter_requested(payload)
+        legacy_attempt = {
+            "origin": "legacy",
+            "bridge_mode": bridge_mode,
+            "base_url": self.config.base_url,
+            "search_path": self.config.v2_search_path,
+            "payload": dict(payload),
+            "allow_fallback": False,
+            "allow_local_sqlite_fallback": True,
+        }
+        shadow_base_url = str(self.config.shadow_base_url or "").strip()
+        shadow_attempt = {
+            "origin": "shadow",
+            "bridge_mode": bridge_mode,
+            "base_url": shadow_base_url or self.config.base_url,
+            "search_path": self.config.shadow_v2_search_path,
+            "payload": {
+                **dict(payload),
+                "status": self.config.shadow_default_status,
+                "release_channel": self.config.shadow_default_release_channel,
+                "review_gate_mode": self.config.shadow_review_gate_mode,
+            },
+            "allow_fallback": True,
+            "allow_local_sqlite_fallback": False,
+        }
+        if shadow_filter_active:
+            return [shadow_attempt | {"allow_fallback": False}]
+        if bridge_mode == "shadow_prefer":
+            return [shadow_attempt, legacy_attempt]
+        if bridge_mode == "leaf_only":
+            return [shadow_attempt | {"allow_fallback": False}]
+        return [legacy_attempt]
+
+    @staticmethod
+    def _shadow_filter_requested(payload: dict[str, Any]) -> bool:
+        return bool(
+            payload.get("shadow_child_family_ids")
+            or payload.get("shadow_selected_leaf_ids")
+        )
+
+    def _execute_v2_search_attempt(
+        self,
+        *,
+        attempt: dict[str, Any],
+        query_terms: list[str],
+        business_card_ids: list[str],
+        preferred_business_card_ids: list[str],
+        structure_constraints: dict[str, Any],
+    ) -> dict[str, Any]:
+        payload = dict(attempt.get("payload") or {})
         try:
-            data = self._post_v2_search(payload)
+            data = self._post_v2_search(
+                payload,
+                base_url=str(attempt.get("base_url") or self.config.base_url),
+                search_path=str(attempt.get("search_path") or self.config.v2_search_path),
+                allow_local_sqlite_fallback=bool(attempt.get("allow_local_sqlite_fallback", True)),
+            )
         except DomainError as exc:
             if not self._is_search_timeout_error(exc):
                 raise
@@ -581,8 +699,18 @@ class MaterialBridgeV2Service:
                 business_card_ids=business_card_ids,
                 structure_constraints=structure_constraints,
             )
-            data = self._post_v2_search(relaxed_payload, timeout=self.SEARCH_RETRY_TIMEOUT_SECONDS)
-        warnings.extend(self._extract_search_warnings(data))
+            data = self._post_v2_search(
+                relaxed_payload,
+                base_url=str(attempt.get("base_url") or self.config.base_url),
+                search_path=str(attempt.get("search_path") or self.config.v2_search_path),
+                timeout=self.SEARCH_RETRY_TIMEOUT_SECONDS,
+                allow_local_sqlite_fallback=bool(attempt.get("allow_local_sqlite_fallback", True)),
+            )
+        data = self._annotate_bridge_search_result(
+            data,
+            origin=str(attempt.get("origin") or "legacy"),
+            bridge_mode=str(attempt.get("bridge_mode") or self.config.bridge_mode or "legacy_only"),
+        )
         items = data.get("items", [])
         if not items and query_terms:
             relaxed_payload = self._build_relaxed_search_payload(
@@ -591,8 +719,17 @@ class MaterialBridgeV2Service:
                 business_card_ids=business_card_ids,
                 structure_constraints=structure_constraints,
             )
-            data = self._post_v2_search(relaxed_payload)
-            warnings.extend(self._extract_search_warnings(data))
+            data = self._post_v2_search(
+                relaxed_payload,
+                base_url=str(attempt.get("base_url") or self.config.base_url),
+                search_path=str(attempt.get("search_path") or self.config.v2_search_path),
+                allow_local_sqlite_fallback=bool(attempt.get("allow_local_sqlite_fallback", True)),
+            )
+            data = self._annotate_bridge_search_result(
+                data,
+                origin=str(attempt.get("origin") or "legacy"),
+                bridge_mode=str(attempt.get("bridge_mode") or self.config.bridge_mode or "legacy_only"),
+            )
         items = data.get("items", [])
         if not items and structure_constraints and not (query_terms or business_card_ids or preferred_business_card_ids):
             loose_payload = self._build_relaxed_search_payload(
@@ -602,38 +739,46 @@ class MaterialBridgeV2Service:
                 structure_constraints={},
                 enable_anchor_adaptation=False,
             )
-            data = self._post_v2_search(loose_payload, timeout=self.SEARCH_RETRY_TIMEOUT_SECONDS)
-            warnings.extend(self._extract_search_warnings(data))
-        items = data.get("items", [])
-        if not isinstance(items, list):
-            raise DomainError(
-                "passage_service returned an invalid v2 materials payload.",
-                status_code=502,
-                details={"payload_keys": sorted(data.keys())},
+            data = self._post_v2_search(
+                loose_payload,
+                base_url=str(attempt.get("base_url") or self.config.base_url),
+                search_path=str(attempt.get("search_path") or self.config.v2_search_path),
+                timeout=self.SEARCH_RETRY_TIMEOUT_SECONDS,
+                allow_local_sqlite_fallback=bool(attempt.get("allow_local_sqlite_fallback", True)),
             )
-        return {
-            "items": self._filter_reviewable_items(items),
-            "warnings": self._dedupe_warnings(warnings),
-        }
+            data = self._annotate_bridge_search_result(
+                data,
+                origin=str(attempt.get("origin") or "legacy"),
+                bridge_mode=str(attempt.get("bridge_mode") or self.config.bridge_mode or "legacy_only"),
+            )
+        return data
 
-    def _post_v2_search(self, payload: dict[str, Any], *, timeout: int | None = None) -> dict[str, Any]:
+    def _post_v2_search(
+        self,
+        payload: dict[str, Any],
+        *,
+        base_url: str,
+        search_path: str,
+        timeout: int | None = None,
+        allow_local_sqlite_fallback: bool = True,
+    ) -> dict[str, Any]:
         try:
             with httpx.Client(
-                base_url=self.config.base_url,
+                base_url=base_url,
                 timeout=timeout or self.SEARCH_TIMEOUT_SECONDS,
                 trust_env=False,
             ) as client:
-                response = client.post(self.config.v2_search_path, json=payload)
+                response = client.post(search_path, json=payload)
                 response.raise_for_status()
                 data = response.json()
         except httpx.HTTPError as exc:
-            if self._disable_local_sqlite_fallback(payload):
+            if not allow_local_sqlite_fallback or self._disable_local_sqlite_fallback(payload):
                 raise DomainError(
                     "Failed to fetch v2 materials from passage_service.",
                     status_code=502,
                     details={
-                        "base_url": self.config.base_url,
-                        "search_path": self.config.v2_search_path,
+                        "base_url": base_url,
+                        "search_path": search_path,
                         "reason": str(exc),
                         "fallback_blocked": True,
                     },
@@ -648,9 +793,27 @@ class MaterialBridgeV2Service:
             raise DomainError(
                 "Failed to fetch v2 materials from passage_service.",
                 status_code=502,
-                details={"base_url": self.config.base_url, "search_path": self.config.v2_search_path, "reason": str(exc)},
+                details={"base_url": base_url, "search_path": search_path, "reason": str(exc)},
             ) from exc
         return data
+
+    @staticmethod
+    def _annotate_bridge_search_result(data: dict[str, Any], *, origin: str, bridge_mode: str) -> dict[str, Any]:
+        annotated = dict(data or {})
+        items: list[dict[str, Any]] = []
+        for item in annotated.get("items") or []:
+            if not isinstance(item, dict):
+                continue
+            enriched = dict(item)
+            enriched["bridge_origin"] = origin
+            enriched["bridge_mode"] = bridge_mode
+            items.append(enriched)
+        annotated["items"] = items
+        warnings = [str(entry) for entry in (annotated.get("warnings") or []) if str(entry).strip()]
+        warnings.append(f"bridge_origin:{origin}")
+        warnings.append(f"bridge_mode:{bridge_mode}")
+        annotated["warnings"] = warnings
+        return annotated
 
     @staticmethod
     def _extract_search_warnings(data: dict[str, Any]) -> list[str]:
@@ -909,10 +1072,19 @@ class MaterialBridgeV2Service:
         filtered: list[dict[str, Any]] = []
         for item in items:
             review_status = item.get("review_status")
-            if review_status and review_status not in self.SERVABLE_REVIEW_STATUSES:
+            allowed_statuses = self._allowed_review_statuses_for_item(item)
+            if review_status and review_status not in allowed_statuses:
                 continue
             filtered.append(item)
         return filtered
+
+    def _allowed_review_statuses_for_item(self, item: dict[str, Any]) -> set[str]:
+        allowed = set(self.SERVABLE_REVIEW_STATUSES)
+        origin = str(item.get("bridge_origin") or "").strip().lower()
+        shadow_mode = str(self.config.shadow_review_gate_mode or "").strip().lower()
+        if origin == "shadow" and shadow_mode == "stable_relaxed":
+            allowed.add("review_pending")
+        return allowed
 
     def _fallback_db_path(self) -> Path:
         root = Path(__file__).resolve().parents[3]
@@ -1854,6 +2026,7 @@ class MaterialBridgeV2Service:
         selection_reason_with_decision = (
             f"{selection_reason}; selection_state={resolved_decision_meta.get('selection_state')}; decision_reason={resolved_decision_meta.get('decision_reason')}"
         )
+        shadow_contract = self._extract_shadow_contract(item=item, question_ready_context=question_ready_context)
         consumable_text = str(item.get("consumable_text") or item.get("text") or "")
         if isinstance(selected_business_card, str) and selected_business_card.startswith("sentence_fill__"):
             consumable_text = str(prompt_extras.get("blanked_text") or consumable_text)
@@ -1890,6 +2063,11 @@ class MaterialBridgeV2Service:
                 "decision_meta": resolved_decision_meta,
                 "feedback_snapshot": feedback_snapshot,
                 "preference_profile": normalized_preference,
+                "bridge_meta": {
+                    "origin": str(item.get("bridge_origin") or "legacy"),
+                    "mode": str(item.get("bridge_mode") or self.config.bridge_mode or "legacy_only"),
+                },
+                "shadow_contract": shadow_contract,
                 "ranking_meta": {
                     "planner_score": round(float(planner_score or 0.0), 4),
                     "sort_key": [round(float(value), 4) for value in (sort_key or ())],
@@ -1914,6 +2092,45 @@ class MaterialBridgeV2Service:
             anchor_adaptation_reason=((item.get("meta") or {}).get("anchor_adaptation") or {}).get("reason"),
             anchor_span=((item.get("meta") or {}).get("anchor_adaptation") or {}),
         )
+
+    @staticmethod
+    def _extract_shadow_contract(*, item: dict[str, Any], question_ready_context: dict[str, Any]) -> dict[str, Any]:
+        source_payload = dict(item.get("source") or {})
+        shadow_observation = dict(item.get("shadow_observation") or {})
+        shadow_mount = (
+            question_ready_context.get("shadow_mount")
+            if isinstance(question_ready_context.get("shadow_mount"), dict)
+            else source_payload.get("shadow_mount") or item.get("shadow_mount")
+        )
+        return {
+            "selected_leaf_id": question_ready_context.get("selected_leaf_id")
+            or source_payload.get("selected_leaf_id")
+            or shadow_observation.get("selected_leaf_id"),
+            "child_family_id": question_ready_context.get("child_family_id")
+            or source_payload.get("child_family_id")
+            or shadow_observation.get("child_family_id"),
+            "shadow_status": question_ready_context.get("shadow_status")
+            or source_payload.get("shadow_status")
+            or shadow_observation.get("shadow_status"),
+            "leaf_trace_version": question_ready_context.get("leaf_trace_version")
+            or source_payload.get("leaf_trace_version")
+            or shadow_observation.get("leaf_trace_version"),
+            "fallback_to_business_card": question_ready_context.get("fallback_to_business_card")
+            if question_ready_context.get("fallback_to_business_card") is not None
+            else (
+                source_payload.get("fallback_to_business_card")
+                if source_payload.get("fallback_to_business_card") is not None
+                else shadow_observation.get("fallback_to_business_card")
+            ),
+            "shadow_ready": question_ready_context.get("shadow_ready")
+            if question_ready_context.get("shadow_ready") is not None
+            else (
+                source_payload.get("shadow_ready")
+                if source_payload.get("shadow_ready") is not None
+                else shadow_observation.get("shadow_ready")
+            ),
+            "shadow_mount": dict(shadow_mount) if isinstance(shadow_mount, dict) else None,
+        }
 
     def _attach_local_usage_stats(self, items: list[dict[str, Any]], usage_stats_lookup) -> list[dict[str, Any]]:
         if usage_stats_lookup is None:

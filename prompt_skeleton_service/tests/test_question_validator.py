@@ -174,6 +174,13 @@ class QuestionValidatorUnitTest(TestCase):
             )
         )
 
+    def test_extract_reference_order_sequences_accepts_arabic_digit_order(self) -> None:
+        analysis = "正确顺序为213465。观察选项，首句资格最关键。故正确答案为D。"
+
+        sequences = self.validator._extract_reference_order_sequences(analysis)
+
+        self.assertEqual(sequences[0], [2, 1, 3, 4, 6, 5])
+
     def test_sentence_order_natural_openers_get_opening_credit(self) -> None:
         ifengshuo = self.validator._sentence_order_unit_opener_score("如果说制度与技术的完善为残疾学生搭建了受教育的平台，那么特教教师则是连接最后一公里的关键桥梁。", index=0)
         quoted = self.validator._sentence_order_unit_opener_score("在《辞源》里，“寿岳”的注释就是南岳。", index=0)

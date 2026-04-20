@@ -3,7 +3,7 @@ schema_version: business_slot.v1
 card_meta:
   business_card_id: cause_effect__conclusion_focus__main_idea
   display_name: 因果关系-结论是重点
-  description: 适用于抓取显式因果关系且结论句承担中心信息的文段，优先服务主旨/中心理解类题。
+  description: 适用于现象、机制、原因、结果等解释链共同回收到中心判断的文段；显式因果词常见，但不是唯一合法入口。
   mother_family_id: main_idea
   business_subtype: center_understanding
   enabled: true
@@ -17,7 +17,7 @@ card_meta:
 feature_signature:
   relation_type: 因果关系
   relation_family: 因果
-  relation_focus: 结论是重点
+  relation_focus: 解释链条最终服务于一个被恢复出来的中心判断
   typical_formats:
     - 因为……所以……
     - 由于……因此……
@@ -37,6 +37,8 @@ feature_signature:
       - 在这种情况下
       - 可以说
       - 换言之
+      - 导致
+      - 使得
   structural_features:
     conclusion_is_core: true
     conclusion_position: tail_or_late
@@ -51,7 +53,7 @@ feature_signature:
       - 结论前内容
       - 围绕解释说明的表达
   extraction_hints:
-    require_explicit_marker: true
+    require_explicit_marker: false
     require_complete_meaning: true
     min_sentence_count: 2
     preferred_paragraph_window:
@@ -78,9 +80,8 @@ schema_alignment:
 
 retrieval_profile:
   hard_filters:
-    logic_relations:
-      - 因果
-    require_explicit_marker: true
+    logic_relations: []
+    require_explicit_marker: false
     require_complete_unit: true
   soft_filters:
     preferred_document_genres:
@@ -90,6 +91,7 @@ retrieval_profile:
       - 政策文
     preferred_material_structures:
       - 现象-分析
+      - 现象-机制-判断
       - 观点-论证
       - 背景-核心结论
     preferred_conclusion_position:
@@ -99,10 +101,10 @@ retrieval_profile:
       - 因此
       - 可见
   ranking_weights:
-    relation_match: 0.30
-    marker_match: 0.25
+    relation_match: 0.25
+    marker_match: 0.10
     structural_match: 0.20
-    semantic_completeness: 0.15
+    semantic_completeness: 0.25
     readability: 0.10
   fallback_policy:
     allow_marker_loosen: true
@@ -141,11 +143,10 @@ slot_projection:
 
 canonical_projection:
   expected_universal_profile:
-    logic_relations:
-      - 因果
+    logic_relations: []
     position_roles:
       - 尾段总结
-    material_structure_label: 现象-分析
+    material_structure_label: 现象-机制-判断
   expected_business_fields:
     feature_type: 因果关系
     conclusion_focus: true

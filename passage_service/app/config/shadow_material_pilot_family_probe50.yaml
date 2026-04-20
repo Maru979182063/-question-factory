@@ -1,0 +1,21 @@
+version: "shadow_material_pilot.family_probe50.v1"
+
+notes:
+  - "Family-probe batch aims to collect a more exam-like shadow reading pool."
+  - "People/GMW provide commentary and explanation-heavy prose for sentence_fill and sentence_order."
+  - "CSSN/Kepu provide social-science and science explanation prose for center_understanding."
+  - "This run is for manual reading, family-shape inspection, and over-strict gate triage."
+
+pilot_sources:
+  - "people"
+  - "gmw"
+  - "cssn_shadow"
+  - "kepuchina_shadow"
+
+source_article_limits:
+  people: 15
+  gmw: 15
+  cssn_shadow: 10
+  kepuchina_shadow: 10
+
+dual_read_queries: []

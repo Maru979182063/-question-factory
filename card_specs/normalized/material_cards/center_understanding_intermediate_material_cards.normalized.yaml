@@ -19,7 +19,7 @@ notes:
 cards:
   - card_id: center_material.relation_plain
     display_name: Center Relation Plain
-    selection_core: Stable single-axis center-understanding passage with explicit closure.
+    selection_core: Stable center-understanding passage where object scope and judgment axis remain steady; not merely repeated theme words.
     structures:
       - total_sub
       - sub_total
@@ -30,11 +30,12 @@ cards:
       titleability: ">=0.62"
       context_dependency: "<=0.58"
     preferred_signals:
-      - clear center sentence
-      - end-position summary or consolidation
+      - clear center sentence or stable judgment axis
+      - multiple support sentences converging to one steady conclusion
     avoid_signals:
       - severe context dependence
       - fragmented branch-first discourse
+      - theme-word repetition without recoverable judgment
     candidate_contract:
       raw_policy: whole_passage preferred
       allowed_candidate_types:
@@ -42,7 +43,7 @@ cards:
         - closed_span
       preferred_candidate_types:
         - whole_passage
-    card_bias: plain center-main-axis recovery
+    card_bias: stable-axis main recovery rather than theme-word matching
     default_generation_archetype: main_recovery
     distractor_bias:
       - local-detail-as-main
@@ -118,7 +119,7 @@ cards:
 
   - card_id: center_material.relation_countermeasure
     display_name: Center Relation Countermeasure
-    selection_core: Problem-to-countermeasure passages where conclusion is solution-oriented.
+    selection_core: Problem/risk passages where analysis ultimately serves a solution, governance path, or key response axis.
     structures:
       - problem_solution
       - phenomenon_analysis
@@ -131,9 +132,11 @@ cards:
     preferred_signals:
       - explicit problem diagnosis
       - action/measure closure
+      - implicit governance or response landing even without strict necessary-condition wording
     avoid_signals:
       - pure phenomenon description
       - measure statements without diagnosed problem
+      - slogan-like method talk with no recoverable response axis
     candidate_contract:
       raw_policy: multi_paragraph_unit preferred
       allowed_candidate_types:
@@ -152,7 +155,7 @@ cards:
 
   - card_id: center_material.relation_variant
     display_name: Center Relation Variant
-    selection_core: Cause-effect/variant relation passages with explicit conclusion recovery.
+    selection_core: Phenomenon/explanation/mechanism passages where a why/how chain recovers one center judgment, even when relation markers are implicit.
     structures:
       - example_conclusion
       - sub_total
@@ -163,11 +166,12 @@ cards:
       summary_strength: ">=0.44"
       single_center_strength: ">=0.50"
     preferred_signals:
-      - explicit causality chain
+      - explicit or implicit explanation chain
       - recovered center conclusion after relation unfolding
     avoid_signals:
       - weak causality with pure narrative
       - multiple unrelated causal chains
+      - local mechanism detail without recovered judgment
     candidate_contract:
       raw_policy: closed_span or multi_paragraph_unit
       allowed_candidate_types:
@@ -186,7 +190,7 @@ cards:
 
   - card_id: center_material.subsentence_example
     display_name: Center Subsentence Example
-    selection_core: Example-rich discourse where specific cases should be elevated back to one stable center claim.
+    selection_core: Example-rich discourse where specific cases, scenarios, or analogies should be elevated back to one stable center claim.
     structures:
       - example_conclusion
       - total_sub
@@ -198,6 +202,7 @@ cards:
     preferred_signals:
       - explicit example expression with recoverable theme
       - center sentence before or after examples
+      - multiple cases jointly serving one answer axis
     avoid_signals:
       - pure example listing without center recovery
       - local case details replacing main axis
@@ -219,7 +224,7 @@ cards:
 
   - card_id: center_material.subsentence_data
     display_name: Center Subsentence Data
-    selection_core: Data/evidence-heavy passages where statistics support a unified center judgment.
+    selection_core: Data/evidence-heavy passages where statistics, experiments, surveys, or factual evidence support a unified center judgment.
     structures:
       - phenomenon_analysis
       - sub_total
@@ -231,6 +236,7 @@ cards:
     preferred_signals:
       - explicit statistics or survey evidence
       - evidence chain converging to one center sentence
+      - factual support that cannot itself serve as the answer
     avoid_signals:
       - data pile-up without axis conclusion
       - isolated numeric detail as option anchor
@@ -252,7 +258,7 @@ cards:
 
   - card_id: center_material.subsentence_prelude
     display_name: Center Subsentence Prelude
-    selection_core: Intro/paving passages where setup information should converge to a clear center conclusion.
+    selection_core: Intro/paving passages where setup, background, symptoms, or scene-setting information should converge to a clear center conclusion.
     structures:
       - sub_total
       - phenomenon_analysis
@@ -264,6 +270,7 @@ cards:
     preferred_signals:
       - opening setup followed by center settlement
       - transition from background to explicit claim
+      - early frame that mainly exists to introduce a later answer axis
     avoid_signals:
       - introduction-only narrative without center anchor
       - excessive context dependence
@@ -285,7 +292,7 @@ cards:
 
   - card_id: center_material.subsentence_multi_angle
     display_name: Center Subsentence Multi Angle
-    selection_core: Multi-angle discourse that still converges to one center understanding judgment.
+    selection_core: Multi-angle support discourse that still converges to one center-understanding judgment instead of making the branches themselves the main structure.
     structures:
       - parallel
       - total_sub_total
@@ -298,6 +305,7 @@ cards:
     preferred_signals:
       - aspect-wise branches with explicit final unification
       - stable object scope across angles
+      - multiple support angles that jointly hold up one answer axis
     avoid_signals:
       - disconnected branch statements
       - branch-first options replacing unified axis
@@ -319,7 +327,7 @@ cards:
 
   - card_id: center_material.subsentence_other
     display_name: Center Subsentence Other
-    selection_core: Generic subsentence-feature passages with recoverable center axis but no strong single marker pattern.
+    selection_core: Subsentence-feature passages with recoverable center axis but no strong single subtype; often concept, factor, or theory support patterns.
     structures:
       - phenomenon_analysis
       - sub_total
@@ -331,6 +339,7 @@ cards:
     preferred_signals:
       - center sentence recoverable from multiple support sentences
       - moderate abstraction and stable scope
+      - concept clarification or factor sorting serving one center judgment
     avoid_signals:
       - purely local detail bundles
       - weak closure and high context dependency

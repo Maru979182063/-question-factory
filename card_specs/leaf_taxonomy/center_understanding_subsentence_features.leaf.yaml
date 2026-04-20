@@ -1,0 +1,103 @@
+schema_version: leaf_taxonomy.v1
+batch_id: center_understanding_subsentence_features_v1
+mother_family_id: center_understanding
+child_family_id: center_understanding_subsentence_features
+notes:
+  - leaf_id is the shadow-only runtime identity for subsentence-feature materials before full main-chain leaf adoption.
+  - selected_business_card remains the compatibility output; selected_leaf_id captures the more precise shadow semantic identity.
+  - leaf identity should be assigned from child-family scope plus material/text evidence, not from business-card alias alone.
+  - subsentence leaves should be judged by how support layers serve center recovery, not by surface signals alone.
+
+leaves:
+  - leaf_id: cu_subsentence_data
+    display_name: 数据资料
+    expected_material_card_id: center_material.subsentence_data
+    business_card_id: parallel_comprehensive_summary__main_idea
+    expected_question_type: main_idea
+    expected_business_subtype: center_understanding
+    source_doc_alias: data.docx
+    signal_hints:
+      - 实验
+      - 检测
+      - 数据
+      - 指标
+      - 结果
+      - 显示
+      - 调查
+      - 统计
+    prompt_guard_lines:
+      - Treat data or evidence as support layers and recover the supported center judgment.
+      - The correct option must not simply restate one number, metric, or isolated result.
+      - Data belongs here when statistics, experiments, surveys, or evidence chains jointly support a judgment, even if the wording is not numerically dense throughout.
+
+  - leaf_id: cu_subsentence_example
+    display_name: 举例子
+    expected_material_card_id: center_material.subsentence_example
+    business_card_id: theme_word_focus__main_idea
+    expected_question_type: main_idea
+    expected_business_subtype: center_understanding
+    source_doc_alias: example.docx
+    signal_hints:
+      - 例如
+      - 比如
+      - 以
+      - 为例
+      - 譬如
+      - 举例
+    prompt_guard_lines:
+      - Treat examples as support layers and recover the theme they jointly serve.
+      - The correct option must not stop at one case, character, or local anecdote.
+      - Structural analogies, multiple cases, or repeated scenario snippets can also count as example support if they jointly elevate one center.
+
+  - leaf_id: cu_subsentence_prelude
+    display_name: 引入铺垫
+    expected_material_card_id: center_material.subsentence_prelude
+    business_card_id: theme_word_focus__main_idea
+    expected_question_type: main_idea
+    expected_business_subtype: center_understanding
+    source_doc_alias: prelude.docx
+    signal_hints:
+      - 近年来
+      - 一直以来
+      - 长期以来
+      - 随着
+      - 背景
+      - 铺垫
+      - 引出
+    prompt_guard_lines:
+      - Prelude information should converge to a later center judgment instead of becoming the answer itself.
+      - The correct option must summarize the introduced task or axis, not just repeat the setup frame.
+      - Background, opening symptoms, or scene-setting information count only when they mainly function to introduce the later judgment.
+
+  - leaf_id: cu_subsentence_multi_angle
+    display_name: 多角度论述
+    expected_material_card_id: center_material.subsentence_multi_angle
+    business_card_id: parallel_comprehensive_summary__main_idea
+    expected_question_type: main_idea
+    expected_business_subtype: center_understanding
+    source_doc_alias: multi_angle.docx
+    signal_hints:
+      - 一方面
+      - 另一方面
+      - 同时
+      - 此外
+      - 另外
+      - 其一
+      - 其二
+    prompt_guard_lines:
+      - Multi-angle support should be unified back into one stable center judgment.
+      - The correct option must not shrink to one angle or branch.
+      - Use multi-angle only when several support angles jointly hold up one center; if the branches themselves form the main structure, review relation_parallel instead.
+
+  - leaf_id: cu_subsentence_other
+    display_name: 其他
+    expected_material_card_id: center_material.subsentence_other
+    business_card_id: theme_word_focus__main_idea
+    expected_question_type: main_idea
+    expected_business_subtype: center_understanding
+    source_doc_alias: other.docx
+    signal_hints: []
+    prompt_guard_lines:
+      - Use this leaf only when the passage clearly belongs to subsentence features but does not fit data, example, prelude, or multi-angle better.
+      - The correct option must still recover the supported center judgment instead of a local support fragment.
+      - Concept analysis, factor sorting, theoretical clarification, or support-layer reasoning without one dominant subtype can belong here.

@@ -6,6 +6,12 @@ from bs4 import BeautifulSoup
 
 
 class ReadabilityLikeExtractor:
+    META_TITLE_SELECTORS = [
+        'meta[property="og:title"]',
+        'meta[property="article:title"]',
+        'meta[name="twitter:title"]',
+        'meta[name="Title"]',
+    ]
     TITLE_SELECTORS = ["h1", ".title", ".article-title", ".content-title"]
     CONTENT_SELECTORS = [
         "article",
@@ -25,19 +31,78 @@ class ReadabilityLikeExtractor:
         re.compile(r"\d{4}/\d{2}/\d{2}"),
         re.compile(r"\d{4}年\d{1,2}月\d{1,2}日"),
     ]
+    GENERIC_TITLE_PATTERNS = [
+        re.compile(pattern, re.IGNORECASE)
+        for pattern in (
+            r"^\s*全部导航\s*$",
+            r"^\s*[—\-–|丨]*\s*分享\s*[—\-–|丨]*\s*$",
+            r"^\s*评论\s*$",
+            r"^\s*分享到?\s*$",
+            r"^\s*导航\s*$",
+            r"^\s*正文\s*$",
+        )
+    ]
+    NOISE_SELECTORS = [
+        "script",
+        "style",
+        "noscript",
+        "header",
+        "footer",
+        "nav",
+        ".share",
+        ".share-box",
+        ".shareBox",
+        ".toolbar",
+        ".tool",
+        ".crumbs",
+        ".breadcrumb",
+        ".comment",
+        ".comments",
+        ".recommend",
+        ".related",
+        ".editor",
+        ".copyright",
+    ]
+    CLEANUP_NOISE_TOKENS = (
+        "责任编辑",
+        "编辑：",
+        "免责声明",
+        "版权所有",
+        "推荐阅读",
+        "相关阅读",
+    )
+
+    LEADING_FRONT_MATTER_PATTERNS = [
+        re.compile(pattern)
+        for pattern in (
+            r"^\s*(责任编辑|责编|编辑|作者|来源)[:：\s].*$",
+            r"^\s*[\u25cf\u2022\u00b7]?\s*(新华社|人民日报|光明日报|科技日报|中国青年报).*(记者|通讯员|编辑|记者站).*$",
+            r"^\s*.*《[^》]+》.*第\s*\d+\s*版.*$",
+            r"^\s*第\s*\d+\s*版\s*$",
+            r"^\s*.*(供图|摄|图片来源|图源)\s*$",
+        )
+    ]
+    LEADING_FRONT_MATTER_KEYWORDS = (
+        "责任编辑",
+        "责编",
+        "编辑",
+        "作者",
+        "来源",
+        "通讯员",
+        "记者",
+        "审核",
+        "审校",
+        "分享",
+        "版",
+        "供图",
+        "图源",
+        "图片来源",
+    )
 
     def extract(self, html: str, url: str, source_config: dict[str, Any]) -> dict[str, Any]:
         soup = BeautifulSoup(html, "html.parser")
 
-        title = ""
-        title_selectors = source_config.get("title_selectors", []) + self.TITLE_SELECTORS
-        for selector in title_selectors:
-            node = soup.select_one(selector)
-            if node and node.get_text(strip=True):
-                title = node.get_text(" ", strip=True)
-                break
-        if not title and soup.title:
-            title = soup.title.get_text(" ", strip=True)
+        title = self._extract_title(soup=soup, source_config=source_config)
 
         published_at = None
         meta_candidates = [
@@ -59,7 +124,7 @@ class ReadabilityLikeExtractor:
                     break
 
         body_text = ""
-        content_selectors = source_config.get("content_selectors", []) + self.CONTENT_SELECTORS
+        content_selectors = list(source_config.get("content_selectors", [])) + self.CONTENT_SELECTORS
         best_body_text = ""
         for selector in content_selectors:
             node = soup.select_one(selector)
@@ -72,8 +137,10 @@ class ReadabilityLikeExtractor:
 
         embedded = self._extract_embedded_payload(soup, html)
         if embedded:
-            if embedded.get("title") and (not title or len(title.strip()) <= 2):
-                title = embedded["title"].strip()
+            embedded_title = self._normalize_title(embedded.get("title") or "")
+            if embedded_title and not self._is_generic_title(embedded_title, source_config):
+                if not title or len(title.strip()) <= 2:
+                    title = embedded_title
             if embedded.get("published_at") and not published_at:
                 published_at = embedded["published_at"].strip()
             embedded_body = (embedded.get("raw_text") or "").strip()
@@ -91,7 +158,7 @@ class ReadabilityLikeExtractor:
             paragraphs = [p.get_text(" ", strip=True) for p in soup.select("p") if p.get_text(strip=True)]
             body_text = "\n\n".join(paragraphs[:80])
 
-        body_text = self._cleanup_text(body_text)
+        body_text = self._cleanup_text(body_text, title=title)
         return {
             "title": title,
             "published_at": published_at,
@@ -168,21 +235,106 @@ class ReadabilityLikeExtractor:
             container = fragment_soup
         return self._extract_node_text(container)
 
+    def _extract_title(self, *, soup: BeautifulSoup, source_config: dict[str, Any]) -> str:
+        candidates: list[str] = []
+
+        for selector in list(source_config.get("title_selectors", [])) + self.TITLE_SELECTORS:
+            node = soup.select_one(selector)
+            if node and node.get_text(strip=True):
+                candidates.append(node.get_text(" ", strip=True))
+
+        for selector in self.META_TITLE_SELECTORS:
+            node = soup.select_one(selector)
+            if node and node.get("content"):
+                candidates.append(str(node.get("content")).strip())
+
+        if soup.title and soup.title.get_text(strip=True):
+            candidates.append(soup.title.get_text(" ", strip=True))
+
+        for raw in candidates:
+            title = self._normalize_title(raw)
+            if not title or self._is_generic_title(title, source_config):
+                continue
+            return title
+        return ""
+
     def _extract_node_text(self, node) -> str:
+        for selector in self.NOISE_SELECTORS:
+            for child in node.select(selector):
+                child.decompose()
         paragraphs = [p.get_text(" ", strip=True) for p in node.select("p") if p.get_text(strip=True)]
         if paragraphs:
             return "\n\n".join(paragraphs)
         return node.get_text("\n\n", strip=True)
 
-    def _cleanup_text(self, text: str) -> str:
+    def _normalize_title(self, value: str) -> str:
+        title = " ".join(str(value or "").split())
+        if not title:
+            return ""
+        title = title.replace("\u3000", " ").strip()
+        for separator in ("_", "-", "|", "丨", "｜", "·", "—", "–"):
+            if separator not in title:
+                continue
+            left, right = title.rsplit(separator, 1)
+            right = right.strip()
+            if right and len(right) <= 12 and any(token in right for token in ("网", "报", "频道", "客户端", "官网")):
+                title = left.strip()
+        return re.sub(r"\s+", " ", title).strip(" _-|丨｜·—–")
+
+    def _is_generic_title(self, title: str, source_config: dict[str, Any]) -> bool:
+        if not title:
+            return True
+        for pattern in self.GENERIC_TITLE_PATTERNS:
+            if pattern.search(title):
+                return True
+        for raw_pattern in source_config.get("exclude_title_patterns", []) or []:
+            try:
+                if re.search(raw_pattern, title, flags=re.IGNORECASE):
+                    return True
+            except re.error:
+                continue
+        return False
+
+    def _cleanup_text(self, text: str, *, title: str = "") -> str:
         text = re.sub(r"[ \t]+", " ", text)
         text = re.sub(r"\n{3,}", "\n\n", text)
-        lines = []
-        for line in text.splitlines():
-            stripped = line.strip()
+        paragraphs = []
+        for block in re.split(r"\n\s*\n+", text):
+            stripped = block.strip()
             if not stripped:
                 continue
-            if any(token in stripped for token in ("责任编辑", "编辑：", "免责声明", "版权所有", "推荐阅读", "相关阅读")):
+            if any(token in stripped for token in self.CLEANUP_NOISE_TOKENS):
                 continue
-            lines.append(stripped)
-        return "\n\n".join(lines).strip()
+            paragraphs.append(stripped)
+        paragraphs = self._strip_leading_front_matter(paragraphs, title=title)
+        return "\n\n".join(paragraphs).strip()
+
+    def _strip_leading_front_matter(self, paragraphs: list[str], *, title: str = "") -> list[str]:
+        cleaned = list(paragraphs)
+        normalized_title = self._normalize_title(title)
+        while cleaned:
+            paragraph = cleaned[0].strip()
+            if not paragraph:
+                cleaned.pop(0)
+                continue
+            if normalized_title and self._normalize_title(paragraph) == normalized_title:
+                cleaned.pop(0)
+                continue
+            if self._is_leading_front_matter_paragraph(paragraph):
+                cleaned.pop(0)
+                continue
+            break
+        return cleaned
+
+    def _is_leading_front_matter_paragraph(self, paragraph: str) -> bool:
+        normalized = " ".join(str(paragraph or "").split()).strip().strip("-—")
+        if not normalized:
+            return False
+        if any(pattern.match(normalized) for pattern in self.LEADING_FRONT_MATTER_PATTERNS):
+            return True
+        if len(normalized) <= 56 and any(token in normalized for token in self.LEADING_FRONT_MATTER_KEYWORDS):
+            return True
+        if len(normalized) <= 88 and any(token in normalized for token in ("图为", "画面中", "照片显示", "图中", "这是")):
+            if any(token in normalized for token in ("记者", "摄", "供图", "新华社")):
+                return True
+        return False

@@ -55,6 +55,15 @@ ORDER_SUMMARY_CLOSING_MARKERS = ("因此", "所以", "可见", "看来", "总之
 BENEFIT_RESULT_MARKERS = ("有助于", "有利于", "促进", "推动", "提升", "带来", "实现", "增强", "改善", "夯实", "激发", "降低", "减少", "拓宽", "便利", "惠及", "共赢")
 BENEFIT_RESULT_NOUNS = ("效率", "活力", "保障", "安全", "质量", "能力", "收益", "成本", "发展", "共赢", "就业", "便利", "基础", "信心", "满意度", "韧性", "动力")
 ACTION_MEASURE_MARKERS = ("通过", "采取", "推动", "完善", "优化", "健全", "构建", "打造", "提供", "推出", "实施", "建立", "强化", "服务", "机制", "举措", "政策")
+REPORT_SHELL_OPENING_MARKERS = ("记者从", "记者获悉", "据了解", "消息", "在线发布", "正式发布", "日前", "近日")
+PROBLEM_FRAME_MARKERS = ("长期以来", "一直以来", "困境", "瓶颈", "难以兼得", "难题", "问题在于", "关键在于", "核心在于", "为何", "如何")
+BUILDER_FRONT_MATTER_PATTERNS = (
+    re.compile(r"^[◎●■◆▲]\s*.*(?:记者|作者|编辑|责任编辑|责编|通讯员|整理|来源|审核|审校|内容来自)\s*[:：]?\s*[\u4e00-\u9fffA-Za-z·\s]{0,24}$"),
+    re.compile(r"^(?:记者|作者|编辑|责任编辑|责编|通讯员|整理|来源|审核|审校|内容来自)\s*[:：|｜]?\s*[\u4e00-\u9fffA-Za-z·\s]{0,24}$"),
+    re.compile(r"^(?:文|图|文/图|文／图|文｜图)\s*[:：/／|｜]?\s*[\u4e00-\u9fffA-Za-z·、\s]{1,24}$"),
+    re.compile(r"^(?:分享到|分享给|分享|责任编辑|责编|编辑|来源|审核|审校|内容来自)[:：]?\s*.*$"),
+    re.compile(r"^[-—]{0,2}\s*分享\s*[-—]{0,2}$"),
+)
 
 
 class MaterialPipelineV2:
@@ -200,7 +209,8 @@ class MaterialPipelineV2:
         preferred_business_card_set = set(preferred_business_card_ids or [])
         normalized_query_terms = [term.strip() for term in (query_terms or []) if str(term).strip()]
         required_candidate_types = self._expand_candidate_types(
-            question_card.get("upstream_contract", {}).get("required_candidate_types", [])
+            question_card.get("upstream_contract", {}).get("required_candidate_types", []),
+            business_family_id=business_family_id,
         )
         items: list[dict[str, Any]] = []
         warnings: list[str] = []
@@ -2293,7 +2303,7 @@ class MaterialPipelineV2:
         }
 
     def _formal_material_candidate_types(self) -> tuple[str, ...]:
-        return ("whole_passage", "closed_span", "multi_paragraph_unit", "functional_slot_unit", "ordered_unit_group")
+        return ("whole_passage", "closed_span", "multi_paragraph_unit", "ordered_unit_group")
 
     def _apply_formal_candidate_gate(
         self,
@@ -2598,7 +2608,10 @@ class MaterialPipelineV2:
         required_candidate_types: list[str] | None = None,
         business_family_id: str | None = None,
     ) -> list[dict[str, Any]]:
-        selected_types = self._expand_candidate_types(candidate_types or required_candidate_types or self._supported_candidate_types())
+        selected_types = self._expand_candidate_types(
+            candidate_types or required_candidate_types or self._supported_candidate_types(),
+            business_family_id=business_family_id,
+        )
         llm_candidates = self._derive_candidates_with_llm(article_context=article_context, selected_types=selected_types)
         heuristic_candidates = self._derive_rule_candidates(article_context=article_context, selected_types=selected_types)
         candidate_pool = llm_candidates + heuristic_candidates
@@ -2611,11 +2624,18 @@ class MaterialPipelineV2:
             business_family_id=business_family_id,
         )
 
-    def _expand_candidate_types(self, candidate_types: list[str] | set[str] | tuple[str, ...]) -> set[str]:
+    def _expand_candidate_types(
+        self,
+        candidate_types: list[str] | set[str] | tuple[str, ...],
+        *,
+        business_family_id: str | None = None,
+    ) -> set[str]:
         supported = set(self._supported_candidate_types())
         selected = {str(item) for item in candidate_types if str(item) in supported}
-        if {"closed_span", "multi_paragraph_unit"} & selected:
+        if business_family_id == "sentence_fill" and {"closed_span", "multi_paragraph_unit"} & selected:
             selected.add("functional_slot_unit")
+        if business_family_id == "center_understanding":
+            selected.discard("functional_slot_unit")
         if "sentence_block_group" in selected:
             selected.add("ordered_unit_group")
         return selected
@@ -4730,33 +4750,59 @@ class MaterialPipelineV2:
             "additionalProperties": False,
         }
         prompt = self._build_candidate_planner_prompt(article_context=article_context, selected_types=selected_types)
-        try:
-            result = self.provider.generate_json(
-                model=self.llm_config.get("models", {}).get("candidate_planner_v2", self.llm_config.get("models", {}).get("family_tagger", "gpt-5.4-mini")),
-                instructions=self.candidate_planner_prompt,
-                input_payload={
-                    "prompt": prompt,
-                    "schema_name": "candidate_planner_v2",
-                    "schema": schema,
-                },
-            )
-        except Exception:
-            return []
+        for _ in range(2):
+            try:
+                result = self.provider.generate_json(
+                    model=self.llm_config.get("models", {}).get("candidate_planner_v2", self.llm_config.get("models", {}).get("family_tagger", "gpt-5.4-mini")),
+                    instructions=self.candidate_planner_prompt,
+                    input_payload={
+                        "prompt": prompt,
+                        "schema_name": "candidate_planner_v2",
+                        "schema": schema,
+                    },
+                )
+            except Exception:
+                result = None
 
+            raw_specs = self._extract_llm_candidate_specs(result)
+            candidates: list[dict[str, Any]] = []
+            for index, spec in enumerate(raw_specs, start=1):
+                candidate = self._materialize_candidate_spec(article_context=article_context, spec=spec, rank=index)
+                if candidate is not None and candidate["candidate_type"] in selected_types:
+                    candidates.append(candidate)
+            if candidates:
+                return candidates
+        return []
+
+    @staticmethod
+    def _extract_llm_candidate_specs(result: Any) -> list[dict[str, Any]]:
         raw_specs: list[dict[str, Any]] = []
         if isinstance(result, dict):
             payload_candidates = result.get("candidates", [])
             if isinstance(payload_candidates, list):
-                raw_specs = payload_candidates
+                raw_specs = [item for item in payload_candidates if isinstance(item, dict)]
+            elif "candidate_type" in result:
+                raw_specs = [result]
         elif isinstance(result, list):
-            raw_specs = result
-
-        candidates: list[dict[str, Any]] = []
-        for index, spec in enumerate(raw_specs, start=1):
-            candidate = self._materialize_candidate_spec(article_context=article_context, spec=spec, rank=index)
-            if candidate is not None and candidate["candidate_type"] in selected_types:
-                candidates.append(candidate)
-        return candidates
+            raw_specs = [item for item in result if isinstance(item, dict)]
+        normalized_specs: list[dict[str, Any]] = []
+        for spec in raw_specs:
+            normalized = dict(spec)
+            if normalized.get("reason") in {None, ""} and normalized.get("justification"):
+                normalized["reason"] = normalized.get("justification")
+            if normalized.get("paragraph_start") is None and normalized.get("start_paragraph") is not None:
+                normalized["paragraph_start"] = normalized.get("start_paragraph")
+            if normalized.get("paragraph_end") is None and normalized.get("end_paragraph") is not None:
+                normalized["paragraph_end"] = normalized.get("end_paragraph")
+            if (
+                normalized.get("paragraph_range") is None
+                and normalized.get("paragraph_start") is not None
+                and normalized.get("paragraph_end") is not None
+            ):
+                normalized["paragraph_range"] = [normalized.get("paragraph_start"), normalized.get("paragraph_end")]
+            normalized.setdefault("priority", 0.0)
+            normalized_specs.append(normalized)
+        return normalized_specs
 
     def _plan_candidate_pool(
         self,
@@ -4854,7 +4900,7 @@ class MaterialPipelineV2:
             candidate_type = str(candidate.get("candidate_type") or "")
 
             if business_family_id == "center_understanding":
-                if candidate_type not in {"whole_passage", "closed_span", "functional_slot_unit", "insertion_context_unit"}:
+                if candidate_type not in {"whole_passage", "closed_span", "insertion_context_unit"}:
                     continue
                 single_center = float(neutral_signal_profile.get("single_center_strength") or 0.0)
                 closure = float(neutral_signal_profile.get("closure_score") or 0.0)
@@ -4888,6 +4934,38 @@ class MaterialPipelineV2:
         )
         return recovered[:6]
 
+    def _paragraph_is_builder_front_matter(self, paragraph: str) -> bool:
+        stripped = str(paragraph or "").strip()
+        if not stripped:
+            return False
+        normalized = stripped.replace("\n", " ").strip().strip("-—")
+        sentence_count = len([sentence for sentence in self.sentence_splitter.split(normalized) if sentence.strip()])
+        if sentence_count > 1:
+            return False
+        if normalized.endswith(("。", "！", "？", "!", "?", "；", ";")) and len(normalized) > 32:
+            return False
+        if any(pattern.match(normalized) for pattern in BUILDER_FRONT_MATTER_PATTERNS):
+            return True
+        if len(normalized) <= 28 and any(token in normalized for token in ("记者", "作者", "编辑", "责任编辑", "责编", "通讯员", "整理", "来源", "分享", "审核", "审校", "内容来自")):
+            return True
+        return False
+
+    def _normalize_builder_anchor_range(
+        self,
+        *,
+        paragraphs: list[str],
+        paragraph_start: int,
+        paragraph_end: int,
+    ) -> tuple[int, int, list[int]] | None:
+        trimmed_indices: list[int] = []
+        normalized_start = paragraph_start
+        while normalized_start <= paragraph_end and self._paragraph_is_builder_front_matter(paragraphs[normalized_start]):
+            trimmed_indices.append(normalized_start)
+            normalized_start += 1
+        if normalized_start > paragraph_end:
+            return None
+        return normalized_start, paragraph_end, trimmed_indices
+
     def _build_candidate_planner_prompt(
         self,
         *,
@@ -4901,7 +4979,12 @@ class MaterialPipelineV2:
             snippet = paragraph.strip().replace("\n", " ")
             if len(snippet) > 260:
                 snippet = f"{snippet[:257]}..."
-            paragraph_lines.append(f"[P{index}] sentences={len(local_sentences)} text={snippet}")
+            is_front_matter = self._paragraph_is_builder_front_matter(paragraph)
+            paragraph_lines.append(
+                f"[P{index}] role={'front_matter' if is_front_matter else 'body'} "
+                f"anchorable={'no' if is_front_matter else 'yes'} "
+                f"sentences={len(local_sentences)} text={snippet}"
+            )
         return "\n".join(
             [
                 f"title: {article_context.get('title') or ''}",
@@ -4927,31 +5010,66 @@ class MaterialPipelineV2:
             return None
         if not paragraphs:
             return None
-        paragraph_start = max(0, min(int(spec.get("paragraph_start") or 0), len(paragraphs) - 1))
-        paragraph_end = max(paragraph_start, min(int(spec.get("paragraph_end") or paragraph_start), len(paragraphs) - 1))
+        raw_paragraph_range = spec.get("paragraph_range")
+        if isinstance(raw_paragraph_range, (list, tuple)) and len(raw_paragraph_range) == 2:
+            paragraph_start = max(0, min(int(raw_paragraph_range[0] or 0), len(paragraphs) - 1))
+            paragraph_end = max(paragraph_start, min(int(raw_paragraph_range[1] or paragraph_start), len(paragraphs) - 1))
+        else:
+            paragraph_start = max(0, min(int(spec.get("paragraph_start") or 0), len(paragraphs) - 1))
+            paragraph_end = max(paragraph_start, min(int(spec.get("paragraph_end") or paragraph_start), len(paragraphs) - 1))
+        recovered_from_anchor = False
+        anchor_paragraph = spec.get("anchor_paragraph")
+        if anchor_paragraph is not None:
+            anchor_paragraph = max(0, min(int(anchor_paragraph or 0), len(paragraphs) - 1))
+            # Some live providers drift into returning only anchor_paragraph while leaving
+            # paragraph_start/paragraph_end at the schema default 0-0. Recover the span from
+            # the semantic anchor so we do not collapse a later explanatory unit back to P0.
+            if paragraph_start == 0 and paragraph_end == 0 and anchor_paragraph > 0:
+                paragraph_start = anchor_paragraph
+                if candidate_type == "multi_paragraph_unit":
+                    paragraph_end = min(len(paragraphs) - 1, anchor_paragraph + 2)
+                elif candidate_type in {"closed_span", "insertion_context_unit", "functional_slot_unit"}:
+                    paragraph_end = min(len(paragraphs) - 1, anchor_paragraph + 1)
+                else:
+                    paragraph_end = anchor_paragraph
+                recovered_from_anchor = True
+        normalized_range = self._normalize_builder_anchor_range(
+            paragraphs=paragraphs,
+            paragraph_start=paragraph_start,
+            paragraph_end=paragraph_end,
+        )
+        if normalized_range is None:
+            return None
+        normalized_start, normalized_end, trimmed_front_matter = normalized_range
         composition = str(spec.get("composition") or "paragraph_span")
         meta: dict[str, Any] = {
-            "paragraph_range": [paragraph_start, paragraph_end],
+            "paragraph_range": [normalized_start, normalized_end],
             "composition": composition,
             "planner_source": "llm_candidate_planner",
             "planner_priority": round(float(spec.get("priority") or 0.0), 4),
             "planner_reason": str(spec.get("reason") or "").strip(),
         }
+        if anchor_paragraph is not None:
+            meta["anchor_paragraph"] = anchor_paragraph
+        if recovered_from_anchor:
+            meta["anchor_range_recovered_from_anchor_paragraph"] = True
+        if trimmed_front_matter:
+            meta["raw_paragraph_range"] = [paragraph_start, paragraph_end]
+            meta["front_matter_trimmed"] = trimmed_front_matter
         blank_position = normalize_sentence_fill_blank_position(spec.get("blank_position"))
         function_type = normalize_sentence_fill_function_type(spec.get("function_type"))
 
         if candidate_type == "whole_passage":
-            text = article_context["text"]
-            meta["paragraph_range"] = [0, max(len(paragraphs) - 1, 0)]
+            text = "\n\n".join(paragraphs[normalized_start : normalized_end + 1]).strip()
         elif candidate_type in {"closed_span", "multi_paragraph_unit"}:
-            text = "\n\n".join(paragraphs[paragraph_start : paragraph_end + 1]).strip()
+            text = "\n\n".join(paragraphs[normalized_start : normalized_end + 1]).strip()
         elif candidate_type in {"sentence_block_group", "insertion_context_unit", "functional_slot_unit"}:
             start_local = spec.get("sentence_start_in_first_paragraph")
             end_local = spec.get("sentence_end_in_last_paragraph")
             if start_local is None:
                 start_local = 0
-            if paragraph_end == paragraph_start:
-                local_sentences = paragraph_sentences[paragraph_start] if paragraph_start < len(paragraph_sentences) else [sentence for sentence in self.sentence_splitter.split(paragraphs[paragraph_start]) if sentence.strip()]
+            if normalized_end == normalized_start:
+                local_sentences = paragraph_sentences[normalized_start] if normalized_start < len(paragraph_sentences) else [sentence for sentence in self.sentence_splitter.split(paragraphs[normalized_start]) if sentence.strip()]
                 if not local_sentences:
                     return None
                 start_local = max(0, min(int(start_local), len(local_sentences) - 1))
@@ -4959,13 +5077,13 @@ class MaterialPipelineV2:
                     end_local = len(local_sentences) - 1
                 end_local = max(start_local, min(int(end_local), len(local_sentences) - 1))
                 text = "".join(local_sentences[start_local : end_local + 1]).strip()
-                sentence_offset = paragraph_sentence_offsets[paragraph_start] if paragraph_start < len(paragraph_sentence_offsets) else 0
+                sentence_offset = paragraph_sentence_offsets[normalized_start] if normalized_start < len(paragraph_sentence_offsets) else 0
                 meta["sentence_range"] = [sentence_offset + start_local, sentence_offset + end_local]
             else:
-                if paragraph_end != paragraph_start + 1:
+                if normalized_end != normalized_start + 1:
                     return None
-                left_sentences = paragraph_sentences[paragraph_start] if paragraph_start < len(paragraph_sentences) else [sentence for sentence in self.sentence_splitter.split(paragraphs[paragraph_start]) if sentence.strip()]
-                right_sentences = paragraph_sentences[paragraph_end] if paragraph_end < len(paragraph_sentences) else [sentence for sentence in self.sentence_splitter.split(paragraphs[paragraph_end]) if sentence.strip()]
+                left_sentences = paragraph_sentences[normalized_start] if normalized_start < len(paragraph_sentences) else [sentence for sentence in self.sentence_splitter.split(paragraphs[normalized_start]) if sentence.strip()]
+                right_sentences = paragraph_sentences[normalized_end] if normalized_end < len(paragraph_sentences) else [sentence for sentence in self.sentence_splitter.split(paragraphs[normalized_end]) if sentence.strip()]
                 if not left_sentences or not right_sentences:
                     return None
                 start_local = max(0, min(int(start_local), len(left_sentences) - 1))
@@ -4974,8 +5092,8 @@ class MaterialPipelineV2:
                 end_local = max(0, min(int(end_local), len(right_sentences) - 1))
                 combined = left_sentences[start_local:] + right_sentences[: end_local + 1]
                 text = "".join(combined).strip()
-                left_offset = paragraph_sentence_offsets[paragraph_start] if paragraph_start < len(paragraph_sentence_offsets) else 0
-                right_offset = paragraph_sentence_offsets[paragraph_end] if paragraph_end < len(paragraph_sentence_offsets) else len(left_sentences)
+                left_offset = paragraph_sentence_offsets[normalized_start] if normalized_start < len(paragraph_sentence_offsets) else 0
+                right_offset = paragraph_sentence_offsets[normalized_end] if normalized_end < len(paragraph_sentence_offsets) else len(left_sentences)
                 meta["sentence_range"] = [left_offset + start_local, right_offset + end_local]
         else:
             return None
@@ -5009,6 +5127,42 @@ class MaterialPipelineV2:
             "meta": meta,
             "quality_flags": quality_flags,
         }
+
+    def _candidate_opening_sentence(self, text: str) -> str:
+        sentences = [sentence.strip() for sentence in self.sentence_splitter.split(str(text or "").strip()) if sentence.strip()]
+        if sentences:
+            return sentences[0]
+        return str(text or "").strip()
+
+    def _science_explanation_preference_adjustment(
+        self,
+        *,
+        article_context: dict[str, Any],
+        candidate: dict[str, Any],
+        neutral_signal_profile: dict[str, Any],
+    ) -> float:
+        candidate_type = str(candidate.get("candidate_type") or "")
+        if candidate_type not in {"whole_passage", "closed_span", "multi_paragraph_unit"}:
+            return 0.0
+        article_profile = article_context.get("article_profile") or {}
+        document_genre = str(article_profile.get("document_genre") or "")
+        if document_genre not in {"科普文", "新闻报道"}:
+            return 0.0
+        text = str(candidate.get("text") or "").strip()
+        if not text:
+            return 0.0
+        opening = self._candidate_opening_sentence(text)
+        mechanism_signal = self._marker_strength(text, MECHANISM_MARKERS)
+        closure = float(neutral_signal_profile.get("closure_score") or 0.0)
+        titleability = float(neutral_signal_profile.get("titleability") or 0.0)
+        adjustment = 0.0
+        if any(marker in opening for marker in REPORT_SHELL_OPENING_MARKERS):
+            adjustment -= 0.12
+        if any(marker in opening for marker in PROBLEM_FRAME_MARKERS):
+            adjustment += 0.08
+        if mechanism_signal >= 0.30 and closure >= 0.48 and titleability >= 0.28:
+            adjustment += 0.04
+        return adjustment
 
     def _candidate_plan_score(
         self,
@@ -5102,6 +5256,11 @@ class MaterialPipelineV2:
             )
             if candidate_type == "weak_formal_order_group":
                 score -= 0.04
+        score += self._science_explanation_preference_adjustment(
+            article_context=article_context,
+            candidate=candidate,
+            neutral_signal_profile=neutral_signal_profile,
+        )
         if candidate.get("meta", {}).get("planner_source") == "llm_candidate_planner":
             score += min(0.10, float(candidate["meta"].get("planner_priority") or 0.0) * 0.10)
         score += self._candidate_scope_bonus(article_context=article_context, candidate=candidate)

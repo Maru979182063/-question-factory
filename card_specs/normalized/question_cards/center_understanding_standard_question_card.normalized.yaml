@@ -19,7 +19,7 @@ distill_runtime_overlay:
     - center_understanding_standalone_subfamilies
     - center_understanding_subsentence_features
 display_name: 涓績鐞嗚В鏍囧噯棰樺崱
-description: "中心理解标准题卡；当前材料与信号层已按 center_understanding 独立建模，答桉溯源仍兼容 title_selection 资产骨架。"
+description: "中心理解标准题卡；当前材料与信号层已按 center_understanding 独立建模，答案溯源仍兼容旧骨架。"
 structure_schema:
   argument_structure:
     type: enum
@@ -141,15 +141,15 @@ material_card_overrides:
 - material_card: center_material.relation_variant
   slot_overrides:
     structure_type: progressive
-    argument_structure: example_conclusion
+    argument_structure: phenomenon_analysis
     main_axis_source: final_summary
     abstraction_level: medium
 - material_card: center_material.relation_plain
   slot_overrides:
-    structure_type: explicit_single_center
-    argument_structure: total_sub
-    main_axis_source: final_summary
-    abstraction_level: low
+    structure_type: progressive
+    argument_structure: phenomenon_analysis
+    main_axis_source: global_abstraction
+    abstraction_level: medium
 - material_card: center_material.subsentence_example
   slot_overrides:
     structure_type: progressive
@@ -230,7 +230,7 @@ validator_contract:
   allow_exam_style_rephrasing: true
 normalized_from: center_understanding_standard_question_card.yaml
 normalization_notes:
-- center_understanding runtime binding is now explicitly normalized instead of falling through title_selection only
-- center_understanding keeps a canonical business_family_id and now consumes a dedicated center_understanding material/signal layer; answer-grounding remains on title_selection backbone
-- required_profiles intentionally stay close to the existing title_selection material family to avoid tightening runtime contracts before main-chain consumption is updated
+- center_understanding runtime binding is now explicitly normalized instead of falling through the old generic fallback only
+- center_understanding keeps a canonical business_family_id and now consumes a dedicated center_understanding material/signal layer; answer-grounding remains on the legacy backbone for compatibility
+- required_profiles intentionally stay close to the existing legacy material family to avoid tightening runtime contracts before main-chain consumption is updated
 

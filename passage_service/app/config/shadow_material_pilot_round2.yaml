@@ -1,0 +1,13 @@
+version: "shadow_material_pilot.v2"
+
+notes:
+  - "Round 2 keeps the pilot intentionally small and clean."
+  - "CYOL is paused for this round because topic and page-type drift is still too large."
+  - "Goal: produce a small pool of searchable shadow materials with non-empty v2 index version."
+
+pilot_sources:
+  - "cssn_shadow"
+  - "gmw_culture_shadow"
+  - "kepuchina_shadow"
+
+dual_read_queries: []

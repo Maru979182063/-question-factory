@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 
@@ -60,7 +62,14 @@ class MaterialsConfig(BaseModel):
     v2_search_path: str = "/materials/v2/search"
     default_status: str = "promoted"
     default_release_channel: str = "stable"
+    review_gate_mode: str = "stable_relaxed"
     candidate_pool_size: int = 24
+    bridge_mode: Literal["legacy_only", "shadow_prefer", "leaf_only"] = "legacy_only"
+    shadow_base_url: str | None = None
+    shadow_v2_search_path: str = "/materials/v2/search"
+    shadow_default_status: str | None = "promoted"
+    shadow_default_release_channel: str | None = "stable"
+    shadow_review_gate_mode: str = "stable_relaxed"
 
 
 class PersistenceConfig(BaseModel):
