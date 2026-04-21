@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 ROOT = Path(__file__).resolve().parents[1]
 PASSAGE_ROOT = ROOT / "passage_service"
-CONFIG_PATH = PASSAGE_ROOT / "app" / "config" / "shadow_material_pilot.yaml"
+CONFIG_PATH = PASSAGE_ROOT / "app" / "config" / "shadow_material_pilot_round2.yaml"
 DEFAULT_SHADOW_ENV = PASSAGE_ROOT / ".env.dev"
 DEFAULT_LEGACY_ENV = PASSAGE_ROOT / ".env"
 REPORTS_ROOT = ROOT / "reports" / "shadow_pilot"

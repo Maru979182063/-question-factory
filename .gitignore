@@ -25,6 +25,13 @@ tmp_*.py
 tmp_*.log
 tmp_*.out
 tmp_*.err
+tmp_*.txt
+tmp_*.json
+tmp_*.html
+tmp_*.md
+tmp_*.patch
+tmp_extract/
+load_test_*.json
 
 passage_service_stdout.log
 passage_service_stderr.log
