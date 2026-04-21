@@ -91,6 +91,6 @@ evaluation:
 ui:
   distill_access:
     enabled: true
-    key: change-me-distill-key
+    key: admin
     cookie_name: distill_demo_access
 
