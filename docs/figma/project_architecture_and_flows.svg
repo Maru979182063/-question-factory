@@ -1,0 +1,244 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2600" viewBox="0 0 1800 2600">
+  <defs>
+    <style>
+      .bg{fill:#f7f5ef}
+      .ink{fill:#263238;font-family:'Microsoft YaHei','Noto Sans CJK SC','Arial',sans-serif}
+      .title{font-size:36px;font-weight:700}
+      .subtitle{font-size:18px;fill:#5f666a}
+      .section-title{font-size:26px;font-weight:700}
+      .label{font-size:18px;font-weight:700}
+      .body{font-size:15px;fill:#39464e}
+      .small{font-size:13px;fill:#59656b}
+      .tiny{font-size:12px;fill:#607077}
+      .card{fill:#fffdf8;stroke:#d9d1c4;stroke-width:2}
+      .card-blue{fill:#edf6ff;stroke:#7fb6e8;stroke-width:2}
+      .card-green{fill:#eef9f1;stroke:#76bf86;stroke-width:2}
+      .card-yellow{fill:#fff8dc;stroke:#d7b85d;stroke-width:2}
+      .card-red{fill:#fff0ef;stroke:#dc8a82;stroke-width:2}
+      .card-purple{fill:#f4f0ff;stroke:#a892e6;stroke-width:2}
+      .swim{fill:#ffffff;stroke:#cfc8bc;stroke-width:2}
+      .muted{fill:#f0ede6;stroke:#d4cab8;stroke-width:2}
+      .arrow{stroke:#687780;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+      .arrow-soft{stroke:#9a8d7d;stroke-width:2;fill:none;marker-end:url(#arrowSoft);stroke-dasharray:7 7}
+      .divider{stroke:#d7d0c4;stroke-width:2}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#687780"/>
+    </marker>
+    <marker id="arrowSoft" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9a8d7d"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1800" height="2600"/>
+  <text class="ink title" x="70" y="70">项目架构图与流程图</text>
+  <text class="ink subtitle" x="70" y="105">题目生产主链 + 材料服务 + 蒸馏闭环 + 远程/叶族难度实验工作台</text>
+  <text class="ink tiny" x="70" y="132">来源：docs/system_architecture.md、frontend_structure.md、distill_workbench_service.md、difficulty_experiment_workbench_tooling.md 与核心 FastAPI 入口代码。</text>
+
+  <line class="divider" x1="70" y1="160" x2="1730" y2="160"/>
+
+  <!-- Section 1 -->
+  <text class="ink section-title" x="70" y="210">1. 系统架构总览</text>
+  <rect class="swim" x="70" y="235" width="1660" height="650" rx="8"/>
+
+  <rect class="card-yellow" x="110" y="285" width="260" height="120" rx="8"/>
+  <text class="ink label" x="130" y="323">使用入口</text>
+  <text class="ink body" x="130" y="354">/demo 单页工作台</text>
+  <text class="ink small" x="130" y="378">builder / loading / result</text>
+  <text class="ink body" x="130" y="402">/demo/distill 蒸馏工作台</text>
+
+  <rect class="card-blue" x="440" y="260" width="420" height="250" rx="8"/>
+  <text class="ink label" x="465" y="298">prompt_skeleton_service</text>
+  <text class="ink body" x="465" y="330">出题、评审、蒸馏编排</text>
+  <text class="ink small" x="465" y="360">routers: questions / review / distill / demo</text>
+  <text class="ink small" x="465" y="385">services: orchestrator / generation / review</text>
+  <text class="ink small" x="465" y="410">distill_workbench / validator / evaluator</text>
+  <rect class="muted" x="465" y="435" width="360" height="45" rx="6"/>
+  <text class="ink small" x="485" y="463">SQLite: batches / items / versions / actions / distill</text>
+
+  <rect class="card-green" x="940" y="260" width="350" height="250" rx="8"/>
+  <text class="ink label" x="965" y="298">passage_service</text>
+  <text class="ink body" x="965" y="330">材料加工、治理、V2 检索</text>
+  <text class="ink small" x="965" y="360">articles / crawl / process</text>
+  <text class="ink small" x="965" y="385">tagging / material governance</text>
+  <text class="ink small" x="965" y="410">/materials/v2/search</text>
+  <rect class="muted" x="965" y="435" width="290" height="45" rx="6"/>
+  <text class="ink small" x="985" y="463">SQLite: articles / spans / material pool</text>
+
+  <rect class="card-purple" x="1380" y="260" width="300" height="250" rx="8"/>
+  <text class="ink label" x="1405" y="298">模型链路</text>
+  <text class="ink body" x="1405" y="330">generation LLM</text>
+  <text class="ink body" x="1405" y="360">material refinement LLM</text>
+  <text class="ink body" x="1405" y="390">evaluation judge LLM</text>
+  <text class="ink small" x="1405" y="430">生成、修复、材料轻修、评审判断</text>
+
+  <rect class="card" x="190" y="590" width="390" height="210" rx="8"/>
+  <text class="ink label" x="215" y="628">外置卡片与配置</text>
+  <text class="ink body" x="215" y="660">card_specs</text>
+  <text class="ink small" x="215" y="684">question_cards / material_cards / signal_layers</text>
+  <text class="ink small" x="215" y="708">business_feature_slots / validator_contract</text>
+  <text class="ink body" x="215" y="742">prompt configs / runtime / prompt_assets</text>
+  <text class="ink small" x="215" y="766">configs/types / prompt_templates / llm routing</text>
+
+  <rect class="card-red" x="690" y="590" width="390" height="210" rx="8"/>
+  <text class="ink label" x="715" y="628">蒸馏与难度实验</text>
+  <text class="ink body" x="715" y="660">DistillWorkbench</text>
+  <text class="ink small" x="715" y="684">dataset / session / run / review / patch / promotion</text>
+  <text class="ink body" x="715" y="724">difficulty_experiment_workbench.py</text>
+  <text class="ink small" x="715" y="748">hidden truth / labels / CV / ablation / report</text>
+  <text class="ink small" x="715" y="772">远程实验 runner 可接入长任务执行</text>
+
+  <rect class="card" x="1190" y="590" width="350" height="210" rx="8"/>
+  <text class="ink label" x="1215" y="628">证据与交付物</text>
+  <text class="ink body" x="1215" y="660">reports / docs / candidate_diffs</text>
+  <text class="ink small" x="1215" y="688">fit reports / charts / handoff bundle</text>
+  <text class="ink small" x="1215" y="716">promotion gate 后才进入人工合并</text>
+  <text class="ink body" x="1215" y="756">logs / runtime events</text>
+
+  <path class="arrow" d="M370 345 L440 345"/>
+  <path class="arrow" d="M860 370 L940 370"/>
+  <path class="arrow" d="M1290 370 L1380 370"/>
+  <path class="arrow" d="M390 590 C430 535 500 520 600 510"/>
+  <path class="arrow" d="M580 695 L690 695"/>
+  <path class="arrow" d="M1080 695 L1190 695"/>
+  <path class="arrow-soft" d="M885 590 C900 545 885 505 835 470"/>
+
+  <!-- Section 2 -->
+  <text class="ink section-title" x="70" y="965">2. 出题与评审主流程</text>
+  <rect class="swim" x="70" y="990" width="1660" height="650" rx="8"/>
+
+  <rect class="card-yellow" x="110" y="1060" width="210" height="105" rx="8"/>
+  <text class="ink label" x="132" y="1098">Builder</text>
+  <text class="ink small" x="132" y="1128">题型、难度、材料结构</text>
+  <text class="ink small" x="132" y="1152">参考母题 / 数量</text>
+
+  <rect class="card-blue" x="385" y="1060" width="230" height="105" rx="8"/>
+  <text class="ink label" x="407" y="1098">questions router</text>
+  <text class="ink small" x="407" y="1128">POST /generate</text>
+  <text class="ink small" x="407" y="1152">generation gate</text>
+
+  <rect class="card-blue" x="680" y="1060" width="250" height="105" rx="8"/>
+  <text class="ink label" x="702" y="1098">PromptOrchestrator</text>
+  <text class="ink small" x="702" y="1128">input decode / slot resolve</text>
+  <text class="ink small" x="702" y="1152">pattern select / prompt build</text>
+
+  <rect class="card-blue" x="995" y="1060" width="260" height="105" rx="8"/>
+  <text class="ink label" x="1017" y="1098">QuestionGeneration</text>
+  <text class="ink small" x="1017" y="1128">material selection</text>
+  <text class="ink small" x="1017" y="1152">prompt render / model call</text>
+
+  <rect class="card-green" x="1320" y="1060" width="300" height="105" rx="8"/>
+  <text class="ink label" x="1342" y="1098">MaterialBridgeV2</text>
+  <text class="ink small" x="1342" y="1128">/materials/v2/search</text>
+  <text class="ink small" x="1342" y="1152">question_ready_context</text>
+
+  <path class="arrow" d="M320 1112 L385 1112"/>
+  <path class="arrow" d="M615 1112 L680 1112"/>
+  <path class="arrow" d="M930 1112 L995 1112"/>
+  <path class="arrow" d="M1255 1112 L1320 1112"/>
+
+  <rect class="card" x="1320" y="1260" width="300" height="130" rx="8"/>
+  <text class="ink label" x="1342" y="1298">卡片组合返回</text>
+  <text class="ink small" x="1342" y="1328">question_card_id / runtime_binding</text>
+  <text class="ink small" x="1342" y="1352">material_card / business_card</text>
+  <text class="ink small" x="1342" y="1376">resolved_slots / prompt_extras / validator_contract</text>
+  <path class="arrow" d="M1470 1165 L1470 1260"/>
+
+  <rect class="card-purple" x="995" y="1260" width="260" height="130" rx="8"/>
+  <text class="ink label" x="1017" y="1298">LLM 生成 / 修复</text>
+  <text class="ink small" x="1017" y="1328">structured question draft</text>
+  <text class="ink small" x="1017" y="1352">minor edit / question modify</text>
+  <text class="ink small" x="1017" y="1376">text modify / distractor patch</text>
+  <path class="arrow" d="M1320 1325 L1255 1325"/>
+
+  <rect class="card-red" x="680" y="1260" width="250" height="130" rx="8"/>
+  <text class="ink label" x="702" y="1298">校验与评审</text>
+  <text class="ink small" x="702" y="1328">QuestionValidator</text>
+  <text class="ink small" x="702" y="1352">EvaluationService / LLM judge</text>
+  <text class="ink small" x="702" y="1376">auto_failed 或 pending_review</text>
+  <path class="arrow" d="M995 1325 L930 1325"/>
+
+  <rect class="muted" x="385" y="1260" width="230" height="130" rx="8"/>
+  <text class="ink label" x="407" y="1298">版本化持久化</text>
+  <text class="ink small" x="407" y="1328">generation_batches</text>
+  <text class="ink small" x="407" y="1352">question_items / versions</text>
+  <text class="ink small" x="407" y="1376">review_actions / usage_events</text>
+  <path class="arrow" d="M680 1325 L615 1325"/>
+
+  <rect class="card-yellow" x="110" y="1260" width="210" height="130" rx="8"/>
+  <text class="ink label" x="132" y="1298">Result 工作页</text>
+  <text class="ink small" x="132" y="1328">展示结果、controls</text>
+  <text class="ink small" x="132" y="1352">换材、调参、人工编辑</text>
+  <text class="ink small" x="132" y="1376">confirm / discard / export</text>
+  <path class="arrow" d="M385 1325 L320 1325"/>
+  <path class="arrow-soft" d="M215 1260 C190 1210 250 1175 385 1160"/>
+  <text class="ink tiny" x="240" y="1218">review action 回流</text>
+
+  <rect class="card-red" x="1110" y="1480" width="470" height="90" rx="8"/>
+  <text class="ink label" x="1132" y="1518">当前张力</text>
+  <text class="ink body" x="1132" y="1548">题卡已有 validator_contract，但执行口径仍分散在服务、本地补判和前端补丁中。</text>
+
+  <!-- Section 3 -->
+  <text class="ink section-title" x="70" y="1720">3. 蒸馏闭环与远程难度实验</text>
+  <rect class="swim" x="70" y="1745" width="1660" height="690" rx="8"/>
+
+  <text class="ink label" x="110" y="1805">A. 蒸馏工作台闭环</text>
+  <rect class="card" x="110" y="1835" width="220" height="95" rx="8"/>
+  <text class="ink body" x="132" y="1872">truth / source question</text>
+  <text class="ink small" x="132" y="1898">母题、真题、样本包</text>
+  <rect class="card-red" x="385" y="1835" width="220" height="95" rx="8"/>
+  <text class="ink body" x="407" y="1872">dataset</text>
+  <text class="ink small" x="407" y="1898">train / dev / test</text>
+  <rect class="card-red" x="660" y="1835" width="220" height="95" rx="8"/>
+  <text class="ink body" x="682" y="1872">session</text>
+  <text class="ink small" x="682" y="1898">new_card / tuning modes</text>
+  <rect class="card-red" x="935" y="1835" width="220" height="95" rx="8"/>
+  <text class="ink body" x="957" y="1872">trial / run</text>
+  <text class="ink small" x="957" y="1898">复用生成服务，记录 fit</text>
+  <rect class="card-red" x="1210" y="1835" width="220" height="95" rx="8"/>
+  <text class="ink body" x="1232" y="1872">human review</text>
+  <text class="ink small" x="1232" y="1898">approve / reject / revise</text>
+  <rect class="card-red" x="1485" y="1835" width="205" height="95" rx="8"/>
+  <text class="ink body" x="1507" y="1872">patch / promote</text>
+  <text class="ink small" x="1507" y="1898">candidate bundle</text>
+  <path class="arrow" d="M330 1883 L385 1883"/>
+  <path class="arrow" d="M605 1883 L660 1883"/>
+  <path class="arrow" d="M880 1883 L935 1883"/>
+  <path class="arrow" d="M1155 1883 L1210 1883"/>
+  <path class="arrow" d="M1430 1883 L1485 1883"/>
+
+  <text class="ink label" x="110" y="2025">B. 叶族难度实验 / 远程执行泳道</text>
+  <rect class="card-green" x="110" y="2055" width="240" height="105" rx="8"/>
+  <text class="ink body" x="132" y="2092">source docx packs</text>
+  <text class="ink small" x="132" y="2118">中心理解 / 程度词 / 语句排序等</text>
+  <rect class="card-green" x="405" y="2055" width="240" height="105" rx="8"/>
+  <text class="ink body" x="427" y="2092">prepare</text>
+  <text class="ink small" x="427" y="2118">hidden truth / label input / schema</text>
+  <rect class="card-green" x="700" y="2055" width="240" height="105" rx="8"/>
+  <text class="ink body" x="722" y="2092">label + validate</text>
+  <text class="ink small" x="722" y="2118">human / subagent labels</text>
+  <rect class="card-green" x="995" y="2055" width="250" height="105" rx="8"/>
+  <text class="ink body" x="1017" y="2092">fit / analyze</text>
+  <text class="ink small" x="1017" y="2118">correlation / CV / ablation</text>
+  <rect class="card-green" x="1300" y="2055" width="220" height="105" rx="8"/>
+  <text class="ink body" x="1322" y="2092">report + candidate</text>
+  <text class="ink small" x="1322" y="2118">charts / YAML / contract</text>
+  <path class="arrow" d="M350 2108 L405 2108"/>
+  <path class="arrow" d="M645 2108 L700 2108"/>
+  <path class="arrow" d="M940 2108 L995 2108"/>
+  <path class="arrow" d="M1245 2108 L1300 2108"/>
+
+  <rect class="card-purple" x="405" y="2250" width="420" height="95" rx="8"/>
+  <text class="ink body" x="427" y="2287">远程实验执行环境</text>
+  <text class="ink small" x="427" y="2313">remote runner / cloud job / long run，执行 stage 并回收 artifacts</text>
+  <path class="arrow-soft" d="M615 2250 C700 2195 820 2168 995 2115"/>
+
+  <rect class="card" x="995" y="2250" width="520" height="95" rx="8"/>
+  <text class="ink body" x="1017" y="2287">promotion gate</text>
+  <text class="ink small" x="1017" y="2313">不自动回写主配置；达到样本、CV、MAE 等门槛后进入人工/agent 审核。</text>
+  <path class="arrow-soft" d="M1410 2160 L1410 2250"/>
+
+  <line class="divider" x1="70" y1="2470" x2="1730" y2="2470"/>
+  <text class="ink section-title" x="70" y="2520">维护口径</text>
+  <text class="ink body" x="70" y="2552">当前真实形态：双服务 + 外置题卡/配置 + 单页工作台 + 蒸馏/实验证据链。后续优先看护规则主权回收，避免业务事实继续散落到页面补丁和服务硬编码中。</text>
+</svg>

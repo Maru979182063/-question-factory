@@ -252,3 +252,151 @@ class DistillationDiffReport(BaseModel):
         if not self.difficulty_diffs:
             raise ValueError("difficulty_diffs cannot be empty")
         return self
+
+
+BehaviorFinalOutcome = Literal["accepted_direct", "accepted_after_edit", "discarded", "pending"]
+
+
+class BehaviorDistillationExtractRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    item_id: str | None = None
+    question_type: str | None = None
+    question_card_id: str | None = None
+    limit: int = Field(default=20, ge=1, le=200)
+    include_item_traces: bool = True
+
+    @model_validator(mode="after")
+    def require_filter(self) -> "BehaviorDistillationExtractRequest":
+        if not any([self.item_id, self.question_type, self.question_card_id]):
+            raise ValueError("item_id, question_type, or question_card_id is required")
+        return self
+
+
+class BehaviorVersionTrace(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    version_no: int
+    parent_version_no: int | None = None
+    source_action: str
+    target_difficulty: str | None = None
+    changed_fields: list[str] = Field(default_factory=list)
+    material_changed: bool = False
+    difficulty_changed: bool = False
+    prompt_changed: bool = False
+    stem_changed: bool = False
+    options_changed: bool = False
+    analysis_changed: bool = False
+    created_at: str | None = None
+
+
+class BehaviorReviewActionTrace(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    action_id: str
+    action_type: str
+    from_version_no: int | None = None
+    to_version_no: int | None = None
+    result_status: str | None = None
+    operator: str | None = None
+    changed_fields: list[str] = Field(default_factory=list)
+    truth_touched: bool | None = None
+    material_boundary_crossed: bool | None = None
+    accepted_as_is: bool | None = None
+    revised_then_kept: bool | None = None
+    discarded: bool | None = None
+    failed_threshold_names: list[str] = Field(default_factory=list)
+    created_at: str | None = None
+
+
+class BehaviorUsageEventTrace(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    event_id: str
+    event_type: str
+    operator: str | None = None
+    download_variant: str | None = None
+    created_at: str | None = None
+    payload: dict[str, Any] = Field(default_factory=dict)
+
+
+class BehaviorItemTrace(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    item_id: str
+    question_type: str | None = None
+    business_subtype: str | None = None
+    question_card_id: str | None = None
+    current_status: str | None = None
+    current_version_no: int = 1
+    revision_count: int = 0
+    final_outcome: BehaviorFinalOutcome
+    latest_download_variant: str | None = None
+    version_traces: list[BehaviorVersionTrace] = Field(default_factory=list)
+    review_action_traces: list[BehaviorReviewActionTrace] = Field(default_factory=list)
+    usage_event_traces: list[BehaviorUsageEventTrace] = Field(default_factory=list)
+    hot_changed_fields: list[str] = Field(default_factory=list)
+    failed_threshold_names: list[str] = Field(default_factory=list)
+
+
+class BehaviorAggregateCount(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    key: str
+    count: int
+
+
+class BehaviorDistillationAggregateSummary(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    item_count: int
+    total_versions: int
+    total_review_actions: int
+    total_usage_events: int
+    total_downloads: int
+    outcome_distribution: dict[str, int] = Field(default_factory=dict)
+    action_distribution: dict[str, int] = Field(default_factory=dict)
+    changed_field_distribution: dict[str, int] = Field(default_factory=dict)
+    top_changed_fields: list[BehaviorAggregateCount] = Field(default_factory=list)
+    top_action_types: list[BehaviorAggregateCount] = Field(default_factory=list)
+    top_failed_thresholds: list[BehaviorAggregateCount] = Field(default_factory=list)
+    accepted_direct_rate: float | None = None
+    accepted_after_edit_rate: float | None = None
+    discard_rate: float | None = None
+    download_rate: float | None = None
+    truth_touched_rate: float | None = None
+    material_boundary_cross_rate: float | None = None
+    recommended_hypotheses: list[str] = Field(default_factory=list)
+
+
+class BehaviorReportFinding(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    finding_id: str
+    severity: Literal["high", "medium", "low"]
+    title: str
+    summary: str
+    evidence: dict[str, Any] = Field(default_factory=dict)
+
+
+class BehaviorDistillationReport(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    report_id: str = Field(default_factory=lambda: f"behavior_report_{uuid4().hex[:12]}")
+    executive_summary: str
+    findings: list[BehaviorReportFinding] = Field(default_factory=list)
+    recommended_next_steps: list[str] = Field(default_factory=list)
+
+
+class BehaviorDistillationPacket(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    packet_id: str = Field(default_factory=lambda: f"behavior_distill_{uuid4().hex[:12]}")
+    source: Literal["question_history_tables"] = "question_history_tables"
+    filters: dict[str, Any] = Field(default_factory=dict)
+    aggregate_summary: BehaviorDistillationAggregateSummary
+    candidate_patch_hints: list[CandidatePatch] = Field(default_factory=list)
+    selected_agent_adjustment: AgentAdjustmentPlan | None = None
+    report: BehaviorDistillationReport
+    item_traces: list[BehaviorItemTrace] = Field(default_factory=list)
+    notes: list[str] = Field(default_factory=list)

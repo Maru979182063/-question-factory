@@ -14,6 +14,8 @@
 - diff report
 - candidate-only promotion bundle
 - 三个离线脚本入口
+- 行为蒸馏包：从 `question_item_versions / question_review_actions / question_usage_events` 提取真实修题轨迹
+- 行为蒸馏候选 patch hints 与报告
 
 ## 2. 这次刻意没做什么
 
@@ -67,3 +69,14 @@
 - 可交接
 
 后续维护者如果需要提速，也应优先保持这四点。
+
+## 5. 行为蒸馏说明
+
+当前仓库里，蒸馏输入已经不只有真题：
+
+- `truth distillation`
+  关注“和真题像不像”
+- `behavior distillation`
+  关注“用户最后实际把题修成了什么样、拿走了哪一版”
+
+行为蒸馏当前走的是离线结构化包，不会直接自动回写主配置。

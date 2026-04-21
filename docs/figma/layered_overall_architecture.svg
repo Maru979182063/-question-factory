@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="1000" viewBox="0 0 1300 1000">
+  <defs>
+    <style>
+      .bg{fill:#f7f4ec}
+      .ink{fill:#25313a;font-family:'Microsoft YaHei','Noto Sans CJK SC','Arial',sans-serif}
+      .title{font-size:36px;font-weight:700}
+      .sub{font-size:16px;fill:#65717a}
+      .layer-title{font-size:24px;font-weight:700}
+      .item-title{font-size:18px;font-weight:700}
+      .body{font-size:14px;fill:#46525a}
+      .hint{font-size:13px;fill:#66717a}
+      .layer{fill:#fffdf8;stroke:#d7cebf;stroke-width:2}
+      .ui{fill:#fff7db;stroke:#d2b65c;stroke-width:2}
+      .service{fill:#eaf4ff;stroke:#6da9dc;stroke-width:2}
+      .asset{fill:#f5f0ff;stroke:#9d88dc;stroke-width:2}
+      .data{fill:#edf8ee;stroke:#70b87f;stroke-width:2}
+      .external{fill:#eef1f3;stroke:#96a1a8;stroke-width:2}
+      .arrow{stroke:#65737c;stroke-width:4;fill:none;marker-end:url(#arrow)}
+      .up{stroke:#9b8172;stroke-width:3;fill:none;marker-end:url(#upArrow);stroke-dasharray:8 8}
+      .label-bg{fill:#f7f4ec}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#65737c"/>
+    </marker>
+    <marker id="upArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#9b8172"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1300" height="1000"/>
+  <text class="ink title" x="70" y="72">项目总架构图</text>
+  <text class="ink sub" x="70" y="106">按层级看：上层发起和操作，中层承载业务服务，下层提供规则、数据和外部能力。</text>
+
+  <!-- UI layer -->
+  <rect class="layer" x="100" y="145" width="1100" height="120" rx="12"/>
+  <text class="ink layer-title" x="130" y="190">入口与工作台层</text>
+  <rect class="ui" x="455" y="170" width="180" height="68" rx="8"/>
+  <text class="ink item-title" x="487" y="200">出题工作台</text>
+  <text class="ink body" x="487" y="224">生成、评审、导出</text>
+  <rect class="ui" x="675" y="170" width="180" height="68" rx="8"/>
+  <text class="ink item-title" x="707" y="200">蒸馏工作台</text>
+  <text class="ink body" x="707" y="224">样本、试跑、人审</text>
+
+  <!-- Service layer -->
+  <rect class="layer" x="100" y="340" width="1100" height="170" rx="12"/>
+  <text class="ink layer-title" x="130" y="385">应用服务层</text>
+  <rect class="service" x="185" y="415" width="205" height="65" rx="8"/>
+  <text class="ink item-title" x="218" y="445">生题服务</text>
+  <text class="ink body" x="218" y="467">组 prompt / 取材 / 生成</text>
+  <rect class="service" x="425" y="415" width="205" height="65" rx="8"/>
+  <text class="ink item-title" x="458" y="445">材料服务</text>
+  <text class="ink body" x="458" y="467">材料卡收路 / 检索</text>
+  <rect class="service" x="665" y="415" width="205" height="65" rx="8"/>
+  <text class="ink item-title" x="698" y="445">蒸馏服务</text>
+  <text class="ink body" x="698" y="467">试跑 / 拟合 / 候选改动</text>
+  <rect class="service" x="905" y="415" width="205" height="65" rx="8"/>
+  <text class="ink item-title" x="938" y="445">难度实验工具</text>
+  <text class="ink body" x="938" y="467">标注 / 统计 / 报告</text>
+
+  <!-- Core assets layer -->
+  <rect class="layer" x="100" y="585" width="1100" height="145" rx="12"/>
+  <text class="ink layer-title" x="130" y="630">核心资产层</text>
+  <rect class="asset" x="185" y="655" width="205" height="50" rx="8"/>
+  <text class="ink item-title" x="222" y="686">题卡体系</text>
+  <rect class="asset" x="425" y="655" width="205" height="50" rx="8"/>
+  <text class="ink item-title" x="461" y="686">Prompt 配置</text>
+  <rect class="asset" x="665" y="655" width="205" height="50" rx="8"/>
+  <text class="ink item-title" x="697" y="686">难度控制资产</text>
+  <rect class="asset" x="905" y="655" width="205" height="50" rx="8"/>
+  <text class="ink item-title" x="940" y="686">校验契约</text>
+
+  <!-- Data layer -->
+  <rect class="layer" x="100" y="775" width="690" height="115" rx="12"/>
+  <text class="ink layer-title" x="130" y="818">数据与记录层</text>
+  <rect class="data" x="130" y="842" width="185" height="36" rx="8"/>
+  <text class="ink body" x="162" y="865">材料库与索引</text>
+  <rect class="data" x="345" y="842" width="185" height="36" rx="8"/>
+  <text class="ink body" x="373" y="865">题目库与版本</text>
+  <rect class="data" x="560" y="842" width="185" height="36" rx="8"/>
+  <text class="ink body" x="585" y="865">实验报告与候选包</text>
+
+  <!-- External layer -->
+  <rect class="layer" x="830" y="775" width="370" height="115" rx="12"/>
+  <text class="ink layer-title" x="860" y="818">外部能力层</text>
+  <rect class="external" x="860" y="842" width="88" height="36" rx="8"/>
+  <text class="ink body" x="879" y="865">文章来源</text>
+  <rect class="external" x="968" y="842" width="88" height="36" rx="8"/>
+  <text class="ink body" x="987" y="865">模型链路</text>
+  <rect class="external" x="1076" y="842" width="88" height="36" rx="8"/>
+  <text class="ink body" x="1095" y="865">远程实验</text>
+
+  <!-- Big direction arrows -->
+  <path class="arrow" d="M650 265 L650 340"/>
+  <rect class="label-bg" x="596" y="292" width="108" height="24" rx="4"/>
+  <text class="ink hint" x="612" y="309">发起与操作</text>
+
+  <path class="arrow" d="M650 510 L650 585"/>
+  <rect class="label-bg" x="579" y="537" width="142" height="24" rx="4"/>
+  <text class="ink hint" x="594" y="554">读取规则与契约</text>
+
+  <path class="arrow" d="M445 730 L445 775"/>
+  <rect class="label-bg" x="401" y="744" width="88" height="24" rx="4"/>
+  <text class="ink hint" x="422" y="761">读写记录</text>
+
+  <path class="arrow" d="M1015 775 L1015 730"/>
+  <rect class="label-bg" x="960" y="744" width="110" height="24" rx="4"/>
+  <text class="ink hint" x="981" y="761">外部供给</text>
+
+  <path class="up" d="M980 730 C980 590 1060 530 1060 510"/>
+  <rect class="label-bg" x="1000" y="606" width="170" height="24" rx="4"/>
+  <text class="ink hint" x="1014" y="623">证据沉淀 / 人审回流</text>
+
+  <text class="ink hint" x="100" y="945">后续拆图建议：题卡体系、生题服务、材料服务、蒸馏服务、难度实验各自单独画，不再挤进总图。</text>
+</svg>

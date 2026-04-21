@@ -1,0 +1,74 @@
+version: 0.1
+status: candidate_only
+family: sentence_fill
+leaf_family: 横线在开头-话题引入
+purpose: >
+  Leaf-specific control boxes for topic-introduction sentence-fill items.
+  This asset is for prompt/validator experimentation and diff reports only.
+  It must not be auto-written back to master configs.
+
+control_boxes:
+  post_context_constraint_strength:
+    description: 后文对开头引入句的约束强度。
+    easy: 后文前 1-2 句给出强锚点，正确项可直接贴合。
+    medium: 后文需要整合 2-3 个语义锚点。
+    hard: 后文锚点分散，正确项要覆盖隐性话题框架。
+    validator_checks:
+      - topic_frame_match
+      - post_context_anchor_count
+
+  quote_idiom_mapping_load:
+    description: 引语、诗句、格言、成语从字面义到文段主旨的映射负荷。
+    easy: 高熟悉表达，字面义和后文主题接近。
+    medium: 表达熟悉，但需要一次价值抽象。
+    hard: 隐喻义不稳定，且错项也属于相近价值场。
+    validator_checks:
+      - quote_mapping_valid
+      - literal_figurative_gap
+
+  value_direction_precision:
+    description: 正确项价值方向是否必须精确匹配后文。
+    easy: 后文价值方向单一，错项方向明显不合。
+    medium: 错项同为积极价值，但行动方向不同。
+    hard: 错项与正确项同语域、同价值极性，只在时间方向、主体关系或论证重心上错位。
+    validator_checks:
+      - value_direction_match
+      - near_miss_value_axis
+
+  opening_register_competition:
+    description: 选项作为开头句时的语域、气势、文风相似度。
+    easy: 只有正确项文风和后文一致。
+    medium: 错项语域相近但主题偏。
+    hard: 错项语域、长度、句式都像正确项，只在主旨映射上错。
+    validator_checks:
+      - register_match
+      - option_style_near_miss
+
+  generic_positive_trap_strength:
+    description: 错项是否是听起来正确但不贴文段的泛正向表达。
+    easy: 最多 1 个泛正向错项。
+    medium: 2 个泛正向错项。
+    hard: 3 个错项都具有泛正向吸引力，其中 1 个和正确项价值方向非常接近。
+    validator_checks:
+      - generic_positive_distractor_count
+      - strongest_generic_trap
+
+generation_contract:
+  required_steps:
+    - 先确定后文主旨的话题框架和价值方向。
+    - 再生成或选择能精确映射该方向的开头表达。
+    - 干扰项必须同样像开头句，但分别错在价值方向、话题框架、语域或泛正向。
+    - 解析必须说明正确项如何映射后文，而不只是说明错项无关。
+
+candidate_backtest_fields:
+  - post_context_constraint_strength
+  - quote_idiom_mapping_load
+  - value_direction_precision
+  - opening_register_competition
+  - generic_positive_trap_strength
+
+promotion_gate:
+  minimum_leaf_samples: 30
+  minimum_samples_per_band: 8
+  required_cv_spearman: 0.45
+  required_mae_gain_over_leaf_mean_baseline: 0.03

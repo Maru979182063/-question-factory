@@ -5,6 +5,8 @@ const state = {
   selectedSessionId: "",
   selectedRunId: "",
   currentRun: null,
+  behaviorPacket: null,
+  behaviorRequest: null,
 };
 
 function $(id) {
@@ -299,6 +301,114 @@ function renderRunDetail(run) {
   `;
 }
 
+function renderBehaviorPacket(packet) {
+  const root = $("behaviorPacketDetail");
+  if (!packet) {
+    root.innerHTML = `<div class="distill-empty">先在左边输入 item_id、question_type 或 question_card_id，再生成行为蒸馏包。</div>`;
+    return;
+  }
+
+  const summary = packet.aggregate_summary || {};
+  const report = packet.report || {};
+  const selectedAdjustment = packet.selected_agent_adjustment || null;
+  const patchHints = Array.isArray(packet.candidate_patch_hints) ? packet.candidate_patch_hints : [];
+  const topChangedFields = Array.isArray(summary.top_changed_fields) ? summary.top_changed_fields : [];
+  const topActionTypes = Array.isArray(summary.top_action_types) ? summary.top_action_types : [];
+  const topThresholds = Array.isArray(summary.top_failed_thresholds) ? summary.top_failed_thresholds : [];
+  const itemPreview = Array.isArray(packet.item_traces) && packet.item_traces.length ? packet.item_traces[0] : null;
+  const hypotheses = Array.isArray(summary.recommended_hypotheses) ? summary.recommended_hypotheses : [];
+  const findings = Array.isArray(report.findings) ? report.findings : [];
+  const nextSteps = Array.isArray(report.recommended_next_steps) ? report.recommended_next_steps : [];
+
+  root.innerHTML = `
+    <div class="distill-run-grid">
+      <div class="distill-detail-box">
+        <strong>聚合摘要</strong>
+        <div>item 数：${escapeHtml(summary.item_count ?? 0)}</div>
+        <div>版本数：${escapeHtml(summary.total_versions ?? 0)}</div>
+        <div>review action 数：${escapeHtml(summary.total_review_actions ?? 0)}</div>
+        <div>usage event 数：${escapeHtml(summary.total_usage_events ?? 0)}</div>
+        <div>download 数：${escapeHtml(summary.total_downloads ?? 0)}</div>
+      </div>
+      <div class="distill-detail-box">
+        <strong>通过/丢弃结构</strong>
+        <div>直接通过率：${escapeHtml(summary.accepted_direct_rate ?? "-")}</div>
+        <div>修改后保留率：${escapeHtml(summary.accepted_after_edit_rate ?? "-")}</div>
+        <div>discard 率：${escapeHtml(summary.discard_rate ?? "-")}</div>
+        <div>download 率：${escapeHtml(summary.download_rate ?? "-")}</div>
+        <div>truth_touched 率：${escapeHtml(summary.truth_touched_rate ?? "-")}</div>
+        <div>material_boundary_cross 率：${escapeHtml(summary.material_boundary_cross_rate ?? "-")}</div>
+      </div>
+    </div>
+
+    <div class="distill-run-grid">
+      <div class="distill-detail-box">
+        <strong>高频改动字段</strong>
+        <pre class="distill-detail-pre">${escapeHtml(prettyJson(topChangedFields))}</pre>
+      </div>
+      <div class="distill-detail-box">
+        <strong>高频动作类型</strong>
+        <pre class="distill-detail-pre">${escapeHtml(prettyJson(topActionTypes))}</pre>
+      </div>
+    </div>
+
+    <div class="distill-run-grid">
+      <div class="distill-detail-box">
+        <strong>高频失败阈值</strong>
+        <pre class="distill-detail-pre">${escapeHtml(prettyJson(topThresholds))}</pre>
+      </div>
+      <div class="distill-detail-box">
+        <strong>建议假设</strong>
+        ${
+          hypotheses.length
+            ? `<ul class="distill-note-list">${hypotheses.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+            : `<div class="distill-help">当前没有额外建议。</div>`
+        }
+      </div>
+    </div>
+
+    <div class="distill-detail-box">
+      <strong>行为蒸馏执行摘要</strong>
+      <div style="margin-bottom:8px;">${escapeHtml(report.executive_summary || "-")}</div>
+      ${
+        findings.length
+          ? `<ul class="distill-note-list">${findings.map((item) => `<li>[${escapeHtml(item.severity)}] ${escapeHtml(item.title)}：${escapeHtml(item.summary)}</li>`).join("")}</ul>`
+          : `<div class="distill-help">当前没有额外 findings。</div>`
+      }
+    </div>
+
+    <div class="distill-run-grid">
+      <div class="distill-detail-box">
+        <strong>candidate patch hints</strong>
+        <pre class="distill-detail-pre">${escapeHtml(prettyJson(patchHints))}</pre>
+      </div>
+      <div class="distill-detail-box">
+        <strong>selected agent adjustment</strong>
+        <pre class="distill-detail-pre">${escapeHtml(prettyJson(selectedAdjustment || {}))}</pre>
+      </div>
+    </div>
+
+    <div class="distill-detail-box">
+      <strong>推荐下一步</strong>
+      ${
+        nextSteps.length
+          ? `<ul class="distill-note-list">${nextSteps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+          : `<div class="distill-help">当前没有额外 next step。</div>`
+      }
+    </div>
+
+    <div class="distill-detail-box">
+      <strong>item trace 预览</strong>
+      <pre class="distill-detail-pre">${escapeHtml(prettyJson(itemPreview || {}))}</pre>
+    </div>
+
+    <div class="distill-detail-box">
+      <strong>完整行为蒸馏包</strong>
+      <pre class="distill-detail-pre">${escapeHtml(prettyJson(packet))}</pre>
+    </div>
+  `;
+}
+
 function refreshSelectOptions() {
   const datasetOptions = ['<option value="">未选择</option>']
     .concat(state.datasets.map((item) => `<option value="${escapeHtml(item.dataset_id)}">${escapeHtml(item.title || item.dataset_id)}</option>`))
@@ -461,6 +571,9 @@ function fillTemplates() {
     },
   });
   $("promoteSummary").value = "把审核通过且 patch 齐全的 run 打包成正式沉淀候选。";
+  $("behaviorQuestionType").value = "sentence_fill";
+  $("behaviorQuestionCardId").value = "sentence_fill_middle_bridge";
+  $("behaviorLimit").value = "20";
 }
 
 async function handleCreateDataset(event) {
@@ -665,6 +778,33 @@ async function handlePromoteRun(event) {
   }
 }
 
+async function handleBuildBehaviorPacket(event) {
+  event.preventDefault();
+  const button = $("buildBehaviorPacketBtn");
+  withButtonLoading(button, true);
+  setPageStatus("正在提取历史版本动作，生成行为蒸馏包...", "info");
+  try {
+    const payload = {
+      item_id: $("behaviorItemId").value.trim() || null,
+      question_type: $("behaviorQuestionType").value.trim() || null,
+      question_card_id: $("behaviorQuestionCardId").value.trim() || null,
+      limit: Number($("behaviorLimit").value || 20),
+      include_item_traces: $("behaviorIncludeTraces").checked,
+    };
+    state.behaviorRequest = payload;
+    state.behaviorPacket = await apiFetch("/api/v1/distill/behavior/packets", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    renderBehaviorPacket(state.behaviorPacket);
+    setPageStatus(`行为蒸馏包已生成：覆盖 ${state.behaviorPacket.aggregate_summary?.item_count ?? 0} 道题。`, "info");
+  } catch (error) {
+    setPageStatus(error.message, "error");
+  } finally {
+    withButtonLoading(button, false);
+  }
+}
+
 function bindEvents() {
   $("datasetForm").addEventListener("submit", handleCreateDataset);
   $("sessionForm").addEventListener("submit", handleCreateSession);
@@ -672,6 +812,7 @@ function bindEvents() {
   $("reviewForm").addEventListener("submit", handleSubmitReview);
   $("patchForm").addEventListener("submit", handleSubmitPatch);
   $("promoteForm").addEventListener("submit", handlePromoteRun);
+  $("behaviorForm").addEventListener("submit", handleBuildBehaviorPacket);
 
   $("refreshAllBtn").addEventListener("click", async () => {
     setPageStatus("正在刷新样本集、会话和 run...", "info");
@@ -703,6 +844,23 @@ function bindEvents() {
     try {
       await loadRun($("reviewRunId").value || state.selectedRunId);
       setPageStatus("当前 run 已刷新。", "info");
+    } catch (error) {
+      setPageStatus(error.message, "error");
+    }
+  });
+  $("refreshBehaviorBtn").addEventListener("click", async () => {
+    if (!state.behaviorRequest) {
+      renderBehaviorPacket(null);
+      setPageStatus("还没有行为蒸馏请求，先在左边生成一次。", "info");
+      return;
+    }
+    try {
+      state.behaviorPacket = await apiFetch("/api/v1/distill/behavior/packets", {
+        method: "POST",
+        body: JSON.stringify(state.behaviorRequest),
+      });
+      renderBehaviorPacket(state.behaviorPacket);
+      setPageStatus("行为蒸馏包已刷新。", "info");
     } catch (error) {
       setPageStatus(error.message, "error");
     }
@@ -739,6 +897,7 @@ function bindEvents() {
 async function init() {
   bindEvents();
   fillTemplates();
+  renderBehaviorPacket(null);
   setPageStatus("正在加载蒸馏训练工作台...", "info");
   try {
     await refreshAll();

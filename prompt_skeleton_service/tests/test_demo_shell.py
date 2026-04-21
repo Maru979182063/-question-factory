@@ -96,6 +96,8 @@ class DemoShellSmokeTest(TestCase):
         self.assertEqual(page.status_code, 200)
         self.assertIn("蒸馏训练工作台", page.text)
         self.assertIn("1. 建 Dataset", page.text)
+        self.assertIn('id="behaviorForm"', page.text)
+        self.assertIn('id="behaviorPacketDetail"', page.text)
 
     def test_verify_distill_access_rejects_wrong_key(self) -> None:
         verify = self.client.post("/api/v1/distill/access/verify", json={"key": "wrong-key"})

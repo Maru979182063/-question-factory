@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1120" viewBox="0 0 1400 1120">
+  <defs>
+    <style>
+      .bg{fill:#f7f4ec}
+      .ink{fill:#25313a;font-family:'Microsoft YaHei','Noto Sans CJK SC','Arial',sans-serif}
+      .title{font-size:36px;font-weight:700}
+      .sub{font-size:16px;fill:#65717a}
+      .layer-title{font-size:23px;font-weight:700}
+      .item-title{font-size:17px;font-weight:700}
+      .body{font-size:14px;fill:#46525a}
+      .small{font-size:12px;fill:#66717a}
+      .layer{fill:#fffdf8;stroke:#d7cebf;stroke-width:2}
+      .runtime{fill:#eaf4ff;stroke:#6da9dc;stroke-width:2}
+      .question{fill:#fff7db;stroke:#d2b65c;stroke-width:2}
+      .business{fill:#fff0ef;stroke:#d8847d;stroke-width:2}
+      .material{fill:#edf8ee;stroke:#70b87f;stroke-width:2}
+      .signal{fill:#f5f0ff;stroke:#9d88dc;stroke-width:2}
+      .mapping{fill:#eef1f3;stroke:#96a1a8;stroke-width:2}
+      .arrow{stroke:#65737c;stroke-width:4;fill:none;marker-end:url(#arrow)}
+      .soft{stroke:#9b8172;stroke-width:2.8;fill:none;marker-end:url(#softArrow);stroke-dasharray:8 8}
+      .label-bg{fill:#f7f4ec}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#65737c"/>
+    </marker>
+    <marker id="softArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#9b8172"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1400" height="1120"/>
+  <text class="ink title" x="70" y="72">题卡体系架构图</text>
+  <text class="ink sub" x="70" y="106">当前题卡不是单层配置，而是一套从“中性信号”到“标准题卡”的协议栈。</text>
+
+  <!-- Runtime consumption -->
+  <rect class="layer" x="150" y="145" width="820" height="105" rx="12"/>
+  <text class="ink layer-title" x="180" y="187">运行消费层</text>
+  <rect class="runtime" x="410" y="168" width="150" height="58" rx="8"/>
+  <text class="ink item-title" x="433" y="193">生题服务</text>
+  <text class="ink small" x="433" y="213">组 prompt / 生成</text>
+  <rect class="runtime" x="590" y="168" width="150" height="58" rx="8"/>
+  <text class="ink item-title" x="613" y="193">材料服务</text>
+  <text class="ink small" x="613" y="213">检索 / 收路</text>
+  <rect class="runtime" x="770" y="168" width="150" height="58" rx="8"/>
+  <text class="ink item-title" x="793" y="193">蒸馏服务</text>
+  <text class="ink small" x="793" y="213">replay / 人审</text>
+
+  <!-- Question card layer -->
+  <rect class="layer" x="150" y="315" width="820" height="145" rx="12"/>
+  <text class="ink layer-title" x="180" y="357">标准题卡层</text>
+  <rect class="question" x="185" y="382" width="150" height="48" rx="8"/>
+  <text class="ink body" x="208" y="412">5 张标准题卡</text>
+  <rect class="question" x="365" y="382" width="160" height="48" rx="8"/>
+  <text class="ink body" x="388" y="412">运行时绑定</text>
+  <rect class="question" x="555" y="382" width="170" height="48" rx="8"/>
+  <text class="ink body" x="578" y="412">上游材料契约</text>
+  <rect class="question" x="755" y="382" width="170" height="48" rx="8"/>
+  <text class="ink body" x="778" y="412">校验 / 蒸馏覆盖</text>
+  <text class="ink small" x="185" y="446">字段：card_id、business_family_id、runtime_binding、upstream_contract、base_slots、material_card_overrides、validator_contract</text>
+
+  <!-- Business feature cards -->
+  <rect class="layer" x="150" y="525" width="820" height="135" rx="12"/>
+  <text class="ink layer-title" x="180" y="567">业务特征卡层</text>
+  <rect class="business" x="185" y="592" width="210" height="45" rx="8"/>
+  <text class="ink body" x="210" y="621">教材/真题业务特征</text>
+  <rect class="business" x="430" y="592" width="210" height="45" rx="8"/>
+  <text class="ink body" x="455" y="621">slot_projection</text>
+  <rect class="business" x="675" y="592" width="210" height="45" rx="8"/>
+  <text class="ink body" x="700" y="621">prompt_extras</text>
+  <text class="ink small" x="185" y="650">当前示例卡：main_idea 5 张、sentence_fill 8 张、sentence_order 6 张，共 19 张业务特征卡</text>
+
+  <!-- Material cards -->
+  <rect class="layer" x="150" y="725" width="820" height="145" rx="12"/>
+  <text class="ink layer-title" x="180" y="767">中间材料卡层</text>
+  <rect class="material" x="185" y="792" width="170" height="48" rx="8"/>
+  <text class="ink body" x="210" y="822">候选类型契约</text>
+  <rect class="material" x="385" y="792" width="170" height="48" rx="8"/>
+  <text class="ink body" x="410" y="822">必备信号</text>
+  <rect class="material" x="585" y="792" width="170" height="48" rx="8"/>
+  <text class="ink body" x="610" y="822">生成原型</text>
+  <rect class="material" x="785" y="792" width="140" height="48" rx="8"/>
+  <text class="ink body" x="808" y="822">干扰偏向</text>
+  <text class="ink small" x="185" y="856">材料卡注册表：中心理解 10、接语 10、语句填空 13、语句排序 7、标题选择 11</text>
+
+  <!-- Signal layer -->
+  <rect class="layer" x="150" y="935" width="820" height="120" rx="12"/>
+  <text class="ink layer-title" x="180" y="977">中性信号层</text>
+  <rect class="signal" x="370" y="995" width="170" height="42" rx="8"/>
+  <text class="ink body" x="395" y="1022">材料可观测信号</text>
+  <rect class="signal" x="570" y="995" width="250" height="42" rx="8"/>
+  <text class="ink body" x="595" y="1022">结构、空位、锚点、中心强度</text>
+  <text class="ink small" x="185" y="1044">信号层：中心理解 18、接语 27、语句填空 16、语句排序 26、标题选择 29</text>
+
+  <!-- Big upward stack arrows -->
+  <path class="arrow" d="M560 935 L560 870"/>
+  <rect class="label-bg" x="505" y="892" width="110" height="24" rx="4"/>
+  <text class="ink small" x="522" y="909">信号承托材料</text>
+
+  <path class="arrow" d="M560 725 L560 660"/>
+  <rect class="label-bg" x="501" y="684" width="118" height="24" rx="4"/>
+  <text class="ink small" x="518" y="701">材料承接业务</text>
+
+  <path class="arrow" d="M560 525 L560 460"/>
+  <rect class="label-bg" x="494" y="484" width="132" height="24" rx="4"/>
+  <text class="ink small" x="511" y="501">业务投影到题卡</text>
+
+  <path class="arrow" d="M560 315 L560 250"/>
+  <rect class="label-bg" x="498" y="274" width="124" height="24" rx="4"/>
+  <text class="ink small" x="515" y="291">题卡供运行消费</text>
+
+  <!-- Side mapping and registry -->
+  <rect class="layer" x="1025" y="315" width="285" height="260" rx="12"/>
+  <text class="ink layer-title" x="1052" y="357">运行映射与蒸馏覆盖</text>
+  <rect class="mapping" x="1060" y="385" width="215" height="52" rx="8"/>
+  <text class="ink body" x="1085" y="415">母族 / 子族 / 叶族映射</text>
+  <rect class="mapping" x="1060" y="455" width="215" height="52" rx="8"/>
+  <text class="ink body" x="1085" y="485">材料卡 id 映射</text>
+  <rect class="mapping" x="1060" y="525" width="215" height="32" rx="8"/>
+  <text class="ink small" x="1085" y="546">蒸馏 replay 与覆盖口径</text>
+  <text class="ink small" x="1052" y="572">文件：运行映射（runtime_mappings）</text>
+
+  <path class="soft" d="M1025 405 L925 405"/>
+  <path class="soft" d="M1025 485 C980 550 930 650 890 792"/>
+
+  <rect class="layer" x="1025" y="650" width="285" height="220" rx="12"/>
+  <text class="ink layer-title" x="1052" y="692">注册表加载器</text>
+  <rect class="mapping" x="1060" y="720" width="215" height="48" rx="8"/>
+  <text class="ink body" x="1085" y="750">统一加载四类卡</text>
+  <rect class="mapping" x="1060" y="790" width="215" height="48" rx="8"/>
+  <text class="ink body" x="1085" y="820">按母族查询与别名兼容</text>
+  <text class="ink small" x="1052" y="858">文件：卡注册表（card_registry_v2.py）</text>
+  <path class="soft" d="M1025 760 L925 760"/>
+  <path class="soft" d="M1168 650 C1110 520 1055 320 920 226"/>
+
+  <!-- family status strip -->
+  <rect class="layer" x="1025" y="935" width="285" height="120" rx="12"/>
+  <text class="ink layer-title" x="1052" y="977">当前母族覆盖</text>
+  <text class="ink body" x="1052" y="1006">中心理解 / 接语 / 语句填空</text>
+  <text class="ink body" x="1052" y="1030">语句排序 / 标题选择</text>
+  <text class="ink small" x="1052" y="1049">其中中心理解已有独立材料卡与信号层</text>
+</svg>

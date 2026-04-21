@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg{fill:#f7f4ec}
+      .ink{fill:#25313a;font-family:'Microsoft YaHei','Noto Sans CJK SC','Arial',sans-serif}
+      .title{font-size:36px;font-weight:700}
+      .sub{font-size:16px;fill:#66727a}
+      .layer-title{font-size:22px;font-weight:700}
+      .label{font-size:19px;font-weight:700}
+      .body{font-size:14px;fill:#46525a}
+      .layer{fill:#fffdf8;stroke:#d7cebf;stroke-width:2}
+      .ui{fill:#fff7db;stroke:#d2b65c;stroke-width:2}
+      .service{fill:#eaf4ff;stroke:#6da9dc;stroke-width:2}
+      .rules{fill:#f5f0ff;stroke:#9d88dc;stroke-width:2}
+      .data{fill:#edf8ee;stroke:#70b87f;stroke-width:2}
+      .external{fill:#eef1f3;stroke:#96a1a8;stroke-width:2}
+      .link{stroke:#87919a;stroke-width:2;fill:none}
+      .faint{stroke:#c3b8a8;stroke-width:2;fill:none}
+    </style>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text class="ink title" x="70" y="70">项目总架构图</text>
+  <text class="ink sub" x="70" y="103">按层看系统，不按流程看链路。括号里只保留对应文件/目录线索。</text>
+
+  <!-- UI layer -->
+  <rect class="layer" x="70" y="145" width="1260" height="130" rx="10"/>
+  <text class="ink layer-title" x="100" y="187">工作台层</text>
+  <rect class="ui" x="310" y="175" width="260" height="72" rx="8"/>
+  <text class="ink label" x="335" y="207">出题工作台</text>
+  <text class="ink body" x="335" y="230">生成、评审、导出（/demo）</text>
+  <rect class="ui" x="790" y="175" width="260" height="72" rx="8"/>
+  <text class="ink label" x="815" y="207">蒸馏工作台</text>
+  <text class="ink body" x="815" y="230">样本、试跑、人审（/demo/distill）</text>
+
+  <!-- Service layer -->
+  <rect class="layer" x="70" y="320" width="1260" height="180" rx="10"/>
+  <text class="ink layer-title" x="100" y="362">应用服务层</text>
+  <rect class="service" x="170" y="390" width="240" height="78" rx="8"/>
+  <text class="ink label" x="195" y="423">生题服务</text>
+  <text class="ink body" x="195" y="446">组 prompt、取材、生成、修复</text>
+  <rect class="service" x="450" y="390" width="240" height="78" rx="8"/>
+  <text class="ink label" x="475" y="423">材料服务</text>
+  <text class="ink body" x="475" y="446">入库、切片、材料卡收路、检索</text>
+  <rect class="service" x="730" y="390" width="240" height="78" rx="8"/>
+  <text class="ink label" x="755" y="423">蒸馏服务</text>
+  <text class="ink body" x="755" y="446">dataset、session、trial、promotion</text>
+  <rect class="service" x="1010" y="390" width="240" height="78" rx="8"/>
+  <text class="ink label" x="1035" y="423">难度实验工具</text>
+  <text class="ink body" x="1035" y="446">标注、拟合、报告、候选资产</text>
+
+  <!-- Rules layer -->
+  <rect class="layer" x="70" y="545" width="760" height="160" rx="10"/>
+  <text class="ink layer-title" x="100" y="587">规则资产层</text>
+  <rect class="rules" x="110" y="615" width="205" height="64" rx="8"/>
+  <text class="ink label" x="135" y="647">题卡体系</text>
+  <text class="ink body" x="135" y="669">题卡、材料卡、业务卡</text>
+  <rect class="rules" x="350" y="615" width="205" height="64" rx="8"/>
+  <text class="ink label" x="375" y="647">Prompt 配置</text>
+  <text class="ink body" x="375" y="669">题型、模板、运行时</text>
+  <rect class="rules" x="590" y="615" width="205" height="64" rx="8"/>
+  <text class="ink label" x="615" y="647">难度控制资产</text>
+  <text class="ink body" x="615" y="669">叶族轴、契约、候选 YAML</text>
+
+  <!-- Data layer -->
+  <rect class="layer" x="870" y="545" width="460" height="280" rx="10"/>
+  <text class="ink layer-title" x="900" y="587">数据与记录层</text>
+  <rect class="data" x="915" y="615" width="365" height="58" rx="8"/>
+  <text class="ink label" x="940" y="649">题目库 / 版本 / 评审动作</text>
+  <rect class="data" x="915" y="700" width="365" height="58" rx="8"/>
+  <text class="ink label" x="940" y="734">材料库 / 材料索引</text>
+  <rect class="data" x="915" y="785" width="365" height="58" rx="8"/>
+  <text class="ink label" x="940" y="819">实验报告 / 候选改动包</text>
+
+  <!-- External layer -->
+  <rect class="layer" x="70" y="750" width="760" height="75" rx="10"/>
+  <text class="ink layer-title" x="100" y="795">外部能力层</text>
+  <rect class="external" x="300" y="765" width="145" height="45" rx="8"/>
+  <text class="ink body" x="326" y="793">文章来源</text>
+  <rect class="external" x="485" y="765" width="145" height="45" rx="8"/>
+  <text class="ink body" x="511" y="793">模型链路</text>
+  <rect class="external" x="670" y="765" width="145" height="45" rx="8"/>
+  <text class="ink body" x="696" y="793">远程实验</text>
+
+  <!-- Architecture dependency lines, not process arrows -->
+  <path class="link" d="M440 247 L290 390"/>
+  <path class="link" d="M440 247 L570 390"/>
+  <path class="link" d="M920 247 L850 390"/>
+  <path class="link" d="M920 247 L1130 390"/>
+
+  <path class="faint" d="M290 468 L210 615"/>
+  <path class="faint" d="M290 468 L452 615"/>
+  <path class="faint" d="M570 468 L210 615"/>
+  <path class="faint" d="M850 468 L692 615"/>
+  <path class="faint" d="M1130 468 L692 615"/>
+
+  <path class="faint" d="M290 468 L1098 615"/>
+  <path class="faint" d="M570 468 L1098 700"/>
+  <path class="faint" d="M850 468 L1098 785"/>
+  <path class="faint" d="M1130 468 L1098 785"/>
+
+  <path class="faint" d="M570 468 L372 765"/>
+  <path class="faint" d="M290 468 L557 765"/>
+  <path class="faint" d="M1130 468 L742 765"/>
+
+  <text class="ink body" x="70" y="870">读法：工作台调用应用服务；应用服务依赖规则资产、数据记录和外部能力。蒸馏与难度实验不直接改主链，产出候选资产后回到规则资产层。</text>
+</svg>

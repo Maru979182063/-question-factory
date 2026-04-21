@@ -16,7 +16,9 @@ from app.schemas.distill import (
     DistillSessionListResponse,
     DistillTrialRequest,
 )
+from app.schemas.distillation import BehaviorDistillationExtractRequest, BehaviorDistillationPacket
 from app.services.config_registry import ConfigRegistry
+from app.services.distillation_behavior_service import DistillationBehaviorService
 from app.services.distill_workbench import DistillWorkbenchService
 from app.services.generation_gate import acquire_generation_slot
 from app.services.prompt_orchestrator import PromptOrchestratorService
@@ -241,3 +243,12 @@ def promote_distill_run(
         repository=repository,
     )
     return service.promote_run(run_id, request)
+
+
+@router.post("/behavior/packets", response_model=BehaviorDistillationPacket)
+def build_behavior_distillation_packet(
+    request: BehaviorDistillationExtractRequest,
+    repository: QuestionRepository = Depends(get_question_repository),
+) -> BehaviorDistillationPacket:
+    service = DistillationBehaviorService(repository)
+    return service.build_packet(request)

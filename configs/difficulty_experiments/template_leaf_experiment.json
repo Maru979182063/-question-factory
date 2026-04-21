@@ -1,0 +1,90 @@
+{
+  "experiment_id": "family_leaf_experiment_id",
+  "status": "candidate_only",
+  "family": "family_name",
+  "leaf": "leaf_name",
+  "leaf_display_name": "叶族中文名",
+  "purpose": "Describe the leaf-level difficulty-control experiment.",
+  "source_packs": [
+    {
+      "family": "family_name",
+      "leaf": "leaf_name",
+      "path": "C:/absolute/path/to/source.docx"
+    }
+  ],
+  "stages": {
+    "prepare": {
+      "command": [
+        "python",
+        "scripts/<prepare_script>.py"
+      ]
+    },
+    "fit": {
+      "command": [
+        "python",
+        "scripts/<fit_script>.py"
+      ]
+    },
+    "analyze": {
+      "command": [
+        "python",
+        "scripts/<analysis_script>.py"
+      ]
+    },
+    "report": {
+      "command": [
+        "python",
+        "scripts/<render_report_script>.py"
+      ]
+    }
+  },
+  "label_inputs": [
+    "reports/difficulty_control/<experiment_id>/label_input_A.jsonl"
+  ],
+  "label_outputs": [
+    {
+      "input": "reports/difficulty_control/<experiment_id>/label_input_A.jsonl",
+      "output": "reports/difficulty_control/<experiment_id>/label_output_A.jsonl",
+      "required_keys": [
+        "sample_id",
+        "axis_scores",
+        "label_type"
+      ]
+    }
+  ],
+  "expected_outputs": [
+    "reports/difficulty_control/<experiment_id>/hidden_truth.jsonl",
+    "reports/difficulty_control/<experiment_id>/fit_report.json",
+    "reports/difficulty_control/<experiment_id>/correlation_analysis.json",
+    "reports/difficulty_control/<experiment_id>/experiment_report.md",
+    "prompt_skeleton_service/configs/prompt_assets/<leaf_control_box>.yaml",
+    "docs/<leaf_control_box>.md"
+  ],
+  "candidate_outputs": [
+    {
+      "type": "leaf_protocol_doc",
+      "path": "docs/<leaf_control_box>.md"
+    },
+    {
+      "type": "prompt_asset_yaml",
+      "path": "prompt_skeleton_service/configs/prompt_assets/<leaf_control_box>.yaml"
+    },
+    {
+      "type": "experiment_report",
+      "path": "reports/difficulty_control/<experiment_id>/experiment_report.md"
+    }
+  ],
+  "consumption_targets": [
+    "prompt",
+    "validator",
+    "actual_difficulty_assessment",
+    "diff_report"
+  ],
+  "promotion_gate": {
+    "minimum_leaf_samples": 120,
+    "minimum_hard_band_samples": 30,
+    "required_repeated_cv_spearman": 0.3,
+    "required_mae_gain_over_leaf_mean_baseline": 0.025,
+    "current_status": "candidate_only"
+  }
+}

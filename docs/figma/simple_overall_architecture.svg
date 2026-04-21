@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="950" viewBox="0 0 1400 950">
+  <defs>
+    <style>
+      .bg{fill:#f7f4ec}
+      .ink{fill:#25313a;font-family:'Microsoft YaHei','Noto Sans CJK SC','Arial',sans-serif}
+      .title{font-size:36px;font-weight:700}
+      .sub{font-size:16px;fill:#647079}
+      .label{font-size:20px;font-weight:700}
+      .body{font-size:15px;fill:#3c4850}
+      .small{font-size:13px;fill:#647079}
+      .box{fill:#fffdf8;stroke:#d6ccbc;stroke-width:2}
+      .main{fill:#eaf4ff;stroke:#6da9dc;stroke-width:2}
+      .material{fill:#edf8ee;stroke:#70b87f;stroke-width:2}
+      .rule{fill:#fff7db;stroke:#d4b653;stroke-width:2}
+      .loop{fill:#fff0ef;stroke:#d8847d;stroke-width:2}
+      .model{fill:#f1f0fa;stroke:#9d88dc;stroke-width:2}
+      .store{fill:#eef1f3;stroke:#96a1a8;stroke-width:2}
+      .arrow{stroke:#64737c;stroke-width:2.4;fill:none;marker-end:url(#arrow)}
+      .soft{stroke:#958879;stroke-width:2.2;fill:none;marker-end:url(#softArrow);stroke-dasharray:7 7}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#64737c"/>
+    </marker>
+    <marker id="softArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#958879"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1400" height="950"/>
+  <text class="ink title" x="60" y="70">简版总架构图</text>
+  <text class="ink sub" x="60" y="103">一眼看整体：规则驱动，材料供给，生题评审，蒸馏和难度实验把证据回流到规则层。</text>
+
+  <rect class="box" x="560" y="135" width="280" height="86" rx="8"/>
+  <text class="ink label" x="595" y="170">使用者 / Agent</text>
+  <text class="ink body" x="595" y="198">发起生成、评审、蒸馏、实验</text>
+
+  <rect class="box" x="535" y="270" width="330" height="92" rx="8"/>
+  <text class="ink label" x="570" y="306">工作台入口</text>
+  <text class="ink body" x="570" y="334">出题工作台 / 蒸馏工作台</text>
+  <path class="arrow" d="M700 221 L700 270"/>
+
+  <rect class="rule" x="70" y="415" width="285" height="130" rx="8"/>
+  <text class="ink label" x="100" y="455">规则与配置</text>
+  <text class="ink body" x="100" y="486">题卡、材料卡、业务特征卡</text>
+  <text class="ink body" x="100" y="512">prompt 配置、校验契约</text>
+
+  <rect class="main" x="500" y="415" width="310" height="130" rx="8"/>
+  <text class="ink label" x="530" y="455">生题服务</text>
+  <text class="ink body" x="530" y="486">解析请求、组 prompt、取材</text>
+  <text class="ink body" x="530" y="512">调用模型，生成结构化题目</text>
+
+  <rect class="main" x="930" y="415" width="310" height="130" rx="8"/>
+  <text class="ink label" x="960" y="455">校验与评审</text>
+  <text class="ink body" x="960" y="486">自动校验、LLM judge</text>
+  <text class="ink body" x="960" y="512">调参、换材、通过、作废</text>
+
+  <rect class="material" x="260" y="650" width="320" height="130" rx="8"/>
+  <text class="ink label" x="290" y="690">材料库</text>
+  <text class="ink body" x="290" y="721">文章入库、切片、tag</text>
+  <text class="ink body" x="290" y="747">材料卡异步收路、V2 检索</text>
+
+  <rect class="store" x="820" y="650" width="320" height="130" rx="8"/>
+  <text class="ink label" x="850" y="690">题目库与版本记录</text>
+  <text class="ink body" x="850" y="721">批次、题目、版本</text>
+  <text class="ink body" x="850" y="747">评审动作、导出、运行记录</text>
+
+  <rect class="loop" x="70" y="820" width="310" height="88" rx="8"/>
+  <text class="ink label" x="100" y="855">蒸馏台</text>
+  <text class="ink body" x="100" y="883">真题样本、试跑、拟合、人审、候选改动</text>
+
+  <rect class="loop" x="535" y="820" width="330" height="88" rx="8"/>
+  <text class="ink label" x="565" y="855">难度实验</text>
+  <text class="ink body" x="565" y="883">远程实验、标注、统计拟合、候选难度资产</text>
+
+  <rect class="model" x="1030" y="820" width="300" height="88" rx="8"/>
+  <text class="ink label" x="1060" y="855">模型链路</text>
+  <text class="ink body" x="1060" y="883">生成模型、材料判断模型、评审模型</text>
+
+  <path class="arrow" d="M700 362 L655 415"/>
+  <path class="arrow" d="M810 480 L930 480"/>
+  <path class="arrow" d="M1085 545 L1000 650"/>
+  <path class="arrow" d="M820 715 L580 715"/>
+  <path class="arrow" d="M420 650 L560 545"/>
+  <path class="arrow" d="M355 480 L500 480"/>
+  <path class="arrow" d="M355 500 L930 500"/>
+  <path class="arrow" d="M355 520 C420 585 380 620 420 650"/>
+  <path class="arrow" d="M1140 650 C1210 590 1215 545 1160 545"/>
+  <path class="arrow" d="M1140 715 C1230 680 1270 575 1240 500"/>
+
+  <path class="arrow" d="M225 820 C255 770 320 740 420 715"/>
+  <path class="arrow" d="M700 820 C680 720 680 620 655 545"/>
+  <path class="arrow" d="M1180 820 C1135 700 1095 620 1085 545"/>
+
+  <path class="soft" d="M225 820 C150 720 120 590 170 545"/>
+  <path class="soft" d="M700 820 C565 700 375 600 250 545"/>
+  <path class="soft" d="M980 650 C940 570 870 525 810 505"/>
+
+  <text class="ink small" x="70" y="925">说明：这张只保留总关系。下一张可以单独展开“题卡”，再单独展开“生题服务 / 材料库 / 蒸馏台 / 难度实验”。</text>
+</svg>

@@ -1,0 +1,161 @@
+{
+  "experiment_id": "center_understanding_degree_word",
+  "status": "candidate_only",
+  "family": "center_understanding",
+  "leaf": "degree_word",
+  "leaf_display_name": "程度词",
+  "purpose": "Leaf-level candidate difficulty-control experiment for center_understanding / degree_word.",
+  "source_packs": [
+    {
+      "family": "center_understanding",
+      "leaf": "主题词",
+      "path": "C:/Users/Maru/Desktop/中心理解题/主题词.docx"
+    },
+    {
+      "family": "center_understanding",
+      "leaf": "程度词",
+      "path": "C:/Users/Maru/Desktop/中心理解题/程度词.docx"
+    },
+    {
+      "family": "sentence_order",
+      "leaf": "特殊题型-4句、7句",
+      "path": "C:/Users/Maru/Desktop/语句排序题/特殊题型-4句、7句.docx"
+    }
+  ],
+  "stages": {
+    "prepare": {
+      "command": [
+        "python",
+        "scripts/prepare_highfit_difficulty_probe.py"
+      ]
+    },
+    "fit": {
+      "command": [
+        "python",
+        "scripts/fit_highfit_difficulty_probe.py"
+      ]
+    },
+    "analyze": {
+      "command": [
+        "python",
+        "scripts/analyze_degree_word_control_correlations.py"
+      ]
+    },
+    "report": {
+      "command": [
+        "python",
+        "scripts/render_degree_word_leaf_experiment_report.py"
+      ]
+    }
+  },
+  "label_inputs": [
+    "reports/difficulty_control/highfit_probe/center_highfit_label_input_A.jsonl",
+    "reports/difficulty_control/highfit_probe/center_highfit_label_input_B.jsonl",
+    "reports/difficulty_control/highfit_probe/center_highfit_label_input_C.jsonl",
+    "reports/difficulty_control/highfit_probe/center_pairwise_label_input_A.jsonl",
+    "reports/difficulty_control/highfit_probe/center_pairwise_label_input_B.jsonl",
+    "reports/difficulty_control/highfit_probe/center_pairwise_label_input_C.jsonl",
+    "reports/difficulty_control/highfit_probe/order_highfit_label_input_A.jsonl"
+  ],
+  "label_outputs": [
+    {
+      "input": "reports/difficulty_control/highfit_probe/center_highfit_label_input_A.jsonl",
+      "output": "reports/difficulty_control/highfit_probe/center_highfit_label_output_A.jsonl",
+      "required_keys": [
+        "sample_id",
+        "center_axes",
+        "center_type"
+      ]
+    },
+    {
+      "input": "reports/difficulty_control/highfit_probe/center_highfit_label_input_B.jsonl",
+      "output": "reports/difficulty_control/highfit_probe/center_highfit_label_output_B.jsonl",
+      "required_keys": [
+        "sample_id",
+        "center_axes",
+        "center_type"
+      ]
+    },
+    {
+      "input": "reports/difficulty_control/highfit_probe/center_highfit_label_input_C.jsonl",
+      "output": "reports/difficulty_control/highfit_probe/center_highfit_label_output_C.jsonl",
+      "required_keys": [
+        "sample_id",
+        "center_axes",
+        "center_type"
+      ]
+    },
+    {
+      "input": "reports/difficulty_control/highfit_probe/center_pairwise_label_input_A.jsonl",
+      "output": "reports/difficulty_control/highfit_probe/center_pairwise_label_output_A.jsonl",
+      "required_keys": [
+        "sample_id",
+        "center_pairwise_axes",
+        "pairwise_type"
+      ]
+    },
+    {
+      "input": "reports/difficulty_control/highfit_probe/center_pairwise_label_input_B.jsonl",
+      "output": "reports/difficulty_control/highfit_probe/center_pairwise_label_output_B.jsonl",
+      "required_keys": [
+        "sample_id",
+        "center_pairwise_axes",
+        "pairwise_type"
+      ]
+    },
+    {
+      "input": "reports/difficulty_control/highfit_probe/center_pairwise_label_input_C.jsonl",
+      "output": "reports/difficulty_control/highfit_probe/center_pairwise_label_output_C.jsonl",
+      "required_keys": [
+        "sample_id",
+        "center_pairwise_axes",
+        "pairwise_type"
+      ]
+    },
+    {
+      "input": "reports/difficulty_control/highfit_probe/order_highfit_label_input_A.jsonl",
+      "output": "reports/difficulty_control/highfit_probe/order_highfit_label_output_A.jsonl",
+      "required_keys": [
+        "sample_id",
+        "order_axes",
+        "order_type"
+      ]
+    }
+  ],
+  "expected_outputs": [
+    "reports/difficulty_control/highfit_probe/highfit_probe_hidden_truth.jsonl",
+    "reports/difficulty_control/highfit_probe/highfit_probe_fit_report.json",
+    "reports/difficulty_control/highfit_probe/degree_word_correlation_analysis.json",
+    "reports/difficulty_control/highfit_probe/degree_word_correlation_analysis.md",
+    "reports/difficulty_control/degree_word_leaf_experiment_report/degree_word_leaf_experiment_report.md",
+    "prompt_skeleton_service/configs/prompt_assets/leaf_control_box_center_understanding_degree_word.yaml",
+    "docs/leaf_control_box_center_understanding_degree_word.md"
+  ],
+  "candidate_outputs": [
+    {
+      "type": "leaf_protocol_doc",
+      "path": "docs/leaf_control_box_center_understanding_degree_word.md"
+    },
+    {
+      "type": "prompt_asset_yaml",
+      "path": "prompt_skeleton_service/configs/prompt_assets/leaf_control_box_center_understanding_degree_word.yaml"
+    },
+    {
+      "type": "experiment_report",
+      "path": "reports/difficulty_control/degree_word_leaf_experiment_report/degree_word_leaf_experiment_report.md"
+    }
+  ],
+  "consumption_targets": [
+    "prompt",
+    "validator",
+    "actual_difficulty_assessment",
+    "diff_report"
+  ],
+  "promotion_gate": {
+    "minimum_leaf_samples": 120,
+    "minimum_hard_band_samples": 30,
+    "required_repeated_cv_spearman": 0.3,
+    "required_mae_gain_over_leaf_mean_baseline": 0.025,
+    "current_status": "candidate_only"
+  }
+}

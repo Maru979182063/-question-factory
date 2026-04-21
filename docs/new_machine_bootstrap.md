@@ -7,7 +7,7 @@ Bring up both local services on a new machine with the repo contents that alread
 ## Branch
 
 ```powershell
-git clone https://github.com/Maru979182063/-.git
+git clone https://github.com/Maru979182063/-.git agent
 cd agent
 git checkout codex/dev-local
 ```
@@ -50,6 +50,12 @@ $env:GENERATION_LLM_API_KEY="your_key"
 $env:MATERIAL_LLM_API_KEY="your_key"
 ```
 
+Or copy the root example and fill local-only values:
+
+```powershell
+Copy-Item .\.env.demo.example .\.env.demo
+```
+
 Optional overrides:
 
 ```powershell
@@ -81,3 +87,5 @@ scripts\start-demo-uat.cmd
 - Passage/material docs: `http://127.0.0.1:8101/docs` for `dev`
 
 Other profile defaults are defined in `scripts/start-demo.ps1`.
+
+See the root `README.md` for the complete dependency, startup, testing, and commit hygiene checklist.

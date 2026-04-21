@@ -669,6 +669,43 @@
                 </div>
               </form>
             </section>
+
+            <section class="distill-panel">
+              <h2>7. 历史动作蒸馏</h2>
+              <p class="distill-subtitle">把题目的版本链、review 动作和下载事件抽成行为蒸馏包，方便后续从真实人工修题路径继续蒸馏。</p>
+              <form id="behaviorForm" class="distill-form">
+                <div class="distill-three">
+                  <label class="distill-field">
+                    <span>item_id</span>
+                    <input id="behaviorItemId" type="text" placeholder="优先精查单题时填写" />
+                  </label>
+                  <label class="distill-field">
+                    <span>question_type</span>
+                    <input id="behaviorQuestionType" type="text" placeholder="例如：sentence_fill" />
+                  </label>
+                  <label class="distill-field">
+                    <span>question_card_id</span>
+                    <input id="behaviorQuestionCardId" type="text" placeholder="例如：sentence_fill_middle_bridge" />
+                  </label>
+                </div>
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>最多抽取题目数</span>
+                    <input id="behaviorLimit" type="number" min="1" max="200" value="20" />
+                  </label>
+                  <div class="distill-field">
+                    <span>提取选项</span>
+                    <label class="distill-check">
+                      <input id="behaviorIncludeTraces" type="checkbox" checked />
+                      <span>返回 item trace 详情</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="distill-inline-actions">
+                  <button id="buildBehaviorPacketBtn" type="submit" class="distill-primary">生成行为蒸馏包</button>
+                </div>
+              </form>
+            </section>
           </div>
 
           <div class="distill-stack">
@@ -703,6 +740,17 @@
                 <button id="refreshRunBtn" type="button" class="distill-secondary">刷新当前 Run</button>
               </div>
               <div id="runDetail" class="distill-detail"></div>
+            </section>
+
+            <section class="distill-panel">
+              <div style="display: flex; justify-content: space-between; gap: 12px; align-items: flex-start;">
+                <div>
+                  <h2>行为蒸馏包</h2>
+                  <p class="distill-subtitle">这里看历史版本动作的聚合摘要，以及后续可喂给蒸馏层的结构化 packet。</p>
+                </div>
+                <button id="refreshBehaviorBtn" type="button" class="distill-secondary">刷新行为包</button>
+              </div>
+              <div id="behaviorPacketDetail" class="distill-detail"></div>
             </section>
           </div>
         </div>

@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1300" viewBox="0 0 1700 1300">
+  <defs>
+    <style>
+      .bg{fill:#f7f4ec}
+      .ink{fill:#25313a;font-family:'Microsoft YaHei','Noto Sans CJK SC','Arial',sans-serif}
+      .title{font-size:36px;font-weight:700}
+      .sub{font-size:16px;fill:#65717a}
+      .panel-title{font-size:21px;font-weight:700}
+      .step{font-size:14px;fill:#3f4b53}
+      .panel{fill:#fffdf8;stroke:#d7cebf;stroke-width:2}
+      .a{fill:#eaf4ff;stroke:#6da9dc;stroke-width:2}
+      .b{fill:#edf8ee;stroke:#70b87f;stroke-width:2}
+      .c{fill:#fff7db;stroke:#d2b65c;stroke-width:2}
+      .d{fill:#fff0ef;stroke:#d8847d;stroke-width:2}
+      .e{fill:#f5f0ff;stroke:#9d88dc;stroke-width:2}
+      .arrow{stroke:#65737c;stroke-width:2.3;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#65737c"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1700" height="1300"/>
+  <text class="ink title" x="70" y="70">对外功能流程梳理</text>
+  <text class="ink sub" x="70" y="104">每个功能只保留用户入口、主要处理、输出结果，方便后续逐个展开。</text>
+
+  <!-- Row 1 -->
+  <rect class="panel" x="70" y="145" width="760" height="235" rx="12"/>
+  <text class="ink panel-title" x="105" y="188">一、出题生成</text>
+  <rect class="a" x="105" y="220" width="128" height="62" rx="8"/>
+  <text class="ink step" x="125" y="247">选择题型</text>
+  <text class="ink step" x="125" y="267">难度/数量</text>
+  <rect class="a" x="268" y="220" width="128" height="62" rx="8"/>
+  <text class="ink step" x="288" y="247">参考母题</text>
+  <text class="ink step" x="288" y="267">解析/识别</text>
+  <rect class="a" x="431" y="220" width="128" height="62" rx="8"/>
+  <text class="ink step" x="451" y="247">提交生成</text>
+  <text class="ink step" x="451" y="267">取材组 prompt</text>
+  <rect class="a" x="594" y="220" width="160" height="62" rx="8"/>
+  <text class="ink step" x="614" y="247">返回批次</text>
+  <text class="ink step" x="614" y="267">结果卡展示</text>
+  <path class="arrow" d="M233 251 L268 251"/>
+  <path class="arrow" d="M396 251 L431 251"/>
+  <path class="arrow" d="M559 251 L594 251"/>
+  <text class="ink step" x="105" y="330">入口：出题工作台；核心接口：参考母题解析、正式生成、异步生成。</text>
+
+  <rect class="panel" x="870" y="145" width="760" height="235" rx="12"/>
+  <text class="ink panel-title" x="905" y="188">二、异步生成</text>
+  <rect class="a" x="905" y="220" width="135" height="62" rx="8"/>
+  <text class="ink step" x="925" y="247">提交任务</text>
+  <text class="ink step" x="925" y="267">生成请求入队</text>
+  <rect class="a" x="1080" y="220" width="135" height="62" rx="8"/>
+  <text class="ink step" x="1100" y="247">后台执行</text>
+  <text class="ink step" x="1100" y="267">worker 领取</text>
+  <rect class="a" x="1255" y="220" width="135" height="62" rx="8"/>
+  <text class="ink step" x="1275" y="247">轮询状态</text>
+  <text class="ink step" x="1275" y="267">任务进度/错误</text>
+  <rect class="a" x="1430" y="220" width="165" height="62" rx="8"/>
+  <text class="ink step" x="1450" y="247">获得结果</text>
+  <text class="ink step" x="1450" y="267">批次或错误详情</text>
+  <path class="arrow" d="M1040 251 L1080 251"/>
+  <path class="arrow" d="M1215 251 L1255 251"/>
+  <path class="arrow" d="M1390 251 L1430 251"/>
+  <text class="ink step" x="905" y="330">适合长任务、批量生成、前端不等待同步返回。</text>
+
+  <!-- Row 2 -->
+  <rect class="panel" x="70" y="425" width="760" height="235" rx="12"/>
+  <text class="ink panel-title" x="105" y="468">三、结果评审与修改</text>
+  <rect class="c" x="105" y="500" width="128" height="62" rx="8"/>
+  <text class="ink step" x="125" y="527">打开结果卡</text>
+  <text class="ink step" x="125" y="547">查看题目</text>
+  <rect class="c" x="268" y="500" width="128" height="62" rx="8"/>
+  <text class="ink step" x="288" y="527">加载控制项</text>
+  <text class="ink step" x="288" y="547">备选材料</text>
+  <rect class="c" x="431" y="500" width="128" height="62" rx="8"/>
+  <text class="ink step" x="451" y="527">执行动作</text>
+  <text class="ink step" x="451" y="547">调参/换材/编辑</text>
+  <rect class="c" x="594" y="500" width="160" height="62" rx="8"/>
+  <text class="ink step" x="614" y="527">新版本</text>
+  <text class="ink step" x="614" y="547">通过或作废</text>
+  <path class="arrow" d="M233 531 L268 531"/>
+  <path class="arrow" d="M396 531 L431 531"/>
+  <path class="arrow" d="M559 531 L594 531"/>
+  <text class="ink step" x="105" y="610">动作包括：question_modify、text_modify、manual_edit、confirm、discard、干扰项修补。</text>
+
+  <rect class="panel" x="870" y="425" width="760" height="235" rx="12"/>
+  <text class="ink panel-title" x="905" y="468">四、交付导出</text>
+  <rect class="c" x="905" y="500" width="135" height="62" rx="8"/>
+  <text class="ink step" x="925" y="527">选择批次</text>
+  <text class="ink step" x="925" y="547">查看状态</text>
+  <rect class="c" x="1080" y="500" width="135" height="62" rx="8"/>
+  <text class="ink step" x="1100" y="527">交付视图</text>
+  <text class="ink step" x="1100" y="547">题目/版本</text>
+  <rect class="c" x="1255" y="500" width="135" height="62" rx="8"/>
+  <text class="ink step" x="1275" y="527">筛选确认</text>
+  <text class="ink step" x="1275" y="547">可交付内容</text>
+  <rect class="c" x="1430" y="500" width="165" height="62" rx="8"/>
+  <text class="ink step" x="1450" y="527">导出</text>
+  <text class="ink step" x="1450" y="547">JSON / Markdown</text>
+  <path class="arrow" d="M1040 531 L1080 531"/>
+  <path class="arrow" d="M1215 531 L1255 531"/>
+  <path class="arrow" d="M1390 531 L1430 531"/>
+  <text class="ink step" x="905" y="610">用于批次复核、题目交付、Markdown 包输出。</text>
+
+  <!-- Row 3 -->
+  <rect class="panel" x="70" y="705" width="760" height="235" rx="12"/>
+  <text class="ink panel-title" x="105" y="748">五、材料库维护</text>
+  <rect class="b" x="105" y="780" width="128" height="62" rx="8"/>
+  <text class="ink step" x="125" y="807">文章入库</text>
+  <text class="ink step" x="125" y="827">或抓取</text>
+  <rect class="b" x="268" y="780" width="128" height="62" rx="8"/>
+  <text class="ink step" x="288" y="807">清洗切片</text>
+  <text class="ink step" x="288" y="827">tag 处理</text>
+  <rect class="b" x="431" y="780" width="128" height="62" rx="8"/>
+  <text class="ink step" x="451" y="807">材料池</text>
+  <text class="ink step" x="451" y="827">检索/统计</text>
+  <rect class="b" x="594" y="780" width="160" height="62" rx="8"/>
+  <text class="ink step" x="614" y="807">治理</text>
+  <text class="ink step" x="614" y="827">晋升/重处理/导出</text>
+  <path class="arrow" d="M233 811 L268 811"/>
+  <path class="arrow" d="M396 811 L431 811"/>
+  <path class="arrow" d="M559 811 L594 811"/>
+  <text class="ink step" x="105" y="890">用于维护材料池、Dify 包导出、灰度材料晋升与重算。</text>
+
+  <rect class="panel" x="870" y="705" width="760" height="235" rx="12"/>
+  <text class="ink panel-title" x="905" y="748">六、材料 V2 与材料卡收路</text>
+  <rect class="b" x="905" y="780" width="135" height="62" rx="8"/>
+  <text class="ink step" x="925" y="807">选择约束</text>
+  <text class="ink step" x="925" y="827">母族/题卡/业务卡</text>
+  <rect class="b" x="1080" y="780" width="135" height="62" rx="8"/>
+  <text class="ink step" x="1100" y="807">预计算</text>
+  <text class="ink step" x="1100" y="827">V2 索引</text>
+  <rect class="b" x="1255" y="780" width="135" height="62" rx="8"/>
+  <text class="ink step" x="1275" y="807">V2 检索</text>
+  <text class="ink step" x="1275" y="827">或 shadow-search</text>
+  <rect class="b" x="1430" y="780" width="165" height="62" rx="8"/>
+  <text class="ink step" x="1450" y="807">返回上下文</text>
+  <text class="ink step" x="1450" y="827">question_ready_context</text>
+  <path class="arrow" d="M1040 811 L1080 811"/>
+  <path class="arrow" d="M1215 811 L1255 811"/>
+  <path class="arrow" d="M1390 811 L1430 811"/>
+  <text class="ink step" x="905" y="890">用于材料卡异步收路、检索命中观测、题卡上下文供给。</text>
+
+  <!-- Row 4 -->
+  <rect class="panel" x="70" y="985" width="760" height="235" rx="12"/>
+  <text class="ink panel-title" x="105" y="1028">七、蒸馏工作台</text>
+  <rect class="d" x="105" y="1060" width="128" height="62" rx="8"/>
+  <text class="ink step" x="125" y="1087">样本集</text>
+  <text class="ink step" x="125" y="1107">dataset</text>
+  <rect class="d" x="268" y="1060" width="128" height="62" rx="8"/>
+  <text class="ink step" x="288" y="1087">会话</text>
+  <text class="ink step" x="288" y="1107">session</text>
+  <rect class="d" x="431" y="1060" width="128" height="62" rx="8"/>
+  <text class="ink step" x="451" y="1087">试跑</text>
+  <text class="ink step" x="451" y="1107">trial / run</text>
+  <rect class="d" x="594" y="1060" width="160" height="62" rx="8"/>
+  <text class="ink step" x="614" y="1087">人审沉淀</text>
+  <text class="ink step" x="614" y="1107">patch / promote</text>
+  <path class="arrow" d="M233 1091 L268 1091"/>
+  <path class="arrow" d="M396 1091 L431 1091"/>
+  <path class="arrow" d="M559 1091 L594 1091"/>
+  <text class="ink step" x="105" y="1170">用于真题回放、题卡/材料/prompt 调试、人审出口和候选改动包。</text>
+
+  <rect class="panel" x="870" y="985" width="760" height="235" rx="12"/>
+  <text class="ink panel-title" x="905" y="1028">八、配置、诊断与观测</text>
+  <rect class="e" x="905" y="1060" width="135" height="62" rx="8"/>
+  <text class="ink step" x="925" y="1087">题型 schema</text>
+  <text class="ink step" x="925" y="1107">prompt 预构建</text>
+  <rect class="e" x="1080" y="1060" width="135" height="62" rx="8"/>
+  <text class="ink step" x="1100" y="1087">健康状态</text>
+  <text class="ink step" x="1100" y="1107">诊断/指标</text>
+  <rect class="e" x="1255" y="1060" width="135" height="62" rx="8"/>
+  <text class="ink step" x="1275" y="1087">运行事件</text>
+  <text class="ink step" x="1275" y="1107">任务观测</text>
+  <rect class="e" x="1430" y="1060" width="165" height="62" rx="8"/>
+  <text class="ink step" x="1450" y="1087">管理动作</text>
+  <text class="ink step" x="1450" y="1107">配置重载/排查</text>
+  <path class="arrow" d="M1040 1091 L1080 1091"/>
+  <path class="arrow" d="M1215 1091 L1255 1091"/>
+  <path class="arrow" d="M1390 1091 L1430 1091"/>
+  <text class="ink step" x="905" y="1170">用于开发、运营和排障，不是核心生产动作，但支撑对外使用。</text>
+</svg>

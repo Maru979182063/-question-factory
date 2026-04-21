@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="650" viewBox="0 0 1180 650">
+  <rect width="1180" height="650" fill="#fbfaf6"/>
+  <text x="590" y="58" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="34" font-weight="700" fill="#202124">基线 vs 当前结果</text>
+  <text x="590" y="92" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="16" fill="#5f6368">成功不乱吹，失败不丢掉：两类资产各自站在正确位置</text>
+
+  <rect x="80" y="145" width="480" height="390" rx="30" fill="#fff7df" stroke="#d7a63f" stroke-width="3"/>
+  <text x="320" y="188" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="25" font-weight="700" fill="#765200">degree_word：candidate 正结果</text>
+  <text x="320" y="222" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="15" fill="#765200">center_understanding / 程度词</text>
+
+  <line x1="150" y1="440" x2="490" y2="440" stroke="#d8d0c0" stroke-width="3"/>
+  <rect x="170" y="331" width="84" height="109" fill="#efc261"/>
+  <rect x="286" y="312" width="84" height="128" fill="#d7a63f"/>
+  <rect x="402" y="250" width="84" height="190" fill="#b77b1e"/>
+  <text x="212" y="462" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="13" fill="#202124">easy</text>
+  <text x="328" y="462" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="13" fill="#202124">medium</text>
+  <text x="444" y="462" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="13" fill="#202124">hard</text>
+  <text x="212" y="321" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#202124">0.2655</text>
+  <text x="328" y="302" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#202124">0.3476</text>
+  <text x="444" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#202124">0.5847</text>
+
+  <text x="120" y="505" font-family="Microsoft YaHei, Arial, sans-serif" font-size="16" fill="#202124">Spearman 0.3709；permutation p 0.0047</text>
+  <text x="120" y="530" font-family="Microsoft YaHei, Arial, sans-serif" font-size="16" fill="#202124">repeated CV MAE gain 0.0133</text>
+  <text x="120" y="555" font-family="Microsoft YaHei, Arial, sans-serif" font-size="16" font-weight="700" fill="#765200">结论：candidate_only，未正式升格</text>
+
+  <rect x="620" y="145" width="480" height="390" rx="30" fill="#f0f4ff" stroke="#6b86cf" stroke-width="3"/>
+  <text x="860" y="188" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="25" font-weight="700" fill="#24457d">topic_intro：失败边界</text>
+  <text x="860" y="222" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="15" fill="#24457d">sentence_fill / 横线在开头-话题引入</text>
+
+  <line x1="700" y1="440" x2="1020" y2="440" stroke="#d8d0c0" stroke-width="3"/>
+  <rect x="728" y="238" width="88" height="202" fill="#a9b9e8"/>
+  <rect x="912" y="256" width="88" height="184" fill="#6b86cf"/>
+  <text x="772" y="462" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="13" fill="#202124">mean baseline</text>
+  <text x="956" y="462" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="13" fill="#202124">best weak signal</text>
+  <text x="772" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#202124">CV MAE 0.2017</text>
+  <text x="956" y="246" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#202124">CV MAE 0.1836</text>
+
+  <text x="660" y="505" font-family="Microsoft YaHei, Arial, sans-serif" font-size="16" fill="#202124">best model：mapping_type_mean</text>
+  <text x="660" y="530" font-family="Microsoft YaHei, Arial, sans-serif" font-size="16" fill="#202124">best weak signal CV Spearman 0.2215</text>
+  <text x="660" y="555" font-family="Microsoft YaHei, Arial, sans-serif" font-size="16" font-weight="700" fill="#24457d">结论：failed boundary，不包装成成功</text>
+
+  <text x="590" y="612" text-anchor="middle" font-family="Microsoft YaHei, Arial, sans-serif" font-size="16" fill="#202124">审计态度：过 gate 才晋级，没过 gate 也保留为反例资产</text>
+</svg>

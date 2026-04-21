@@ -1,0 +1,172 @@
+version: 0.1
+status: candidate_only
+family: center_understanding
+leaf_family: degree_word
+purpose: >
+  Leaf-level candidate difficulty control box for center_understanding / degree_word.
+  This asset is for prompt, validator, assessment, and diff experiments only.
+  It must not be auto-written back to master configs.
+
+empirical_support:
+  source_report: reports/difficulty_control/highfit_probe/highfit_probe_fit_report.md
+  correlation_report: reports/difficulty_control/highfit_probe/degree_word_correlation_analysis.md
+  hidden_truth_samples: 50
+  best_candidate_axis: local_detail_distractor_strength
+  best_leaf_cv:
+    model: local_detail_single_axis
+    cv_mae: 0.1551
+    mean_baseline_cv_mae: 0.1703
+    mae_gain: 0.0152
+    cv_spearman: 0.2204
+    train_spearman: 0.3709
+  correlation_test:
+    spearman: 0.3709
+    pearson: 0.3947
+    permutation_p: 0.0047
+    bootstrap_spearman_ci: [0.1099, 0.5800]
+    benjamini_hochberg_q: 0.0855
+  repeated_cv:
+    repetitions: 200
+    baseline_mae_mean: 0.1707
+    cv_mae_mean: 0.1573
+    mae_gain_mean: 0.0133
+    mae_gain_ci: [0.0062, 0.0198]
+    cv_spearman_mean: 0.2159
+  ablation_summary:
+    distractor_primary_mae_gain: 0.0132
+    candidate_control_index_mae_gain: 0.0051
+    passage_only_mae_gain: -0.0074
+    pairwise_only_mae_gain: -0.0108
+    all_reading_axes_mae_gain: -0.0245
+  status_note: >
+    Directional and controllable, but not yet promoted to formal weight.
+    Use as candidate prompt/validator control only.
+
+control_axes:
+  local_detail_distractor_strength:
+    role: primary_axis
+    scale: 1_to_5
+    definition: >
+      How strongly the easiest wrong option captures a real local detail,
+      example, reason, result, or side point from the passage while failing
+      to cover the main claim.
+    empirical_bins:
+      "1":
+        n: 7
+        mean_actual_difficulty: 0.1716
+        profile: weakly related or clearly not central
+      "2":
+        n: 26
+        mean_actual_difficulty: 0.3348
+        profile: locally supported but still easy to reject by main idea
+      "3":
+        n: 16
+        mean_actual_difficulty: 0.3814
+        profile: locally strong and plausible as a mistaken main idea
+      "4":
+        n: 1
+        mean_actual_difficulty: 0.8345
+        profile: almost a local summary; requires precise main/detail separation
+    target_mapping:
+      easy: 1
+      medium: 2
+      hard: 3
+
+  decisive_evidence_visibility_load:
+    role: hard_guardrail
+    scale: 1_to_5
+    definition: >
+      How hidden the decisive evidence is for rejecting the wrong option and
+      confirming the correct option.
+    hard_guard:
+      threshold: 4
+      strongest_observation:
+        value: 5
+        n: 4
+        mean_actual_difficulty: 0.5363
+
+  easy_wrong_main_claim_proximity:
+    role: hard_guardrail
+    scale: 1_to_5
+    definition: >
+      How close the easiest wrong option is to the actual main claim or intent.
+    hard_guard:
+      threshold: 4
+      strongest_observation:
+        value: 5
+        n: 4
+        mean_actual_difficulty: 0.5658
+
+  exclusion_reasoning_load:
+    role: validator_diagnostic
+    scale: 1_to_5
+    definition: >
+      How many reasoning steps are needed to exclude the easiest wrong option.
+    diagnostic_note: >
+      Useful for explanations and validator review, but weaker than the primary axis
+      as a standalone projection feature.
+
+projection:
+  formula: >
+    control_index =
+      0.58 * local_detail_distractor_strength +
+      0.22 * decisive_evidence_visibility_load +
+      0.20 * easy_wrong_main_claim_proximity
+  bands:
+    easy_control:
+      max_exclusive: 2.45
+      observed_n: 21
+      observed_mean_actual_difficulty: 0.2655
+    medium_control:
+      min_inclusive: 2.45
+      max_exclusive: 3.45
+      observed_n: 24
+      observed_mean_actual_difficulty: 0.3476
+    hard_control:
+      min_inclusive: 3.45
+      observed_n: 5
+      observed_mean_actual_difficulty: 0.5847
+
+prompt_contract:
+  required_steps:
+    - Identify the passage main claim, including scope, degree, and priority.
+    - Make the correct option cover the main claim rather than a local detail.
+    - Make the strongest distractor locally true but globally insufficient.
+    - For hard items, ensure the strongest distractor is not fabricated; it must be a real local-detail trap.
+    - The explanation must state why the distractor is only local, secondary, too narrow, too broad, or wrong in degree.
+  band_controls:
+    easy:
+      local_detail_distractor_strength: 1
+      decisive_evidence_visibility_load_max: 3
+      easy_wrong_main_claim_proximity_max: 3
+    medium:
+      local_detail_distractor_strength: 2
+      decisive_evidence_visibility_load_range: [3, 4]
+      easy_wrong_main_claim_proximity_range: [3, 4]
+    hard:
+      local_detail_distractor_strength_min: 3
+      require_one_of:
+        - decisive_evidence_visibility_load_min: 4
+        - easy_wrong_main_claim_proximity_min: 4
+
+validator_contract:
+  output_fields:
+    - local_detail_distractor_strength
+    - decisive_evidence_visibility_load
+    - easy_wrong_main_claim_proximity
+    - exclusion_reasoning_load
+    - degree_scope_gap
+    - actual_leaf_control_band
+  invalid_hard_conditions:
+    - local_detail_distractor_strength < 3
+    - strongest_distractor_is_unsupported_or_fabricated
+    - difficulty_comes_only_from_topic_word_absence
+    - explanation_does_not_distinguish_local_detail_from_main_claim
+
+promotion_gate:
+  current_status: candidate_only
+  minimum_leaf_samples: 120
+  minimum_hard_band_samples: 30
+  required_repeated_cv_spearman: 0.30
+  required_mae_gain_over_leaf_mean_baseline: 0.025
+  allowed_promotion: formal_leaf_protocol_only
