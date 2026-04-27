@@ -21,18 +21,28 @@ description: "语句排序标准题卡；基于句群角色链与绑定关系确
 formal_runtime_spec:
   primary_business_card_id: sentence_order__six_sentence_role_chain__abstract
   sortable_unit_count:
-    mode: fixed
-    value: null
+    mode: variable
+    allowed_values:
+    - 4
+    - 5
+    - 6
+    requires_declared_count: true
   sortable_unit_sentence_span:
     min: 1
     max: 2
   sortable_unit_type: sentence_block
   candidate_type: sentence_block_group
   reject_non_six_unit_sequences: false
+  reject_undeclared_unit_count: true
+  reject_count_mismatch: true
 structure_schema:
   sortable_unit_count:
-    mode: fixed
-    value: null
+    mode: variable
+    allowed_values:
+    - 4
+    - 5
+    - 6
+    requires_declared_count: true
   sortable_unit_sentence_span:
     min: 1
     max: 2
@@ -178,6 +188,8 @@ slot_extensions:
     min: 1
     max: 2
   reject_non_six_unit_sequences: false
+  reject_undeclared_unit_count: true
+  reject_count_mismatch: true
   preserve_unit_count: true
   first_sentence_legality_required: true
   unique_opener_required: true
@@ -282,6 +294,12 @@ generation_archetypes:
 validator_contract:
   sentence_order:
     sortable_unit_count: null
+    allowed_sortable_unit_counts:
+    - 4
+    - 5
+    - 6
+    requires_declared_count: true
+    reject_count_mismatch: true
     sortable_unit_sentence_span:
       min: 1
       max: 2
@@ -318,7 +336,9 @@ validator_contract:
     - head_tail_roles
     - role_chain_validation
   extension_rules:
-  - 璇彞鎺掑簭鏍囧噯姣嶅崱缁熶竴鎸?鍙ユ帓搴忓崟鍏冨埗浣滐紱鑻ユ潗鏂欎笉鑳界ǔ瀹氭彁渚?涓彲鎺掑簭鍙ュ瓙锛屽垯搴斿湪鐢熸垚鍓嶆窐姹帮紝涓嶅緱鏀瑰仛3鍙ャ€?鍙ユ垨7鍙ユ帓搴忋€?  - 鑻?sortable_unit_count 涓嶇瓑浜?6锛屽簲鏄惧紡鍒や负涓嶉€氳繃锛屽苟鏍囪鍘熷洜 sortable_unit_count_must_equal_6銆?  - 蹇呴』瀛樺湪鍚堟硶棣栧彞銆佸悎娉曞熬鍙ャ€佸畬鏁磋鑹查摼鍜屼笉琚牬鍧忕殑 binding_pairs锛岀己浠讳竴椤归兘搴旀樉寮忓け璐ャ€?  - 姝ｇ‘椤哄簭蹇呴』鑳借В閲婇鍙ヤ负浣曞彲璧枫€佸熬鍙ヤ负浣曞彲鏀躲€佷腑娈典负浣曡兘鎺ワ紝涓嶅緱鍙粰缁撴灉涓嶈鎺ュ彛銆?  - 鑷冲皯1涓敊璇」搴斾繚鐣欏眬閮ㄩ『搴忔纭紝浣嗙牬鍧忛鍙ャ€佸熬鍙ユ垨鍏抽敭鎹嗙粦鍏崇郴銆?  - 鑻ユ潗鏂欏瓨鍦ㄦ槑鏄剧殑涓婃枃渚濊禆銆佽浆鎶樺悗鍗婂彞寮€澶淬€佷唬璇嶆寚浠ｄ笉鏄庣瓑闈為鍙ヤ俊鍙凤紝瑙ｆ瀽蹇呴』鏄惧紡鎸囧嚭銆?  - 鑻ュ熬鍙ュ甫鏈夆€樺洜姝?鎵€浠?鎬讳箣/鍙/鏃犺濡備綍鈥欑瓑鏀舵潫淇″彿锛屾纭」搴斾紭鍏堟妸璇ュ彞缃悗銆?  - 鍙樹綋鎺掑簭棰橀渶鏄惧紡璇存槑鍏朵笉渚濊禆棣栧熬閿氱偣锛岃€屼緷璧栧浐瀹氭惌閰嶃€佽涔夋祦绋嬫垨浠峰€兼帓搴忋€?  - block-group 鎺掑簭棰樺繀椤讳紭鍏堜繚璇佸敮涓€杈冧紭搴忓垪锛屼笉鑳藉彧璇佹槑鈥滆兘澶熻В閲婂嚭涓€绉嶉『搴忊€濄€?  - 绂佹閫氳繃鐢熺‖娣诲姞鏁欑▼寮忚繛鎺ヨ瘝锛堝鈥滈鍏?鍏舵/鏈€鍚庘€濓級鏉ュ埗閫犲敮涓€鎬э紝搴斾紭鍏堜娇鐢ㄥ師鏂囧凡鏈夌粦瀹氫笌瑙掕壊鎺ㄨ繘銆?answer_grounding:
+  - sentence_order supports a declared sortable_unit_count of 4, 5, or 6. The declared count must be present, allowed, and consistent across sortable units, options, answer order, and analysis order.
+  - Count mismatch remains a hard contract failure; variable-count support is not an arbitrary-count fallback.
+answer_grounding:
   require_material_traceability: true
   disallow_unsupported_extensions: true
   unsupported_extension_types:
@@ -345,7 +365,7 @@ reference_hard_constraints:
   avoid_trivial_correct_order: true
   require_unique_defensible_order: true
 normalization_notes:
-- fixed six-sentence runtime spec is now part of schema, base_slots, slot_extensions, and validator_contract
+- sentence_order runtime uses a 4/5/6 variable-count contract with required declared sortable_unit_count and hard count consistency checks
 - sentence_order__six_sentence_role_chain__abstract is the new primary business card; other order cards are supporting or weak_legacy
 - required_candidate_types expanded to cover all preferred material cards
 - required_profiles remain on legacy runtime metrics; role-chain schema is carried as explanatory metadata for downstream alignment

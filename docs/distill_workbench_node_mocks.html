@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>蒸馏工作台节点页面 mock</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f8fb;
+        --panel: #ffffff;
+        --ink: #162033;
+        --muted: #667085;
+        --line: #d9e2ef;
+        --blue: #2563eb;
+        --green: #14804a;
+        --amber: #a15c07;
+        --red: #b42318;
+        --radius: 8px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          "Microsoft YaHei",
+          "PingFang SC",
+          system-ui,
+          sans-serif;
+        line-height: 1.5;
+      }
+
+      header {
+        padding: 24px 32px 16px;
+        border-bottom: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .subtitle {
+        margin-top: 8px;
+        color: var(--muted);
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        gap: 18px;
+        padding: 22px 32px 36px;
+      }
+
+      nav {
+        position: sticky;
+        top: 18px;
+        align-self: start;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        overflow: hidden;
+      }
+
+      nav a {
+        display: block;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink);
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      nav a:last-child {
+        border-bottom: 0;
+      }
+
+      main {
+        display: grid;
+        gap: 18px;
+      }
+
+      .node {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        overflow: hidden;
+      }
+
+      .node-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--line);
+        background: #fbfcff;
+      }
+
+      .node-title {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .node-title h2 {
+        font-size: 20px;
+      }
+
+      .node-title p {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .badge {
+        padding: 5px 9px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        background: #edf2ff;
+        color: var(--blue);
+      }
+
+      .badge.good {
+        background: #e9f8ef;
+        color: var(--green);
+      }
+
+      .badge.warn {
+        background: #fff4e5;
+        color: var(--amber);
+      }
+
+      .badge.danger {
+        background: #fff0ef;
+        color: var(--red);
+      }
+
+      .node-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 18px;
+        padding: 20px;
+      }
+
+      .form-grid,
+      .side-stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+
+      label {
+        color: #344054;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        min-height: 38px;
+        padding: 9px 10px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #ffffff;
+        color: var(--ink);
+        font: inherit;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      button {
+        min-height: 36px;
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #ffffff;
+        color: var(--ink);
+        font-weight: 700;
+      }
+
+      button.primary {
+        border-color: var(--blue);
+        background: var(--blue);
+        color: #ffffff;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 14px;
+        background: #ffffff;
+      }
+
+      .panel h3 {
+        margin-bottom: 8px;
+        font-size: 15px;
+      }
+
+      .list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 9px 10px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #f9fbff;
+        font-size: 13px;
+      }
+
+      .mono {
+        font-family: Consolas, "Microsoft YaHei", monospace;
+        font-size: 12px;
+        color: #344054;
+      }
+
+      .note {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      @media (max-width: 980px) {
+        .shell,
+        .node-body {
+          grid-template-columns: 1fr;
+        }
+
+        nav {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>蒸馏工作台节点页面 mock</h1>
+      <p class="subtitle">这是产品化前端节点草图，只表达页面结构、字段、状态和边界；不执行生题、蒸馏、联网、写回或入库。</p>
+    </header>
+    <div class="shell">
+      <nav>
+        <a href="#dataset">1. 样本集</a>
+        <a href="#session">2. 蒸馏会话</a>
+        <a href="#trial">3. 试跑</a>
+        <a href="#review">4. 人工审核</a>
+        <a href="#patch">5. 补丁</a>
+        <a href="#axis">6. 候选轴确认</a>
+        <a href="#writeback">7. 写回预览</a>
+        <a href="#source">8. 来源候选人审</a>
+        <a href="#promotion">9. 证据 promotion</a>
+        <a href="#behavior">10. 行为包</a>
+        <a href="#difficulty">11. 难度回归</a>
+        <a href="#system">12. 系统总控台</a>
+      </nav>
+      <main>
+        <section class="node" id="dataset">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>1. 样本集创建</h2>
+              <p>把真题样本、split、题型元数据和 generation request 登记成可复用 dataset。</p>
+            </div>
+            <div class="badge-row"><span class="badge good">可运行</span><span class="badge">输入契约</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>样本集标题</label><input value="实词新叶族小样本" /></div>
+              <div class="field"><label>题型 / 子类</label><input value="word_usage / word_usage_content_word" /></div>
+              <div class="field"><label>样本 JSON</label><textarea>[{"sample_id":"word_usage_001","split":"dev","truth_source_question":{...}}]</textarea></div>
+              <div class="toolbar"><button class="primary">创建样本集</button><button>填入模板</button></div>
+            </div>
+            <aside class="side-stack">
+              <div class="panel"><h3>输出</h3><div class="row"><span>dataset_id</span><span class="mono">ds_...</span></div></div>
+              <div class="panel"><h3>边界</h3><p class="note">只登记样本，不蒸馏、不写题卡、不调用模型。</p></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="node" id="session">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>2. 蒸馏会话</h2>
+              <p>围绕一个 dataset 或 baseline request 创建可追踪的实验会话。</p>
+            </div>
+            <div class="badge-row"><span class="badge good">可运行</span><span class="badge">session state</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>会话目标</label><textarea>验证新叶族 proto route 是否能产生可评估样题。</textarea></div>
+              <div class="field"><label>模式</label><select><option>card_tuning</option><option>material_tuning</option><option>new_card</option></select></div>
+              <div class="toolbar"><button class="primary">创建会话</button><button>刷新会话列表</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>会话列表</h3><div class="list"><div class="row"><span>实词 proto 验证</span><span>active</span></div></div></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="trial">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>3. 试跑</h2>
+              <p>从会话中抽取样本跑 trial，生成 run、fit summary、item preview 和错误快照。</p>
+            </div>
+            <div class="badge-row"><span class="badge warn">可失败保留</span><span class="badge">proto 开关</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>试跑请求</label><textarea>{"question_focus":"word_usage","business_subtype":"word_usage_content_word","extra_constraints":{"experimental_proto_route":true}}</textarea></div>
+              <div class="toolbar"><button class="primary">运行试跑</button><button>只跑 1 条</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>结果</h3><div class="row"><span>status</span><span>completed</span></div><div class="row"><span>sample_error</span><span>null</span></div></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="review">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>4. 人工审核</h2>
+              <p>人工判断 run 是否允许进入 promotion，并明确允许的 target。</p>
+            </div>
+            <div class="badge-row"><span class="badge good">human gate</span><span class="badge danger">不可绕过</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>审核结论</label><select><option>approved</option><option>revise</option><option>rejected</option></select></div>
+              <div class="field"><label>允许 promotion targets</label><textarea>leaf_pre_distill_report, schema_gap_report</textarea></div>
+              <div class="toolbar"><button class="primary">提交审核</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>保护</h3><p class="note">未审核、未允许 promote 或缺 target 的 run 不能进入 promotion。</p></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="patch">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>5. 补丁登记</h2>
+              <p>把 evidence、draft 或 path 作为 workbench patch 登记，不直接改正式配置。</p>
+            </div>
+            <div class="badge-row"><span class="badge">canonical target</span><span class="badge good">只登记</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>target</label><select><option>leaf_pre_distill_report</option><option>schema_gap_report</option><option>prompt_assets</option></select></div>
+              <div class="field"><label>patch payload</label><textarea>{"artifact_path":".../report.md","bootstrap_discovery_path":".../bootstrap_discovery.json"}</textarea></div>
+              <div class="toolbar"><button class="primary">添加补丁</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>兼容</h3><p class="note">旧 target 会 normalize 到 canonical target。</p></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="axis">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>6. 候选轴确认</h2>
+              <p>用户把 bootstrap hypothesis 标记为 keep / drop / rename / split / merge，并生成 proto-confirmed。</p>
+            </div>
+            <div class="badge-row"><span class="badge warn">不是 formal</span><span class="badge">draft only</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>候选轴</label><textarea>contextual_meaning_mode -> keep -> target_layer: business_feature_card</textarea></div>
+              <div class="toolbar"><button class="primary">生成 axis_confirmation</button><button>生成 formal_patch_draft</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>输出</h3><div class="row"><span>axis_confirmation</span><span>proto_confirmed</span></div><div class="row"><span>formal_patch_draft</span><span>draft_only</span></div></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="writeback">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>7. 写回计划预览</h2>
+              <p>把 draft 变成 writeback plan 和 diff 预览，仍然不写文件。</p>
+            </div>
+            <div class="badge-row"><span class="badge danger">不写回</span><span class="badge">需要审批</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>formal_patch_draft</label><textarea>{"business_feature_card":[...],"signal_layer":[...]}</textarea></div>
+              <div class="toolbar"><button class="primary">生成写回计划</button><button>复制到 evidence patch</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>审查点</h3><p class="note">必须包含目标文件、forward patch、rollback patch、回归命令和审批字段。</p></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="source">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>8. 来源候选人审</h2>
+              <p>用户审查 candidate source，生成 review decisions 与 seed-only 来源种子。</p>
+            </div>
+            <div class="badge-row"><span class="badge good">seed only</span><span class="badge danger">不确认原文</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>source_candidate_results.jsonl</label><textarea>{"title":"二氧化碳浓度与植物生长","source_risk":"low","verified":false}</textarea></div>
+              <div class="toolbar"><button class="primary">生成 review decisions</button><button>下载 JSON</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>禁止</h3><p class="note">不抓正文、不入库、不生成 material_card、不设置 verified=true。</p></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="promotion">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>9. 证据 promotion</h2>
+              <p>只有 review 允许且每个 target 都有 patch 时，才能生成 promotion bundle。</p>
+            </div>
+            <div class="badge-row"><span class="badge good">bundle</span><span class="badge danger">不自动写回</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>promotion targets</label><textarea>leaf_pre_distill_report, schema_gap_report</textarea></div>
+              <div class="toolbar"><button class="primary">创建 promotion bundle</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>输出</h3><p class="note">promotion artifact 保存 run snapshot、review、patches 和 targets。</p></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="behavior">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>10. 行为包与调试观察</h2>
+              <p>从生成结果构造 behavior packet，用于复盘失败模式和候选 patch。</p>
+            </div>
+            <div class="badge-row"><span class="badge">packet</span><span class="badge">diff</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>item_id</label><input value="item_..." /></div>
+              <div class="toolbar"><button class="primary">构造行为包</button><button>刷新行为详情</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>查看</h3><p class="note">展示 normalized view、difficulty fit、candidate patches 和 runtime focus。</p></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="difficulty">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>11. 难度回归</h2>
+              <p>对目标难度、实际难度、gold feel 做 diff/backtest，不直接调 prompt。</p>
+            </div>
+            <div class="badge-row"><span class="badge">projection</span><span class="badge">assessment</span><span class="badge">calibration</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>难度维度</label><textarea>local_binding_complexity, global_context_dependency, distractor_similarity</textarea></div>
+              <div class="toolbar"><button class="primary">生成难度 diff</button><button>查看 calibration patch</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>边界</h3><p class="note">patch candidate 必须经过 review/promotion，不能自动改 prompt 或 validator。</p></div></aside>
+          </div>
+        </section>
+
+        <section class="node" id="system">
+          <div class="node-head">
+            <div class="node-title">
+              <h2>12. 系统级调试总控台</h2>
+              <p>只读聚合多条子链状态，生成系统级调试报告。</p>
+            </div>
+            <div class="badge-row"><span class="badge good">只读</span><span class="badge">artifact index</span><span class="badge">dependency graph</span></div>
+          </div>
+          <div class="node-body">
+            <div class="form-grid">
+              <div class="field"><label>artifact root</label><input value="data/leaf_pre_distill/real_word_usage_full_chain_20260425" /></div>
+              <div class="toolbar"><button class="primary">生成总调试报告</button><button>查看依赖图</button></div>
+            </div>
+            <aside class="side-stack"><div class="panel"><h3>状态</h3><div class="row"><span>材料分工位</span><span>complete</span></div><div class="row"><span>清洗选段链</span><span>registered_only</span></div><div class="row"><span>写回权限</span><span>false</span></div></div></aside>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
+

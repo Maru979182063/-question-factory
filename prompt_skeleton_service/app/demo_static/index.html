@@ -13,6 +13,149 @@
         max-width: 920px;
       }
 
+      .portfolio-hero {
+        margin-bottom: 28px;
+        padding: 28px 30px;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background:
+          linear-gradient(135deg, rgba(237, 248, 255, 0.96) 0%, rgba(255, 255, 255, 0.98) 62%, rgba(255, 249, 238, 0.96) 100%);
+      }
+
+      .portfolio-kicker {
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 14px;
+        padding: 7px 11px;
+        border-radius: 999px;
+        background: #e8f5ff;
+        color: var(--blue-deep);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .portfolio-hero h1 {
+        margin: 0 0 14px;
+        max-width: 980px;
+        font-size: 42px;
+        line-height: 1.14;
+      }
+
+      .portfolio-hero p {
+        margin: 0;
+        max-width: 1060px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .portfolio-status {
+        margin-top: 16px;
+        padding: 12px 14px;
+        border-radius: 16px;
+        border: 1px solid #d7e7f7;
+        background: #f7fbff;
+        color: #2d557a;
+        line-height: 1.7;
+      }
+
+      .portfolio-chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .portfolio-note {
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px solid #dce8f5;
+        color: #40516f;
+        line-height: 1.75;
+      }
+
+      .demo-mode-section {
+        margin-bottom: 26px;
+      }
+
+      .demo-mode-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: flex-end;
+        margin-bottom: 14px;
+      }
+
+      .demo-mode-head h2,
+      .builder-mode-head h2 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+
+      .demo-mode-head p,
+      .builder-mode-head p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .demo-mode-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .demo-mode-card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 190px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(247, 251, 255, 0.96) 0%, rgba(255, 255, 255, 0.98) 100%);
+      }
+
+      .demo-mode-card h3 {
+        margin: 0;
+        font-size: 20px;
+      }
+
+      .demo-mode-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .demo-mode-card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        margin-top: auto;
+      }
+
+      .demo-mode-card-actions a.secondary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        text-decoration: none;
+      }
+
+      .mode-note {
+        margin-top: 14px;
+        padding: 13px 15px;
+        border: 1px solid #d7e7f7;
+        border-radius: 16px;
+        background: #f7fbff;
+        color: #40516f;
+        line-height: 1.7;
+      }
+
+      .builder-mode-head {
+        padding-bottom: 4px;
+      }
+
       .builder-note,
       .status-banner {
         padding: 14px 16px;
@@ -469,6 +612,23 @@
       }
 
       @media (max-width: 900px) {
+        .portfolio-hero {
+          padding: 22px 20px;
+        }
+
+        .portfolio-hero h1 {
+          font-size: 32px;
+        }
+
+        .demo-mode-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .demo-mode-grid {
+          grid-template-columns: 1fr;
+        }
+
         .signal-grid {
           grid-template-columns: 1fr;
         }
@@ -515,14 +675,96 @@
     <div class="page-shell">
       <section id="builderScreen" class="screen active">
         <div class="hero-card">
-          <h1>言语理解v0.6</h1>
-          <p class="screen-subtitle">
-            这个页面只负责参数录入、主链提交、结果展示和审核动作承载，不在前端定义题型规则，也不在前端推导校验语义。
-          </p>
+          <div class="portfolio-hero">
+            <div class="portfolio-kicker">言语理解 v0.6 工作台</div>
+            <h1>面向公考阅读理解题目的生产与质量迭代平台</h1>
+            <p>
+              基于材料服务与生题服务，构建从材料供给、题型协议、结构化生成到评审修订、版本追踪与蒸馏回流的闭环链路，让阅读理解题目生产从一次性生成走向可追踪、可复用、可持续优化。
+            </p>
+            <div class="portfolio-status">
+              项目状态：本地可运行原型｜双服务架构｜材料 V2 检索｜题卡驱动生成｜评审与蒸馏回流实验
+            </div>
+            <div class="portfolio-chip-row">
+              <span class="chip status">材料供给</span>
+              <span class="chip status">题型协议</span>
+              <span class="chip status">结构化生成</span>
+              <span class="chip status">评审版本链</span>
+              <span class="chip status">蒸馏回流</span>
+              <span class="chip status">难度实验</span>
+            </div>
+            <div class="portfolio-note">
+              不是一次性 Prompt 出题，而是材料、协议、生成、评审、版本、蒸馏和实验构成的闭环链路。
+            </div>
+          </div>
+
+          <section class="demo-mode-section" aria-labelledby="demoModeTitle">
+            <div class="demo-mode-head">
+              <div>
+                <h2 id="demoModeTitle">当前可演示模式</h2>
+                <p>这些入口对应当前页面已经接住的真实链路；审核后的质量动作会在生成结果区继续处理。</p>
+              </div>
+              <span class="chip status">本地原型 / 能力验证</span>
+            </div>
+
+            <div class="demo-mode-grid">
+              <article class="demo-mode-card">
+                <div>
+                  <span class="chip status">主模式</span>
+                </div>
+                <h3>直接生题</h3>
+                <p>选择题型、业务子类、业务孙类与难度后，由系统按题型协议和材料策略自动选材并生成题目。</p>
+                <div class="demo-mode-card-actions">
+                  <button type="button" class="secondary-btn" data-scroll-target="generateForm">进入直接生题</button>
+                </div>
+              </article>
+
+              <article class="demo-mode-card">
+                <div>
+                  <span class="chip status">解析回填</span>
+                </div>
+                <h3>母题拆解与同类生成</h3>
+                <p>粘贴参考母题后，系统先解析题型结构与业务特征，再回填生成参数并生成同类题目。</p>
+                <div class="demo-mode-card-actions">
+                  <button type="button" class="secondary-btn" data-scroll-target="sourceQuestionMode">查看母题拆解</button>
+                </div>
+              </article>
+
+              <article class="demo-mode-card">
+                <div>
+                  <span class="chip status-warn">能力验证入口</span>
+                </div>
+                <h3>用户材料生题</h3>
+                <p>基于用户输入或上传的材料生成题目，适合验证自带材料条件下的题型生成能力。</p>
+                <div class="demo-mode-card-actions">
+                  <button type="button" class="secondary-btn" data-scroll-target="userMaterialMode" data-open-user-material="1">使用用户材料</button>
+                  <a class="secondary-btn" href="/demo/user-material">打开试验入口</a>
+                </div>
+              </article>
+
+              <article class="demo-mode-card">
+                <div>
+                  <span class="chip status-pending">偏研发调试</span>
+                </div>
+                <h3>蒸馏调试</h3>
+                <p>面向真题样本、错误案例、review、patch、promote 和行为蒸馏包的研发调试入口，可能需要访问密钥。</p>
+                <div class="demo-mode-card-actions">
+                  <button type="button" class="secondary-btn" data-distill-access-trigger="1">研发蒸馏台｜需密钥</button>
+                </div>
+              </article>
+            </div>
+
+            <div class="mode-note">
+              生成后的质量链路：确认通过、材料重做、参数重做、错误项定点修复、手工编辑、版本历史与导出，属于生成结果后的审核与版本追踪动作，不作为初始生成入口。
+            </div>
+          </section>
 
           <form id="generateForm" class="builder-form">
+            <div class="builder-mode-head">
+              <h2>直接生题模式</h2>
+              <p>选择题型、业务分类与难度后，系统将按题型协议与材料策略完成材料绑定和结构化生成。即自动选材生题：用户只选择题型、分类与难度，系统完成材料绑定与结构化生成。</p>
+            </div>
             <div class="builder-note">
-              构建区本轮只发送后端真实消费字段：题型、业务子类、业务孙类、数量、难度，以及可选参考母题或用户自带材料。
+              当前表单只发送后端真实消费字段：题型、业务子类、业务孙类、数量、难度，以及可选参考母题或用户自带材料。
             </div>
 
             <div class="builder-grid">
@@ -563,13 +805,13 @@
               </div>
             </div>
 
-            <section class="user-material-card">
+            <section id="userMaterialMode" class="user-material-card">
               <div class="user-material-card-head">
                 <div>
-                  <h2>自己上传材料</h2>
-                  <p>不想走平台自动选材时，可以直接把用户文段贴进来。系统会带着当前页面已选参数直接制作，并把结果标成需要谨慎分析的特殊样本。</p>
+                  <h2>用户材料生题</h2>
+                  <p>用于验证自带材料条件下的题型生成能力。系统会带着当前页面已选参数调用原生成接口，并把结果标成需要谨慎分析的特殊样本。</p>
                 </div>
-                <button id="userMaterialToggleBtn" type="button" class="secondary-btn">自己上传材料</button>
+                <button id="userMaterialToggleBtn" type="button" class="secondary-btn">填写用户材料</button>
               </div>
 
               <div id="userMaterialPanel" class="user-material-panel" hidden>
@@ -589,11 +831,11 @@
               </div>
             </section>
 
-            <section class="reference-card">
+            <section id="sourceQuestionMode" class="reference-card">
               <div class="reference-card-head">
                 <div>
-                  <h2>参考母题</h2>
-                  <p>可选填写。支持直接粘贴整道原题，再自动拆题、识别母子孙层级并回填，作为生成时的 fewshot 参考入口。</p>
+                  <h2>母题拆解与同类生成</h2>
+                  <p>可选填写。支持直接粘贴整道原题，先自动拆题、识别题型层级并回填参数，再作为同类题生成的参考入口。</p>
                 </div>
                 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
                   <span class="reference-badge">可选输入</span>

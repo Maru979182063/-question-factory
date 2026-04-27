@@ -2101,7 +2101,7 @@ class QuestionRepository:
                     patch_id,
                     run_id,
                     session_id,
-                    str(payload.get("target") or "prompt_config"),
+                    str(payload.get("target") or "prompt_assets"),
                     payload.get("scope_key"),
                     payload.get("author"),
                     serialized,

@@ -20,14 +20,20 @@ default_pattern_id: dual_anchor_lock
 formal_runtime_spec:
   primary_business_card_id: sentence_order__six_sentence_role_chain__abstract
   sortable_unit_count:
-    mode: fixed
-    value: null
+    mode: variable
+    allowed_values:
+      - 4
+      - 5
+      - 6
+    requires_declared_count: true
   sortable_unit_sentence_span:
     min: 1
     max: 2
   sortable_unit_type: sentence_block
   candidate_type: sentence_block_group
   reject_non_six_unit_sequences: false
+  reject_undeclared_unit_count: true
+  reject_count_mismatch: true
   uniqueness_model: role_chain_only
 
 difficulty_target_profiles:
@@ -54,8 +60,12 @@ skeleton:
 
 structure_schema:
   sortable_unit_count:
-    mode: fixed
-    value: null
+    mode: variable
+    allowed_values:
+      - 4
+      - 5
+      - 6
+    requires_declared_count: true
   sortable_unit_sentence_span:
     min: 1
     max: 2
@@ -326,6 +336,12 @@ default_slots:
 validator_contract:
   sentence_order:
     sortable_unit_count: null
+    allowed_sortable_unit_counts:
+      - 4
+      - 5
+      - 6
+    requires_declared_count: true
+    reject_count_mismatch: true
     sortable_unit_sentence_span:
       min: 1
       max: 2

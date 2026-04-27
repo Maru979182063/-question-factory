@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820">
+  <rect width="1280" height="820" fill="#f4f7fb"/>
+  <rect x="48" y="36" width="1184" height="748" rx="18" fill="#ffffff" stroke="#d8e4f2"/>
+  <text x="82" y="88" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#26384f">5C. 来源候选人工审查</text>
+  <text x="82" y="124" font-family="Arial, sans-serif" font-size="17" fill="#5b6f89">审查候选来源链接，并生成来源审查决策文件。本步骤不会确认原文、抓取网页或写材料卡。</text>
+  <rect x="82" y="150" width="1116" height="54" rx="10" fill="#eaf4ff" stroke="#bad7f1"/>
+  <text x="106" y="183" font-family="Arial, sans-serif" font-size="16" fill="#275b82">边界：不确认原文；不抓正文；不生成材料卡；保留来源只会成为种子资产。</text>
+
+  <rect x="82" y="232" width="532" height="72" rx="10" fill="#fbfdff" stroke="#d8e4f2"/>
+  <text x="106" y="258" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#5b6f89">来源候选结果路径</text>
+  <text x="106" y="286" font-family="Consolas, monospace" font-size="15" fill="#26384f">mock/source_candidate_results.jsonl</text>
+  <rect x="638" y="232" width="236" height="72" rx="10" fill="#fbfdff" stroke="#d8e4f2"/>
+  <text x="662" y="258" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#5b6f89">审查人</text>
+  <text x="662" y="286" font-family="Consolas, monospace" font-size="15" fill="#26384f">人工</text>
+  <rect x="898" y="232" width="300" height="72" rx="10" fill="#fbfdff" stroke="#d8e4f2"/>
+  <text x="922" y="258" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#5b6f89">风险筛选</text>
+  <text x="922" y="286" font-family="Consolas, monospace" font-size="15" fill="#26384f">全部风险</text>
+
+  <rect x="82" y="322" width="176" height="42" rx="8" fill="#2f80ed"/>
+  <text x="117" y="349" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#ffffff">载入候选来源</text>
+  <rect x="274" y="322" width="188" height="42" rx="8" fill="#ffffff" stroke="#a9bfd7"/>
+  <text x="307" y="349" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#2f405c">填入模拟候选</text>
+  <rect x="478" y="322" width="232" height="42" rx="8" fill="#ffffff" stroke="#a9bfd7"/>
+  <text x="512" y="349" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#2f405c">批量标记题库页</text>
+  <rect x="726" y="322" width="128" height="42" rx="8" fill="#ffffff" stroke="#a9bfd7"/>
+  <text x="754" y="349" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#2f405c">批量暂缓</text>
+
+  <g transform="translate(82 398)">
+    <rect width="1116" height="150" rx="14" fill="#ffffff" stroke="#d8e4f2"/>
+    <text x="24" y="34" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#26384f">二氧化碳浓度升高对植物生长影响的研究进展</text>
+    <text x="24" y="62" font-family="Arial, sans-serif" font-size="14" fill="#176f9f">https://www.example.edu.cn/research/co2-plant-growth</text>
+    <rect x="24" y="82" width="58" height="26" rx="13" fill="#eef6ff"/>
+    <text x="41" y="100" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#225f8c">低风险</text>
+    <text x="104" y="101" font-family="Arial, sans-serif" font-size="14" fill="#5b6f89">候选分数 0.74 · 验证状态 未验证 · 已验证=否</text>
+    <text x="24" y="128" font-family="Arial, sans-serif" font-size="14" fill="#5b6f89">填写理由后可保留为相似材料种子；仍然不是已验证原文。</text>
+    <rect x="748" y="24" width="326" height="36" rx="8" fill="#fbfdff" stroke="#d8e4f2"/>
+    <text x="766" y="48" font-family="Consolas, monospace" font-size="14" fill="#26384f">保留为相似材料种子</text>
+    <rect x="748" y="76" width="326" height="48" rx="8" fill="#fbfdff" stroke="#d8e4f2"/>
+    <text x="766" y="105" font-family="Arial, sans-serif" font-size="14" fill="#7b8794">保留类决策必须填写理由</text>
+  </g>
+
+  <g transform="translate(82 572)">
+    <rect width="1116" height="150" rx="14" fill="#fffdf7" stroke="#f1c46d"/>
+    <text x="24" y="34" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#26384f">2024国考行测言语理解实词题答案解析</text>
+    <text x="24" y="62" font-family="Arial, sans-serif" font-size="14" fill="#176f9f">https://www.exam-training.example/tiku/word-usage-answer</text>
+    <rect x="24" y="82" width="148" height="26" rx="13" fill="#fff0cd"/>
+    <text x="41" y="100" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#8a6400">疑似培训站</text>
+    <text x="194" y="101" font-family="Arial, sans-serif" font-size="14" fill="#5b6f89">默认决策：拒绝为题库页。风险保留必须显式勾选。</text>
+    <text x="24" y="128" font-family="Arial, sans-serif" font-size="14" fill="#745600">警告：疑似题库或培训站；没有明确理由时不能保留。</text>
+    <rect x="748" y="24" width="326" height="36" rx="8" fill="#fbfdff" stroke="#d8e4f2"/>
+    <text x="766" y="48" font-family="Consolas, monospace" font-size="14" fill="#26384f">拒绝：题库页</text>
+    <rect x="748" y="76" width="326" height="48" rx="8" fill="#fff8e8" stroke="#efd088"/>
+    <text x="766" y="105" font-family="Arial, sans-serif" font-size="14" fill="#745600">风险保留必须勾选允许风险种子</text>
+  </g>
+</svg>

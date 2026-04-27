@@ -78,6 +78,12 @@ _SENTENCE_ORDER_CANDIDATE_TYPE_ALIASES = {
     "ordered_unit_group": "sentence_block_group",
     "weak_formal_order_group": "sentence_block_group",
 }
+_WORD_USAGE_PROTO_FOCUS = "word_usage"
+_WORD_USAGE_PROTO_SUBTYPE = "word_usage_content_word"
+_WORD_USAGE_PROTO_ROUTE_FLAG = "experimental_proto_route"
+_WORD_USAGE_PROTO_QUESTION_CARD_ID = "proto.word_usage.content_word.v0"
+_WORD_USAGE_PROTO_BUSINESS_FEATURE_CARD_ID = "proto.word_usage.content_word.feature.v0"
+_WORD_USAGE_PROTO_PATTERN_ID = "proto_word_usage_explanation"
 
 
 class GeneratedQuestionDraft(BaseModel):
@@ -658,6 +664,8 @@ class QuestionGenerationService:
     def generate(self, request: QuestionGenerateRequest) -> dict:
         with trace_stage("prepare_request"):
             prepared_request = self._prepare_request(request)
+            if self._is_word_usage_proto_request(prepared_request):
+                return self._generate_word_usage_proto_batch(prepared_request)
             decoded, target_override_warning = self._decode_generation_target(prepared_request)
         standard_request = dict(decoded["standard_request"])
         requested_pattern_id = self._extract_requested_pattern_id(
@@ -847,6 +855,278 @@ class QuestionGenerationService:
             difficulty_target=standard_request["difficulty_target"],
         )
         return QuestionGenerationBatchResponse.model_validate(response).model_dump()
+
+    def _is_word_usage_proto_request(self, request: QuestionGenerateRequest) -> bool:
+        extra_constraints = request.extra_constraints or {}
+        if not isinstance(extra_constraints, dict):
+            return False
+        return (
+            str(request.question_focus or "").strip() == _WORD_USAGE_PROTO_FOCUS
+            and str(request.business_subtype or "").strip() == _WORD_USAGE_PROTO_SUBTYPE
+            and extra_constraints.get(_WORD_USAGE_PROTO_ROUTE_FLAG) is True
+        )
+
+    def _generate_word_usage_proto_batch(self, request: QuestionGenerateRequest) -> dict[str, Any]:
+        batch_id = str(uuid4())
+        item_id = str(uuid4())
+        request_id = str(uuid4())
+        difficulty_target = self._normalize_difficulty_level(request.difficulty_level)
+        requested_count = request.count or 1
+        effective_count, count_warnings = self._normalize_requested_count(requested_count)
+        source_question = request.source_question
+        source_payload = source_question.model_dump() if source_question is not None else {}
+        passage = str(source_payload.get("passage") or request.topic or "词语语境义解释类 proto material").strip()
+        options = self._proto_options(source_payload.get("options"))
+        answer = self._proto_answer(source_payload.get("answer"), options)
+        generated_question = {
+            "question_type": _WORD_USAGE_PROTO_FOCUS,
+            "business_subtype": _WORD_USAGE_PROTO_SUBTYPE,
+            "pattern_id": _WORD_USAGE_PROTO_PATTERN_ID,
+            "stem": self._proto_word_usage_stem(source_payload.get("stem")),
+            "options": options,
+            "answer": answer,
+            "analysis": self._proto_word_usage_analysis(source_payload.get("analysis"), answer=answer),
+            "metadata": self._word_usage_proto_metadata(),
+        }
+        request_snapshot = {
+            **request.model_dump(by_alias=True),
+            "request_id": request_id,
+            "question_type": _WORD_USAGE_PROTO_FOCUS,
+            "business_subtype": _WORD_USAGE_PROTO_SUBTYPE,
+            "pattern_id": _WORD_USAGE_PROTO_PATTERN_ID,
+            "difficulty_target": difficulty_target,
+            "question_card_id": _WORD_USAGE_PROTO_QUESTION_CARD_ID,
+            "question_card_binding": {
+                "question_card_id": _WORD_USAGE_PROTO_QUESTION_CARD_ID,
+                "runtime_binding": {
+                    "question_type": _WORD_USAGE_PROTO_FOCUS,
+                    "business_subtype": _WORD_USAGE_PROTO_SUBTYPE,
+                },
+                "binding_source": "experimental_proto_route",
+                "binding_reason": "word_usage_content_word_proto_mapping",
+                "mapping_status": "proto",
+                "experimental": True,
+                "formalized": False,
+            },
+            "validator_contract": "proto_minimal_json_shape_only",
+            "proto_route": self._word_usage_proto_metadata(),
+        }
+        item = {
+            "item_id": item_id,
+            "batch_id": batch_id,
+            "question_type": _WORD_USAGE_PROTO_FOCUS,
+            "business_subtype": _WORD_USAGE_PROTO_SUBTYPE,
+            "pattern_id": _WORD_USAGE_PROTO_PATTERN_ID,
+            "selected_pattern": _WORD_USAGE_PROTO_PATTERN_ID,
+            "pattern_selection_reason": {
+                "requested_pattern_id": None,
+                "selected_pattern_id": _WORD_USAGE_PROTO_PATTERN_ID,
+                "selection_mode": "direct",
+                "matched_fields": ["business_subtype", _WORD_USAGE_PROTO_ROUTE_FLAG],
+                "score": 1.0,
+                "fallback_used": False,
+                "fallback_reason": None,
+            },
+            "resolved_slots": {
+                "explanation_target_type": "contextual_word_or_phrase",
+                "contextual_meaning_mode": "proto_hypothesis",
+            },
+            "skeleton": {
+                "proto": True,
+                "purpose": "Generate a minimal reviewable word-usage explanation item.",
+            },
+            "difficulty_target": difficulty_target,
+            "difficulty_target_profile": None,
+            "difficulty_projection": None,
+            "difficulty_fit": None,
+            "control_logic": {
+                "experimental": True,
+                "proto_family": _WORD_USAGE_PROTO_FOCUS,
+                "proto_child_family": _WORD_USAGE_PROTO_SUBTYPE,
+                "source": "bootstrap_discovery",
+                "formalized": False,
+            },
+            "generation_logic": {
+                "prompt_profile": _WORD_USAGE_PROTO_PATTERN_ID,
+                "material_strategy": "proto_text_context_window",
+                "validator_contract": "proto_minimal_json_shape_only",
+            },
+            "prompt_package": {
+                "system_prompt": "Experimental proto route for word_usage_content_word.",
+                "user_prompt": "Create a minimal context-word meaning question draft for human review.",
+                "fewshot_examples": [],
+                "merged_prompt": "Experimental proto route for word_usage_content_word.\nCreate a minimal context-word meaning question draft for human review.",
+            },
+            "generated_question": generated_question,
+            "material_selection": {
+                "material_id": f"proto-word-usage-{item_id}",
+                "article_id": f"proto-word-usage-{batch_id}",
+                "question_card_id": _WORD_USAGE_PROTO_QUESTION_CARD_ID,
+                "runtime_binding": {
+                    "question_type": _WORD_USAGE_PROTO_FOCUS,
+                    "business_subtype": _WORD_USAGE_PROTO_SUBTYPE,
+                },
+                "resolved_slots": {},
+                "validator_contract": {"type": "proto_minimal_json_shape_only"},
+                "text": passage,
+                "original_text": passage,
+                "source": self._word_usage_proto_metadata(),
+                "source_tail": None,
+                "primary_label": "word_usage_content_word_proto",
+                "document_genre": None,
+                "material_structure_label": "proto_text_context_window",
+                "material_structure_reason": "experimental_proto_route",
+                "standalone_readability": 0.0,
+                "quality_score": 0.0,
+                "fit_scores": {},
+                "knowledge_tags": ["word_usage", "content_word", "proto"],
+                "usage_count_before": 0,
+                "previously_used": False,
+                "last_used_at": None,
+                "usage_note": None,
+                "text_refined": False,
+                "refinement_reason": None,
+                "anchor_adapted": False,
+                "anchor_adaptation_reason": None,
+                "anchor_span": {},
+                "selection_reason": "experimental_proto_route uses source_question passage as review material.",
+            },
+            "stem_text": generated_question["stem"],
+            "material_text": passage,
+            "material_source": self._word_usage_proto_metadata(),
+            "material_usage_count_before": 0,
+            "material_previously_used": False,
+            "material_last_used_at": None,
+            "generation_mode": "experimental_proto",
+            "material_source_type": "experimental_proto",
+            "forced_generation": False,
+            "revision_count": 0,
+            "feedback_snapshot": {},
+            "current_version_no": 1,
+            "current_status": "pending_review",
+            "latest_action": "generate_proto",
+            "latest_action_at": self.repository._utc_now(),
+            "manual_override_active": False,
+            "statuses": {
+                "build_status": "success",
+                "review_status": "waiting_review",
+                "generation_status": "success",
+                "validation_status": "passed",
+            },
+            "validation_result": {
+                "validation_status": "passed",
+                "passed": True,
+                "score": 60,
+                "errors": [],
+                "warnings": [
+                    "experimental_proto_route",
+                    "proto_minimal_json_shape_only",
+                    "not_formal_validator_contract",
+                ],
+                "checks": {
+                    "proto_metadata_present": {"passed": True, "required": True},
+                    "formalized_false": {"passed": True, "required": True},
+                    "minimal_shape_only": {"passed": True, "required": True},
+                },
+                "next_review_status": "waiting_review",
+            },
+            "request_snapshot": request_snapshot,
+            "warnings": list(count_warnings)
+            + [
+                "word_usage_content_word is running through an experimental/proto route.",
+                "This route does not formalize word_usage, card_specs, candidate_axes, or validator rules.",
+            ],
+            "notes": [
+                "proto_generation_mapping",
+                "experimental:true",
+                "formalized:false",
+                "source:bootstrap_discovery",
+            ],
+        }
+        response = {
+            "batch_id": batch_id,
+            "batch_meta": BatchMeta(
+                requested_count=requested_count,
+                effective_count=min(effective_count, 1),
+                question_type=_WORD_USAGE_PROTO_FOCUS,
+                business_subtype=_WORD_USAGE_PROTO_SUBTYPE,
+                pattern_id=_WORD_USAGE_PROTO_PATTERN_ID,
+                difficulty_target=difficulty_target,
+            ).model_dump(),
+            "items": [item],
+            "warnings": list(count_warnings)
+            + [
+                "Experimental/proto word_usage_content_word route used.",
+                "The output is reviewable trial evidence, not a formal card or validator promotion.",
+            ],
+            "notes": [
+                "No formal word_usage mother family was created.",
+                "No bootstrap candidate_axes were converted to formal fields.",
+                "Validator behavior is limited to proto_minimal_json_shape_only.",
+            ],
+        }
+        self.repository.save_item(item)
+        self.repository.save_batch(batch_id, response)
+        note_trace_metadata(
+            batch_id=batch_id,
+            selected_material_count=1,
+            generated_item_count=1,
+            rejected_attempt_count=0,
+            generation_mode="experimental_proto",
+            question_type=_WORD_USAGE_PROTO_FOCUS,
+            difficulty_target=difficulty_target,
+        )
+        return QuestionGenerationBatchResponse.model_validate(response).model_dump()
+
+    @staticmethod
+    def _word_usage_proto_metadata() -> dict[str, Any]:
+        return {
+            "experimental": True,
+            "proto_family": _WORD_USAGE_PROTO_FOCUS,
+            "proto_child_family": _WORD_USAGE_PROTO_SUBTYPE,
+            "business_subtype": _WORD_USAGE_PROTO_SUBTYPE,
+            "question_card_id": _WORD_USAGE_PROTO_QUESTION_CARD_ID,
+            "business_feature_card_id": _WORD_USAGE_PROTO_BUSINESS_FEATURE_CARD_ID,
+            "material_strategy": "proto_text_context_window",
+            "validator_contract": "proto_minimal_json_shape_only",
+            "prompt_profile": _WORD_USAGE_PROTO_PATTERN_ID,
+            "source": "bootstrap_discovery",
+            "formalized": False,
+        }
+
+    @staticmethod
+    def _proto_options(raw_options: Any) -> dict[str, str]:
+        options = raw_options if isinstance(raw_options, dict) else {}
+        normalized = {
+            letter: str(options.get(letter) or "").strip()
+            for letter in ("A", "B", "C", "D")
+        }
+        fallback = {
+            "A": "结合上下文理解该词的语境义",
+            "B": "仅按词语字面义理解",
+            "C": "脱离文段对象作扩大理解",
+            "D": "把相邻概念误当作该词含义",
+        }
+        return {letter: normalized.get(letter) or fallback[letter] for letter in ("A", "B", "C", "D")}
+
+    @staticmethod
+    def _proto_answer(raw_answer: Any, options: dict[str, str]) -> str:
+        answer = str(raw_answer or "").strip().upper()
+        return answer if answer in options else "A"
+
+    @staticmethod
+    def _proto_word_usage_stem(raw_stem: Any) -> str:
+        stem = str(raw_stem or "").strip()
+        if stem:
+            return stem
+        return "文中加点词语的意思是（ ）。"
+
+    @staticmethod
+    def _proto_word_usage_analysis(raw_analysis: Any, *, answer: str) -> str:
+        analysis = str(raw_analysis or "").strip()
+        if analysis:
+            return analysis
+        return f"本题为词语语境义解释类 proto 试题，应结合上下文判断词语在文中的具体含义，故正确答案为{answer}。"
 
     def _resolve_generation_materials(
         self,

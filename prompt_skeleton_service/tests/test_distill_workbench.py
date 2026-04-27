@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
@@ -288,7 +289,7 @@ class DistillWorkbenchTest(TestCase):
         self.assertIsNotNone(reviewed_run.latest_review)
         self.assertEqual(reviewed_run.latest_review.verdict, "approved")
         self.assertEqual(reviewed_run.latest_review.reviewer, "qa_lead")
-        self.assertEqual(reviewed_run.latest_review.promotion_targets, ["question_card", "prompt_config"])
+        self.assertEqual(reviewed_run.latest_review.promotion_targets, ["question_card", "prompt_assets"])
         self.assertEqual(len(reviewed_run.reviews), 1)
         self.assertTrue(reviewed_run.reviews[0].allow_promote)
 
@@ -379,7 +380,7 @@ class DistillWorkbenchTest(TestCase):
         patched_run = service.add_run_patch(
             patched_run.run_id,
             DistillRunPatchRequest(
-                target="prompt_config",
+                target="prompt_assets",
                 title="tighten prompt wording",
                 summary="reduce option drift on dev split",
                 patch={"prompt_patch": {"instruction": "prefer closer option wording"}},
@@ -399,11 +400,171 @@ class DistillWorkbenchTest(TestCase):
         self.assertEqual(promoted_run.patch_count, 2)
         self.assertEqual(promoted_run.promotion_count, 1)
         self.assertIsNotNone(promoted_run.latest_promotion)
-        self.assertEqual(promoted_run.latest_promotion.targets, ["prompt_config", "question_card"])
+        self.assertEqual(promoted_run.latest_promotion.targets, ["prompt_assets", "question_card"])
+        self.assertEqual({patch.target for patch in promoted_run.patches}, {"question_card", "prompt_assets"})
         artifact_path = Path(promoted_run.latest_promotion.artifact_path)
         self.assertTrue(artifact_path.exists())
         self.assertIn(str(self.repository.db_path.parent), str(artifact_path))
         self.assertEqual(len(promoted_run.promotions), 1)
+
+    def test_leaf_pre_distill_evidence_targets_can_be_promoted(self) -> None:
+        service = DistillWorkbenchService(self.repository, _StubGenerationRunner())
+        dataset = service.create_dataset(
+            DistillDatasetCreateRequest(
+                title="leaf pre-distill evidence dataset",
+                question_type="main_idea",
+                business_subtype="center_understanding",
+                split_mode="manual",
+                samples=[
+                    DistillDatasetSampleInput(
+                        sample_key="sample-dev",
+                        split="dev",
+                        truth_source_question=self._truth_source_question(),
+                        generation_request=self._baseline_request(),
+                    )
+                ],
+            )
+        )
+        session = service.create_session(
+            DistillSessionCreateRequest(
+                title="leaf pre-distill evidence flow",
+                mode="card_tuning",
+                dataset_id=dataset.dataset_id,
+            )
+        )
+        run = service.run_trial(session.session_id, DistillTrialRequest(split="dev"))
+        reviewed_run = service.review_run(
+            run.run_id,
+            DistillRunReviewRequest(
+                verdict="approved",
+                summary="offline artifacts are ready for evidence promotion",
+                allow_promote=True,
+                promotion_targets=["leaf_pre_distill_report", "schema_gap_report"],
+                reviewer="qa_lead",
+            ),
+        )
+        patched_run = service.add_run_patch(
+            reviewed_run.run_id,
+            DistillRunPatchRequest(
+                target="leaf_pre_distill_report",
+                title="attach leaf pre-distill report",
+                summary="save offline artifact paths as promotion evidence",
+                patch={
+                    "artifact_type": "leaf_pre_distill_report",
+                    "artifact_path": "data/leaf_pre_distill/demo/report.md",
+                    "field_candidates_path": "data/leaf_pre_distill/demo/field_candidates.json",
+                    "slot_projection_draft_path": "data/leaf_pre_distill/demo/slot_projection_draft.yaml",
+                    "axis_confirmation_path": "data/leaf_pre_distill/demo/axis_confirmation.json",
+                    "formal_patch_draft_path": "data/leaf_pre_distill/demo/formal_patch_draft.json",
+                },
+                author="agent",
+            ),
+        )
+        patched_run = service.add_run_patch(
+            patched_run.run_id,
+            DistillRunPatchRequest(
+                target="schema_gap_report",
+                title="attach schema gap notes",
+                summary="save schema gap evidence without changing schema",
+                patch={
+                    "artifact_type": "schema_gap_report",
+                    "artifact_path": "data/leaf_pre_distill/demo/report.md#schema-gaps",
+                },
+                author="agent",
+            ),
+        )
+
+        promoted_run = service.promote_run(
+            patched_run.run_id,
+            DistillPromotionRequest(
+                targets=["schema_gap_report", "leaf_pre_distill_report"],
+                summary="promote offline artifacts as evidence targets",
+                promoter="maru",
+            ),
+        )
+
+        self.assertIsNotNone(promoted_run.latest_promotion)
+        self.assertEqual(promoted_run.latest_promotion.targets, ["leaf_pre_distill_report", "schema_gap_report"])
+        artifact_path = Path(promoted_run.latest_promotion.artifact_path)
+        bundle = json.loads(artifact_path.read_text(encoding="utf-8"))
+        self.assertEqual(bundle["targets"], ["leaf_pre_distill_report", "schema_gap_report"])
+        patches_by_target = {patch["target"]: patch["patch"] for patch in bundle["patches"]}
+        self.assertEqual(
+            patches_by_target["leaf_pre_distill_report"]["slot_projection_draft_path"],
+            "data/leaf_pre_distill/demo/slot_projection_draft.yaml",
+        )
+        self.assertEqual(
+            patches_by_target["leaf_pre_distill_report"]["field_candidates_path"],
+            "data/leaf_pre_distill/demo/field_candidates.json",
+        )
+        self.assertEqual(
+            patches_by_target["leaf_pre_distill_report"]["axis_confirmation_path"],
+            "data/leaf_pre_distill/demo/axis_confirmation.json",
+        )
+        self.assertEqual(
+            patches_by_target["leaf_pre_distill_report"]["formal_patch_draft_path"],
+            "data/leaf_pre_distill/demo/formal_patch_draft.json",
+        )
+        self.assertEqual(
+            patches_by_target["schema_gap_report"]["artifact_path"],
+            "data/leaf_pre_distill/demo/report.md#schema-gaps",
+        )
+
+    def test_leaf_pre_distill_evidence_promotion_requires_patch_for_each_target(self) -> None:
+        service = DistillWorkbenchService(self.repository, _StubGenerationRunner())
+        dataset = service.create_dataset(
+            DistillDatasetCreateRequest(
+                title="leaf evidence guard dataset",
+                question_type="main_idea",
+                business_subtype="center_understanding",
+                split_mode="manual",
+                samples=[
+                    DistillDatasetSampleInput(
+                        sample_key="sample-dev",
+                        split="dev",
+                        truth_source_question=self._truth_source_question(),
+                        generation_request=self._baseline_request(),
+                    )
+                ],
+            )
+        )
+        session = service.create_session(
+            DistillSessionCreateRequest(
+                title="leaf evidence guard flow",
+                mode="card_tuning",
+                dataset_id=dataset.dataset_id,
+            )
+        )
+        run = service.run_trial(session.session_id, DistillTrialRequest(split="dev"))
+        reviewed_run = service.review_run(
+            run.run_id,
+            DistillRunReviewRequest(
+                verdict="approved",
+                summary="two evidence targets are allowed",
+                allow_promote=True,
+                promotion_targets=["leaf_pre_distill_report", "schema_gap_report"],
+            ),
+        )
+        patched_run = service.add_run_patch(
+            reviewed_run.run_id,
+            DistillRunPatchRequest(
+                target="leaf_pre_distill_report",
+                title="attach report only",
+                patch={
+                    "artifact_type": "leaf_pre_distill_report",
+                    "artifact_path": "data/leaf_pre_distill/demo/report.md",
+                },
+            ),
+        )
+
+        with self.assertRaises(DomainError):
+            service.promote_run(
+                patched_run.run_id,
+                DistillPromotionRequest(
+                    targets=["leaf_pre_distill_report", "schema_gap_report"],
+                    summary="should fail because schema gap patch is missing",
+                ),
+            )
 
     def test_promotion_requires_matching_patch_for_each_target(self) -> None:
         service = DistillWorkbenchService(self.repository, _StubGenerationRunner())

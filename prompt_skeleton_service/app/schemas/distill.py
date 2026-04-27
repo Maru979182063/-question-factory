@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.schemas.question import QuestionGenerateRequest, QuestionGenerationItem, SourceQuestionPayload
 
@@ -10,7 +10,41 @@ DistillSessionMode = Literal["new_card", "card_tuning", "material_tuning"]
 DistillDatasetSplit = Literal["train", "dev", "test"]
 DistillDatasetSplitMode = Literal["manual", "hash"]
 DistillHumanVerdict = Literal["approved", "rejected", "revise"]
-DistillPromotionTarget = Literal["question_card", "prompt_config", "material_strategy"]
+DistillPromotionTarget = Literal[
+    "question_card",
+    "business_feature_card",
+    "material_card",
+    "signal_layer",
+    "runtime_mapping",
+    "prompt_assets",
+    "validator_contract",
+    "material_mapping",
+    "leaf_pre_distill_report",
+    "schema_gap_report",
+]
+
+_DISTILL_TARGET_ALIASES = {
+    "prompt_config": "prompt_assets",
+    "material_strategy": "material_mapping",
+}
+
+
+def normalize_distill_target(value: str) -> str:
+    normalized = str(value or "").strip()
+    return _DISTILL_TARGET_ALIASES.get(normalized, normalized)
+
+
+def normalize_distill_targets(values: Any) -> list[str]:
+    if values is None:
+        return []
+    if isinstance(values, str):
+        values = [values]
+    ordered: list[str] = []
+    for value in values:
+        normalized = normalize_distill_target(str(value))
+        if normalized and normalized not in ordered:
+            ordered.append(normalized)
+    return ordered
 
 
 class DistillDatasetSampleInput(BaseModel):
@@ -169,6 +203,11 @@ class DistillRunReviewRequest(BaseModel):
     promotion_targets: list[DistillPromotionTarget] = Field(default_factory=list)
     reviewer: str | None = None
 
+    @field_validator("promotion_targets", mode="before")
+    @classmethod
+    def normalize_promotion_targets(cls, value: Any) -> list[str]:
+        return normalize_distill_targets(value)
+
     @model_validator(mode="after")
     def validate_review(self) -> "DistillRunReviewRequest":
         has_comment = bool(str(self.summary or "").strip() or str(self.reason or "").strip())
@@ -197,6 +236,11 @@ class DistillRunReviewSummary(BaseModel):
     created_at: str
     updated_at: str
 
+    @field_validator("promotion_targets", mode="before")
+    @classmethod
+    def normalize_promotion_targets(cls, value: Any) -> list[str]:
+        return normalize_distill_targets(value)
+
 
 class DistillRunPatchRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -208,6 +252,11 @@ class DistillRunPatchRequest(BaseModel):
     patch: dict[str, Any] = Field(default_factory=dict)
     notes: list[str] = Field(default_factory=list)
     author: str | None = None
+
+    @field_validator("target", mode="before")
+    @classmethod
+    def normalize_target(cls, value: Any) -> str:
+        return normalize_distill_target(str(value))
 
     @model_validator(mode="after")
     def validate_patch(self) -> "DistillRunPatchRequest":
@@ -233,6 +282,11 @@ class DistillRunPatchSummary(BaseModel):
     created_at: str
     updated_at: str
 
+    @field_validator("target", mode="before")
+    @classmethod
+    def normalize_target(cls, value: Any) -> str:
+        return normalize_distill_target(str(value))
+
 
 class DistillPromotionRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -241,6 +295,11 @@ class DistillPromotionRequest(BaseModel):
     summary: str | None = None
     notes: list[str] = Field(default_factory=list)
     promoter: str | None = None
+
+    @field_validator("targets", mode="before")
+    @classmethod
+    def normalize_targets(cls, value: Any) -> list[str]:
+        return normalize_distill_targets(value)
 
     @model_validator(mode="after")
     def validate_promotion(self) -> "DistillPromotionRequest":
@@ -262,6 +321,11 @@ class DistillPromotionSummary(BaseModel):
     artifact_path: str | None = None
     created_at: str
     updated_at: str
+
+    @field_validator("targets", mode="before")
+    @classmethod
+    def normalize_targets(cls, value: Any) -> list[str]:
+        return normalize_distill_targets(value)
 
 
 class DistillSampleRunResult(BaseModel):

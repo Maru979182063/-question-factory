@@ -705,6 +705,7 @@ const TOKEN_LABELS = {
   intensity: "强度",
   final: "最终",
   score: "得分",
+  to: "→",
   readiness: "可用性",
   total: "总",
   penalty: "处罚分",
@@ -2099,12 +2100,21 @@ function setUserMaterialPanelOpen(open, options = {}) {
   if (!panel || !textarea || !toggleBtn) return;
 
   panel.hidden = !open;
-  toggleBtn.textContent = open ? "收起材料框" : "自己上传材料";
+  toggleBtn.textContent = open ? "收起材料框" : "填写用户材料";
   if (open) {
     textarea.focus();
   } else if (options.clear) {
     textarea.value = "";
   }
+}
+
+function scrollToDemoModeTarget(targetId, options = {}) {
+  const target = $(targetId);
+  if (!target) return;
+  if (options.openUserMaterial) {
+    setUserMaterialPanelOpen(true);
+  }
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 async function submitUserMaterialGeneration() {
@@ -2317,6 +2327,103 @@ function normalizeDisplayPairs(record, dictionary = VALUE_LABELS, limit = 3) {
       label: humanize(key, dictionary),
       value,
     }));
+}
+
+function hasEvidenceValue(value) {
+  const text = String(value == null ? "" : value).trim();
+  return Boolean(text && text !== "-" && text !== "未提供" && text !== "暂无记录");
+}
+
+function evidenceValue(value, options = {}) {
+  const fallback = options.fallback || "当前样例未记录";
+  const text = String(value == null ? "" : value).trim();
+  if (!hasEvidenceValue(text)) return fallback;
+  const display = options.humanize ? humanize(text) : text;
+  if (!hasEvidenceValue(display)) return fallback;
+  return display;
+}
+
+function evidencePath(child, leaf, fallback) {
+  const childText = evidenceValue(child, { fallback: "" });
+  const leafText = evidenceValue(leaf, { fallback: "" });
+  if (childText && leafText) return `${childText} / ${leafText}`;
+  return childText || leafText || fallback;
+}
+
+function evidenceRows(rows, fallback) {
+  const visibleRows = rows.filter((row) => hasEvidenceValue(row.value));
+  if (!visibleRows.length) {
+    return `<div>${escapeHtml(fallback)}</div>`;
+  }
+  return visibleRows.map((row) => `<div>${escapeHtml(row.label)}：${escapeHtml(row.value)}</div>`).join("");
+}
+
+function renderGenerationEvidence(item, feedback) {
+  const material = item.material_selection || {};
+  const materialSource = getMaterialSource(item);
+  const requestedTaxonomy = resolveRequestedTaxonomy(item);
+  const actualTaxonomy = resolveActualTaxonomy(item);
+  const validationWarnings = getValidationMessages(item, "warnings").length;
+  const validationErrors = getValidationMessages(item, "errors").length + getFailedChecks(item).length;
+
+  const requestedPath = evidencePath(requestedTaxonomy.child, requestedTaxonomy.leaf, "等待用户选择记录");
+  const actualPath = evidencePath(actualTaxonomy.child, actualTaxonomy.leaf, "等待题型落位信息");
+  const materialOrigin = evidenceValue(materialSource.source_name || materialSource.site || item.material_source_type, {
+    humanize: true,
+    fallback: "",
+  });
+  const materialTitle = evidenceValue(materialSource.article_title || material.article_title, { fallback: "" });
+  const materialGenre = evidenceValue(material.document_genre || materialSource.document_genre, { humanize: true, fallback: "" });
+  const materialStructure = evidenceValue(material.material_structure_label || materialSource.material_structure_label, {
+    fallback: "",
+  });
+  const currentStatus = evidenceValue(item.current_status || "generated", { humanize: true });
+  const latestAction = evidenceValue(item.latest_action || "generate", { humanize: true });
+  const difficultyTarget = evidenceValue(item.difficulty_target || item.difficulty_level || "medium", { humanize: true });
+  const selectionState = evidenceValue(feedback?.selection_state, { humanize: true });
+  const difficultyBand = evidenceValue(feedback?.difficulty_band_hint || item.difficulty_target, { humanize: true });
+
+  return `
+    <div class="system-box" style="margin-top: 16px;">
+      <div class="section-title">生成证据</div>
+      <div class="system-grid">
+        <div class="mini-card">
+          <strong>题型路径</strong>
+          ${evidenceRows(
+            [
+              { label: "用户选择", value: requestedPath },
+              { label: "系统落位", value: actualPath },
+            ],
+            "等待题型选择与系统落位信息",
+          )}
+        </div>
+        <div class="mini-card">
+          <strong>材料来源</strong>
+          ${evidenceRows(
+            [
+              { label: "来源", value: materialOrigin },
+              { label: "标题", value: materialTitle },
+              { label: "文体", value: materialGenre },
+              { label: "结构", value: materialStructure },
+            ],
+            "当前样例未记录材料来源摘要",
+          )}
+        </div>
+        <div class="mini-card">
+          <strong>生成状态</strong>
+          <div>当前状态：${escapeHtml(currentStatus)}</div>
+          <div>最新动作：${escapeHtml(latestAction)}</div>
+          <div>目标难度：${escapeHtml(difficultyTarget)}</div>
+        </div>
+        <div class="mini-card">
+          <strong>质量信号</strong>
+          <div>材料选择：${escapeHtml(selectionState)}</div>
+          <div>难度带：${escapeHtml(difficultyBand)}</div>
+          <div>校验摘要：${escapeHtml(validationWarnings)} 条提醒 / ${escapeHtml(validationErrors)} 条问题</div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function renderSignalSummary(feedback) {
@@ -2901,6 +3008,8 @@ function buildQuestionCard(item, index) {
         <div class="answer-row"><strong>答案：</strong>${escapeHtml(generated.answer || "未提供")}</div>
         <div class="analysis-row"><strong>解析：</strong>${escapeHtml(analysisText || "未提供")}</div>
       </div>
+
+      ${renderGenerationEvidence(item, feedback)}
 
       ${
         manualOverrideActive
@@ -3505,6 +3614,14 @@ function initPage() {
   $("sourceQuestionDetectBtn").addEventListener("click", () => {
     autoDetectSourceQuestion().catch((error) => {
       setBanner("builderError", `自动拆题失败：${error.message}`);
+    });
+  });
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-scroll-target]");
+    if (!button) return;
+    event.preventDefault();
+    scrollToDemoModeTarget(button.dataset.scrollTarget, {
+      openUserMaterial: button.dataset.openUserMaterial === "1",
     });
   });
   document.addEventListener("click", (event) => {

@@ -36,7 +36,7 @@ const MOCK_RESULT = {
       material_source_type: "user_uploaded",
       forced_generation: true,
       warnings: [
-        "样例结果：这是一张前端 mock 卡片，用于展示完成态。",
+        "样例结果：这是一张能力验证卡片，用于展示完成态。",
       ],
       material_selection: {
         source: {
@@ -149,15 +149,26 @@ function renderWarnings(warnings) {
   `;
 }
 
+function displayResultLabel(value) {
+  const labels = {
+    forced_user_material: "用户材料生成",
+    forced_generation: "用户材料模式",
+    user_uploaded_material_unvalidated: "用户材料来源待复核",
+    user_uploaded: "用户上传材料",
+    pending_review: "待复核",
+  };
+  return labels[value] || value || "-";
+}
+
 function renderItemCard(item, batchWarnings) {
   const generated = item.generated_question || {};
   const options = generated.options || {};
   const cautionTag = (((item.material_selection || {}).source || {}).caution_tag) || "";
   const answer = generated.answer || "-";
   const tags = [
-    item.generation_mode ? `<span class="forced-badge forced-badge-info">${escapeHtml(item.generation_mode)}</span>` : "",
-    item.forced_generation ? `<span class="forced-badge forced-badge-warn">forced_generation</span>` : "",
-    cautionTag ? `<span class="forced-badge forced-badge-warn">${escapeHtml(cautionTag)}</span>` : "",
+    item.generation_mode ? `<span class="forced-badge forced-badge-info">${escapeHtml(displayResultLabel(item.generation_mode))}</span>` : "",
+    item.forced_generation ? `<span class="forced-badge forced-badge-warn">${escapeHtml(displayResultLabel("forced_generation"))}</span>` : "",
+    cautionTag ? `<span class="forced-badge forced-badge-warn">${escapeHtml(displayResultLabel(cautionTag))}</span>` : "",
   ].join("");
 
   return `
@@ -171,7 +182,7 @@ function renderItemCard(item, batchWarnings) {
       <div class="forced-meta">
         <div class="forced-meta-box">
           <strong>当前状态</strong>
-          <div>${escapeHtml(item.current_status || "-")}</div>
+          <div>${escapeHtml(displayResultLabel(item.current_status))}</div>
         </div>
         <div class="forced-meta-box">
           <strong>答案</strong>
@@ -183,7 +194,7 @@ function renderItemCard(item, batchWarnings) {
         </div>
         <div class="forced-meta-box">
           <strong>材料来源</strong>
-          <div>${escapeHtml(item.material_source_type || "-")}</div>
+          <div>${escapeHtml(displayResultLabel(item.material_source_type))}</div>
         </div>
       </div>
       <p class="forced-stem">${escapeHtml(generated.stem || "暂无题干")}</p>
@@ -214,12 +225,12 @@ function renderResult(payload) {
 
 function previewMockResult() {
   renderResult(MOCK_RESULT);
-  setStatus("这里展示的是完成态 mock，方便你直接看页面效果和 caution 标记。", "info");
+  setStatus("这里展示的是完成态样例，方便你直接看页面效果和来源标记。", "info");
 }
 
 async function handleSubmit(event) {
   event.preventDefault();
-  setStatus("系统正在按用户自带材料强制制作，这条模式会跳过 passage 检索。", "info");
+  setStatus("系统正在基于用户材料生成题目，用于验证自带材料条件下的生成能力。", "info");
   $("generateButton").disabled = true;
   $("fillSampleButton").disabled = true;
 
@@ -244,12 +255,12 @@ async function handleSubmit(event) {
       body: JSON.stringify(payload),
     });
     renderResult(result);
-    setStatus("制作完成。这条结果已经带上 forced_user_material 和 caution 标记。", "info");
+    setStatus("制作完成。这条结果已经带上用户材料来源标记，便于后续复核。", "info");
   } catch (error) {
     setStatus(`制作失败：${error.message}`, "error");
     $("resultStack").innerHTML = `
       <div class="forced-empty">
-        接口没有返回可展示结果。<br />
+        暂未收到可展示的用户材料生成结果。<br />
         错误信息：${escapeHtml(error.message)}
       </div>
     `;

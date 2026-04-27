@@ -682,27 +682,43 @@ class QuestionValidatorService:
 
     def _sentence_fill_has_conclusion_marker(self, text: str) -> bool:
         candidate = (text or "").strip()
-        markers = ("??", "??", "??", "??", "??", "??")
+        markers = ("因此", "所以", "因而", "由此可见", "可见", "总之", "综上", "概而言之", "换言之", "这说明")
         return candidate.startswith(markers) or any(token in candidate for token in markers)
 
     def _sentence_fill_has_countermeasure_marker(self, text: str) -> bool:
         candidate = (text or "").strip()
-        markers = ("??", "??", "??", "??", "?", "??", "??")
+        markers = ("因此应", "所以应", "应当", "应该", "需要", "必须", "要", "通过", "采取", "完善", "推进", "解决")
         return candidate.startswith(markers) or any(token in candidate for token in markers)
 
     def _sentence_fill_has_specific_action(self, text: str) -> bool:
         candidate = (text or "").strip()
-        markers = ("??", "??", "??", "??", "??", "??", "??", "??", "??", "??", "??")
+        markers = (
+            "完善",
+            "建立",
+            "健全",
+            "加强",
+            "推进",
+            "优化",
+            "提升",
+            "规范",
+            "落实",
+            "通过",
+            "机制",
+            "制度",
+            "资源配置",
+            "培训",
+            "支持",
+        )
         return any(token in candidate for token in markers)
 
     def _sentence_fill_has_backward_signal(self, text: str) -> bool:
         candidate = (text or "").strip()
-        markers = ("?", "??", "??", "?", "?", "??", "??", "??")
+        markers = ("这", "这一", "这种", "该", "此", "上述", "前文", "由此", "因此", "所以", "可见", "其中")
         return candidate.startswith(markers) or any(token in candidate for token in markers)
 
     def _sentence_fill_has_forward_signal(self, text: str) -> bool:
         candidate = (text or "").strip()
-        markers = ("??", "??", "??", "??", "??", "??", "???", "??")
+        markers = ("接下来", "下文", "后文", "随后", "继而", "进一步", "继续", "将从", "以下", "下面")
         return candidate.startswith(markers) or any(token in candidate for token in markers)
 
     def _sentence_fill_support_ratio(self, *, evidence_text: str, candidate_text: str) -> float:
@@ -1125,8 +1141,8 @@ class QuestionValidatorService:
         example_support = self._compute_support_profile(evidence_text=example_text, candidate_text=option_text)
         best_index, best_unit_support = self._profile_best_support(units=units, candidate_text=option_text)
         option_tokens = self._extract_tokens(option_text)
-        generic_markers = ("??", "??", "??", "??", "??", "??", "???")
-        detail_markers = ("??", "??", "??", "??", "??", "??", "??", "??")
+        generic_markers = ("意义", "价值", "重要", "发展", "建设", "作用", "影响", "值得关注", "具有重要意义")
+        detail_markers = ("某一", "单一", "局部", "具体", "个别", "中段", "某个", "一点")
         generic_like = any(token in option_text for token in generic_markers)
         detail_like = any(token in option_text for token in detail_markers) or self._main_idea_has_example_marker(option_text)
         local_dominant = (
@@ -1140,7 +1156,7 @@ class QuestionValidatorService:
             generic_like
             and material_support["shared_token_count"] < 2
             and material_support["supported_token_ratio"] < 0.18
-            and len(option_tokens) >= 3
+            and (len(option_tokens) >= 2 or len(option_text) >= 8)
         )
         axis_aligned = bool(
             axis_support["shared_token_count"] >= 2
@@ -1313,9 +1329,30 @@ class QuestionValidatorService:
             return True
         if any(normalized.startswith(prefix) for prefix in self.HARD_ERROR_PREFIXES):
             return True
-        if question_type == "sentence_fill" and normalized == "position_function_mismatch":
-            anchor_check = checks.get("sentence_fill_anchor_grounding") or {}
-            return bool(anchor_check) and anchor_check.get("require_original_answer_sentence") is True and anchor_check.get("passed") is False
+        if question_type == "sentence_fill" and normalized in {
+            "position_function_mismatch",
+            "bidirectional_failure",
+            "function_scope_mismatch",
+            "sentence_fill_material_question_consistency_fail",
+        }:
+            return True
+        if question_type == "main_idea" and normalized in {
+            "argument_structure_mismatch",
+            "main_axis_mismatch",
+            "local_point_as_main_axis",
+            "example_promoted_to_main_idea",
+            "abstraction_level_mismatch",
+        }:
+            return any(key.startswith("center_understanding_") for key in checks)
+        if normalized.startswith("title_selection "):
+            return any(
+                isinstance(checks.get(key), dict) and checks[key].get("required") is True
+                for key in (
+                    "title_selection_title_like",
+                    "title_selection_material_fit",
+                    "title_selection_option_diversity",
+                )
+            )
         return False
 
     def _validate_common(
@@ -1417,13 +1454,13 @@ class QuestionValidatorService:
             warnings.append("analysis does not clearly explain why the correct option text fits.")
 
         meta_tone_markers = [
-            "ai??",
+            "ai生成",
             "chatgpt",
-            "????",
-            "????",
-            "????",
-            "????",
-            "??????",
+            "根据提供的材料生成",
+            "请你选择正确答案",
+            "正确答案是",
+            "答案解析",
+            "本题考查",
         ]
         lower_stem = stem.lower()
         meta_tone_found = [marker for marker in meta_tone_markers if marker in lower_stem or marker in lower_analysis]
@@ -1679,14 +1716,14 @@ class QuestionValidatorService:
             material_constraints_contract = validator_contract.get("material_constraints") if isinstance(validator_contract, dict) else None
             correct_text = (options.get(generated_question.answer or "", "") or "").strip()
             avg_len = round(sum(len((value or "").strip()) for value in options.values()) / max(len(options), 1), 2) if options else 0
-            long_sentence_like = bool(correct_text and (len(correct_text) >= 24 or "?" in correct_text or correct_text.count("?") >= 3))
-            meeting_markers = ["??", "??", "??", "??", "???"]
+            long_sentence_like = bool(correct_text and (len(correct_text) >= 24 or "，" in correct_text or correct_text.count("、") >= 3))
+            meeting_markers = ["政府工作报告", "报告", "会议", "部署", "强调", "总体要求"]
             marker_hits = [marker for marker in meeting_markers if marker in material_text]
             fragment_heavy = bool(
                 options
                 and all(
                     len((value or "").strip()) >= 14
-                    or any(token in (value or "") for token in ("?", "?", "?", "?"))
+                    or any(token in (value or "") for token in ("，", "、", "并", "与"))
                     for value in options.values()
                 )
             )
@@ -2106,7 +2143,15 @@ class QuestionValidatorService:
     ) -> tuple[list[str], list[str], dict[str, Any]]:
         errors: list[str] = []
         stem = generated_question.stem.strip()
-        continuation_markers = ("?????????", "????????", "?????", "??????", "????")
+        continuation_markers = (
+            "接下来最可能",
+            "接下来可能",
+            "下文最可能",
+            "作者接下来",
+            "接着最可能",
+            "后文最可能",
+            "接下来将",
+        )
         exam_style = any(marker in stem for marker in continuation_markers)
         checks = {
             "continuation_material_present": {"passed": bool(context.get("material_text"))},
@@ -2193,6 +2238,9 @@ class QuestionValidatorService:
         thresholds_contract = validator_contract.get("thresholds") if isinstance(validator_contract, dict) else None
         reasoning_contract = validator_contract.get("reasoning") if isinstance(validator_contract, dict) else None
         contract_sortable_unit_count = None
+        contract_sortable_unit_count_source = "missing_declared_count"
+        allowed_sortable_unit_counts = {4, 5, 6}
+        requires_declared_sortable_unit_count = True
         contract_unique_opener_min_score = None
         contract_closure_min_score = None
         contract_exchange_risk_max = None
@@ -2202,13 +2250,71 @@ class QuestionValidatorService:
         contract_expected_unique_answer_strength = None
         contract_required_reasoning_modes: set[str] = set()
         if isinstance(validator_contract, dict):
-            raw_sortable_unit_count = (
-                validator_contract.get("sortable_unit_count")
-                or (sentence_order_contract.get("sortable_unit_count") if isinstance(sentence_order_contract, dict) else None)
-                or (structure_contract.get("sortable_unit_count") if isinstance(structure_contract, dict) else None)
-            )
+            count_sources = [
+                ("validator_contract.sortable_unit_count", validator_contract.get("sortable_unit_count")),
+                (
+                    "validator_contract.sentence_order.sortable_unit_count",
+                    sentence_order_contract.get("sortable_unit_count") if isinstance(sentence_order_contract, dict) else None,
+                ),
+                (
+                    "validator_contract.structure_constraints.sortable_unit_count",
+                    structure_contract.get("sortable_unit_count") if isinstance(structure_contract, dict) else None,
+                ),
+                (
+                    "resolved_slots.sortable_unit_count",
+                    (context.get("resolved_slots") or {}).get("sortable_unit_count") if isinstance(context.get("resolved_slots"), dict) else None,
+                ),
+                (
+                    "control_logic.sortable_unit_count",
+                    (context.get("control_logic") or {}).get("sortable_unit_count") if isinstance(context.get("control_logic"), dict) else None,
+                ),
+                (
+                    "material_source.prompt_extras.sortable_unit_count",
+                    (
+                        ((context.get("material_source") or {}).get("prompt_extras") or {}).get("sortable_unit_count")
+                        if isinstance(context.get("material_source"), dict)
+                        and isinstance((context.get("material_source") or {}).get("prompt_extras"), dict)
+                        else None
+                    ),
+                ),
+            ]
+            raw_sortable_unit_count = None
+            for source_name, candidate_count in count_sources:
+                if candidate_count not in (None, ""):
+                    raw_sortable_unit_count = candidate_count
+                    contract_sortable_unit_count_source = (
+                        "validator_contract"
+                        if source_name.startswith("validator_contract")
+                        else source_name
+                    )
+                    break
             if raw_sortable_unit_count not in (None, ""):
                 contract_sortable_unit_count = int(raw_sortable_unit_count)
+            raw_allowed_counts = (
+                validator_contract.get("allowed_sortable_unit_counts")
+                or (sentence_order_contract.get("allowed_sortable_unit_counts") if isinstance(sentence_order_contract, dict) else None)
+                or (structure_contract.get("allowed_sortable_unit_counts") if isinstance(structure_contract, dict) else None)
+            )
+            if isinstance(raw_allowed_counts, (list, tuple, set)):
+                parsed_allowed_counts = {
+                    int(value)
+                    for value in raw_allowed_counts
+                    if value not in (None, "")
+                }
+                if parsed_allowed_counts:
+                    allowed_sortable_unit_counts = parsed_allowed_counts
+            raw_requires_declared = (
+                validator_contract.get("requires_declared_count")
+                or (sentence_order_contract.get("requires_declared_count") if isinstance(sentence_order_contract, dict) else None)
+                or (structure_contract.get("requires_declared_count") if isinstance(structure_contract, dict) else None)
+            )
+            if raw_requires_declared is not None:
+                requires_declared_sortable_unit_count = raw_requires_declared is True or str(raw_requires_declared).strip().lower() in {
+                    "true",
+                    "1",
+                    "yes",
+                    "on",
+                }
             raw_unique_opener_min_score = (
                 validator_contract.get("unique_opener_min_score")
                 or (sentence_order_contract.get("unique_opener_min_score") if isinstance(sentence_order_contract, dict) else None)
@@ -2273,9 +2379,9 @@ class QuestionValidatorService:
                 }
         expected_sortable_unit_count = contract_sortable_unit_count
         expected_sortable_unit_count_source = (
-            "validator_contract"
+            contract_sortable_unit_count_source
             if contract_sortable_unit_count is not None
-            else "compatibility_disabled"
+            else "missing_declared_count"
         )
         unique_opener_min_score = contract_unique_opener_min_score
         unique_opener_min_score_source = (
@@ -2311,7 +2417,7 @@ class QuestionValidatorService:
         )
         correct_order = list(generated_question.correct_order or [])
         raw_original_units = [str(item or "").strip() for item in (generated_question.original_sentences or []) if str(item or "").strip()]
-        normalized_original_units = self._normalize_sentence_order_units_to_six(raw_original_units) or raw_original_units
+        normalized_original_units = raw_original_units
         expected_order_size = expected_sortable_unit_count or len(normalized_original_units)
         expected_order_sequence = list(range(1, expected_order_size + 1)) if expected_order_size else []
         option_orders = {
@@ -2337,6 +2443,17 @@ class QuestionValidatorService:
                 "source": material_text_source,
             },
             "sentence_order_option_unit_counts": {"passed": bool(option_unit_counts), "counts": option_unit_counts},
+            "sentence_order_declared_unit_count": {
+                "passed": (
+                    expected_sortable_unit_count in allowed_sortable_unit_counts
+                    if expected_sortable_unit_count is not None
+                    else not requires_declared_sortable_unit_count
+                ),
+                "count": expected_sortable_unit_count,
+                "allowed": sorted(allowed_sortable_unit_counts),
+                "required": requires_declared_sortable_unit_count,
+                "source": expected_sortable_unit_count_source,
+            },
             "sentence_order_unique_opener": self._build_contract_gated_check(
                 active=unique_opener_min_score is not None,
                 passed=orderability["unique_opener_score"] >= (unique_opener_min_score or 0.0),
@@ -2407,10 +2524,19 @@ class QuestionValidatorService:
             warnings.append("sentence_order options do not show obvious ordering signals.")
         if not stem_exam_style:
             warnings.append("sentence_order stem does not look like a standard ordering prompt.")
+        if expected_sortable_unit_count is None:
+            if requires_declared_sortable_unit_count:
+                self._append_unique_error(errors, "sentence_count_mismatch")
+        elif expected_sortable_unit_count not in allowed_sortable_unit_counts:
+            self._append_unique_error(errors, "sentence_count_mismatch")
         if material_unit_count < 4:
             self._append_unique_error(errors, "ordering_chain_incomplete")
+        if expected_sortable_unit_count and material_unit_count and material_unit_count != expected_sortable_unit_count:
+            self._append_unique_error(errors, "sentence_count_mismatch")
         if option_unit_counts and len(set(option_unit_counts)) > 1:
             self._append_unique_error(errors, "ordering_chain_incomplete")
+        if expected_sortable_unit_count and option_unit_counts and any(count != expected_sortable_unit_count for count in option_unit_counts):
+            self._append_unique_error(errors, "sentence_count_mismatch")
         if expected_sortable_unit_count:
             if len(normalized_original_units) != expected_sortable_unit_count:
                 self._append_unique_error(errors, "sentence_count_mismatch")
@@ -2861,11 +2987,26 @@ class QuestionValidatorService:
         correct_text = self._sentence_fill_correct_option_text(generated_question)
         previous_text, next_text, blank_marker = self._extract_sentence_fill_blank_context(validation_material_text)
 
-        has_blank_signal = any(token in display_material_text for token in ("____", "___", "[BLANK]", "?  ?", "( )", "? ?"))
-        fill_prompt_markers = ("??", "???????", "?????", "????", "??????")
-        fit_prompt_markers = ("???", "???", "???")
-        has_fill_prompt = any(token in stem for token in fill_prompt_markers) and any(
-            token in stem for token in fit_prompt_markers
+        has_blank_signal = any(
+            token in display_material_text
+            for token in ("____", "___", "[BLANK]", "（  ）", "( )", "（   ）", "（）")
+        )
+        standard_fill_prompt_phrases = (
+            "填入画横线部分最恰当",
+            "填入文中横线处最恰当",
+            "填入横线处最恰当",
+            "填入空缺处最恰当",
+            "填入文中画横线处最恰当",
+            "填入第三段划横线处最恰当",
+            "句子填入文中横线处",
+        )
+        fill_prompt_markers = ("填入", "填在", "补入", "放入", "插入")
+        location_prompt_markers = ("横线", "画横线", "划横线", "空缺", "空格", "文中", "此处")
+        fit_prompt_markers = ("最恰当", "恰当", "合适", "适合", "正确")
+        has_fill_prompt = any(phrase in stem for phrase in standard_fill_prompt_phrases) or (
+            any(token in stem for token in fill_prompt_markers)
+            and any(token in stem for token in location_prompt_markers)
+            and any(token in stem for token in fit_prompt_markers)
         )
         blank_position = self._detect_blank_position(validation_material_text)
         reference_blank_position = constraints["blank_position"]
@@ -3212,7 +3353,19 @@ class QuestionValidatorService:
             self._append_unique_error(errors, "reference_anchor_missing")
 
         if function_type == "bridge":
-            analysis_has_bridge = any(token in generated_question.analysis for token in ("??", "??", "??", "??"))
+            bridge_markers = (
+                "承上启下",
+                "承接前文",
+                "回应前文",
+                "照应前文",
+                "引出后文",
+                "引出下文",
+                "衔接上下文",
+                "前后文衔接",
+                "既承接",
+                "也引出",
+            )
+            analysis_has_bridge = any(token in generated_question.analysis for token in bridge_markers)
             checks["sentence_fill_bridge_reasoning"] = {
                 "passed": analysis_has_bridge,
                 "function_type": function_type,
@@ -3282,7 +3435,7 @@ class QuestionValidatorService:
                 self._append_unique_error(errors, "reference_anchor_missing")
 
         if function_type in {"conclusion", "summary"} and blank_position == "ending":
-            if self._sentence_fill_has_forward_signal(correct_text) or any(token in correct_text for token in ("渚嬪", "姣斿", "棣栧厛", "鍏舵")):
+            if self._sentence_fill_has_forward_signal(correct_text) or any(token in correct_text for token in ("例如", "比如", "首先", "其次")):
                 self._append_unique_error(errors, "position_function_mismatch")
             if not self._sentence_fill_has_conclusion_marker(correct_text) and next_text:
                 warnings.append("ending summary lacks a strong closure marker.")
@@ -3566,8 +3719,7 @@ class QuestionValidatorService:
             return 0
         sortable_block = text.split("\n\n")[-1].strip()
         units = self._extract_order_material_units(sortable_block)
-        normalized_units = self._normalize_sentence_order_units_to_six(units) or units
-        return len(normalized_units)
+        return len(units)
 
     def _extract_order_option_unit_counts(self, options: dict[str, str]) -> list[int]:
         counts: list[int] = []
@@ -3759,15 +3911,17 @@ class QuestionValidatorService:
         text = (unit or "").strip()
         if not text:
             return "empty"
-        summary_markers = ("??", "??", "??", "??", "??", "??")
-        action_markers = ("??", "??", "??", "??", "?", "??")
-        problem_markers = ("??", "??", "??", "??")
-        definition_markers = ("??", "??", "?")
-        opening_markers = ("???", "????", "????", "??", "??")
-        dependent_markers = ("?", "??", "??", "?", "?")
-        connector_markers = ("??", "??", "??", "??", "??", "??", "??")
-        timeline_markers = ("??", "??", "??", "??", "??", "??")
-        viewpoint_markers = ("???", "???", "???", "???", "????")
+        summary_markers = ("因此", "所以", "可见", "总之", "综上", "由此可见")
+        action_markers = ("应当", "应该", "需要", "必须", "要", "通过", "完善")
+        problem_markers = ("问题", "困境", "难题", "不足", "挑战")
+        definition_markers = ("是指", "定义", "所谓", "概念", "注释")
+        opening_markers = ("如果说", "在《", "虽然", "随着", "近年来", "长期以来", "通常", "一般而言")
+        dependent_markers = ("这", "这也", "因此", "所以", "于是", "进而")
+        connector_markers = ("但是", "然而", "同时", "此外", "并且", "而且", "另一方面")
+        timeline_markers = ("首先", "其次", "然后", "随后", "最后", "此前")
+        viewpoint_markers = ("认为", "指出", "强调", "表明", "研究显示")
+        if text.startswith(opening_markers):
+            return "opening_anchor"
         if any(token in text for token in summary_markers):
             return "summary"
         if any(token in text for token in action_markers):
@@ -3776,8 +3930,6 @@ class QuestionValidatorService:
             return "problem"
         if any(token in text for token in definition_markers):
             return "definition"
-        if text.startswith(opening_markers):
-            return "opening_anchor"
         if text.startswith(dependent_markers):
             return "dependent"
         if any(token in text for token in connector_markers):
@@ -3795,16 +3947,16 @@ class QuestionValidatorService:
         if not text:
             return 0.0
         score = 0.26
-        opening_markers = ("???", "????", "????", "??", "???")
-        definition_markers = ("??", "??", "?")
-        timeline_markers = ("??", "??", "??", "??", "??")
-        problem_markers = ("??", "??", "??", "??")
-        viewpoint_markers = ("???", "???", "???", "???", "????")
-        summary_markers = ("??", "??", "??", "??", "??", "??")
-        action_markers = ("??", "??", "??", "??", "?", "??")
-        dependent_markers = ("?", "??", "??", "?", "?")
-        example_markers = ("??", "??", "??", "??")
-        connector_markers = ("??", "??", "??", "??", "??")
+        opening_markers = ("如果说", "在《", "虽然", "随着", "近年来", "长期以来", "通常", "一般而言")
+        definition_markers = ("是指", "定义", "所谓", "概念", "注释")
+        timeline_markers = ("首先", "其次", "然后", "随后", "最后", "此前")
+        problem_markers = ("问题", "困境", "难题", "不足", "挑战")
+        viewpoint_markers = ("认为", "指出", "强调", "表明", "研究显示")
+        summary_markers = ("因此", "所以", "可见", "总之", "综上", "由此可见")
+        action_markers = ("应当", "应该", "需要", "必须", "要", "通过", "完善")
+        dependent_markers = ("这", "这也", "因此", "所以", "于是", "进而")
+        example_markers = ("例如", "比如", "举例", "案例")
+        connector_markers = ("但是", "然而", "同时", "此外", "并且", "而且")
         if text.startswith(opening_markers):
             score += 0.18
         if any(token in text for token in definition_markers):
@@ -3852,12 +4004,12 @@ class QuestionValidatorService:
         second = opener_scores[1] if len(opener_scores) > 1 else 0.0
         unique_opener_score = round(max(0.0, min(1.0, 0.68 * best + 0.32 * max(0.0, best - second))), 4)
 
-        dependent_markers = ("?", "??", "??", "?", "?")
-        connector_markers = ("??", "??", "??", "??", "??", "??", "??")
-        bridge_markers = ("??", "??", "??", "??")
-        problem_markers = ("??", "??", "??", "??")
-        closing_markers = ("??", "??", "??", "??", "??", "??", "??", "??", "??", "??")
-        action_markers = ("??", "??", "??", "??", "?", "??")
+        dependent_markers = ("这", "这也", "因此", "所以", "于是", "进而")
+        connector_markers = ("但是", "然而", "同时", "此外", "并且", "而且", "另一方面")
+        bridge_markers = ("承接", "衔接", "照应", "呼应")
+        problem_markers = ("问题", "困境", "难题", "不足", "挑战")
+        closing_markers = ("因此", "所以", "可见", "总之", "综上", "由此可见", "最终", "结论", "说明", "表明")
+        action_markers = ("应当", "应该", "需要", "必须", "要", "通过", "完善")
 
         binding_pair_count = 0
         for index in range(len(units) - 1):

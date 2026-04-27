@@ -15,32 +15,39 @@ from app.services.question_validator import QuestionValidatorService
 
 
 class SentenceOrderSchemaTest(TestCase):
-    def test_type_config_fixed_sortable_unit_count_is_six(self) -> None:
+    def test_type_config_uses_variable_sortable_unit_count_contract(self) -> None:
         content = (ROOT / "prompt_skeleton_service" / "configs" / "types" / "sentence_order.yaml").read_text(
             encoding="utf-8"
         )
-        self.assertIn("sortable_unit_count:\n    mode: fixed\n    value: 6", content)
+        self.assertIn("sortable_unit_count:\n    mode: variable", content)
+        self.assertIn("allowed_values:\n      - 4\n      - 5\n      - 6", content)
+        self.assertIn("requires_declared_count: true", content)
         self.assertIn("sortable_unit_sentence_span:\n    min: 1\n    max: 2", content)
         self.assertIn("candidate_type: sentence_block_group", content)
-        self.assertIn("reject_non_six_unit_sequences: true", content)
-        self.assertIn("allowed:\n      - 6", content)
+        self.assertIn("reject_count_mismatch: true", content)
+        self.assertIn("allowed:\n      - 4\n      - 5\n      - 6", content)
         self.assertIn("distractor_strength: medium", content)
         self.assertNotIn("phrase_order_variant", content)
+        self.assertNotIn("value: 6", content)
 
-    def test_normalized_question_card_carries_six_unit_contract(self) -> None:
+    def test_normalized_question_card_carries_variable_count_contract(self) -> None:
         content = (
             ROOT / "card_specs" / "normalized" / "question_cards" / "sentence_order_standard_question_card.normalized.yaml"
         ).read_text(encoding="utf-8")
         self.assertIn("primary_business_card_id: sentence_order__six_sentence_role_chain__abstract", content)
-        self.assertIn("sortable_unit_count:\n    mode: fixed\n    value: 6", content)
+        self.assertIn("sortable_unit_count:\n    mode: variable", content)
+        self.assertIn("allowed_values:\n    - 4\n    - 5\n    - 6", content)
+        self.assertIn("requires_declared_count: true", content)
         self.assertIn("sortable_unit_sentence_span:\n    min: 1\n    max: 2", content)
         self.assertIn("candidate_type: sentence_block_group", content)
-        self.assertIn("fixed_sortable_unit_count: 6", content)
-        self.assertIn("allowed_sortable_unit_counts:\n  - 6", content)
+        self.assertIn("fixed_sortable_unit_count: null", content)
+        self.assertIn("allowed_sortable_unit_counts:\n  - 4\n  - 5\n  - 6", content)
+        self.assertIn("reject_count_mismatch: true", content)
         self.assertIn("require_binding_pairs_intact: true", content)
         self.assertIn("require_complete_ordering_chain: true", content)
-        self.assertIn("distractor_strength: medium", content)
+        self.assertIn("distractor_strength: high", content)
         self.assertNotIn("phrase_order_variant", content)
+        self.assertNotIn("fixed six-sentence runtime spec", content)
 
     def test_standard_material_and_signal_specs_are_block_group_only(self) -> None:
         material_content = (
@@ -109,6 +116,7 @@ class SentenceOrderConstraintEnforcementTest(TestCase):
         self,
         *,
         order: list[int],
+        declared_count: int = 6,
         original_sentences: list[str] | None = None,
         options: dict[str, str] | None = None,
         material_text: str | None = None,
@@ -128,7 +136,15 @@ class SentenceOrderConstraintEnforcementTest(TestCase):
             question_type="sentence_order",
             generated_question=question,
             material_text=material_text or self.base_material,
-            validator_contract=self.contract,
+            validator_contract={
+                "sentence_order": {
+                    **self.contract["sentence_order"],
+                    "sortable_unit_count": declared_count,
+                    "allowed_sortable_unit_counts": [4, 5, 6],
+                    "requires_declared_count": True,
+                    "reject_count_mismatch": True,
+                }
+            },
             control_logic=control_logic,
         )
 
@@ -158,8 +174,23 @@ class SentenceOrderConstraintEnforcementTest(TestCase):
             [{"before": 2, "after": 3}],
         )
 
-    def test_sortable_unit_count_mismatch_for_five_and_seven_units(self) -> None:
+    def test_sortable_unit_count_matches_declared_variable_count(self) -> None:
         result = self._validate(
+            declared_count=5,
+            order=[1, 2, 3, 4, 5],
+            original_sentences=self.base_sentences[:5],
+            options={
+                "A": "1-2-3-4-5",
+                "B": "1-3-2-4-5",
+                "C": "5-4-3-2-1",
+                "D": "2-1-3-4-5",
+            },
+            material_text=" ".join(self.base_sentences[:5]),
+        )
+        self.assertNotIn("sentence_count_mismatch", result.errors)
+
+        result = self._validate(
+            declared_count=6,
             order=[1, 2, 3, 4, 5],
             original_sentences=self.base_sentences[:5],
             options={
@@ -175,6 +206,7 @@ class SentenceOrderConstraintEnforcementTest(TestCase):
 
         seven_sentences = self.base_sentences + ["最后，还要持续复盘实施效果。"]
         result = self._validate(
+            declared_count=7,
             order=[1, 2, 3, 4, 5, 6, 7],
             original_sentences=seven_sentences,
             options={
@@ -227,7 +259,7 @@ class SentenceOrderConstraintEnforcementTest(TestCase):
         self.assertTrue(result.checks["sentence_order_unit_sentence_span"]["passed"])
         self.assertEqual(result.checks["sentence_order_unit_sentence_span"]["counts"], [1, 1, 1, 1, 1, 1])
 
-    def test_role_order_conflict_for_conclusion_in_middle(self) -> None:
+    def test_conclusion_in_middle_remains_blocked(self) -> None:
         result = self._validate(order=[1, 2, 6, 3, 4, 5])
         self.assertFalse(result.passed)
-        self.assertIn("role_order_conflict", result.errors)
+        self.assertIn("ordering_chain_incomplete", result.errors)

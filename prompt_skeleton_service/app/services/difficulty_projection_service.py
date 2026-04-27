@@ -100,12 +100,13 @@ class DifficultyProjectionService:
             notes=list(projection.notes or []),
         )
 
-    def build_prompt_sections(self, *, projection: DifficultyProjection) -> list[str]:
+    def build_prompt_sections(self, *, projection: DifficultyProjection, question_type: str | None = None) -> list[str]:
         assets = _difficulty_assets()
         shared_lines = [str(item).strip() for item in (assets.get("shared_prompt_lines") or []) if str(item).strip()]
+        family_key = str(question_type or "").strip()
         family_lines = [
             str(item).strip()
-            for item in (((assets.get("families") or {}).get("sentence_fill") or {}).get("prompt_lines") or [])
+            for item in (((assets.get("families") or {}).get(family_key) or {}).get("prompt_lines") or [])
             if str(item).strip()
         ]
         axis_lines = [
@@ -147,13 +148,21 @@ class DifficultyProjectionService:
                     score = mapping[str(text_value)]
             metric_scores[metric_name] = self._clamp(score)
 
-        axis_projection = self._sentence_fill_axis_projection(
-            difficulty_target=target.target_difficulty,
-            resolved_slots=resolved_slots,
+        axis_projection = (
+            self._sentence_fill_axis_projection(
+                difficulty_target=target.target_difficulty,
+                resolved_slots=resolved_slots,
+            )
+            if target.question_type == "sentence_fill"
+            else {}
         )
         prompt_contract = {
             "difficulty_target": target.target_difficulty,
-            "projection_method": "pattern_rules_plus_sentence_fill_axis_projection",
+            "projection_method": (
+                "pattern_rules_plus_sentence_fill_axis_projection"
+                if target.question_type == "sentence_fill"
+                else "pattern_rules_only"
+            ),
             "prompt_sections": self.build_prompt_sections(
                 projection=DifficultyProjection(
                     target_difficulty=target.target_difficulty,
@@ -164,7 +173,8 @@ class DifficultyProjectionService:
                     structural_changes=[],
                     notes=[],
                     **metric_scores,
-                )
+                ),
+                question_type=target.question_type,
             ),
         }
         validator_contract = {

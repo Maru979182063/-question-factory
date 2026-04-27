@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>用户自带材料制作台</title>
+    <title>用户材料生题能力验证入口</title>
     <link rel="stylesheet" href="/demo-static/styles.css?v=20260408a" />
     <style>
       .forced-shell {
@@ -341,23 +341,23 @@
       <section class="forced-shell">
         <div class="forced-hero">
           <div class="forced-hero-card">
-            <h1>用户自带材料制作台</h1>
-            <p>用户把自己的文段带进来，前端选题型、业务子类和难度，系统直接强制制作，不再走平台材料检索。这条线会完整打标，方便后续自适应时谨慎分析。</p>
+            <h1>用户材料生题能力验证入口</h1>
+            <p>用户把自己的文段带进来，前端选择题型、业务子类和难度，系统直接验证用户材料条件下的生成能力。这条链路会保留来源标记，方便后续复核与质量分析。</p>
             <div class="forced-chip-row">
-              <span class="forced-chip forced-chip-blue">强制模式</span>
+              <span class="forced-chip forced-chip-blue">能力验证入口</span>
               <span class="forced-chip forced-chip-gold">全题卡可试</span>
               <span class="forced-chip forced-chip-gold">结果谨慎使用</span>
             </div>
           </div>
           <aside class="forced-side-card">
-            <p>这页是独立 mock，不会影响你原来的大 demo。它重点展示一件事：用户上传文段以后，系统如何直接出题、如何给结果打 caution 标记，以及失败时也怎样稳定返回。</p>
+            <p>这页是独立能力验证入口，不会影响主 /demo 工作台。它重点展示一件事：用户上传文段以后，系统如何直接生成题目、如何保留来源标记，以及异常情况下的结果回传与提示机制。</p>
           </aside>
         </div>
 
         <div class="forced-grid">
           <section class="forced-panel">
             <h2>制作参数</h2>
-            <p class="forced-subtitle">材料只要带来就直接做，不做前置适配拦截。为了便于后续分析，系统会自动记下这是一条 <code>forced_user_material</code> 结果。</p>
+            <p class="forced-subtitle">材料由用户提供后，页面会直接验证用户材料条件下的生成能力。为了便于后续分析，系统会自动标记这是一条用户材料生成结果。</p>
 
             <form id="forcedMaterialForm" class="forced-form">
               <div class="forced-three">
@@ -418,7 +418,7 @@
                 <button id="fillSampleButton" class="forced-secondary" type="button">填入示例材料</button>
                 <button id="previewResultButton" class="forced-secondary" type="button">看样例结果</button>
               </div>
-              <div class="forced-hint">这条模式会把校验和评测结果保留下来，但不会因为材料不适配就提前拦截。</div>
+              <div class="forced-hint">这条模式会把校验和评测结果保留下来，用于观察用户材料条件下的生成表现。</div>
             </form>
 
             <div id="formStatus" class="forced-status forced-status-info" hidden></div>
@@ -426,9 +426,9 @@
 
           <section class="forced-panel">
             <h2>制作结果</h2>
-            <p class="forced-subtitle">这里展示的是返回到前端的一手结果态，包括强制生成标记、状态、题干和选项。</p>
+            <p class="forced-subtitle">这里展示的是返回到前端的用户材料生成结果，包括来源标记、状态、题干和选项。</p>
             <div id="resultStack" class="forced-result-stack">
-              <div class="forced-empty">还没有开始制作。你可以先点“填入示例材料”，再试一轮强制出题。</div>
+              <div class="forced-empty">还没有开始制作。你可以先点“填入示例材料”，再试一轮用户材料生题。</div>
             </div>
           </section>
         </div>

@@ -166,7 +166,7 @@ class SlotResolverUnitTest(TestCase):
 
         self.assertNotIn("option_confusion", result["resolved_slots"])
 
-    def test_difficulty_projection_does_not_add_target_bias(self) -> None:
+    def test_difficulty_projection_does_not_add_sentence_fill_axis_to_main_idea(self) -> None:
         config = _build_type_config(default_pattern_id="pattern.alpha")
 
         easy = self.service.resolve(
@@ -180,4 +180,13 @@ class SlotResolverUnitTest(TestCase):
             type_slots={},
         )
 
-        self.assertEqual(easy["difficulty_projection"].model_dump(), hard["difficulty_projection"].model_dump())
+        self.assertEqual(easy["difficulty_projection"].axis_projection, {})
+        self.assertEqual(hard["difficulty_projection"].axis_projection, {})
+        self.assertEqual(
+            easy["difficulty_projection"].prompt_contract["projection_method"],
+            "pattern_rules_only",
+        )
+        self.assertEqual(
+            hard["difficulty_projection"].prompt_contract["projection_method"],
+            "pattern_rules_only",
+        )

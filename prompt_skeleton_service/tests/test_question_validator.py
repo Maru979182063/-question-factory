@@ -58,7 +58,8 @@ class QuestionValidatorUnitTest(TestCase):
         self.assertIsNotNone(result.difficulty_review)
         self.assertFalse(result.difficulty_review["in_range"])
         self.assertEqual(result.difficulty_review["deviation_count"], 1)
-        self.assertIn("difficulty projection is outside the target profile range.", result.errors)
+        self.assertIn("difficulty projection is outside the target profile range.", result.warnings)
+        self.assertNotIn("difficulty projection is outside the target profile range.", result.errors)
 
     def test_center_understanding_soft_difficulty_miss_becomes_warning(self) -> None:
         result = self.validator.validate(
@@ -325,7 +326,8 @@ class QuestionValidatorUnitTest(TestCase):
         )
 
         self.assertTrue(result.checks["sentence_order_original_sentences"]["passed"])
-        self.assertEqual(result.checks["sentence_order_original_sentences"]["source"], "compatibility_disabled")
+        self.assertEqual(result.checks["sentence_order_original_sentences"]["source"], "missing_declared_count")
+        self.assertIn("sentence_count_mismatch", result.errors)
         self.assertIsNone(result.checks["sentence_order_unique_opener"]["passed"])
         self.assertEqual(result.checks["sentence_order_unique_opener"]["status"], "skipped_missing_contract")
         self.assertIsNone(result.checks["sentence_order_head_tail_reasoning"]["passed"])
@@ -363,7 +365,8 @@ class QuestionValidatorUnitTest(TestCase):
             difficulty_fit={"in_range": True, "deviations": []},
         )
 
-        self.assertEqual(result.checks["sentence_order_original_sentences"]["source"], "compatibility_disabled")
+        self.assertEqual(result.checks["sentence_order_original_sentences"]["source"], "missing_declared_count")
+        self.assertIn("sentence_count_mismatch", result.errors)
         self.assertNotIn("sentence_order_binding_pairs", {k: v for k, v in result.checks.items() if v.get("source") == "compatibility_source_question_analysis"})
         self.assertNotIn("sentence_order_timeline_reasoning", result.checks)
 
@@ -804,7 +807,7 @@ class QuestionValidatorUnitTest(TestCase):
 
         self.assertEqual(
             result.checks["sentence_order_material_unit_count"]["source"],
-            "generated_question.original_sentences",
+            "material_source.prompt_extras.sortable_units",
         )
         self.assertEqual(result.checks["sentence_order_material_unit_count"]["count"], 6)
 

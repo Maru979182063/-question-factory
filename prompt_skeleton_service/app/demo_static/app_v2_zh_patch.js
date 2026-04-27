@@ -8,29 +8,6 @@
         font-weight: 700;
       }
 
-      .distill-entry-anchor {
-        position: fixed;
-        top: 22px;
-        right: 24px;
-        z-index: 26;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 18px;
-        border: none;
-        border-radius: 999px;
-        background: linear-gradient(135deg, #176f9f 0%, #114f72 100%);
-        color: #fff;
-        font-weight: 700;
-        box-shadow: 0 14px 28px rgba(17, 79, 114, 0.24);
-        cursor: pointer;
-      }
-
-      .distill-entry-anchor small {
-        opacity: 0.82;
-        font-size: 11px;
-      }
-
       .distill-access-overlay[hidden] {
         display: none !important;
       }
@@ -137,13 +114,6 @@
       }
 
       @media (max-width: 720px) {
-        .distill-entry-anchor {
-          top: 12px;
-          right: 12px;
-          left: 12px;
-          justify-content: center;
-        }
-
         .distill-access-dialog {
           width: calc(100vw - 24px);
           padding: 22px 20px 20px;
@@ -188,17 +158,8 @@
   }
 
   function ensureDistillAccessEntry() {
-    if (document.getElementById("distillEntryAnchor")) return;
-
-    const button = document.createElement("button");
-    button.id = "distillEntryAnchor";
-    button.type = "button";
-    button.className = "distill-entry-anchor";
-    button.innerHTML = `
-      <span>进入蒸馏训练台</span>
-      <small>需输入密钥</small>
-    `;
-    document.body.appendChild(button);
+    const triggers = Array.from(document.querySelectorAll("[data-distill-access-trigger]"));
+    if (!triggers.length || document.getElementById("distillAccessOverlay")) return;
 
     const overlay = document.createElement("div");
     overlay.id = "distillAccessOverlay";
@@ -207,10 +168,10 @@
     overlay.innerHTML = `
       <div class="distill-access-backdrop" data-close="1"></div>
       <div class="distill-access-dialog" role="dialog" aria-modal="true" aria-labelledby="distillAccessTitle">
-        <h2 id="distillAccessTitle">蒸馏训练入口</h2>
+        <h2 id="distillAccessTitle">研发蒸馏台</h2>
         <p>
-          这里是你训练题卡、材料链和提示词的工作台入口。只有输入 YAML 里配置的访问密钥，
-          才能进入训练界面继续跑 dataset、session、trial 和人工审核。
+          这是面向题卡、材料链和提示策略迭代的研发调试入口。需要输入运行时配置的访问密钥，
+          才能进入蒸馏界面继续查看样本集、会话、试验和人工审核链路。
         </p>
 
         <label class="distill-access-field">
@@ -219,7 +180,7 @@
         </label>
 
         <div class="distill-access-help">
-          提示：密钥配置在运行时 YAML 中，不在前端暴露。验证通过后会直接进入中文训练界面。
+          提示：访问密钥不在前端暴露。验证通过后会进入中文蒸馏调试界面。
         </div>
 
         <div id="distillAccessStatus" class="distill-access-status" hidden></div>
@@ -285,7 +246,12 @@
       }
     }
 
-    button.addEventListener("click", openOverlay);
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        openOverlay();
+      });
+    });
     cancelBtn.addEventListener("click", closeOverlay);
     overlay.querySelectorAll("[data-close='1']").forEach((node) => node.addEventListener("click", closeOverlay));
     confirmBtn.addEventListener("click", verifyAndEnter);

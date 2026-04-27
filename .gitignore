@@ -49,6 +49,7 @@ passage_service/app/review_samples/
 passage_service/data/
 *.egg-info/
 prompt_skeleton_service/data/
+data/leaf_pre_distill/
 tmp_truth_docs/
 tmp_coze_learning_machine/
 *.docx

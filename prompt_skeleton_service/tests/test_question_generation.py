@@ -883,7 +883,7 @@ class QuestionGenerationUnitTest(TestCase):
         )
 
     def test_generation_source_has_single_active_definition_for_override_cleanup(self) -> None:
-        file_path = Path("C:/Users/Maru/Documents/agent/prompt_skeleton_service/app/services/question_generation.py")
+        file_path = Path(__file__).resolve().parents[1] / "app" / "services" / "question_generation.py"
         text = file_path.read_text(encoding="utf-8")
 
         self.assertEqual(text.count("def _build_reference_hard_constraints("), 1)

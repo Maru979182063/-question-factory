@@ -1,0 +1,31 @@
+{
+  "summary": {
+    "total": 55,
+    "passed": 55,
+    "failed": 0
+  },
+  "scope": [
+    "主页面 /demo 可访问",
+    "蒸馏台 /demo/distill 未授权时正确跳转",
+    "蒸馏台访问密钥校验可通过",
+    "蒸馏台授权后页面可访问",
+    "distill_demo.js 静态资源可访问",
+    "styles.css 静态资源可访问",
+    "样本集、会话、试跑、审核、补丁、候选轴确认、写回预览、来源候选人审、promotion、行为包等关键 DOM 节点存在",
+    "创建 dataset / session / trial、review、patch、promote、axis confirmation、formal patch draft、writeback preview、source review decision 等关键 JS 函数存在",
+    "source review 六类 decision 存在",
+    "canonical target 选项存在",
+    "前端未硬编码 verified=true、verified_original_source=true、crawl_allowed=true、writeback_allowed=true 等越权字段",
+    "12 个节点 mock PNG 已生成"
+  ],
+  "outputs": {
+    "mock_html": "docs/distill_workbench_node_mocks.html",
+    "mock_png_dir": "docs/distill_workbench_node_mocks",
+    "report": "docs/distill_workbench_frontend_full_smoke_report_2026-04-27.md"
+  },
+  "limits": [
+    "Codex in-app Browser runtime 在本机返回系统拒绝访问，因此本轮没有使用 in-app browser 完成点击截图。",
+    "本轮使用 FastAPI TestClient 与静态 DOM/JS 检查完成前端 smoke。",
+    "本轮没有调用 LLM、没有执行真实生题、没有执行真实 distill trial、没有联网搜索、没有写回任何正式配置。"
+  ]
+}
