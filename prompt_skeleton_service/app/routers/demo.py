@@ -8,6 +8,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from pydantic import BaseModel
 
 from app.core.dependencies import get_runtime_registry
+from app.core.settings import get_settings
 from app.services.runtime_registry import RuntimeConfigRegistry
 
 DEMO_INDEX = Path(__file__).resolve().parent.parent / "demo_static" / "index.html"
@@ -114,7 +115,7 @@ def verify_distill_access(
         value=_distill_access_cookie_value(expected_key),
         httponly=True,
         samesite="lax",
-        secure=False,
+        secure=get_settings().distill_cookie_secure,
         max_age=8 * 60 * 60,
     )
     return response

@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     db_max_overflow: int = 40
     db_pool_timeout_seconds: float = 60.0
     db_pool_recycle_seconds: int = 1800
+    disable_fastapi_docs: bool = False
 
     @property
     def service_root(self) -> Path:

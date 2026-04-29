@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import logging
 import time
 from uuid import uuid4
@@ -19,6 +20,7 @@ logger = logging.getLogger(__name__)
 class SecurityMiddleware(BaseHTTPMiddleware):
     EXEMPT_PATHS = {"/healthz", "/readyz", "/docs", "/openapi.json", "/redoc"}
     EXEMPT_PREFIXES = ("/docs/oauth2-redirect", "/demo", "/demo-static", "/api/v1/distill/access")
+    PUBLIC_DEMO_BLOCKED_PREFIXES = ("/api/v1/admin", "/api/v1/diagnostics")
 
     async def dispatch(self, request: Request, call_next):
         settings = get_settings()
@@ -30,6 +32,16 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         start = time.perf_counter()
 
         try:
+            if settings.public_demo_mode and self._is_public_demo_blocked_path(request.url.path):
+                return JSONResponse(
+                    status_code=404,
+                    content={"error": {"message": "Not found.", "details": {"request_id": request_id}}},
+                    headers={"X-Request-ID": request_id},
+                )
+            if settings.public_demo_mode and self._is_public_demo_distill_api_path(request.url.path):
+                distill_response = self._check_public_demo_distill_access(request, request_id)
+                if distill_response is not None:
+                    return distill_response
             if self._should_protect(request.url.path):
                 auth_response = self._check_auth(request, request_id, settings.security.enabled, settings.security.api_token)
                 if auth_response is not None:
@@ -87,6 +99,48 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         if path in self.EXEMPT_PATHS:
             return False
         return not any(path.startswith(prefix) for prefix in self.EXEMPT_PREFIXES)
+
+    def _is_public_demo_blocked_path(self, path: str) -> bool:
+        return any(path.startswith(prefix) for prefix in self.PUBLIC_DEMO_BLOCKED_PREFIXES)
+
+    def _is_public_demo_distill_api_path(self, path: str) -> bool:
+        return path.startswith("/api/v1/distill") and not path.startswith("/api/v1/distill/access")
+
+    def _check_public_demo_distill_access(self, request: Request, request_id: str) -> JSONResponse | None:
+        from app.core.dependencies import get_runtime_registry
+
+        config = get_runtime_registry().get().ui.distill_access
+        if not config.enabled:
+            return None
+
+        expected_key = str(config.key or "").strip()
+        if not expected_key:
+            return JSONResponse(
+                status_code=503,
+                content={
+                    "error": {
+                        "message": "Distill access is not configured for public demo.",
+                        "details": {"request_id": request_id},
+                    }
+                },
+                headers={"X-Request-ID": request_id},
+            )
+
+        expected_cookie = hashlib.sha256(expected_key.encode("utf-8")).hexdigest()
+        provided_cookie = request.cookies.get(config.cookie_name)
+        if provided_cookie == expected_cookie:
+            return None
+
+        return JSONResponse(
+            status_code=401,
+            content={
+                "error": {
+                    "message": "Distill access key is required.",
+                    "details": {"request_id": request_id},
+                }
+            },
+            headers={"X-Request-ID": request_id},
+        )
 
     def _check_auth(
         self,

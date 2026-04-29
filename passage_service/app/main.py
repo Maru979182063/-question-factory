@@ -11,7 +11,12 @@ from app.jobs.scheduler import setup_scheduler, shutdown_scheduler
 
 def create_app() -> FastAPI:
     settings = get_settings()
-    app = FastAPI(title=settings.app_name, version=settings.app_version)
+    docs_kwargs = (
+        {"docs_url": None, "redoc_url": None, "openapi_url": None}
+        if settings.disable_fastapi_docs
+        else {}
+    )
+    app = FastAPI(title=settings.app_name, version=settings.app_version, **docs_kwargs)
     install_observability(app)
     register_exception_handlers(app)
     app.include_router(api_router)

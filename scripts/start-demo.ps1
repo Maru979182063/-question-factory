@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("default", "mvp", "dev", "uat")]
+    [ValidateSet("default", "mvp", "dev", "uat", "public-demo")]
     [string]$Profile = "default",
     [int]$PromptPort = 0,
     [int]$PassagePort = 0,
@@ -48,6 +48,16 @@ $profileDefaults = @{
         PassageEnvFiles = @(
             (Join-Path $root ".env.demo"),
             (Join-Path $root "passage_service\.env.dev")
+        )
+    }
+    "public-demo" = @{
+        PromptPort = 8011
+        PassagePort = 8001
+        PromptEnvFiles = @(
+            (Join-Path $root ".env.public-demo")
+        )
+        PassageEnvFiles = @(
+            (Join-Path $root ".env.public-demo")
         )
     }
 }
@@ -164,7 +174,12 @@ function Start-UvicornService {
         "PROMPT_RUNTIME_CONFIG_PATH",
         "PROMPT_TEMPLATE_CONFIG_PATH",
         "PROMPT_DATA_DIR",
-        "PROMPT_QUESTION_DB_PATH"
+        "PROMPT_QUESTION_DB_PATH",
+        "PROMPT_PUBLIC_DEMO_MODE",
+        "PROMPT_DISABLE_FASTAPI_DOCS",
+        "PASSAGE_DISABLE_FASTAPI_DOCS",
+        "DISTILL_ACCESS_KEY",
+        "DISTILL_COOKIE_SECURE"
     )) {
         if ($psi.Environment.ContainsKey($name)) {
             [void]$psi.Environment.Remove($name)

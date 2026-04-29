@@ -13,6 +13,7 @@ from app.core.dependencies import (
 )
 from app.core.exceptions import register_exception_handlers
 from app.core.security import install_security_middleware
+from app.core.settings import get_settings
 from app.routers.admin import router as admin_router
 from app.routers.diagnostics import router as diagnostics_router
 from app.routers.demo import router as demo_router
@@ -30,10 +31,17 @@ DEMO_STATIC_DIR = Path(__file__).resolve().parent / "demo_static"
 
 
 def create_app() -> FastAPI:
+    settings = get_settings()
+    docs_kwargs = (
+        {"docs_url": None, "redoc_url": None, "openapi_url": None}
+        if settings.disable_fastapi_docs
+        else {}
+    )
     app = FastAPI(
         title="Prompt Skeleton Service",
         version="0.1.0",
         description="Config-driven FastAPI prompt skeleton service for Dify.",
+        **docs_kwargs,
     )
     install_security_middleware(app)
 

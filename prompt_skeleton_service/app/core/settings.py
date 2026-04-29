@@ -39,6 +39,9 @@ class AppSettings(BaseModel):
     prompt_template_config_path: Path
     data_dir: Path
     question_db_path: Path
+    public_demo_mode: bool = False
+    disable_fastapi_docs: bool = False
+    distill_cookie_secure: bool = False
     security: SecuritySettings
     generation_queue: GenerationQueueSettings
     shared_state: SharedStateSettings
@@ -69,14 +72,19 @@ def get_settings() -> AppSettings:
     api_token = os.getenv("PROMPT_SERVICE_API_TOKEN")
     security_enabled = _read_bool_env("PROMPT_SERVICE_SECURITY_ENABLED", default=bool(api_token))
     rate_limit_per_minute = int(os.getenv("PROMPT_SERVICE_RATE_LIMIT_PER_MINUTE", "120"))
+    runtime_config_path = _resolve_path_env(
+        "PROMPT_RUNTIME_CONFIG_PATH",
+        base_dir=base_dir,
+        default=base_dir / "configs" / "question_runtime.yaml",
+    )
+    public_demo_mode = _read_bool_env(
+        "PROMPT_PUBLIC_DEMO_MODE",
+        default="public_demo" in runtime_config_path.stem,
+    )
     return AppSettings(
         base_dir=base_dir,
         config_dir=_resolve_path_env("PROMPT_CONFIG_DIR", base_dir=base_dir, default=base_dir / "configs" / "types"),
-        runtime_config_path=_resolve_path_env(
-            "PROMPT_RUNTIME_CONFIG_PATH",
-            base_dir=base_dir,
-            default=base_dir / "configs" / "question_runtime.yaml",
-        ),
+        runtime_config_path=runtime_config_path,
         prompt_template_config_path=_resolve_path_env(
             "PROMPT_TEMPLATE_CONFIG_PATH",
             base_dir=base_dir,
@@ -88,6 +96,12 @@ def get_settings() -> AppSettings:
             base_dir=base_dir,
             default=data_dir / "question_workbench.db",
         ),
+        public_demo_mode=public_demo_mode,
+        disable_fastapi_docs=_read_bool_env(
+            "PROMPT_DISABLE_FASTAPI_DOCS",
+            default=_read_bool_env("DISABLE_FASTAPI_DOCS", default=False),
+        ),
+        distill_cookie_secure=_read_bool_env("DISTILL_COOKIE_SECURE", default=False),
         security=SecuritySettings(
             enabled=security_enabled,
             api_token=api_token,
