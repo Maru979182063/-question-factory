@@ -54,3 +54,9 @@ tmp_truth_docs/
 tmp_coze_learning_machine/
 *.docx
 *.zip
+
+# Browser/server runtime artifacts from local acceptance runs
+docs/**/chrome_profile*/
+docs/**/p[0-9]/
+docs/**/uvicorn.pid
+docs/**/uvicorn_*.log

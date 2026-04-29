@@ -60,6 +60,23 @@ class GenerationReadabilityTest(TestCase):
         self.assertEqual(parsed["stem"], "题干")
         self.assertEqual(parsed["answer"], "A")
 
+
+    def test_extract_json_object_handles_json_encoded_string(self) -> None:
+        raw = '"{\"stem\":\"demo\",\"answer\":\"A\"}"'
+
+        parsed = extract_json_object(raw)
+
+        self.assertEqual(parsed["stem"], "demo")
+        self.assertEqual(parsed["answer"], "A")
+
+    def test_extract_json_object_handles_single_object_array(self) -> None:
+        raw = '[{"stem":"demo","answer":"A"}]'
+
+        parsed = extract_json_object(raw)
+
+        self.assertEqual(parsed["stem"], "demo")
+        self.assertEqual(parsed["answer"], "A")
+
     def test_make_prompt_section_normalizes_lines(self) -> None:
         service = QuestionGenerationService.__new__(QuestionGenerationService)
         service._section_label = lambda key: f"[{key}]"

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Query, Request
+from fastapi import APIRouter, Depends, File, Query, Request, UploadFile
 
 from app.core.dependencies import get_prompt_template_registry, get_question_repository, get_registry, get_runtime_registry
 from app.schemas.distill import (
@@ -24,6 +24,7 @@ from app.services.generation_gate import acquire_generation_slot
 from app.services.prompt_orchestrator import PromptOrchestratorService
 from app.services.prompt_template_registry import PromptTemplateRegistry
 from app.services.question_generation import QuestionGenerationService
+from app.services.question_pack_preview import build_question_pack_preview
 from app.services.question_repository import QuestionRepository
 from app.services.runtime_registry import RuntimeConfigRegistry
 
@@ -64,6 +65,12 @@ def list_distill_datasets(
     )
     items = service.list_datasets(limit=limit, status=status)
     return DistillDatasetListResponse(count=len(items), items=items)
+
+
+@router.post("/question-pack/preview")
+async def preview_question_pack(files: list[UploadFile] = File(...)) -> dict:
+    loaded_files = [(upload.filename or "question_pack", await upload.read()) for upload in files]
+    return build_question_pack_preview(loaded_files)
 
 
 @router.post("/datasets", response_model=DistillDatasetDetail)

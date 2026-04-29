@@ -1,0 +1,18 @@
+{
+  "probe_version": "v1",
+  "enabled": true,
+  "model": "gpt-4o-mini",
+  "input_digest_hash": "70f4ede226a1d6ef086ac545fdfc04f06e08b9ff773105a0716f39ab013f0446",
+  "usable": false,
+  "leaf_signature": "",
+  "confirmed_fields": {},
+  "field_risks": [],
+  "schema_gap_comments": [],
+  "warnings": [
+    "LLM field probe failed; main leaf_pre_distill flow was not interrupted."
+  ],
+  "rejected_suggestions": [],
+  "should_promote": false,
+  "error": "LLM request failed with HTTP 429: {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+  "raw_output": {}
+}

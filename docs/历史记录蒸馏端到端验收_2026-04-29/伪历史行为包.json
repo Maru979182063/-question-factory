@@ -1,0 +1,244 @@
+{
+  "packet_version": "v1",
+  "run_id": "mock_multi_leaf_history_run_20260429",
+  "question_type": "multi_leaf_batch",
+  "aggregate_summary": {
+    "item_count": 12,
+    "total_review_actions": 21,
+    "total_patch_actions": 16,
+    "total_promotion_actions": 0,
+    "top_changed_fields": [
+      {
+        "key": "distractor_explanation",
+        "count": 8
+      },
+      {
+        "key": "abstract_level",
+        "count": 5
+      },
+      {
+        "key": "ordering_logic",
+        "count": 3
+      }
+    ],
+    "top_failed_thresholds": [
+      {
+        "key": "distractor_plausibility",
+        "count": 6,
+        "reason": "干扰项不够迷惑"
+      },
+      {
+        "key": "center_abstraction",
+        "count": 4,
+        "reason": "主旨项抽象层级不稳定"
+      },
+      {
+        "key": "sentence_order_coherence",
+        "count": 3,
+        "reason": "排序题线索不够明确"
+      }
+    ]
+  },
+  "item_traces": [
+    {
+      "item_id": "Q12",
+      "leaf_id": "word_usage_content_word",
+      "question_type": "word_usage_content_word",
+      "changed_fields": [
+        "distractor_explanation"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "distractor_explanation"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "distractor_explanation",
+          "target": "prompt_assets"
+        }
+      ]
+    },
+    {
+      "item_id": "Q18",
+      "leaf_id": "word_usage_content_word",
+      "question_type": "word_usage_content_word",
+      "changed_fields": [
+        "distractor_explanation"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "distractor_explanation"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "distractor_explanation",
+          "target": "prompt_assets"
+        }
+      ]
+    },
+    {
+      "item_id": "Q21",
+      "leaf_id": "word_usage_content_word",
+      "question_type": "word_usage_content_word",
+      "changed_fields": [
+        "distractor_explanation"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "distractor_explanation"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "distractor_explanation",
+          "target": "prompt_assets"
+        }
+      ]
+    },
+    {
+      "item_id": "Q24",
+      "leaf_id": "word_usage_content_word",
+      "question_type": "word_usage_content_word",
+      "changed_fields": [
+        "distractor_explanation"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "distractor_explanation"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "distractor_explanation",
+          "target": "prompt_assets"
+        }
+      ]
+    },
+    {
+      "item_id": "C03",
+      "leaf_id": "center_understanding",
+      "question_type": "center_understanding",
+      "changed_fields": [
+        "abstract_level"
+      ],
+      "review_actions": [
+        {
+          "action": "reject",
+          "field": "abstract_level"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "abstract_level",
+          "target": "validator_contract"
+        }
+      ]
+    },
+    {
+      "item_id": "C07",
+      "leaf_id": "center_understanding",
+      "question_type": "center_understanding",
+      "changed_fields": [
+        "abstract_level"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "abstract_level"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "abstract_level",
+          "target": "validator_contract"
+        }
+      ]
+    },
+    {
+      "item_id": "C11",
+      "leaf_id": "center_understanding",
+      "question_type": "center_understanding",
+      "changed_fields": [
+        "abstract_level"
+      ],
+      "review_actions": [
+        {
+          "action": "reject",
+          "field": "abstract_level"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "abstract_level",
+          "target": "validator_contract"
+        }
+      ]
+    },
+    {
+      "item_id": "S02",
+      "leaf_id": "sentence_ordering",
+      "question_type": "sentence_ordering",
+      "changed_fields": [
+        "ordering_logic"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "ordering_logic"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "ordering_logic",
+          "target": "review_process"
+        }
+      ]
+    },
+    {
+      "item_id": "S06",
+      "leaf_id": "sentence_ordering",
+      "question_type": "sentence_ordering",
+      "changed_fields": [
+        "ordering_logic"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "ordering_logic"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "ordering_logic",
+          "target": "review_process"
+        }
+      ]
+    },
+    {
+      "item_id": "S09",
+      "leaf_id": "sentence_ordering",
+      "question_type": "sentence_ordering",
+      "changed_fields": [
+        "ordering_logic"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "ordering_logic"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "ordering_logic",
+          "target": "review_process"
+        }
+      ]
+    }
+  ]
+}

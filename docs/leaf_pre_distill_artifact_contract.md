@@ -1863,3 +1863,43 @@ Not an independent target in v1:
 `material_quality_regression_results`, `material_quality_regression_report`, and `material_quality_review` must be referenced through attachment paths inside a `leaf_pre_distill_report` patch payload. They are material readiness evidence, not direct formal config and not material-card approval.
 `agent_review_feedback_input`, `agent_review_feedback_normalized`, and `agent_review_feedback_report` must be referenced through attachment paths inside a `leaf_pre_distill_report` patch payload. They are user feedback evidence, not direct configuration changes.
 `new_leaf_formalization_packet`, `runtime_activation_plan`, and `formalization_readiness_checklist` plus their reports must be referenced through attachment paths inside a `leaf_pre_distill_report` patch payload. They are review, planning, and gate evidence, not writeback approval or executor artifacts.
+## Behavior Distillation Business Summary v1
+
+新增 artifacts:
+
+- `behavior_distillation_business_summary.json`
+- `behavior_distillation_business_report.md`
+- `behavior_distillation_formalization_evidence.json`
+
+边界:
+
+- Promotion evidence only as attachment to `leaf_pre_distill_report`.
+- Direct formal config: no.
+- Independent promotion target: no.
+- `formalized=false`.
+- `writeback_allowed=false`.
+- `executor_allowed=false`.
+
+输入支持范围:
+
+- behavior packet artifact JSON 或 `/api/v1/distill/behavior/packets` 等价输出。
+- run details: `review_count`, `patch_count`, `promotion_count`, latest review/patch/promotion records。
+- `agent_review_feedback_input.json` / `agent_review_feedback_normalized.json`。
+- validator result、`truth_gold_regression_results.json`、`material_quality_regression_results.json`，存在时作为辅助 evidence。
+- 缺失输入写入 `missing_evidence`，不直接失败。
+
+输出结构要点:
+
+- `business_overview`: 直接通过、修改后保留、驳回等审核画像。
+- `high_frequency_edit_fields`: 高频修改字段。
+- `high_frequency_failure_patterns`: 高频失败原因。
+- `high_frequency_user_feedback`: 高频用户反馈。
+- `candidate_improvement_signals`: 候选沉淀建议，包含 `target_layer`、证据、支持强度、风险、推荐状态、人审和回归要求。
+- `not_recommended_for_promotion`: 单例、过拟合、高风险或冲突项。
+- `recommended_next_action`: `human_review` / `observe_more` / `formalization_packet` / `collect_more_samples` / `blocked`。
+
+接入:
+
+- `new_leaf_formalization_packet.json` 可读取 `behavior_distillation_business_summary.json` 并生成 `behavior_distillation_summary`，只作为 evidence refs 或 evidence-only target candidate。
+- `formalization_readiness_checklist.json` 可读取该 summary。缺失时是 warning，不阻塞主流程；高风险未人审 signal 至少进入 `review_needed`；冲突 signal 可进入 blocked/review_needed。
+- 行为蒸馏 evidence 不能让 gate 进入 executor-ready，也不能替代 approval、writeback plan、regression 或人工确认。

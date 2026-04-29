@@ -23,6 +23,8 @@ def render_markdown_report(
     material_quality_regression: dict[str, Any] | None = None,
     material_protocol_draft: dict[str, Any] | None = None,
     agent_review_feedback: dict[str, Any] | None = None,
+    behavior_distillation_business_summary: dict[str, Any] | None = None,
+    behavior_distillation_business_view: dict[str, Any] | None = None,
     new_leaf_formalization_packet: dict[str, Any] | None = None,
     runtime_activation_plan: dict[str, Any] | None = None,
     formalization_readiness_gate: dict[str, Any] | None = None,
@@ -112,6 +114,10 @@ def render_markdown_report(
         _append_material_protocol_draft_section(lines, material_protocol_draft)
     if agent_review_feedback is not None:
         _append_agent_review_feedback_section(lines, agent_review_feedback)
+    if behavior_distillation_business_summary is not None:
+        _append_behavior_distillation_business_summary_section(lines, behavior_distillation_business_summary)
+    if behavior_distillation_business_view is not None:
+        _append_behavior_distillation_business_view_section(lines, behavior_distillation_business_view)
     if new_leaf_formalization_packet is not None:
         _append_new_leaf_formalization_packet_section(lines, new_leaf_formalization_packet)
     if runtime_activation_plan is not None:
@@ -183,6 +189,41 @@ def _append_agent_review_feedback_section(lines: list[str], feedback: dict[str, 
     lines.append(f"- formalized: `{bool(feedback.get('formalized'))}`")
     lines.append(f"- blocking_issues: `{blocking}`")
     lines.append("- recommended_next_action: `feed_into_formalization_packet`")
+
+
+def _append_behavior_distillation_business_summary_section(lines: list[str], summary: dict[str, Any]) -> None:
+    overview = summary.get("business_overview") or {}
+    signals = summary.get("candidate_improvement_signals") or []
+    suitable = [item for item in signals if item.get("recommended_status") == "suitable_for_formalization_packet"]
+    lines.append("")
+    lines.append("## Behavior Distillation Business Summary")
+    lines.append("")
+    lines.append("> 业务蒸馏结果是 evidence，不是正式配置；高频修改不等于自动改题卡，不会调用 executor。")
+    lines.append("")
+    lines.append(f"- status: `{summary.get('status')}`")
+    lines.append(f"- overall_quality_signal: `{overview.get('overall_quality_signal')}`")
+    lines.append(f"- candidate_signal_count: `{len(signals)}`")
+    lines.append(f"- suitable_for_formalization_count: `{len(suitable)}`")
+    lines.append(f"- recommended_next_action: `{summary.get('recommended_next_action')}`")
+    lines.append(f"- writeback_allowed: `{bool(summary.get('writeback_allowed'))}`")
+    lines.append(f"- executor_allowed: `{bool(summary.get('executor_allowed'))}`")
+
+
+def _append_behavior_distillation_business_view_section(lines: list[str], view: dict[str, Any]) -> None:
+    context = view.get("family_context") or {}
+    landing = view.get("landing_status") or {}
+    lines.append("")
+    lines.append("## Behavior Distillation Business View")
+    lines.append("")
+    lines.append("> 业务视图只展示人话结论；JSON 技术细节应默认折叠。它不是正式配置、审批或写回。")
+    lines.append("")
+    lines.append(f"- stage: `{context.get('stage')}`")
+    lines.append(f"- leaf_id: `{context.get('leaf_id')}`")
+    lines.append(f"- problem_count: `{len(view.get('business_problem_summary') or [])}`")
+    lines.append(f"- recommendation_count: `{len(view.get('distilled_recommendations') or [])}`")
+    lines.append(f"- comparison_count: `{len(view.get('before_after_comparisons') or [])}`")
+    lines.append(f"- landing_label: `{landing.get('landing_label')}`")
+    lines.append(f"- writeback_allowed: `{bool(view.get('writeback_allowed'))}`")
 
 
 def _append_new_leaf_formalization_packet_section(lines: list[str], packet: dict[str, Any]) -> None:

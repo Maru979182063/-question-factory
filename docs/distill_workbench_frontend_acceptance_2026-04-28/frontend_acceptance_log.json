@@ -1,0 +1,383 @@
+{
+  "url": "http://127.0.0.1:8017/demo-static/distill_demo.html",
+  "api_responses": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/datasets?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/datasets",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/datasets?limit=100",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08/trials",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9/review",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9/patches",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9/promote",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9",
+      "status": 200
+    }
+  ],
+  "console": [
+    "error: Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "snapshots": {
+    "initial_title": "蒸馏训练工作台",
+    "initial_text_head": "蒸馏训练工作台\n\n这页不是再造一套生成逻辑，而是把你现在真实在做的事情变成可操作流程： 先建样本集，再建蒸馏会话，接着跑试验，最后给人工审核结论。\n\n样本集 / 切分\n试验 / 拟合\n人工审核 / 沉淀\n当前口径\n\n常用字段做成表单，复杂对象保留 JSON 文本区。这样你现在能直接操作， 后面服务协议继续扩展也不用重做前端。\n\n刷新全部\n填入示例\n蒸馏训练工作台已就绪。先看左边示例，按你的数据替换 JSON 就可以直接跑。\n1. 建样本集\n\n样本集是蒸馏边界。先把真题基准和切分集定住，后面的拟合才有审计价值。\n\n标题\n切分模式\n手工切分\n自动切分\n题型标识\n业务子类\n题卡编号\n描述\n样本结构文本\n手工切分要求每个样本都带切分集；自动切分会按哈希规则切分。\n实验性原型路由\n仅用于实验试跑，不会把题型升格为正式题型。勾选后只为受支持的新叶族追加受控原型路由；当前后端仅支持词语理解 / 实词解释类。未知子类仍会失败，生成结果必须人工审核后才能作为证据沉淀。\n创建样本集\n2. 建蒸馏会话\n\n蒸馏会话对应一轮蒸馏任务。它不是结果，而是“围绕什么目标持续试验”的母任务。\n\n标题\n模式\n题卡微调\n新题卡探索\n材料链微调\n绑定样本集\n未选择\n题型标识\n业务子类\n训练目标\n基线请求\n真题样本\n创建蒸馏会话\n3. 跑试验\n\n试验是智能体的一次受控运行。你改了什么、在哪个切分集上跑、结果如何，都在这里留痕。\n\n目标会话\n未选择\n切分集\n开发集\n训练集\n测试集\n最多样本数\n试验标签\n指定样本编号\n试验假设\n覆盖请求\n实验性原型路由\n仅用于实验试跑。勾选后只会在试验请求中追加原型路由开关；这不是正式生题支持，未知子类仍由后端拦截，结果只能作为待审核证据。\n运行试验\n4. 人工审核\n\n只有运行完成后，人审才有意义。你可以给出审核结论，并决定是否允许沉淀进正式配置。\n\n目标运行\n未选择\n审核结论\n通过\n继续修改\n否决\n审核人\n结论摘要\n审核原因\n允许沉淀到正式配置\n题卡\n业务特征卡\n材料卡\n信号层\n运行映射\n叶族预蒸馏报告\n结构缺口报告\n提示资产\n校验契约\n材料映射\n提交审核\n5. 记录补丁\n\n把这轮到底改了什么显式记下来，而不是只写在备注里。\n\n目标运行\n未选择\n补丁目标\n题卡\n业务特征卡\n材料卡\n信号层\n运行映射\n叶族预蒸馏报告\n结构缺口报告\n提示资产\n校验契约\n材料映射\n作者\n补丁标题\n作"
+  },
+  "errors": [],
+  "dataset_state": {
+    "selectedDatasetId": "04f384dc-02a2-41f0-b018-976d3fb1c777",
+    "datasets": [
+      {
+        "id": "04f384dc-02a2-41f0-b018-976d3fb1c777",
+        "title": "????-?????-20260428031946",
+        "count": 2
+      }
+    ]
+  },
+  "session_state": {
+    "selectedSessionId": "f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+    "sessions": [
+      {
+        "id": "f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+        "title": "????-???????-20260428031946",
+        "runs": 0
+      }
+    ]
+  },
+  "run_state": {
+    "selectedRunId": "c351967e-0adf-49ce-97e5-369d5b2dadb9",
+    "currentRun": {
+      "run_id": "c351967e-0adf-49ce-97e5-369d5b2dadb9",
+      "status": "completed",
+      "sample_count": 1,
+      "fit": {
+        "truth_available": true,
+        "question_type_match": true,
+        "business_subtype_match": true,
+        "answer_match": true,
+        "stem_similarity": 1,
+        "analysis_similarity": 1,
+        "option_overlap": 1,
+        "material_similarity": 1,
+        "fit_band": "high",
+        "notes": []
+      },
+      "item_ids": [
+        "0b01536a-64b0-41ec-b783-bf670cac4ca5"
+      ]
+    }
+  },
+  "review_state": {
+    "selectedRunId": "c351967e-0adf-49ce-97e5-369d5b2dadb9",
+    "latestReview": {
+      "review_id": "677a9487-a465-43c1-ae05-3b809de2f6b4",
+      "run_id": "c351967e-0adf-49ce-97e5-369d5b2dadb9",
+      "session_id": "f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "verdict": "approved",
+      "summary": "proto ?????????????????????????????????",
+      "reason": "?????? experimental proto????? truth/material/readiness gate????????????????",
+      "notes": [],
+      "allow_promote": true,
+      "promotion_targets": [
+        "business_feature_card",
+        "signal_layer",
+        "runtime_mapping",
+        "prompt_assets",
+        "validator_contract",
+        "material_mapping"
+      ],
+      "reviewer": "frontend_acceptance_user",
+      "created_at": "2026-04-27T19:19:56.957849+00:00",
+      "updated_at": "2026-04-27T19:19:56.957849+00:00"
+    },
+    "reviewCount": 1
+  },
+  "draft_targets": [
+    "business_feature_card",
+    "material_mapping",
+    "prompt_assets",
+    "runtime_mapping",
+    "signal_layer",
+    "validator_contract"
+  ],
+  "draft_writeback_allowed": false,
+  "draft_formalized": false,
+  "patch_state": {
+    "patchCount": 6,
+    "patchTargets": [
+      "validator_contract",
+      "signal_layer",
+      "runtime_mapping",
+      "prompt_assets",
+      "material_mapping",
+      "business_feature_card"
+    ]
+  },
+  "promote_state": {
+    "promotionCount": 1,
+    "latestPromotion": {
+      "promotion_id": "e74b3084-2a15-41de-9549-d42ff6652db1",
+      "run_id": "c351967e-0adf-49ce-97e5-369d5b2dadb9",
+      "session_id": "f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": "ready",
+      "targets": [
+        "business_feature_card",
+        "material_mapping",
+        "prompt_assets",
+        "runtime_mapping",
+        "signal_layer",
+        "validator_contract"
+      ],
+      "summary": "????????????? proto ??????????????????????????",
+      "notes": [],
+      "promoter": "frontend_acceptance_user",
+      "patch_ids": [
+        "9d89281b-a727-4148-a54f-ac18f0a1706f",
+        "1202df45-c27a-49dd-beab-6d60aa063e3e",
+        "4775cc00-9d54-47ad-a382-b3aa15a8f4cc",
+        "f28f4a93-b31c-4b95-a74c-f6a421825b09",
+        "ba7648d9-03c3-43ee-9546-9f61a50d9abd",
+        "0c474a01-a26b-45ba-8e75-9ed72a33b1d7"
+      ],
+      "artifact_path": "E:\\agent_repo_src\\prompt_skeleton_service\\data\\distill_promotions\\e74b3084-2a15-41de-9549-d42ff6652db1.json",
+      "created_at": "2026-04-27T19:20:07.902271+00:00",
+      "updated_at": "2026-04-27T19:20:07.902271+00:00"
+    },
+    "patchTargets": [
+      "validator_contract",
+      "signal_layer",
+      "runtime_mapping",
+      "prompt_assets",
+      "material_mapping",
+      "business_feature_card"
+    ]
+  },
+  "source_review_decisions": {
+    "review_version": "v1",
+    "reviewer": "人工",
+    "reviewed_at": "2026-04-27T19:20:12.276Z",
+    "source_candidate_results_path": "mock/source_candidate_results.jsonl",
+    "decisions": [
+      {
+        "sample_id": "word_usage_mock_001",
+        "url": "https://www.example.edu.cn/research/co2-plant-growth",
+        "decision": "keep_as_similar_material_seed",
+        "source_use": "similar_material",
+        "rationale": "???????/???????????? seed???????",
+        "review_notes": "",
+        "human_opened_url": false,
+        "crawl_priority": "medium"
+      },
+      {
+        "sample_id": "word_usage_mock_002",
+        "url": "https://www.example-news.cn/comment/city-renewal-public-space",
+        "decision": "defer",
+        "source_use": "defer",
+        "rationale": "",
+        "review_notes": "",
+        "human_opened_url": false
+      },
+      {
+        "sample_id": "word_usage_mock_003",
+        "url": "https://www.exam-training.example/tiku/word-usage-answer",
+        "decision": "reject_question_bank",
+        "source_use": "reject",
+        "rationale": "",
+        "review_notes": "",
+        "human_opened_url": false
+      }
+    ]
+  },
+  "agent_feedback_input": {
+    "feedback_version": "v1",
+    "reviewer": "frontend_acceptance_user",
+    "reviewed_at": "2026-04-27T19:20:14.726Z",
+    "target_scope": "formalization_packet",
+    "target_artifacts": [
+      "new_leaf_formalization_packet.json",
+      "material_quality_regression_results.json"
+    ],
+    "raw_feedback": "??????????????????????????????",
+    "context": {
+      "family_context": {},
+      "sample_ids": [],
+      "artifact_paths": [
+        "new_leaf_formalization_packet.json",
+        "material_quality_regression_results.json"
+      ]
+    }
+  },
+  "final_run_summary": {
+    "run_id": "c351967e-0adf-49ce-97e5-369d5b2dadb9",
+    "status": "completed",
+    "patch_count": 6,
+    "promotion_count": 1,
+    "review_count": 1,
+    "latest_promotion": {
+      "promotion_id": "e74b3084-2a15-41de-9549-d42ff6652db1",
+      "run_id": "c351967e-0adf-49ce-97e5-369d5b2dadb9",
+      "session_id": "f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": "ready",
+      "targets": [
+        "business_feature_card",
+        "material_mapping",
+        "prompt_assets",
+        "runtime_mapping",
+        "signal_layer",
+        "validator_contract"
+      ],
+      "summary": "????????????? proto ??????????????????????????",
+      "notes": [],
+      "promoter": "frontend_acceptance_user",
+      "patch_ids": [
+        "9d89281b-a727-4148-a54f-ac18f0a1706f",
+        "1202df45-c27a-49dd-beab-6d60aa063e3e",
+        "4775cc00-9d54-47ad-a382-b3aa15a8f4cc",
+        "f28f4a93-b31c-4b95-a74c-f6a421825b09",
+        "ba7648d9-03c3-43ee-9546-9f61a50d9abd",
+        "0c474a01-a26b-45ba-8e75-9ed72a33b1d7"
+      ],
+      "artifact_path": "E:\\agent_repo_src\\prompt_skeleton_service\\data\\distill_promotions\\e74b3084-2a15-41de-9549-d42ff6652db1.json",
+      "created_at": "2026-04-27T19:20:07.902271+00:00",
+      "updated_at": "2026-04-27T19:20:07.902271+00:00"
+    },
+    "fit_summary": {
+      "truth_available": true,
+      "question_type_match": true,
+      "business_subtype_match": true,
+      "answer_match": true,
+      "stem_similarity": 1,
+      "analysis_similarity": 1,
+      "option_overlap": 1,
+      "material_similarity": 1,
+      "fit_band": "high",
+      "notes": []
+    }
+  }
+}

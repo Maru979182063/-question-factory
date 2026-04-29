@@ -1,0 +1,24 @@
+{
+  "search_version": "v1",
+  "source_queries_path": "data\\manual_test_packs\\relative_absolute_source_search_v1\\source_discovery_queries.jsonl",
+  "provider": "web",
+  "provider_status": "ok",
+  "run_search": true,
+  "selected_sample_ids": [
+    "relative_absolute_001"
+  ],
+  "query_count": 2,
+  "limits": {
+    "max_samples": 1,
+    "max_queries_per_sample": 2,
+    "max_results_per_query": 3,
+    "allowed_risk": "low",
+    "search_api_key_env": "SOURCE_SEARCH_API_KEY",
+    "timeout_seconds": 20
+  },
+  "boundaries": [
+    "candidate sources are unverified",
+    "no original source is confirmed",
+    "no material library or material_card write happened"
+  ]
+}

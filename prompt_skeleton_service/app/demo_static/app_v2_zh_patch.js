@@ -168,19 +168,18 @@
     overlay.innerHTML = `
       <div class="distill-access-backdrop" data-close="1"></div>
       <div class="distill-access-dialog" role="dialog" aria-modal="true" aria-labelledby="distillAccessTitle">
-        <h2 id="distillAccessTitle">研发蒸馏台</h2>
+        <h2 id="distillAccessTitle">蒸馏工作台</h2>
         <p>
-          这是面向题卡、材料链和提示策略迭代的研发调试入口。需要输入运行时配置的访问密钥，
-          才能进入蒸馏界面继续查看样本集、会话、试验和人工审核链路。
+          这里用于新题卡蒸馏和历史记录调整蒸馏。需要输入访问密钥后进入工作台。
         </p>
 
         <label class="distill-access-field">
           <span>访问密钥</span>
-          <input id="distillAccessKeyInput" type="password" placeholder="请输入训练入口密钥" />
+          <input id="distillAccessKeyInput" type="password" placeholder="请输入访问密钥" />
         </label>
 
         <div class="distill-access-help">
-          提示：访问密钥不在前端暴露。验证通过后会进入中文蒸馏调试界面。
+          提示：访问密钥不在前端暴露。验证通过后会进入蒸馏工作台。
         </div>
 
         <div id="distillAccessStatus" class="distill-access-status" hidden></div>

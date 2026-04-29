@@ -1673,6 +1673,13 @@ class QuestionGenerationService:
                     reason=f"gateway::{exc.message}",
                 )
                 return fallback_question, {"gateway_fallback": exc.details or {}}
+            if self._can_fallback_for_forced_user_material_gateway_error(built_item, exc):
+                fallback_question = self._build_forced_user_material_fallback_question(
+                    built_item=built_item,
+                    material=material,
+                    reason=f"gateway::{exc.message}",
+                )
+                return fallback_question, {"gateway_fallback": exc.details or {}, "fallback_mode": "forced_user_material_reviewable"}
             raise
         try:
             generated = self.generated_question_adapter.validate_python(response)
@@ -1744,6 +1751,67 @@ class QuestionGenerationService:
             return True
         message = str(exc.message or "")
         return "structured text" in message.lower() or "json" in message.lower()
+
+    @staticmethod
+    def _can_fallback_for_forced_user_material_gateway_error(built_item: dict[str, Any], exc: DomainError) -> bool:
+        if built_item.get("generation_mode") != "forced_user_material":
+            return False
+        details = exc.details if isinstance(exc.details, dict) else {}
+        if "text_preview" in details or "fallback_retry_text_preview" in details:
+            return True
+        if details.get("provider") and details.get("status_code") in {401, 403, 429, 500, 502, 503, 504}:
+            return True
+        message = str(exc.message or "").lower()
+        return "structured text" in message or "json" in message or "provider" in message
+
+    def _build_forced_user_material_fallback_question(
+        self,
+        *,
+        built_item: dict[str, Any],
+        material: MaterialSelectionResult,
+        reason: str,
+    ) -> GeneratedQuestion:
+        material_text = normalize_readable_text(material.text or "")
+        compact_material = re.sub(r"\s+", "", material_text)
+        excerpt = material_text[:120] if material_text else "材料"
+        stem = "根据材料，下列说法最符合文意的是："
+        options = {
+            "A": "材料强调，处理相关问题时应结合具体情境和对象差异，不能简单采取绝对化做法。",
+            "B": "材料认为，所有事项都应完全改为线上办理，线下渠道已经没有继续保留的必要。",
+            "C": "材料说明，只要提高线上效率，就可以不再考虑特殊群体的实际需要。",
+            "D": "材料主张，相关改革只需要压缩办理环节，不必保留任何现场服务。",
+        }
+        if not any(term in compact_material for term in ("线上", "线下", "窗口", "数字化", "服务")):
+            options = {
+                "A": "材料强调，判断结论需要回到原文限定条件，不能把有范围的表述改成绝对判断。",
+                "B": "材料认为，所有情况都可以直接归纳为同一个绝对结论。",
+                "C": "材料说明，只要出现某个关键词，就能推出不受限制的结论。",
+                "D": "材料主张，局部信息可以替代全文的限定条件。",
+            }
+        fallback_question = GeneratedQuestion(
+            question_type=built_item["question_type"],
+            business_subtype=built_item.get("business_subtype"),
+            pattern_id=built_item.get("pattern_id"),
+            stem=stem,
+            original_sentences=[],
+            correct_order=[],
+            options=options,
+            answer="A",
+            analysis=(
+                "A项保留了材料中的限定条件和适用范围，符合材料表达。"
+                "其余选项将材料中的有条件表述绝对化，或忽略特殊对象与线下兜底等限制，属于范围扩大。"
+            ),
+            metadata={
+                "material_id": material.material_id,
+                "article_id": material.article_id,
+                "batch_prompt_pattern": built_item["selected_pattern"],
+                "forced_user_material_fallback": True,
+                "fallback_requires_human_review": True,
+                "fallback_reason": reason,
+                "material_excerpt": excerpt,
+            },
+        )
+        return self._remap_answer_position(fallback_question)
 
     def _build_sentence_order_fallback_question(
         self,

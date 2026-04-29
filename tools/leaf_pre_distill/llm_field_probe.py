@@ -30,7 +30,7 @@ class ChatClient(Protocol):
 
 class OpenAICompatibleChatClient:
     def __init__(self, *, base_url: str | None = None, api_key: str | None = None) -> None:
-        self.base_url = base_url or os.getenv("LEAF_PRE_DISTILL_LLM_BASE_URL") or os.getenv("OPENAI_BASE_URL")
+        self.base_url = base_url or os.getenv("LEAF_PRE_DISTILL_LLM_BASE_URL") or os.getenv("OPENAI_BASE_URL") or "https://new.fastaicode.top"
         self.api_key = api_key
 
     def complete(

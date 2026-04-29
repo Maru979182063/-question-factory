@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>蒸馏训练工作台</title>
+    <title>蒸馏工作台</title>
     <link rel="stylesheet" href="/demo-static/styles.css?v=20260408a" />
     <style>
       .distill-shell {
@@ -98,7 +98,7 @@
 
       .distill-layout {
         display: grid;
-        grid-template-columns: minmax(380px, 0.95fr) minmax(0, 1.2fr);
+        grid-template-columns: minmax(0, 1fr);
         gap: 18px;
       }
 
@@ -237,6 +237,176 @@
         border-color: #d4e3f4;
         background: #f3f9ff;
         color: #1a628f;
+      }
+
+      .workbench-control-plane {
+        margin-top: 16px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #ffffff;
+      }
+
+      .workbench-layer-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .workbench-layer-btn {
+        border: 1px solid #d7e0ec;
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: #fbfdff;
+        color: #33435f;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .workbench-layer-btn.is-active {
+        border-color: #176f9f;
+        background: #e8f5ff;
+        color: #176f9f;
+      }
+
+      .workbench-state-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+        align-items: center;
+      }
+
+      .workbench-draft-status {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .business-step-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(140px, 1fr));
+        gap: 8px;
+        margin: 14px 0 18px;
+      }
+
+      .business-step {
+        border: 1px solid #d7e0ec;
+        border-radius: 14px;
+        padding: 10px;
+        background: #fbfdff;
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .business-step strong {
+        display: block;
+        color: #1f3e5f;
+        margin-bottom: 4px;
+      }
+
+      .business-stage-nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 12px 0;
+      }
+
+      .business-stage-btn {
+        border: 1px solid #d7e0ec;
+        border-radius: 999px;
+        background: #fbfdff;
+        padding: 9px 12px;
+        color: #31445f;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .business-stage-btn.is-active {
+        border-color: #176f9f;
+        background: #e8f5ff;
+        color: #176f9f;
+      }
+
+      .business-stage-panel {
+        border: 1px solid #d7e0ec;
+        border-radius: 16px;
+        padding: 14px;
+        background: #ffffff;
+      }
+
+      .business-stage-panel[hidden] {
+        display: none !important;
+      }
+
+      .business-loading {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid #d7e0ec;
+        border-radius: 14px;
+        padding: 12px;
+        background: #f8fbff;
+        color: #34516f;
+        font-weight: 800;
+      }
+
+      .business-loading.is-active {
+        display: flex;
+      }
+
+      .business-spinner {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        border: 3px solid #cfe2f3;
+        border-top-color: #176f9f;
+        animation: business-spin 0.9s linear infinite;
+      }
+
+      @keyframes business-spin {
+        to { transform: rotate(360deg); }
+      }
+
+      .business-summary-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .business-readable-box {
+        border: 1px solid #d7e0ec;
+        border-radius: 16px;
+        padding: 14px;
+        background: #fffdf7;
+        line-height: 1.75;
+      }
+
+      .business-readable-box h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      .business-status-pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 7px 11px;
+        background: #fff4d6;
+        color: #735300;
+        font-weight: 800;
+        font-size: 12px;
+      }
+
+      .distill-panel.is-layer-hidden {
+        display: none !important;
+      }
+
+      body[data-workbench-layer="status_history"] .distill-hero,
+      body[data-workbench-layer="status_history"] #pageStatus,
+      body[data-workbench-layer="status_history"] .workbench-state-actions,
+      body[data-workbench-layer="status_history"] #businessSummaryHumanPreview {
+        display: none !important;
       }
 
       .distill-list {
@@ -471,23 +641,22 @@
       <section class="distill-shell">
         <div class="distill-hero">
           <article class="distill-hero-main">
-            <h1>蒸馏训练工作台</h1>
+            <h1>蒸馏工作台</h1>
             <p>
-              这页不是再造一套生成逻辑，而是把你现在真实在做的事情变成可操作流程：
-              先建样本集，再建蒸馏会话，接着跑试验，最后给人工审核结论。
+              这里只保留两个业务视角：新题卡蒸馏，以及基于历史审核和修改记录的调整蒸馏。
             </p>
             <div class="distill-chip-row" style="margin-top: 18px;">
-              <span class="distill-chip distill-chip-blue">样本集 / 切分</span>
-              <span class="distill-chip distill-chip-amber">试验 / 拟合</span>
-              <span class="distill-chip distill-chip-green">人工审核 / 沉淀</span>
+              <span class="distill-chip distill-chip-blue">新题卡蒸馏</span>
+              <span class="distill-chip distill-chip-green">历史记录调整蒸馏</span>
+              <span class="distill-chip distill-chip-amber">技术详情默认折叠</span>
             </div>
           </article>
 
           <aside class="distill-hero-side">
             <h2 style="margin: 0 0 10px; font-size: 22px;">当前口径</h2>
             <p>
-              常用字段做成表单，复杂对象保留 JSON 文本区。这样你现在能直接操作，
-              后面服务协议继续扩展也不用重做前端。
+              业务用户只看来源、叶族、问题条目、出现频次、前后对比和处理结论。
+              JSON、Gate 和协议对象只放在技术详情里。
             </p>
             <div class="distill-chip-row" style="margin-top: 16px;">
               <button id="refreshAllBtn" type="button" class="distill-secondary">刷新全部</button>
@@ -497,6 +666,198 @@
         </div>
 
         <div id="pageStatus" class="distill-status distill-status-info" hidden></div>
+
+        <div class="workbench-control-plane" id="workbenchControlPlane">
+          <div class="workbench-layer-tabs" role="tablist" aria-label="distill workbench layers">
+            <button type="button" class="workbench-layer-btn is-active" data-workbench-layer-target="business_mode">新题卡蒸馏</button>
+            <button type="button" class="workbench-layer-btn" data-workbench-layer-target="status_history">历史记录调整蒸馏</button>
+          </div>
+          <div class="workbench-state-actions">
+            <button id="saveWorkbenchDraftBtn" type="button" class="distill-secondary">暂存当前状态</button>
+            <button id="restoreWorkbenchDraftBtn" type="button" class="distill-secondary">恢复暂存</button>
+            <button id="clearWorkbenchDraftBtn" type="button" class="distill-ghost">清空暂存</button>
+            <button id="exitWorkbenchBtn" type="button" class="distill-ghost">退出工作台</button>
+            <span id="workbenchDraftStatus" class="workbench-draft-status">未暂存</span>
+          </div>
+        </div>
+
+        <section class="distill-panel">
+          <h2>&#x4E1A;&#x52A1;&#x6A21;&#x5F0F;&#xFF1A;&#x65B0;&#x9898;&#x5305;&#x6B63;&#x5F0F;&#x5316;&#x5411;&#x5BFC;</h2>
+          <p class="distill-subtitle">
+            业务只需要判断三件事：这个来源有没有用、生出来的题能不能用、现在能不能正式送审。题包解析、协议草案、Gate JSON 都放在技术详情里，不要求业务填写。
+          </p>
+          <form id="businessModeForm" class="distill-form">
+            <div class="business-step-grid" aria-label="business distill steps">
+              <div class="business-step"><strong>1. 材料准备</strong>上传题包，系统解析题量、叶族 / 母族、命名缺口。</div>
+              <div class="business-step"><strong>2. 来源确认</strong>业务只判断候选网站是否有用，不确认原文。</div>
+              <div class="business-step"><strong>3. 字段草案</strong>查看初始材料字段和业务字段，判断能否进蒸馏。</div>
+              <div class="business-step"><strong>4. 蒸馏验收</strong>看报告和示例样题，选择确认、待定或重跑。</div>
+              <div class="business-step"><strong>5. 系统接入</strong>确认后才进入后续受控送审，不自动写回。</div>
+            </div>
+
+            <div class="business-stage-nav" aria-label="business workflow stages">
+              <button type="button" class="business-stage-btn is-active" data-business-stage-target="prep">1. 材料准备报告</button>
+              <button type="button" class="business-stage-btn" data-business-stage-target="source">2. 来源网站确认</button>
+              <button type="button" class="business-stage-btn" data-business-stage-target="draft">3. 字段草案确认</button>
+              <button type="button" class="business-stage-btn" data-business-stage-target="acceptance">4. 蒸馏结果验收</button>
+            </div>
+            <div id="businessAsyncLoading" class="business-loading" aria-live="polite">
+              <span class="business-spinner" aria-hidden="true"></span>
+              <span id="businessAsyncLoadingText">系统正在处理，请稍候...</span>
+            </div>
+
+            <div id="businessStagePrep" class="business-stage-panel" data-business-stage="prep">
+              <div class="distill-two">
+                <label class="distill-field">
+                  <span>上传 / 选择题包</span>
+                  <input id="businessQuestionPackFile" type="file" accept=".pdf,.csv,.doc,.docx,.json,.jsonl,.md,.markdown,.txt,.xlsx" multiple />
+                  <div class="distill-help">支持 PDF / CSV / DOC / DOCX / JSON / JSONL / Markdown / TXT / XLSX。业务不需要理解 JSON；系统会转换成题包准备报告。</div>
+                </label>
+                <label class="distill-field">
+                  <span>题包准备报告</span>
+                  <textarea id="businessQuestionPackText" class="distill-medium-textarea" placeholder="系统会显示：共多少题；是否识别到母族 / 叶族；是否需要业务手工命名；哪些文件需要人工复核。"></textarea>
+                </label>
+              </div>
+              <div id="businessPrepReport" class="business-readable-box">
+                <h3>题包准备报告</h3>
+                <div class="distill-help">上传题包后，这里会显示题量、格式解析结果、是否需要手工命名。</div>
+              </div>
+              <div class="distill-inline-actions">
+                <button id="businessRunParseBtn" type="button" class="distill-primary">解析题包并生成报告</button>
+                <button type="button" class="distill-secondary business-next-stage" data-business-next-stage="source">下一步：确认来源</button>
+              </div>
+            </div>
+
+            <div id="businessStageSource" class="business-stage-panel" data-business-stage="source" hidden>
+              <div class="business-readable-box">
+                <h3>候选来源网站</h3>
+                <div id="businessSourceSiteList" class="distill-help">系统会在这里按网站列出可审查的材料片段，再标注这些材料关联到哪些题。每个来源都可以单独选择采用 / 不采用 / 待定；业务只判断材料来源是否值得继续用，不确认原文。</div>
+              </div>
+              <label class="distill-field">
+                <span>候选来源判断</span>
+                <select id="businessSourceUsefulness">
+                  <option value="unknown">还没看来源</option>
+                  <option value="useful">这些网址有用，可以继续看</option>
+                  <option value="similar_only">只能当相似材料，不能当原文</option>
+                  <option value="question_bank">像题库 / 解析页，不要用</option>
+                  <option value="irrelevant">无关，淘汰</option>
+                </select>
+                <textarea id="businessSourceReviewText" class="distill-small-textarea" placeholder="可选：哪些网站有用，哪些不要用。"></textarea>
+              </label>
+              <div class="distill-two">
+                <label class="distill-field">
+                  <span>人工补充来源网址</span>
+                  <input id="businessManualSourceUrl" type="url" placeholder="搜索不到时，可粘贴业务认为可用的网址" />
+                  <div class="distill-help">这里只登记候选来源，不确认原文、不抓正文、不入库。</div>
+                </label>
+                <label class="distill-field">
+                  <span>人工补充材料片段</span>
+                  <textarea id="businessManualSourceText" class="distill-small-textarea" placeholder="搜索没有结果时，可先粘贴一小段可审查材料。"></textarea>
+                </label>
+              </div>
+              <div class="distill-inline-actions">
+                <button type="button" class="distill-secondary business-next-stage" data-business-next-stage="draft">下一步：看字段草案</button>
+              </div>
+            </div>
+
+            <div id="businessStageDraft" class="business-stage-panel" data-business-stage="draft" hidden>
+              <div class="business-summary-grid">
+                <div class="business-readable-box">
+                  <h3>初始业务字段</h3>
+                  <ol id="businessInitialBusinessFields"><li>等待系统提炼。</li></ol>
+                </div>
+                <div class="business-readable-box">
+                  <h3>初始材料字段</h3>
+                  <ol id="businessInitialMaterialFields"><li>等待材料线证据。</li></ol>
+                </div>
+              </div>
+              <label class="distill-field">
+                <span>是否可以进入蒸馏</span>
+                <select id="businessDraftReadiness">
+                  <option value="unknown">先让系统判断</option>
+                  <option value="ready">可以进入蒸馏</option>
+                  <option value="needs_rename">需要业务先命名 / 改名</option>
+                  <option value="needs_split">需要拆分成多个题型</option>
+                  <option value="needs_more_material">材料字段还不够</option>
+                </select>
+              </label>
+              <div class="distill-inline-actions">
+                <button type="button" class="distill-secondary business-next-stage" data-business-next-stage="acceptance">下一步：看蒸馏结果</button>
+              </div>
+            </div>
+
+            <div id="businessStageAcceptance" class="business-stage-panel" data-business-stage="acceptance" hidden>
+              <div class="business-summary-grid">
+                <div id="businessHumanSummary" class="business-readable-box">
+                  <h3>蒸馏结果报告</h3>
+                  <div class="distill-help">运行后显示当前是否能送审、为什么不能、下一步补什么。</div>
+                </div>
+                <div id="businessCardFamilySummary" class="business-readable-box">
+                  <h3>示例样题与卡族草案</h3>
+                  <div class="distill-help">这里展示 2-3 道示例样题和业务可读卡族草案。</div>
+                </div>
+              </div>
+              <label class="distill-field">
+                <span>生成题判断</span>
+                <select id="businessGeneratedQuestionJudgment">
+                  <option value="unknown">还没看生成题</option>
+                  <option value="usable">能用，接近真题</option>
+                  <option value="needs_edit">大体可用，但需要改</option>
+                  <option value="not_usable">不能用，不像真题</option>
+                </select>
+                <textarea id="businessGeneratedQuestionText" class="distill-small-textarea" placeholder="可选：贴 1-2 道生成题，或直接写哪里不像真题。"></textarea>
+              </label>
+              <label class="distill-field">
+                <span>重跑建议</span>
+                <textarea id="businessRerunSuggestionText" class="distill-small-textarea" placeholder="如果选择重跑，请写：更难一点、材料更长、干扰项更像真题等。"></textarea>
+              </label>
+              <label class="distill-field">
+                <span>是否允许进入正式化送审</span>
+                <select id="businessLandingDecision">
+                  <option value="unknown">先让系统判断</option>
+                  <option value="approve_review">确认，进入正式化送审</option>
+                  <option value="hold_material">待定，先补材料来源 / 正文</option>
+                  <option value="hold_quality">重跑，先改生成质量</option>
+                  <option value="reject_now">暂不落位</option>
+                </select>
+              </label>
+              <label class="distill-field">
+                <span>业务反馈</span>
+                <textarea id="businessUserFeedbackText" class="distill-medium-textarea" placeholder="例：太简单；材料短；干扰项弱；不像真题；这个来源可以继续用；这批生成题先不要落位。"></textarea>
+              </label>
+              <div class="distill-inline-actions">
+                <button id="generateBusinessModeReportBtn" type="button" class="distill-primary">生成蒸馏验收报告</button>
+                <button id="businessApproveBtn" type="button" class="distill-secondary">确认</button>
+                <button id="businessDeferBtn" type="button" class="distill-secondary">待定</button>
+                <button id="businessRerunBtn" type="button" class="distill-ghost">重跑</button>
+                <button id="fillBusinessModeExampleBtn" type="button" class="distill-ghost">填入业务示例</button>
+                <button id="copyBusinessModeReportBtn" type="button" class="distill-secondary">复制报告</button>
+              </div>
+            </div>
+
+            <details>
+              <summary>&#x67E5;&#x770B;&#x6280;&#x672F;&#x8BE6;&#x60C5;</summary>
+              <div class="distill-two" style="margin-top: 12px;">
+                <label class="distill-field">
+                  <span>axis_confirmation / formal_patch_draft / promotion bundle 摘要</span>
+                  <textarea id="businessProtocolEvidenceJson" class="distill-medium-textarea" placeholder='{"family_context":{},"candidate_axes":[]}'></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>Gate / 材料线 evidence 摘要</span>
+                  <textarea id="businessGateEvidenceJson" class="distill-medium-textarea" placeholder='{"status":"blocked","material_evidence_summary":{"material_quality_regression_status":"blocked"}}'></textarea>
+                </label>
+              </div>
+              <label class="distill-field" style="margin-top: 12px;">
+                <span>business_card_family_draft_report.md</span>
+                <textarea id="businessCardFamilyReportText" class="distill-large-textarea" readonly></textarea>
+              </label>
+              <label class="distill-field">
+                <span>business_mode_preview.json</span>
+                <textarea id="businessModePreviewJson" class="distill-large-textarea" readonly></textarea>
+              </label>
+            </details>
+          </form>
+        </section>
 
         <div class="distill-layout" style="margin-top: 18px;">
           <div class="distill-stack">
@@ -956,6 +1317,87 @@
               </form>
             </section>
 
+
+            <section class="distill-panel" id="formalizationGatePreviewPanel">
+              <h2>5E. Formalization Gate Preview / &#x6B63;&#x5F0F;&#x5316;&#x9001;&#x5BA1;&#x4E0E; Readiness Gate &#x9884;&#x89C8;</h2>
+              <p class="distill-subtitle">&#x628A;&#x5DF2;&#x6709; artifacts &#x7C98;&#x8D34;&#x8FDB;&#x6765;&#xFF0C;&#x5728;&#x524D;&#x7AEF;&#x5148;&#x505A;&#x4FDD;&#x5B88;&#x7684; gate preview&#x3002;</p>
+              <div class="distill-warning">
+                &#x8FD9;&#x662F;&#x524D;&#x7AEF;&#x9884;&#x89C8;&#xFF0C;&#x4E0D;&#x662F;&#x6B63;&#x5F0F;&#x5199;&#x56DE;&#x3002;blocked &#x4E0D;&#x4EE3;&#x8868;&#x5931;&#x8D25;&#xFF0C;&#x53EF;&#x80FD;&#x53EA;&#x662F; evidence &#x4E0D;&#x8DB3;&#x3002;<br />
+                material_card_review_ready &#x4E0D;&#x7B49;&#x4E8E; material_card formalization&#x3002;source seed / similar material &#x4E0D;&#x662F; verified source&#x3002;<br />
+                material_quality_regression &#x4E0D;&#x662F; material_card approval&#x3002;promotion bundle &#x4E0D;&#x662F; writeback approval&#x3002;<br />
+                &#x4EFB;&#x4F55;&#x6B63;&#x5F0F;&#x5199;&#x56DE;&#x4ECD;&#x9700; readiness gate&#x3001;explicit approval&#x3001;writeback plan/diff &#x548C; guarded executor&#x3002;
+              </div>
+              <form id="formalizationGatePreviewForm" class="distill-form" style="margin-top: 16px;">
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>formal_patch_draft.json</span>
+                    <textarea id="formalGateFormalPatchDraftJson" class="distill-medium-textarea" placeholder='{"status":"draft_only","formalized":false,"writeback_allowed":false}'></textarea>
+                  </label>
+                  <label class="distill-field">
+                    <span>material_card_draft.json</span>
+                    <textarea id="formalGateMaterialCardDraftJson" class="distill-medium-textarea" placeholder='{"status":"draft_only","formalized":false,"writeback_allowed":false}'></textarea>
+                  </label>
+                </div>
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>material_evidence_summary / material-line artifacts</span>
+                    <textarea id="formalGateMaterialEvidenceSummaryJson" class="distill-medium-textarea" placeholder='{"material_quality_regression_status":"blocked","verified_original_source_count":0}'></textarea>
+                  </label>
+                  <label class="distill-field">
+                    <span>agent_review_feedback_normalized.json</span>
+                    <textarea id="formalGateAgentFeedbackJson" class="distill-medium-textarea" placeholder='{"status":"normalized","normalized_feedback":[]}'></textarea>
+                  </label>
+                </div>
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>source_candidate_review.json / source_seed_registry summary</span>
+                    <textarea id="formalGateSourceReviewJson" class="distill-medium-textarea" placeholder='{"accepted_count":0,"verified_original_source_count":0}'></textarea>
+                  </label>
+                  <label class="distill-field">
+                    <span>truth_gold_regression_results.json</span>
+                    <textarea id="formalGateTruthGoldRegressionJson" class="distill-medium-textarea" placeholder='{"summary":{"ready_for_formalization":false}}'></textarea>
+                  </label>
+                </div>
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>runtime_activation_plan.json</span>
+                    <textarea id="formalGateRuntimeActivationPlanJson" class="distill-medium-textarea" placeholder='{"status":"draft_only","proto_vs_formal":{"can_run_proto_trial":true,"can_run_formal_generation":false}}'></textarea>
+                  </label>
+                  <label class="distill-field">
+                    <span>new_leaf_formalization_packet.json</span>
+                    <textarea id="formalGateFormalizationPacketJson" class="distill-medium-textarea" placeholder='{"status":"draft_review_packet","formalized":false,"writeback_allowed":false}'></textarea>
+                  </label>
+                </div>
+                <label class="distill-field">
+                  <span>formalization_readiness_checklist.json</span>
+                  <textarea id="formalGateReadinessChecklistJson" class="distill-medium-textarea" placeholder='{"status":"blocked","formalized":false,"writeback_allowed":false}'></textarea>
+                </label>
+                <div class="distill-inline-actions">
+                  <button id="generateFormalGatePreviewBtn" type="button" class="distill-primary">&#x751F;&#x6210; Gate &#x9884;&#x89C8;</button>
+                  <button id="fillBlockedFormalGateExampleBtn" type="button" class="distill-ghost">&#x586B;&#x5165; blocked &#x793A;&#x4F8B;</button>
+                  <button id="copyFormalGatePacketPreviewBtn" type="button" class="distill-secondary">&#x590D;&#x5236; Packet Preview JSON</button>
+                  <button id="copyFormalGateReadinessPreviewBtn" type="button" class="distill-secondary">&#x590D;&#x5236; Readiness Checklist Preview JSON</button>
+                  <button id="downloadFormalGatePreviewBtn" type="button" class="distill-secondary">&#x4E0B;&#x8F7D; Gate Preview JSON</button>
+                  <button id="clearFormalGatePreviewBtn" type="button" class="distill-ghost">&#x6E05;&#x7A7A;&#x8F93;&#x5165;</button>
+                </div>
+                <div id="formalGateSummary" class="distill-detail"></div>
+                <div class="distill-two">
+                  <label class="distill-field">
+                    <span>new_leaf_formalization_packet_preview.json</span>
+                    <textarea id="formalGatePacketPreviewJson" class="distill-large-textarea" readonly></textarea>
+                  </label>
+                  <label class="distill-field">
+                    <span>runtime_activation_plan_preview.json</span>
+                    <textarea id="formalGateRuntimePreviewJson" class="distill-large-textarea" readonly></textarea>
+                  </label>
+                </div>
+                <label class="distill-field">
+                  <span>formalization_readiness_checklist_preview.json</span>
+                  <textarea id="formalGateReadinessPreviewJson" class="distill-large-textarea" readonly></textarea>
+                </label>
+              </form>
+            </section>
+
             <section class="distill-panel">
               <h2>6. 生成沉淀包</h2>
               <p class="distill-subtitle">只有审核通过且补丁齐全，才能真正生成可沉淀包。</p>
@@ -1075,6 +1517,115 @@
                 <button id="refreshBehaviorBtn" type="button" class="distill-secondary">刷新行为包</button>
               </div>
               <div id="behaviorPacketDetail" class="distill-detail"></div>
+            </section>
+
+            <section class="distill-panel">
+              <h2>多叶族蒸馏任务工作台</h2>
+              <p class="distill-subtitle">从历史审核、修改和反馈记录中找出问题条目，按叶族拆成独立任务。</p>
+              <div class="distill-run-grid">
+                <label class="distill-field">
+                  <span>当前阶段</span>
+                  <select id="businessViewStage">
+                    <option value="proto_trial_review">proto trial / review</option>
+                    <option value="patch_review">patch review</option>
+                    <option value="promotion_review">promotion review</option>
+                    <option value="readiness">readiness</option>
+                  </select>
+                </label>
+                <label class="distill-field">
+                  <span>叶族范围</span>
+                  <select id="businessViewScopeMode">
+                    <option value="single">单叶族</option>
+                    <option value="multiple">多叶族</option>
+                    <option value="all">全部叶族</option>
+                  </select>
+                </label>
+                <label class="distill-field">
+                  <span>叶族 / 题型</span>
+                  <input id="businessViewLeafId" type="text" placeholder="单叶族：word_usage_content_word；多叶族用逗号分隔" />
+                </label>
+              </div>
+              <div class="distill-inline-actions">
+                <button id="loadBusinessViewExistingBtn" type="button" class="distill-primary">生成业务视图</button>
+                <button id="startBusinessViewLongTaskBtn" type="button" class="distill-secondary">启动任务</button>
+              </div>
+              <div id="businessViewAsyncState" class="distill-detail-box" style="display:none;">
+                <strong id="businessViewAsyncTitle">正在处理</strong>
+                <div id="businessViewAsyncText">准备读取已完成结果...</div>
+                <div style="height: 8px; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin-top: 10px;">
+                  <div id="businessViewAsyncBar" style="height: 100%; width: 0%; background: #2563eb;"></div>
+                </div>
+                <div class="distill-help" id="businessViewAsyncHelp">
+                  长任务会轮询状态；完成后再生成业务视图。
+                </div>
+              </div>
+              <div class="distill-detail" id="businessReadableView">
+                <div class="distill-detail-box">
+                  <strong>多叶族蒸馏任务工作台</strong>
+                  <div>1 叶族问题选择。读取历史记录后，按叶族展开问题条目，勾选本次要处理的问题。</div>
+                </div>
+                <div class="distill-run-grid">
+                  <div class="distill-detail-box"><strong>叶族问题列表</strong><div>等待历史审核行为和用户反馈。</div></div>
+                  <div class="distill-detail-box"><strong>多任务队列</strong><div>提交后一个叶族一个任务，彼此隔离。</div></div>
+                </div>
+              </div>
+              <form id="businessSummaryForm" class="distill-form" style="margin-top: 12px;">
+                <details class="distill-detail-box" hidden>
+                  <summary><strong>导入历史记录</strong>：默认读取已完成结果；需要手工验收时再粘贴行为包、用户反馈或前后对比</summary>
+                  <label class="distill-field">
+                    <span>历史行为记录 JSON</span>
+                    <textarea id="businessSummaryBehaviorPacketJson" class="distill-medium-textarea" placeholder='{"aggregate_summary":{"item_count":10,"total_review_actions":10,"top_changed_fields":[{"key":"distractor_explanation","count":8}]}}'></textarea>
+                  </label>
+                  <label class="distill-field">
+                    <span>用户反馈归一化 JSON（可选）</span>
+                    <textarea id="businessSummaryFeedbackJson" class="distill-medium-textarea" placeholder='{"normalized_feedback":[{"dimension":"distractor_weakness","severity":"medium","summary":"干扰项不够迷惑","count":3}]}'></textarea>
+                  </label>
+                  <label class="distill-field">
+                    <span>前后题目对比 JSON（可选）</span>
+                    <textarea id="businessSummaryBeforeAfterJson" class="distill-medium-textarea" placeholder='[{"material_parameter":{"topic":"同一材料参数"},"before":"原题版本","after":"修改后版本","changed_fields":["distractor_explanation"],"reason":"干扰项不够迷惑"}]'></textarea>
+                  </label>
+                </details>
+                <div class="distill-inline-actions">
+                  <button id="generateBusinessSummaryBtn" type="submit" class="distill-primary" hidden>生成业务视图</button>
+                  <button id="copyBusinessSummaryJsonBtn" type="button" class="distill-secondary" hidden>复制技术 JSON</button>
+                  <button id="downloadBusinessSummaryJsonBtn" type="button" class="distill-secondary" hidden>下载技术 JSON</button>
+                  <button id="copyBusinessSummaryMarkdownBtn" type="button" class="distill-secondary" hidden>复制报告</button>
+                  <button id="downloadBusinessSummaryMarkdownBtn" type="button" class="distill-secondary" hidden>下载报告</button>
+                </div>
+              </form>
+              <div id="businessSummaryHumanPreview" class="distill-detail"></div>
+              <section class="distill-detail-box">
+                <strong>叶族问题列表</strong>
+                <div class="distill-help">
+                  一次可以提交多个叶族的问题条目，但系统会按叶族拆成彼此隔离的任务；每个叶族独立验收、暂存、返工、发布和回退。
+                </div>
+                <div class="distill-inline-actions">
+                  <button id="buildLeafIssueSelectionBtn" type="button" class="distill-secondary" hidden>从业务视图生成问题条目</button>
+                  <button id="submitLeafIssueTasksBtn" type="button" class="distill-primary" hidden>提交所选问题并按叶族拆任务</button>
+                </div>
+                <div id="leafIssueSelectionTable" class="distill-detail" style="margin-top: 12px;"></div>
+                <div id="leafDistillTaskQueue" class="distill-detail" style="margin-top: 12px;"></div>
+                <div id="leafDistillAcceptancePanel" class="distill-detail" style="margin-top: 12px;"></div>
+              </section>
+              <details class="distill-detail-box">
+                <summary><strong>技术详情</strong>：默认折叠，包含 summary / evidence / packet / readiness gate 摘要 JSON</summary>
+                <label class="distill-field">
+                  <span>behavior_distillation_business_view.json</span>
+                  <textarea id="businessViewJson" class="distill-medium-textarea" readonly></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>behavior_distillation_business_view_report.md</span>
+                  <textarea id="businessViewMarkdown" class="distill-medium-textarea" readonly></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>behavior_distillation_business_summary.json</span>
+                  <textarea id="businessSummaryJson" class="distill-medium-textarea" readonly></textarea>
+                </label>
+                <label class="distill-field">
+                  <span>behavior_distillation_business_report.md</span>
+                  <textarea id="businessSummaryMarkdown" class="distill-medium-textarea" readonly></textarea>
+                </label>
+              </details>
             </section>
           </div>
         </div>

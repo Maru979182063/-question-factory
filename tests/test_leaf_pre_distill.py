@@ -8,6 +8,11 @@ from unittest.mock import patch
 from tools.leaf_pre_distill.axis_confirmation import build_axis_confirmation
 from tools.leaf_pre_distill.bootstrap_discovery import build_bootstrap_discovery
 from tools.leaf_pre_distill.behavior_marker import build_behavior_trace
+from tools.leaf_pre_distill.behavior_distillation_business_summary import (
+    build_behavior_distillation_business_summary,
+    build_behavior_distillation_business_view,
+    run_behavior_distillation_business_summary,
+)
 from tools.leaf_pre_distill.field_candidate_builder import build_field_candidates, build_slot_projection_draft
 from tools.leaf_pre_distill.formal_patch_draft import build_formal_patch_draft
 from tools.leaf_pre_distill.formal_writeback_plan import (
@@ -2896,6 +2901,194 @@ class NewLeafFormalizationFactoryTest(unittest.TestCase):
             "formalization_readiness_checklist.json",
         ):
             self.assertIn(name, contract)
+
+    def _mock_behavior_packet(self, count: int = 3) -> dict:
+        return {
+            "packet_version": "v1",
+            "run_id": "run-1",
+            "aggregate_summary": {
+                "item_count": 10,
+                "total_review_actions": 10,
+                "total_patch_actions": count,
+                "total_promotion_actions": 1,
+                "top_changed_fields": [{"key": "distractor_explanation", "count": count}],
+                "top_failed_thresholds": [{"key": "distractor_weakness", "count": count}],
+            },
+            "candidate_patch_hints": [],
+        }
+
+    def test_behavior_packet_generates_business_summary(self) -> None:
+        summary = build_behavior_distillation_business_summary(
+            behavior_packet=self._mock_behavior_packet(),
+            agent_review_feedback={"normalized_feedback": []},
+            truth_gold_regression={"status": "completed"},
+        )
+
+        self.assertEqual(summary["summary_version"], "v1")
+        self.assertEqual(summary["source"]["review_count"], 10)
+        self.assertTrue(summary["candidate_improvement_signals"])
+        self.assertFalse(summary["formalized"])
+        self.assertFalse(summary["writeback_allowed"])
+
+    def test_single_case_edit_is_not_suitable_for_formalization(self) -> None:
+        summary = build_behavior_distillation_business_summary(
+            behavior_packet=self._mock_behavior_packet(count=1),
+            agent_review_feedback={"normalized_feedback": []},
+            truth_gold_regression={"status": "completed"},
+        )
+
+        statuses = {item["recommended_status"] for item in summary["candidate_improvement_signals"]}
+        self.assertIn("single_case_only", statuses)
+        self.assertNotIn("suitable_for_formalization_packet", statuses)
+
+    def test_high_frequency_edit_and_feedback_create_candidate_signal(self) -> None:
+        summary = build_behavior_distillation_business_summary(
+            behavior_packet=self._mock_behavior_packet(count=4),
+            agent_review_feedback={
+                "normalized_feedback": [
+                    {"dimension": "distractor_weakness", "severity": "medium", "summary": "干扰项不够迷惑", "count": 3}
+                ]
+            },
+            truth_gold_regression={"status": "completed"},
+        )
+
+        self.assertGreaterEqual(len(summary["candidate_improvement_signals"]), 2)
+        self.assertTrue(any("distractor" in item["technical_hint"] for item in summary["candidate_improvement_signals"]))
+        self.assertTrue(any(item["recommended_status"] == "suitable_for_formalization_packet" for item in summary["candidate_improvement_signals"]))
+
+    def test_business_view_from_summary_records_missing_before_after(self) -> None:
+        summary = build_behavior_distillation_business_summary(
+            behavior_packet=self._mock_behavior_packet(count=4),
+            agent_review_feedback={"normalized_feedback": []},
+            truth_gold_regression={"status": "completed"},
+        )
+        view = build_behavior_distillation_business_view(summary=summary)
+
+        self.assertEqual(view["view_version"], "v1")
+        self.assertTrue(view["business_problem_summary"])
+        self.assertTrue(view["action_problem_items"])
+        self.assertTrue(view["action_clusters"])
+        self.assertFalse(view["before_after_comparisons"])
+        self.assertIn("missing_before_after_question_pair", view["missing_evidence"])
+        self.assertIn("missing_same_material_parameter_trace", view["missing_evidence"])
+        self.assertIn("missing_validator_before_after_result", view["missing_evidence"])
+
+    def test_business_view_uses_real_before_after_pair(self) -> None:
+        summary = build_behavior_distillation_business_summary(
+            behavior_packet=self._mock_behavior_packet(count=4),
+            agent_review_feedback={"normalized_feedback": []},
+            truth_gold_regression={"status": "completed"},
+        )
+        view = build_behavior_distillation_business_view(
+            summary=summary,
+            before_after_pairs=[
+                {
+                    "material_parameter": {"source_id": "m1"},
+                    "before": "原题版本",
+                    "after": "修改后版本",
+                    "changed_fields": ["distractor_explanation"],
+                    "reason": "干扰项不够迷惑",
+                    "validator_result_change": "fail_to_pass",
+                    "human_review_change": "revise_to_approved",
+                }
+            ],
+        )
+
+        self.assertEqual(len(view["before_after_comparisons"]), 1)
+        self.assertNotIn("missing_before_after_question_pair", view["missing_evidence"])
+        self.assertEqual(view["before_after_comparisons"][0]["before_question"], "原题版本")
+
+    def test_business_view_landing_status_never_allows_formalize(self) -> None:
+        summary = build_behavior_distillation_business_summary(
+            behavior_packet=self._mock_behavior_packet(count=4),
+            agent_review_feedback={"normalized_feedback": []},
+            truth_gold_regression={"status": "completed"},
+        )
+        view = build_behavior_distillation_business_view(summary=summary)
+
+        self.assertFalse(view["landing_status"]["can_formalize"])
+        self.assertFalse(view["writeback_allowed"])
+        self.assertFalse(view["executor_allowed"])
+        self.assertIn("behavior_distillation_business_summary.json", view["technical_refs"])
+
+    def test_run_writes_behavior_business_artifacts(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            root = Path(tempdir)
+            packet_path = root / "behavior_packet.json"
+            packet_path.write_text(json.dumps(self._mock_behavior_packet(), ensure_ascii=False), encoding="utf-8")
+
+            artifacts = run_behavior_distillation_business_summary(
+                output_dir=root,
+                behavior_packet_path=packet_path,
+                truth_gold_regression_results_path=packet_path,
+            )
+
+            self.assertTrue(Path(artifacts["behavior_distillation_business_summary"]).exists())
+            self.assertTrue(Path(artifacts["behavior_distillation_business_report"]).exists())
+            self.assertTrue(Path(artifacts["behavior_distillation_formalization_evidence"]).exists())
+            self.assertTrue(Path(artifacts["behavior_distillation_business_view"]).exists())
+            self.assertTrue(Path(artifacts["behavior_distillation_business_view_report"]).exists())
+
+    def test_new_leaf_formalization_packet_reads_behavior_summary_without_promotion_target(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            root = Path(tempdir)
+            self._seed_artifacts(root)
+            summary = build_behavior_distillation_business_summary(
+                behavior_packet=self._mock_behavior_packet(),
+                agent_review_feedback={"normalized_feedback": []},
+                truth_gold_regression={"status": "completed"},
+            )
+            self._write_json(root / "behavior_distillation_business_summary.json", summary)
+
+            artifacts = run_new_leaf_formalization_packet(artifact_dir=root)
+            packet = json.loads(Path(artifacts["new_leaf_formalization_packet"]).read_text(encoding="utf-8"))
+
+            self.assertTrue(packet["behavior_distillation_summary"]["available"])
+            self.assertGreater(packet["behavior_distillation_summary"]["candidate_signal_count"], 0)
+            self.assertNotIn("promotion_targets", packet)
+            self.assertTrue(all(item.get("status") != "candidate" or not item.get("evidence_only") for item in packet["formal_target_candidates"]))
+
+    def test_readiness_gate_reads_behavior_summary_and_missing_summary_warns(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            root = Path(tempdir)
+            self._write_json(root / "new_leaf_formalization_packet.json", {"family_context": {}})
+            self._write_json(root / "runtime_activation_plan.json", {"proto_vs_formal": {"can_run_proto_trial": True}})
+            checklist_path = run_formalization_readiness_gate(artifact_dir=root)["formalization_readiness_checklist"]
+            checklist = json.loads(Path(checklist_path).read_text(encoding="utf-8"))
+
+            self.assertIn("behavior_distillation", checklist["categories"])
+            self.assertTrue(any(check["check_id"] == "behavior_distillation_business_summary_available" for check in checklist["checks"]))
+
+    def test_high_risk_unreviewed_behavior_signal_makes_gate_review_needed(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            root = Path(tempdir)
+            self._write_json(root / "new_leaf_formalization_packet.json", {"family_context": {}})
+            self._write_json(root / "runtime_activation_plan.json", {"proto_vs_formal": {"can_run_proto_trial": True}})
+            self._write_json(root / "agent_review_feedback_normalized.json", {"normalized_feedback": []})
+            self._write_json(root / "truth_gold_regression_results.json", {"status": "completed"})
+            self._write_json(root / "truth_gold_split_manifest.json", {"splits": {"insurance_holdout": ["s1"]}})
+            self._write_json(root / "material_quality_regression_results.json", {"status": "completed", "requires_human_review": False})
+            self._write_json(root / "source_text_evidence_manifest.json", {"status": "completed", "available_count": 1, "result_count": 1})
+            self._write_json(root / "source_gold_alignment_summary.json", {"status": "completed", "alignment_count": 1, "needs_human_review_count": 0})
+            self._write_json(root / "formalization_approval_summary.json", {"approved": True})
+            summary = build_behavior_distillation_business_summary(
+                behavior_packet={
+                    "aggregate_summary": {
+                        "item_count": 5,
+                        "total_review_actions": 5,
+                        "top_changed_fields": [{"key": "answer_key", "count": 3}],
+                    }
+                },
+                truth_gold_regression={"status": "completed"},
+            )
+            self._write_json(root / "behavior_distillation_business_summary.json", summary)
+
+            checklist_path = run_formalization_readiness_gate(artifact_dir=root)["formalization_readiness_checklist"]
+            checklist = json.loads(Path(checklist_path).read_text(encoding="utf-8"))
+
+            self.assertEqual(checklist["status"], "review_needed")
+            self.assertTrue(any(check["check_id"] == "high_risk_behavior_signal_requires_human_review" for check in checklist["checks"]))
+            self.assertFalse(checklist["writeback_allowed"])
 
 
 if __name__ == "__main__":

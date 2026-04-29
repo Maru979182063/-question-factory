@@ -1,0 +1,219 @@
+{
+  "digest_version": "business_distillation_model_call_smoke_v1",
+  "purpose": "用伪历史记录验证本地能否真实调用模型进行叶族问题蒸馏建议，不写回正式配置。",
+  "boundaries": {
+    "fake_data_only": true,
+    "formalized": false,
+    "writeback_allowed": false,
+    "executor_allowed": false
+  },
+  "manifest": {
+    "mother_family_id": "mock_multi_leaf",
+    "leaf_label": "多叶族历史修题记录",
+    "source": "fake_history_records"
+  },
+  "samples": [
+    {
+      "sample_id": "Q12",
+      "leaf_id": "word_usage_content_word",
+      "changed_fields": [
+        "distractor_explanation"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "distractor_explanation"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "distractor_explanation",
+          "target": "prompt_assets"
+        }
+      ]
+    },
+    {
+      "sample_id": "Q18",
+      "leaf_id": "word_usage_content_word",
+      "changed_fields": [
+        "distractor_explanation"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "distractor_explanation"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "distractor_explanation",
+          "target": "prompt_assets"
+        }
+      ]
+    },
+    {
+      "sample_id": "Q21",
+      "leaf_id": "word_usage_content_word",
+      "changed_fields": [
+        "distractor_explanation"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "distractor_explanation"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "distractor_explanation",
+          "target": "prompt_assets"
+        }
+      ]
+    },
+    {
+      "sample_id": "Q24",
+      "leaf_id": "word_usage_content_word",
+      "changed_fields": [
+        "distractor_explanation"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "distractor_explanation"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "distractor_explanation",
+          "target": "prompt_assets"
+        }
+      ]
+    },
+    {
+      "sample_id": "C03",
+      "leaf_id": "center_understanding",
+      "changed_fields": [
+        "abstract_level"
+      ],
+      "review_actions": [
+        {
+          "action": "reject",
+          "field": "abstract_level"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "abstract_level",
+          "target": "validator_contract"
+        }
+      ]
+    },
+    {
+      "sample_id": "C07",
+      "leaf_id": "center_understanding",
+      "changed_fields": [
+        "abstract_level"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "abstract_level"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "abstract_level",
+          "target": "validator_contract"
+        }
+      ]
+    },
+    {
+      "sample_id": "C11",
+      "leaf_id": "center_understanding",
+      "changed_fields": [
+        "abstract_level"
+      ],
+      "review_actions": [
+        {
+          "action": "reject",
+          "field": "abstract_level"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "abstract_level",
+          "target": "validator_contract"
+        }
+      ]
+    },
+    {
+      "sample_id": "S02",
+      "leaf_id": "sentence_ordering",
+      "changed_fields": [
+        "ordering_logic"
+      ],
+      "review_actions": [
+        {
+          "action": "modify_then_accept",
+          "field": "ordering_logic"
+        }
+      ],
+      "patch_actions": [
+        {
+          "field": "ordering_logic",
+          "target": "review_process"
+        }
+      ]
+    }
+  ],
+  "candidate_report": {
+    "candidate_fields": [
+      {
+        "field_path": "distractor_explanation",
+        "proposed_value": "错项解释需要更像真实误读路径",
+        "support_count": 8
+      },
+      {
+        "field_path": "abstract_level",
+        "proposed_value": "主旨项抽象层级需要回到材料证据",
+        "support_count": 5
+      },
+      {
+        "field_path": "ordering_logic",
+        "proposed_value": "排序题需要稳定连接线索",
+        "support_count": 3
+      }
+    ],
+    "schema_gaps": [
+      "缺少真实 truth-gold regression",
+      "缺少正式人工 approval",
+      "没有接入 executor"
+    ],
+    "user_feedback": [
+      {
+        "dimension": "distractor_weakness",
+        "summary": "干扰项不够迷惑，解释太直白",
+        "severity": "medium",
+        "count": 5
+      },
+      {
+        "dimension": "truth_style",
+        "summary": "题目不像真题，错项缺少真实误读路径",
+        "severity": "medium",
+        "count": 4
+      },
+      {
+        "dimension": "abstract_level",
+        "summary": "主旨项抽象过度，需要回到材料证据",
+        "severity": "high",
+        "count": 3
+      },
+      {
+        "dimension": "ordering_signal",
+        "summary": "排序题线索不够稳定",
+        "severity": "medium",
+        "count": 2
+      }
+    ]
+  }
+}

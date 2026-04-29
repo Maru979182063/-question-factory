@@ -46,6 +46,7 @@ def run_new_leaf_formalization_packet(
     truth_gold_regression_results_path: str | Path | None = None,
     truth_gold_split_manifest_path: str | Path | None = None,
     agent_review_feedback_path: str | Path | None = None,
+    behavior_distillation_business_summary_path: str | Path | None = None,
     system_alignment_findings_path: str | Path | None = None,
 ) -> dict[str, str]:
     artifact_root = Path(artifact_dir)
@@ -72,6 +73,7 @@ def run_new_leaf_formalization_packet(
         truth_gold_regression_results_path=truth_gold_regression_results_path,
         truth_gold_split_manifest_path=truth_gold_split_manifest_path,
         agent_review_feedback_path=agent_review_feedback_path,
+        behavior_distillation_business_summary_path=behavior_distillation_business_summary_path,
         system_alignment_findings_path=system_alignment_findings_path,
     )
     packet = build_new_leaf_formalization_packet(artifact_dir=artifact_root, evidence_refs=refs)
@@ -111,6 +113,7 @@ def resolve_formalization_evidence_paths(
         "truth_gold_regression_results_path": "truth_gold_regression_results.json",
         "truth_gold_split_manifest_path": "truth_gold_split_manifest.json",
         "agent_review_feedback_path": "agent_review_feedback_normalized.json",
+        "behavior_distillation_business_summary_path": "behavior_distillation_business_summary.json",
         "system_alignment_findings_path": "system_alignment_findings.json",
     }
     resolved: dict[str, str] = {}
@@ -139,6 +142,8 @@ def build_new_leaf_formalization_packet(*, artifact_dir: str | Path, evidence_re
     ]
     formal_targets = build_formal_target_candidates(evidence=evidence, evidence_refs=evidence_refs)
     feedback_summary = summarize_agent_feedback(evidence.get("agent_review_feedback") or {})
+    behavior_summary = summarize_behavior_distillation_business(evidence.get("behavior_distillation_business_summary") or {}, evidence_refs)
+    formal_targets.extend(build_behavior_formal_target_evidence(evidence.get("behavior_distillation_business_summary") or {}, evidence_refs))
     material_summary = summarize_material_protocol(evidence=evidence)
     material_evidence_summary = summarize_material_evidence(evidence=evidence, material_summary=material_summary)
     question_summary = summarize_question_protocol(evidence=evidence)
@@ -148,6 +153,7 @@ def build_new_leaf_formalization_packet(*, artifact_dir: str | Path, evidence_re
         formal_targets=formal_targets,
         feedback_summary=feedback_summary,
         material_summary=material_summary,
+        behavior_summary=behavior_summary,
     )
     recommended = recommended_next_action(blocking_issues=blocking, formal_targets=formal_targets)
     packet = {
@@ -176,6 +182,7 @@ def build_new_leaf_formalization_packet(*, artifact_dir: str | Path, evidence_re
         },
         "regression_summary": regression_summary,
         "human_feedback_summary": feedback_summary,
+        "behavior_distillation_summary": behavior_summary,
         "missing_evidence": missing,
         "blocking_issues": blocking,
         "recommended_next_action": recommended,
@@ -264,6 +271,53 @@ def summarize_agent_feedback(feedback: dict[str, Any]) -> dict[str, Any]:
         "writeback_allowed": bool(feedback.get("writeback_allowed")),
         "formalized": bool(feedback.get("formalized")),
     }
+
+
+def summarize_behavior_distillation_business(summary: dict[str, Any], evidence_refs: dict[str, str]) -> dict[str, Any]:
+    signals = summary.get("candidate_improvement_signals") or []
+    suitable = [item for item in signals if item.get("recommended_status") == "suitable_for_formalization_packet"]
+    observe = [item for item in signals if item.get("recommended_status") in {"observe_more", "needs_more_samples"}]
+    blocked = [item for item in signals if item.get("recommended_status") == "blocked"]
+    high_risk = [item for item in signals if item.get("risk_level") == "high"]
+    refs = []
+    if evidence_refs.get("behavior_distillation_business_summary"):
+        refs.append(evidence_refs["behavior_distillation_business_summary"])
+    return {
+        "available": bool(summary),
+        "status": summary.get("status") if summary else "missing",
+        "candidate_signal_count": len(signals),
+        "suitable_for_formalization_count": len(suitable),
+        "observe_more_count": len(observe),
+        "blocked_count": len(blocked),
+        "high_risk_count": len(high_risk),
+        "recommended_next_action": summary.get("recommended_next_action") if summary else "observe_more",
+        "evidence_refs": refs,
+    }
+
+
+def build_behavior_formal_target_evidence(summary: dict[str, Any], evidence_refs: dict[str, str]) -> list[dict[str, Any]]:
+    candidates: list[dict[str, Any]] = []
+    source = evidence_refs.get("behavior_distillation_business_summary", "")
+    for signal in summary.get("candidate_improvement_signals") or []:
+        if signal.get("recommended_status") != "suitable_for_formalization_packet":
+            continue
+        target = signal.get("target_layer") or "unknown"
+        if target not in FORMAL_TARGETS:
+            continue
+        candidates.append(
+            {
+                "target": target,
+                "status": "evidence_only",
+                "source_artifact": source,
+                "evidence_summary": signal.get("business_description") or signal.get("signal_id"),
+                "requires_writeback_plan": True,
+                "requires_regression": True,
+                "blocking_gaps": ["behavior_signal_requires_human_confirmation"],
+                "evidence_only": True,
+                "behavior_signal_id": signal.get("signal_id"),
+            }
+        )
+    return candidates
 
 
 def summarize_material_protocol(*, evidence: dict[str, Any]) -> dict[str, Any]:
@@ -393,6 +447,7 @@ def build_blocking_issues(
     formal_targets: list[dict[str, Any]],
     feedback_summary: dict[str, Any],
     material_summary: dict[str, Any],
+    behavior_summary: dict[str, Any] | None = None,
 ) -> list[str]:
     issues = [f"missing_evidence:{item}" for item in missing_evidence]
     for target in formal_targets:
@@ -402,6 +457,10 @@ def build_blocking_issues(
         issues.append("unresolved_high_severity_user_feedback")
     if material_summary.get("source_seed_count") and not material_summary.get("verified_source_available"):
         issues.append("source_seed_is_not_verified_source")
+    if behavior_summary and behavior_summary.get("high_risk_count"):
+        issues.append("behavior_signal_requires_human_review")
+    if behavior_summary and behavior_summary.get("blocked_count"):
+        issues.append("behavior_distillation_signal_blocked")
     return sorted(set(issues))
 
 
@@ -457,6 +516,16 @@ def render_new_leaf_formalization_packet_report(packet: dict[str, Any]) -> str:
     else:
         for issue in issues:
             lines.append(f"- {issue}")
+    behavior = packet.get("behavior_distillation_summary") or {}
+    lines.extend(["", "## Behavior Distillation Business Summary", ""])
+    if behavior.get("available"):
+        lines.append(f"- status: `{behavior.get('status')}`")
+        lines.append(f"- candidate_signal_count: `{behavior.get('candidate_signal_count')}`")
+        lines.append(f"- suitable_for_formalization_count: `{behavior.get('suitable_for_formalization_count')}`")
+        lines.append(f"- high_risk_count: `{behavior.get('high_risk_count')}`")
+        lines.append("- boundary: `evidence_only_no_writeback_no_executor`")
+    else:
+        lines.append("- missing; this is a warning evidence gap, not a direct blocker for packet drafting.")
     return "\n".join(lines) + "\n"
 
 
@@ -482,6 +551,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--artifact-dir", required=True)
     parser.add_argument("--output-dir")
     parser.add_argument("--agent-review-feedback")
+    parser.add_argument("--behavior-distillation-business-summary")
     parser.add_argument("--formal-patch-draft")
     parser.add_argument("--material-card-draft")
     parser.add_argument("--source-seed-registry")
@@ -507,6 +577,7 @@ def main(argv: list[str] | None = None) -> int:
         artifact_dir=args.artifact_dir,
         output_dir=args.output_dir,
         agent_review_feedback_path=args.agent_review_feedback,
+        behavior_distillation_business_summary_path=args.behavior_distillation_business_summary,
         formal_patch_draft_path=args.formal_patch_draft,
         material_card_draft_path=args.material_card_draft,
         source_seed_registry_path=args.source_seed_registry,

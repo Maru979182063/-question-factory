@@ -126,6 +126,16 @@ def extract_json_object(raw_text: str) -> dict[str, Any]:
             continue
         if isinstance(parsed, dict):
             return normalize_readable_structure(parsed)
+        if isinstance(parsed, str):
+            try:
+                nested = extract_json_object(parsed)
+            except ValueError:
+                continue
+            return normalize_readable_structure(nested)
+        if isinstance(parsed, list):
+            for item in parsed:
+                if isinstance(item, dict):
+                    return normalize_readable_structure(item)
     raise ValueError("json_object_not_found")
 
 

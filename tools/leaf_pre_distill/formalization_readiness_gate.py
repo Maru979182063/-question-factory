@@ -28,6 +28,7 @@ def run_formalization_readiness_gate(
     material_quality_regression_results_path: str | Path | None = None,
     formal_writeback_plan_path: str | Path | None = None,
     formal_patch_draft_path: str | Path | None = None,
+    behavior_distillation_business_summary_path: str | Path | None = None,
     approval_summary_path: str | Path | None = None,
     test_result_summary_path: str | Path | None = None,
 ) -> dict[str, str]:
@@ -48,6 +49,7 @@ def run_formalization_readiness_gate(
         material_quality_regression_results_path=material_quality_regression_results_path,
         formal_writeback_plan_path=formal_writeback_plan_path,
         formal_patch_draft_path=formal_patch_draft_path,
+        behavior_distillation_business_summary_path=behavior_distillation_business_summary_path,
         approval_summary_path=approval_summary_path,
         test_result_summary_path=test_result_summary_path,
     )
@@ -74,6 +76,7 @@ def resolve_readiness_evidence_paths(*, artifact_dir: str | Path, **paths: str |
         "material_quality_regression_results_path": "material_quality_regression_results.json",
         "formal_writeback_plan_path": "formal_writeback_plan.json",
         "formal_patch_draft_path": "formal_patch_draft.json",
+        "behavior_distillation_business_summary_path": "behavior_distillation_business_summary.json",
         "approval_summary_path": "formalization_approval_summary.json",
         "test_result_summary_path": "formalization_test_result_summary.json",
     }
@@ -97,6 +100,7 @@ def build_formalization_readiness_checklist(*, evidence_refs: dict[str, str]) ->
     regression = evidence.get("truth_gold_regression_results") or {}
     split = evidence.get("truth_gold_split_manifest") or {}
     approval = evidence.get("approval_summary") or {}
+    behavior = evidence.get("behavior_distillation_business_summary") or {}
 
     checks = [
         _check("formalization_packet_available", bool(packet), evidence_refs.get("formalization_packet"), True, "Formalization packet must exist."),
@@ -113,6 +117,34 @@ def build_formalization_readiness_checklist(*, evidence_refs: dict[str, str]) ->
         _check("writeback_plan_available", bool(evidence.get("formal_writeback_plan")), evidence_refs.get("formal_writeback_plan"), False, "Writeback plan is required before executor readiness."),
         _check("explicit_approval_available", bool(approval.get("approved") is True), evidence_refs.get("approval_summary"), True, "Explicit approval is required before executor readiness."),
     ]
+    if not behavior:
+        checks.append(_warning("behavior_distillation_business_summary_available", evidence_refs.get("behavior_distillation_business_summary"), "Behavior distillation business summary is missing; this is evidence warning only."))
+    else:
+        checks.append(_check("behavior_distillation_is_evidence_only", _is_false(behavior.get("formalized")) and _is_false(behavior.get("writeback_allowed")) and _is_false(behavior.get("executor_allowed")), evidence_refs.get("behavior_distillation_business_summary"), True, "Behavior summary must remain evidence-only."))
+        high_risk = [
+            item
+            for item in behavior.get("candidate_improvement_signals") or []
+            if item.get("risk_level") == "high" and item.get("requires_human_confirmation", True)
+        ]
+        if high_risk:
+            checks.append(_warning("high_risk_behavior_signal_requires_human_review", evidence_refs.get("behavior_distillation_business_summary"), "High-risk behavior signal requires human review before any formalization decision."))
+        suitable = [
+            item
+            for item in behavior.get("candidate_improvement_signals") or []
+            if item.get("recommended_status") == "suitable_for_formalization_packet"
+        ]
+        if suitable and not (regression and material_quality):
+            checks.append(_warning("behavior_formalization_signal_requires_regression", evidence_refs.get("behavior_distillation_business_summary"), "Behavior signals need truth/material regression before writeback-plan readiness."))
+        if "validator_or_regression_conflict" in (behavior.get("blocking_issues") or []):
+            checks.append(
+                {
+                    "check_id": "behavior_signal_regression_conflict_clear",
+                    "status": "fail",
+                    "evidence": evidence_refs.get("behavior_distillation_business_summary", ""),
+                    "blocking": True,
+                    "notes": "Behavior distillation conflicts with validator or regression evidence.",
+                }
+            )
     high_feedback = [
         item.get("dimension")
         for item in feedback.get("normalized_feedback") or []
@@ -176,6 +208,12 @@ def build_formalization_readiness_checklist(*, evidence_refs: dict[str, str]) ->
             "regression_readiness": {"truth_gold_regression_available": bool(regression), "insurance_holdout_available": bool((split.get("splits") or {}).get("insurance_holdout"))},
             "legacy_pollution_risk": {"legacy_regression_required": True},
             "writeback_safety": {"writeback_plan_available": bool(evidence.get("formal_writeback_plan")), "approval_available": bool(approval.get("approved") is True)},
+            "behavior_distillation": {
+                "available": bool(behavior),
+                "candidate_signal_count": len(behavior.get("candidate_improvement_signals") or []),
+                "high_risk_count": len([item for item in behavior.get("candidate_improvement_signals") or [] if item.get("risk_level") == "high"]),
+                "evidence_only": bool(behavior) and _is_false(behavior.get("writeback_allowed")) and _is_false(behavior.get("executor_allowed")),
+            },
         },
         "blocking_issues": [check["check_id"] for check in blocking],
         "recommended_next_action": recommend_next_action(blocking=blocking, activation=activation, evidence=evidence),
@@ -183,6 +221,7 @@ def build_formalization_readiness_checklist(*, evidence_refs: dict[str, str]) ->
             "This gate judges readiness only; it does not approve or write back.",
             "Warnings are not treated as pass.",
             "Material source seeds remain unverified and cannot formalize material_card in v1.",
+            "Behavior distillation evidence can require review, but it cannot make executor_ready.",
         ],
     }
     assert_gate_boundaries(checklist)
@@ -195,6 +234,16 @@ def _check(check_id: str, condition: bool, evidence: str | None, blocking: bool,
         "status": "pass" if condition else "fail",
         "evidence": evidence or "",
         "blocking": blocking,
+        "notes": notes,
+    }
+
+
+def _warning(check_id: str, evidence: str | None, notes: str) -> dict[str, Any]:
+    return {
+        "check_id": check_id,
+        "status": "warning",
+        "evidence": evidence or "",
+        "blocking": False,
         "notes": notes,
     }
 
@@ -304,6 +353,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--material-quality-regression-results")
     parser.add_argument("--formal-writeback-plan")
     parser.add_argument("--formal-patch-draft")
+    parser.add_argument("--behavior-distillation-business-summary")
     parser.add_argument("--approval-summary")
     parser.add_argument("--test-result-summary")
     return parser
@@ -326,6 +376,7 @@ def main(argv: list[str] | None = None) -> int:
         material_quality_regression_results_path=args.material_quality_regression_results,
         formal_writeback_plan_path=args.formal_writeback_plan,
         formal_patch_draft_path=args.formal_patch_draft,
+        behavior_distillation_business_summary_path=args.behavior_distillation_business_summary,
         approval_summary_path=args.approval_summary,
         test_result_summary_path=args.test_result_summary,
     )

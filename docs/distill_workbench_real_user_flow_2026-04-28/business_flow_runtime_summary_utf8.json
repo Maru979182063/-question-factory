@@ -1,0 +1,46 @@
+{
+  "upload_mode": "file_input",
+  "screenshots": [
+    {
+      "step": "材料准备报告",
+      "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\01_material_prep_report_utf8.png"
+    },
+    {
+      "step": "来源网站确认-初始",
+      "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\02_source_review_initial_utf8.png"
+    },
+    {
+      "step": "来源网站确认-已选择",
+      "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\03_source_review_decisions_utf8.png"
+    },
+    {
+      "step": "来源材料明细",
+      "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\03b_source_material_detail_utf8.png"
+    },
+    {
+      "step": "字段草案确认",
+      "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\04_field_draft_review_utf8.png"
+    },
+    {
+      "step": "蒸馏结果验收报告",
+      "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\05_distill_acceptance_report_utf8.png"
+    },
+    {
+      "step": "点击重跑",
+      "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\06_rerun_button_checked_utf8.png"
+    },
+    {
+      "step": "点击待定",
+      "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\07_defer_button_checked_utf8.png"
+    },
+    {
+      "step": "确认后 Gate 拒绝落位",
+      "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\08_confirm_gate_rejected_utf8.png"
+    }
+  ],
+  "llm_status": "failed",
+  "llm_error": "HTTP Error 429: Too Many Requests",
+  "question_count": 13,
+  "final_gate_status": "blocked",
+  "formal_writeback": false
+}

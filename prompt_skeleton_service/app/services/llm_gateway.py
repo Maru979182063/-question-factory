@@ -170,7 +170,48 @@ class LLMGatewayService:
         ) as client:
             response = client.post(path, json=payload)
             response.raise_for_status()
-            return response.json()
+            return self._parse_response_body(response.text)
+
+    def _parse_response_body(self, raw_text: str) -> dict[str, Any]:
+        if not raw_text or not raw_text.strip():
+            return {}
+        try:
+            payload = json.loads(raw_text)
+            if isinstance(payload, dict):
+                return payload
+        except json.JSONDecodeError:
+            pass
+        try:
+            payload = json.JSONDecoder(strict=False).decode(raw_text)
+            if isinstance(payload, dict):
+                return payload
+        except json.JSONDecodeError:
+            pass
+        sse_content = self._parse_sse_chat_content(raw_text)
+        if sse_content:
+            return {"choices": [{"message": {"content": sse_content}}]}
+        return {}
+
+    def _parse_sse_chat_content(self, raw_text: str) -> str:
+        chunks: list[str] = []
+        for line in raw_text.splitlines():
+            line = line.strip()
+            if not line.startswith("data:"):
+                continue
+            payload_text = line[5:].strip()
+            if not payload_text or payload_text == "[DONE]":
+                continue
+            try:
+                payload = json.loads(payload_text)
+            except json.JSONDecodeError:
+                continue
+            for choice in payload.get("choices") or []:
+                delta = choice.get("delta") or {}
+                message = choice.get("message") or {}
+                content = delta.get("content") or message.get("content")
+                if isinstance(content, str):
+                    chunks.append(content)
+        return "".join(chunks)
 
     def _extract_text_output(self, data: dict[str, Any]) -> str:
         text_output = ""
@@ -182,18 +223,35 @@ class LLMGatewayService:
             return text_output
         if isinstance(data.get("output_text"), str):
             return str(data.get("output_text") or "")
+        for key in ("text", "content", "result", "response"):
+            value = data.get(key)
+            if isinstance(value, str):
+                return value
         choices = list(data.get("choices") or [])
         if not choices:
             return ""
         message = choices[0].get("message") or {}
+        tool_calls = message.get("tool_calls")
+        if isinstance(tool_calls, list):
+            for tool_call in tool_calls:
+                if not isinstance(tool_call, dict):
+                    continue
+                function = tool_call.get("function") or {}
+                arguments = function.get("arguments")
+                if isinstance(arguments, str) and arguments.strip():
+                    return arguments
         content = message.get("content")
         if isinstance(content, str):
             return content
+        if isinstance(content, dict):
+            text = content.get("text") or content.get("content")
+            if isinstance(text, str):
+                return text
         if isinstance(content, list):
             parts: list[str] = []
             for item in content:
                 if isinstance(item, dict):
-                    text = item.get("text")
+                    text = item.get("text") or item.get("content")
                     if text:
                         parts.append(str(text))
             return "".join(parts)

@@ -13,6 +13,7 @@ except Exception:  # pragma: no cover - fallback for lean environments
     yaml = None
 
 from tools.leaf_pre_distill.behavior_marker import build_behavior_trace
+from tools.leaf_pre_distill.behavior_distillation_business_summary import run_behavior_distillation_business_summary
 from tools.leaf_pre_distill.axis_confirmation import build_axis_confirmation, load_axis_decisions
 from tools.leaf_pre_distill.bootstrap_discovery import build_bootstrap_discovery
 from tools.leaf_pre_distill.docx_reader import parse_docx_pack
@@ -131,6 +132,12 @@ def run_leaf_pre_distill(
     material_protocol_draft_max_output_tokens: int = 2500,
     material_protocol_draft_output_dir: str | Path | None = None,
     material_protocol_draft_truth_gold_split_manifest: str | Path | None = None,
+    enable_behavior_distillation_business_summary: bool = False,
+    behavior_distillation_packet_path: str | Path | None = None,
+    behavior_distillation_run_detail_path: str | Path | None = None,
+    behavior_distillation_agent_review_feedback_path: str | Path | None = None,
+    behavior_distillation_validator_result_path: str | Path | None = None,
+    behavior_distillation_output_dir: str | Path | None = None,
 ) -> dict[str, Any]:
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
@@ -179,6 +186,9 @@ def run_leaf_pre_distill(
     material_quality_regression_summary: dict[str, Any] | None = None
     material_protocol_draft_artifacts: dict[str, str] | None = None
     material_protocol_draft_summary: dict[str, Any] | None = None
+    behavior_distillation_business_artifacts: dict[str, str] | None = None
+    behavior_distillation_business_summary: dict[str, Any] | None = None
+    behavior_distillation_business_view: dict[str, Any] | None = None
     llm_digest: dict[str, Any] | None = None
     llm_probe: dict[str, Any] | None = None
     if enable_llm_probe or llm_dry_run:
@@ -409,6 +419,28 @@ def run_leaf_pre_distill(
         summary_path = material_protocol_draft_artifacts.get("material_protocol_draft_input_digest")
         if summary_path:
             material_protocol_draft_summary = json.loads(Path(summary_path).read_text(encoding="utf-8"))
+    if enable_behavior_distillation_business_summary:
+        behavior_output_path = Path(behavior_distillation_output_dir) if behavior_distillation_output_dir is not None else output_path
+        feedback_path = behavior_distillation_agent_review_feedback_path
+        if feedback_path is None and (output_path / "agent_review_feedback_normalized.json").exists():
+            feedback_path = output_path / "agent_review_feedback_normalized.json"
+        truth_path = (Path(truth_gold_output_dir) if truth_gold_output_dir is not None else output_path) / "truth_gold_regression_results.json"
+        material_quality_path = output_path / "material_quality_regression_results.json"
+        behavior_distillation_business_artifacts = run_behavior_distillation_business_summary(
+            output_dir=behavior_output_path,
+            behavior_packet_path=behavior_distillation_packet_path,
+            run_detail_path=behavior_distillation_run_detail_path,
+            agent_review_feedback_path=feedback_path,
+            validator_result_path=behavior_distillation_validator_result_path,
+            truth_gold_regression_results_path=truth_path if truth_path.exists() else None,
+            material_quality_regression_results_path=material_quality_path if material_quality_path.exists() else None,
+        )
+        summary_path = behavior_distillation_business_artifacts.get("behavior_distillation_business_summary")
+        if summary_path:
+            behavior_distillation_business_summary = json.loads(Path(summary_path).read_text(encoding="utf-8"))
+        view_path = behavior_distillation_business_artifacts.get("behavior_distillation_business_view")
+        if view_path:
+            behavior_distillation_business_view = json.loads(Path(view_path).read_text(encoding="utf-8"))
     if enable_truth_gold_regression:
         reconstruction_path = None
         if enable_gold_reconstruction and gold_reconstruction_summary:
@@ -449,6 +481,8 @@ def run_leaf_pre_distill(
         source_gold_alignment=source_gold_alignment_summary,
         material_quality_regression=material_quality_regression_summary,
         material_protocol_draft=material_protocol_draft_summary,
+        behavior_distillation_business_summary=behavior_distillation_business_summary,
+        behavior_distillation_business_view=behavior_distillation_business_view,
     )
 
     _write_json(output_path / "manifest.json", manifest)
@@ -520,6 +554,8 @@ def run_leaf_pre_distill(
         artifacts.update(material_evidence_artifacts)
     if material_protocol_draft_artifacts is not None:
         artifacts.update(material_protocol_draft_artifacts)
+    if behavior_distillation_business_artifacts is not None:
+        artifacts.update(behavior_distillation_business_artifacts)
     return {
         "job_id": job_id,
         "output_dir": str(output_path),
@@ -542,6 +578,7 @@ def run_leaf_pre_distill(
         "material_evidence_alignment_regression_enabled": bool(enable_material_evidence_alignment_regression),
         "material_protocol_draft_enabled": bool(enable_material_protocol_draft),
         "material_protocol_draft_mode": material_protocol_draft_mode if enable_material_protocol_draft else None,
+        "behavior_distillation_business_summary_enabled": bool(enable_behavior_distillation_business_summary),
         "artifacts": artifacts,
     }
 
@@ -637,6 +674,12 @@ def main() -> None:
     parser.add_argument("--material-protocol-draft-max-output-tokens", type=int, default=2500)
     parser.add_argument("--material-protocol-draft-output-dir")
     parser.add_argument("--material-protocol-draft-truth-gold-split-manifest")
+    parser.add_argument("--enable-behavior-distillation-business-summary", action="store_true")
+    parser.add_argument("--behavior-distillation-packet")
+    parser.add_argument("--behavior-distillation-run-detail")
+    parser.add_argument("--behavior-distillation-agent-review-feedback")
+    parser.add_argument("--behavior-distillation-validator-result")
+    parser.add_argument("--behavior-distillation-output-dir")
     args = parser.parse_args()
     summary = run_leaf_pre_distill(
         mother_family_id=args.mother_family_id,
@@ -728,6 +771,12 @@ def main() -> None:
         material_protocol_draft_max_output_tokens=args.material_protocol_draft_max_output_tokens,
         material_protocol_draft_output_dir=args.material_protocol_draft_output_dir,
         material_protocol_draft_truth_gold_split_manifest=args.material_protocol_draft_truth_gold_split_manifest,
+        enable_behavior_distillation_business_summary=args.enable_behavior_distillation_business_summary,
+        behavior_distillation_packet_path=args.behavior_distillation_packet,
+        behavior_distillation_run_detail_path=args.behavior_distillation_run_detail,
+        behavior_distillation_agent_review_feedback_path=args.behavior_distillation_agent_review_feedback,
+        behavior_distillation_validator_result_path=args.behavior_distillation_validator_result,
+        behavior_distillation_output_dir=args.behavior_distillation_output_dir,
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 

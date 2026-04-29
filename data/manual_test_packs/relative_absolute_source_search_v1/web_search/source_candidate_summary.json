@@ -1,0 +1,18 @@
+{
+  "summary_version": "v1",
+  "sample_count": 1,
+  "query_count": 2,
+  "candidate_count": 0,
+  "candidate_status_counts": {},
+  "source_risk_counts": {},
+  "samples_with_candidate": [],
+  "samples_blocked": [
+    "relative_absolute_001"
+  ],
+  "ready_for_human_source_review": false,
+  "ready_for_material_card_draft": false,
+  "main_blockers": [
+    "no source candidates collected",
+    "some samples have no non-question-bank candidate"
+  ]
+}

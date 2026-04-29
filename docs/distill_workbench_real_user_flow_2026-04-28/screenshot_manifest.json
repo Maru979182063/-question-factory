@@ -1,0 +1,34 @@
+[
+  {
+    "step": "??????",
+    "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\01_material_prep_report.png"
+  },
+  {
+    "step": "??????-??",
+    "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\02_source_review_initial.png"
+  },
+  {
+    "step": "??????-???",
+    "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\03_source_review_decisions.png"
+  },
+  {
+    "step": "??????",
+    "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\04_field_draft_review.png"
+  },
+  {
+    "step": "????????",
+    "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\05_distill_acceptance_report.png"
+  },
+  {
+    "step": "????",
+    "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\06_rerun_button_checked.png"
+  },
+  {
+    "step": "????",
+    "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\07_defer_button_checked.png"
+  },
+  {
+    "step": "??? Gate ????",
+    "path": "E:\\agent_repo_src\\docs\\distill_workbench_real_user_flow_2026-04-28\\08_confirm_gate_rejected.png"
+  }
+]

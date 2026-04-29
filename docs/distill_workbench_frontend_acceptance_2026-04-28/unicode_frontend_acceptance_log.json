@@ -1,0 +1,198 @@
+{
+  "dataset_title": null,
+  "run_id": "37e8745b-5d16-47de-8ff2-a25abf7ec4e4",
+  "status": "completed",
+  "patch_count": 6,
+  "promotion_count": 1,
+  "review_summary": "中文原型试跑通过，仅允许草案沉淀。",
+  "promotion_summary": "中文新题包前端验收沉淀包：草案不写回。",
+  "fit_summary": {
+    "truth_available": true,
+    "question_type_match": true,
+    "business_subtype_match": true,
+    "answer_match": true,
+    "stem_similarity": 0.9444,
+    "analysis_similarity": 0.9778,
+    "option_overlap": 1,
+    "material_similarity": 0.9643,
+    "fit_band": "high",
+    "notes": []
+  },
+  "api_responses": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/datasets?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/c351967e-0adf-49ce-97e5-369d5b2dadb9",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/datasets",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/datasets?limit=100",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/4b650c3c-9ac0-4ca9-8448-6ea77c197601",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/4b650c3c-9ac0-4ca9-8448-6ea77c197601/trials",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/4b650c3c-9ac0-4ca9-8448-6ea77c197601",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4/review",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/4b650c3c-9ac0-4ca9-8448-6ea77c197601",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4/patches",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4/patches",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/4b650c3c-9ac0-4ca9-8448-6ea77c197601",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4/promote",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions?limit=100",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/f39a2810-0ab3-4614-9aab-6d8edb6d9f08",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/sessions/4b650c3c-9ac0-4ca9-8448-6ea77c197601",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8017/api/v1/distill/runs/37e8745b-5d16-47de-8ff2-a25abf7ec4e4",
+      "status": 200
+    }
+  ]
+}

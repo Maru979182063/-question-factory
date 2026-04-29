@@ -679,31 +679,27 @@
             <div class="portfolio-kicker">言语理解 v0.6 工作台</div>
             <h1>面向公考阅读理解题目的生产与质量迭代平台</h1>
             <p>
-              基于材料服务与生题服务，构建从材料供给、题型协议、结构化生成到评审修订、版本追踪与蒸馏回流的闭环链路，让阅读理解题目生产从一次性生成走向可追踪、可复用、可持续优化。
+              选择题型、材料来源和生成方式后，系统会生成题目，并保留后续审核、修改和版本记录。
             </p>
             <div class="portfolio-status">
-              项目状态：本地可运行原型｜双服务架构｜材料 V2 检索｜题卡驱动生成｜评审与蒸馏回流实验
+              当前可用：直接生题｜用户材料生题｜母题拆解｜蒸馏工作台
             </div>
             <div class="portfolio-chip-row">
-              <span class="chip status">材料供给</span>
-              <span class="chip status">题型协议</span>
-              <span class="chip status">结构化生成</span>
-              <span class="chip status">评审版本链</span>
-              <span class="chip status">蒸馏回流</span>
-              <span class="chip status">难度实验</span>
-            </div>
-            <div class="portfolio-note">
-              不是一次性 Prompt 出题，而是材料、协议、生成、评审、版本、蒸馏和实验构成的闭环链路。
+              <span class="chip status">自动选材</span>
+              <span class="chip status">自带材料</span>
+              <span class="chip status">同类生成</span>
+              <span class="chip status">审核修改</span>
+              <span class="chip status">历史蒸馏</span>
             </div>
           </div>
 
           <section class="demo-mode-section" aria-labelledby="demoModeTitle">
             <div class="demo-mode-head">
               <div>
-                <h2 id="demoModeTitle">当前可演示模式</h2>
-                <p>这些入口对应当前页面已经接住的真实链路；审核后的质量动作会在生成结果区继续处理。</p>
+                <h2 id="demoModeTitle">选择你要做的事</h2>
+                <p>普通生题、用户材料生题和历史蒸馏分开入口，避免把调试动作混进业务流程。</p>
               </div>
-              <span class="chip status">本地原型 / 能力验证</span>
+              <span class="chip status">业务入口</span>
             </div>
 
             <div class="demo-mode-grid">
@@ -731,30 +727,29 @@
 
               <article class="demo-mode-card">
                 <div>
-                  <span class="chip status-warn">能力验证入口</span>
+                  <span class="chip status">自带材料</span>
                 </div>
                 <h3>用户材料生题</h3>
-                <p>基于用户输入或上传的材料生成题目，适合验证自带材料条件下的题型生成能力。</p>
+                <p>粘贴或上传自己的材料，沿用当前题型、分类和难度参数直接生成题目。</p>
                 <div class="demo-mode-card-actions">
-                  <button type="button" class="secondary-btn" data-scroll-target="userMaterialMode" data-open-user-material="1">使用用户材料</button>
-                  <a class="secondary-btn" href="/demo/user-material">打开试验入口</a>
+                  <button type="button" class="secondary-btn" data-scroll-target="userMaterialMode" data-open-user-material="1">使用用户材料生成</button>
                 </div>
               </article>
 
               <article class="demo-mode-card">
                 <div>
-                  <span class="chip status-pending">偏研发调试</span>
+                  <span class="chip status">蒸馏工作台</span>
                 </div>
-                <h3>蒸馏调试</h3>
-                <p>面向真题样本、错误案例、review、patch、promote 和行为蒸馏包的研发调试入口，可能需要访问密钥。</p>
+                <h3>新题卡蒸馏 / 历史记录调整</h3>
+                <p>处理新题卡送审，或基于历史修改记录继续蒸馏调整。进入后只保留两个业务视角。</p>
                 <div class="demo-mode-card-actions">
-                  <button type="button" class="secondary-btn" data-distill-access-trigger="1">研发蒸馏台｜需密钥</button>
+                  <button type="button" class="secondary-btn" data-distill-access-trigger="1">进入蒸馏工作台</button>
                 </div>
               </article>
             </div>
 
             <div class="mode-note">
-              生成后的质量链路：确认通过、材料重做、参数重做、错误项定点修复、手工编辑、版本历史与导出，属于生成结果后的审核与版本追踪动作，不作为初始生成入口。
+              生成后的审核、修改、版本历史和导出会在结果页继续处理；历史记录蒸馏进入独立工作台。
             </div>
           </section>
 
@@ -809,7 +804,7 @@
               <div class="user-material-card-head">
                 <div>
                   <h2>用户材料生题</h2>
-                  <p>用于验证自带材料条件下的题型生成能力。系统会带着当前页面已选参数调用原生成接口，并把结果标成需要谨慎分析的特殊样本。</p>
+                  <p>粘贴用户自带材料后，系统会带着当前已选题型、分类、难度和数量直接生成题目。</p>
                 </div>
                 <button id="userMaterialToggleBtn" type="button" class="secondary-btn">填写用户材料</button>
               </div>

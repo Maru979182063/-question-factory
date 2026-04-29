@@ -1,0 +1,151 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "打开真实蒸馏工作台并进入状态与历史页",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "生成业务视图 JSON",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "多叶族范围写入视图",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "动作问题条目可定位叶族",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "前后对比来自输入",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "不允许正式落位",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "保持 writeback_allowed=false",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "保持 formalized=false",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "保持 executor_allowed=false",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "从业务视图生成问题条目",
+      "ok": true,
+      "detail": "checkbox=5"
+    },
+    {
+      "name": "问题条目包含叶族 word_usage_content_word",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "问题条目包含叶族 center_understanding",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "问题条目包含叶族 sentence_ordering",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "问题条目不生成 unknown 叶族",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "问题条目显示频次",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "按叶族隔离生成任务 word_usage_content_word",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "按叶族隔离生成任务 center_understanding",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "按叶族隔离生成任务 sentence_ordering",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "任务队列不包含 unknown 任务",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "生成三个叶族任务",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "发布/暂存/继续按钮每个叶族都有",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "发布后冻结版本且可回退",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "暂存动作生效",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "继续蒸馏动作生效",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "业务视图分页可点击",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "页面仍声明 evidence 边界",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "页面无 JS pageerror",
+      "ok": true,
+      "detail": "[]"
+    }
+  ],
+  "screenshots": [
+    "E:\\agent_repo_src\\docs\\历史记录蒸馏端到端验收_2026-04-29\\01_生成业务视图后.png",
+    "E:\\agent_repo_src\\docs\\历史记录蒸馏端到端验收_2026-04-29\\02_问题条目选择.png",
+    "E:\\agent_repo_src\\docs\\历史记录蒸馏端到端验收_2026-04-29\\03_按叶族拆任务.png",
+    "E:\\agent_repo_src\\docs\\历史记录蒸馏端到端验收_2026-04-29\\04_多叶族分别验收.png",
+    "E:\\agent_repo_src\\docs\\历史记录蒸馏端到端验收_2026-04-29\\05_业务视图_actions.png",
+    "E:\\agent_repo_src\\docs\\历史记录蒸馏端到端验收_2026-04-29\\05_业务视图_result.png",
+    "E:\\agent_repo_src\\docs\\历史记录蒸馏端到端验收_2026-04-29\\05_业务视图_compare.png",
+    "E:\\agent_repo_src\\docs\\历史记录蒸馏端到端验收_2026-04-29\\05_业务视图_landing.png"
+  ],
+  "errors": []
+}

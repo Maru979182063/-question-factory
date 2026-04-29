@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import io
+import zipfile
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
@@ -55,6 +57,11 @@ class DemoShellSmokeTest(TestCase):
         self.assertIn('id="specialType"', response.text)
         self.assertIn("/demo-static/app_v2.js", response.text)
         self.assertIn("/demo-static/app_v2_zh_patch.js", response.text)
+        self.assertIn("使用用户材料生成", response.text)
+        self.assertIn("进入蒸馏工作台", response.text)
+        self.assertNotIn("不是一次性 Prompt 出题", response.text)
+        self.assertNotIn("打开试验入口", response.text)
+        self.assertNotIn("能力验证入口", response.text)
 
     def test_demo_static_asset_is_public_even_when_security_enabled(self) -> None:
         response = self.client.get("/demo-static/app_v2.js")
@@ -75,8 +82,8 @@ class DemoShellSmokeTest(TestCase):
 
         patch_asset = self.client.get("/demo-static/app_v2_zh_patch.js")
         self.assertEqual(patch_asset.status_code, 200)
-        self.assertIn("研发蒸馏台", patch_asset.text)
-        self.assertIn("请输入训练入口密钥", patch_asset.text)
+        self.assertIn("蒸馏工作台", patch_asset.text)
+        self.assertIn("请输入访问密钥", patch_asset.text)
         self.assertIn("确认进入", patch_asset.text)
         self.assertIn("/api/v1/distill/access/verify", patch_asset.text)
 
@@ -95,7 +102,9 @@ class DemoShellSmokeTest(TestCase):
 
         page = self.client.get("/demo/distill")
         self.assertEqual(page.status_code, 200)
-        self.assertIn("蒸馏训练工作台", page.text)
+        self.assertIn("蒸馏工作台", page.text)
+        self.assertIn("新题卡蒸馏", page.text)
+        self.assertIn("历史记录调整蒸馏", page.text)
         self.assertIn("1. 建样本集", page.text)
         self.assertIn('id="behaviorForm"', page.text)
         self.assertIn('id="behaviorPacketDetail"', page.text)
@@ -240,6 +249,272 @@ class DemoShellSmokeTest(TestCase):
         self.assertNotIn("writeback_allowed: true", script.text)
         self.assertNotIn("formalized: true", script.text)
         self.assertNotIn("verified_original_source: true", script.text)
+
+    def test_distill_demo_exposes_formalization_gate_preview_entry(self) -> None:
+        verify = self.client.post("/api/v1/distill/access/verify", json={"key": "unit-test-distill-key"})
+        self.assertEqual(verify.status_code, 200)
+
+        page = self.client.get("/demo/distill")
+        self.assertEqual(page.status_code, 200)
+        self.assertIn("Formalization Gate Preview", page.text)
+        self.assertIn('id="formalizationGatePreviewForm"', page.text)
+        self.assertIn('id="formalGateFormalPatchDraftJson"', page.text)
+        self.assertIn('id="formalGateMaterialEvidenceSummaryJson"', page.text)
+        self.assertIn('id="formalGateAgentFeedbackJson"', page.text)
+        self.assertIn('id="formalGateRuntimeActivationPlanJson"', page.text)
+        self.assertIn('id="generateFormalGatePreviewBtn"', page.text)
+        self.assertIn('id="formalGatePacketPreviewJson"', page.text)
+        self.assertIn('id="formalGateReadinessPreviewJson"', page.text)
+        self.assertIn('id="workbenchControlPlane"', page.text)
+        self.assertIn('data-workbench-layer-target="business_mode"', page.text)
+        self.assertIn('data-workbench-layer-target="status_history"', page.text)
+        self.assertNotIn('data-workbench-layer-target="data_trial"', page.text)
+        self.assertIn('id="saveWorkbenchDraftBtn"', page.text)
+        self.assertIn('id="restoreWorkbenchDraftBtn"', page.text)
+        self.assertIn('id="exitWorkbenchBtn"', page.text)
+        self.assertIn("blocked", page.text)
+        self.assertIn("material_card_review_ready", page.text)
+        self.assertIn("source seed / similar material", page.text)
+        self.assertIn("writeback approval", page.text)
+
+        script = self.client.get("/demo-static/distill_demo.js")
+        self.assertEqual(script.status_code, 200)
+        self.assertIn("function buildFormalizationGatePreview", script.text)
+        self.assertIn("function handleGenerateFormalizationGatePreview", script.text)
+        self.assertIn("function setWorkbenchLayer", script.text)
+        self.assertIn("function saveWorkbenchDraft", script.text)
+        self.assertIn("function restoreWorkbenchDraft", script.text)
+        self.assertIn("function exitWorkbench", script.text)
+        self.assertIn("WORKBENCH_DRAFT_STORAGE_KEY", script.text)
+        self.assertIn("FORMALIZATION_GATE_UNSAFE_FIELDS", script.text)
+        self.assertIn("executor_allowed: false", script.text)
+        self.assertIn("writeback_allowed: false", script.text)
+        self.assertIn("formalized: false", script.text)
+        self.assertIn("verified_original_source", script.text)
+        self.assertNotIn("executor_allowed: true", script.text)
+        self.assertNotIn("writeback_allowed: true", script.text)
+        self.assertNotIn("formalized: true", script.text)
+        self.assertIn('id="sourceCandidateReviewForm"', page.text)
+        self.assertIn('id="agentReviewFeedbackForm"', page.text)
+
+    def test_distill_demo_exposes_behavior_business_summary_entry(self) -> None:
+        verify = self.client.post("/api/v1/distill/access/verify", json={"key": "unit-test-distill-key"})
+        self.assertEqual(verify.status_code, 200)
+
+        page = self.client.get("/demo/distill")
+        self.assertEqual(page.status_code, 200)
+        self.assertIn("历史记录调整蒸馏", page.text)
+        self.assertIn("业务视图", page.text)
+        self.assertIn("多叶族蒸馏任务工作台", page.text)
+        self.assertIn("叶族问题列表", page.text)
+        self.assertIn("多任务队列", page.text)
+        self.assertIn("一个叶族一个任务", page.text)
+        self.assertIn("前后对比", page.text)
+        self.assertIn("技术详情", page.text)
+        self.assertIn("生成业务视图", page.text)
+        self.assertIn("启动任务", page.text)
+        self.assertIn('id="businessViewAsyncState"', page.text)
+        self.assertIn('id="businessViewStage"', page.text)
+        self.assertIn('id="businessViewScopeMode"', page.text)
+        self.assertIn('id="businessViewLeafId"', page.text)
+        self.assertIn("多叶族", page.text)
+        self.assertIn("全部叶族", page.text)
+        self.assertIn("生成业务视图", page.text)
+        self.assertIn("一个叶族一个任务", page.text)
+        self.assertIn("独立验收、暂存、返工、发布和回退", page.text)
+        self.assertIn('id="generateBusinessSummaryBtn"', page.text)
+        self.assertIn('id="behaviorPacketDetail"', page.text)
+        self.assertIn('id="formalizationGatePreviewForm"', page.text)
+        self.assertIn('id="businessSummaryBehaviorPacketJson"', page.text)
+        self.assertIn('id="businessSummaryBeforeAfterJson"', page.text)
+        self.assertIn('id="businessReadableView"', page.text)
+        self.assertIn('id="businessViewJson"', page.text)
+        self.assertIn('id="businessSummaryJson"', page.text)
+        self.assertIn('id="businessSummaryMarkdown"', page.text)
+        self.assertIn('id="buildLeafIssueSelectionBtn"', page.text)
+        self.assertIn('id="submitLeafIssueTasksBtn"', page.text)
+        self.assertIn('id="leafIssueSelectionTable"', page.text)
+        self.assertIn('id="leafDistillTaskQueue"', page.text)
+        self.assertIn('id="leafDistillAcceptancePanel"', page.text)
+
+        script = self.client.get("/demo-static/distill_demo.js")
+        self.assertEqual(script.status_code, 200)
+        self.assertIn("function buildBehaviorBusinessSummary", script.text)
+        self.assertIn("function buildBehaviorBusinessView", script.text)
+        self.assertIn("function renderBusinessReadableView", script.text)
+        self.assertIn("function handleLoadBusinessViewExisting", script.text)
+        self.assertIn("function handleStartBusinessViewLongTask", script.text)
+        self.assertIn("function setBusinessViewAsyncState", script.text)
+        self.assertIn("function parseBusinessViewLeafSelection", script.text)
+        self.assertIn("function applyBusinessViewLeafScope", script.text)
+        self.assertIn("function collectBehaviorActionClusters", script.text)
+        self.assertIn("function renderBusinessViewComparePage", script.text)
+        self.assertIn("renderBeforeAfterDiff", script.text)
+        self.assertIn("function buildLeafIssueRowsFromBusinessView", script.text)
+        self.assertIn("function submitLeafIssueTasks", script.text)
+        self.assertIn("function confirmLeafTaskPublish", script.text)
+        self.assertIn("1 叶族问题选择", script.text)
+        self.assertIn("2 多任务队列", script.text)
+        self.assertIn("3 多任务验收发布", script.text)
+        self.assertIn("提交意见继续蒸馏", script.text)
+        self.assertIn("暂存下次继续", script.text)
+        self.assertIn("确认发布", script.text)
+        self.assertIn("function handleGenerateBusinessSummary", script.text)
+        self.assertIn("behavior_distillation_business_summary.json", script.text)
+        self.assertIn("behavior_distillation_business_view.json", script.text)
+        self.assertIn("behavior_distillation_business_report.md", script.text)
+        self.assertNotIn("writeback_allowed: true", script.text)
+        self.assertNotIn("formalized: true", script.text)
+        self.assertNotIn("executor_allowed: true", script.text)
+
+    def test_distill_demo_exposes_business_mode_entry(self) -> None:
+        verify = self.client.post("/api/v1/distill/access/verify", json={"key": "unit-test-distill-key"})
+        self.assertEqual(verify.status_code, 200)
+
+        page = self.client.get("/demo/distill")
+        self.assertEqual(page.status_code, 200)
+        self.assertIn('data-workbench-layer-target="business_mode"', page.text)
+        self.assertIn('data-workbench-layer-target="status_history"', page.text)
+        self.assertNotIn('data-workbench-layer-target="data_trial"', page.text)
+        self.assertNotIn('data-workbench-layer-target="protocol_patch"', page.text)
+        self.assertNotIn('data-workbench-layer-target="material_feedback"', page.text)
+        self.assertNotIn('data-workbench-layer-target="formalization_gate"', page.text)
+        self.assertIn('id="businessModeForm"', page.text)
+        self.assertIn('id="businessQuestionPackFile"', page.text)
+        self.assertIn('accept=".pdf,.csv,.doc,.docx,.json,.jsonl,.md,.markdown,.txt,.xlsx"', page.text)
+        self.assertIn("PDF", page.text)
+        self.assertIn("Markdown", page.text)
+        self.assertIn('id="businessQuestionPackText"', page.text)
+        self.assertIn('id="businessStagePrep"', page.text)
+        self.assertIn('id="businessStageSource"', page.text)
+        self.assertIn('id="businessStageDraft"', page.text)
+        self.assertIn('id="businessStageAcceptance"', page.text)
+        self.assertIn('id="businessAsyncLoading"', page.text)
+        self.assertIn("材料准备报告", page.text)
+        self.assertIn("来源网站确认", page.text)
+        self.assertIn("字段草案确认", page.text)
+        self.assertIn("蒸馏结果验收", page.text)
+        self.assertIn("采用 / 不采用 / 待定", page.text)
+        self.assertIn("材料片段", page.text)
+        self.assertIn('id="businessSourceUsefulness"', page.text)
+        self.assertIn('id="businessManualSourceUrl"', page.text)
+        self.assertIn('id="businessManualSourceText"', page.text)
+        self.assertIn('id="businessDraftReadiness"', page.text)
+        self.assertIn('id="businessGeneratedQuestionJudgment"', page.text)
+        self.assertIn('id="businessLandingDecision"', page.text)
+        self.assertIn('id="businessRerunSuggestionText"', page.text)
+        self.assertIn('id="businessApproveBtn"', page.text)
+        self.assertIn('id="businessDeferBtn"', page.text)
+        self.assertIn('id="businessRerunBtn"', page.text)
+        self.assertIn("业务只需要判断三件事", page.text)
+        self.assertIn("这些网址有用，可以继续看", page.text)
+        self.assertIn("能用，接近真题", page.text)
+        self.assertIn('id="businessProtocolEvidenceJson"', page.text)
+        self.assertIn('id="businessGateEvidenceJson"', page.text)
+        self.assertIn('id="businessUserFeedbackText"', page.text)
+        self.assertIn('id="businessHumanSummary"', page.text)
+        self.assertIn('id="businessCardFamilyReportText"', page.text)
+        self.assertIn('id="businessModePreviewJson"', page.text)
+
+        script = self.client.get("/demo-static/distill_demo.js")
+        self.assertEqual(script.status_code, 200)
+        self.assertIn("function buildBusinessModePreview", script.text)
+        self.assertIn("function businessHumanGateTranslation", script.text)
+        self.assertIn("function businessUserJudgments", script.text)
+        self.assertIn("function businessSourceDecisions", script.text)
+        self.assertIn("function setBusinessStage", script.text)
+        self.assertIn("function setBusinessLoading", script.text)
+        self.assertIn("function handleBusinessFinalDecision", script.text)
+        self.assertIn("business-linked-question", script.text)
+        self.assertIn("business-source-decision", script.text)
+        self.assertIn("business-material-excerpt", script.text)
+        self.assertIn("manual_source_url", script.text)
+        self.assertIn("manual_source_text_excerpt", script.text)
+        self.assertIn("source_text_evidence", script.text)
+        self.assertIn("function buildBusinessCardFamilyMarkdown", script.text)
+        self.assertIn("function handleBusinessQuestionPackFile", script.text)
+        self.assertIn("upload_preview_formats", script.text)
+        self.assertIn("best_effort_formats", script.text)
+        self.assertIn("/api/v1/distill/question-pack/preview", script.text)
+        self.assertNotIn("executor_allowed: true", script.text)
+        self.assertNotIn("writeback_allowed: true", script.text)
+        self.assertNotIn("formalized: true", script.text)
+
+    def test_distill_question_pack_preview_accepts_common_formats(self) -> None:
+        response = self.client.post(
+            "/api/v1/distill/question-pack/preview",
+            headers={"Authorization": "Bearer demo-token"},
+            files=[
+                ("files", ("sample.json", b'{"samples":[{"sample_id":"s1"}]}', "application/json")),
+                ("files", ("sample.csv", "sample_id,stem\ns1,题干".encode("utf-8"), "text/csv")),
+                ("files", ("sample.md", "# 题包\n\n- 题目".encode("utf-8"), "text/markdown")),
+            ],
+        )
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload["file_count"], 3)
+        self.assertEqual(payload["parsed_file_count"], 3)
+        self.assertIn(".pdf", payload["supported_formats"])
+        self.assertIn(".doc", payload["supported_formats"])
+        self.assertIn(".docx", payload["supported_formats"])
+        self.assertIn(".xlsx", payload["supported_formats"])
+        self.assertIn(".md", payload["supported_formats"])
+        self.assertIn("题干", payload["combined_text_excerpt"])
+
+    def test_distill_question_pack_preview_accepts_office_pdf_and_doc(self) -> None:
+        response = self.client.post(
+            "/api/v1/distill/question-pack/preview",
+            headers={"Authorization": "Bearer demo-token"},
+            files=[
+                ("files", ("sample.docx", _minimal_docx("DOCX question text"), "application/vnd.openxmlformats-officedocument.wordprocessingml.document")),
+                ("files", ("sample.xlsx", _minimal_xlsx("XLSX question text"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")),
+                ("files", ("sample.pdf", b"%PDF-1.4\nstream\n(PDF question text) Tj\nendstream\n%%EOF", "application/pdf")),
+                ("files", ("sample.doc", b"\xd0\xcf\x11\xe0 legacy DOC question text", "application/msword")),
+            ],
+        )
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload["file_count"], 4)
+        self.assertGreaterEqual(payload["parsed_file_count"], 3)
+        statuses = {item["extension"]: item["status"] for item in payload["files"]}
+        self.assertEqual(statuses[".docx"], "parsed")
+        self.assertEqual(statuses[".xlsx"], "parsed")
+        self.assertIn(statuses[".pdf"], {"degraded", "manual_required"})
+        self.assertIn(statuses[".doc"], {"degraded", "manual_required"})
+        self.assertIn("DOCX question text", payload["combined_text_excerpt"])
+        self.assertIn("XLSX question text", payload["combined_text_excerpt"])
+
+def _minimal_docx(text: str) -> bytes:
+    buffer = io.BytesIO()
+    document_xml = (
+        '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+        f"<w:body><w:p><w:r><w:t>{text}</w:t></w:r></w:p></w:body></w:document>"
+    )
+    with zipfile.ZipFile(buffer, "w") as zf:
+        zf.writestr("word/document.xml", document_xml)
+    return buffer.getvalue()
+
+
+def _minimal_xlsx(text: str) -> bytes:
+    buffer = io.BytesIO()
+    shared_strings = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="1" uniqueCount="1">'
+        f"<si><t>{text}</t></si></sst>"
+    )
+    sheet = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+        '<sheetData><row r="1"><c r="A1" t="s"><v>0</v></c></row></sheetData></worksheet>'
+    )
+    with zipfile.ZipFile(buffer, "w") as zf:
+        zf.writestr("xl/sharedStrings.xml", shared_strings)
+        zf.writestr("xl/worksheets/sheet1.xml", sheet)
+    return buffer.getvalue()
+
 
     def test_verify_distill_access_rejects_wrong_key(self) -> None:
         verify = self.client.post("/api/v1/distill/access/verify", json={"key": "wrong-key"})

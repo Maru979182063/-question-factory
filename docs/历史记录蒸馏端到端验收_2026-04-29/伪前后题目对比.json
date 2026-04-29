@@ -1,0 +1,47 @@
+[
+  {
+    "material_parameter": {
+      "leaf_id": "word_usage_content_word",
+      "material_id": "M-W-01",
+      "same_material": true
+    },
+    "before": "原题：下列对加点词的理解最恰当的一项是？错项解释较直白，没有形成真实误读路径。",
+    "after": "蒸馏后：下列对加点词在语境中的理解最恰当的一项是？错项加入局部语境误读路径，更像真实误选。",
+    "changed_fields": [
+      "distractor_explanation"
+    ],
+    "reason": "用户多次修改干扰项解释，并反馈错项不够迷惑。",
+    "validator_result_change": "distractor_plausibility: weak -> pass",
+    "human_review_change": "modify_then_accept -> approved"
+  },
+  {
+    "material_parameter": {
+      "leaf_id": "center_understanding",
+      "material_id": "M-C-03",
+      "same_material": true
+    },
+    "before": "原题：本文主旨是启示我们要追求宏大的精神价值。选项过度抽象，离材料证据较远。",
+    "after": "蒸馏后：本文主旨是作者借具体事件表达对平凡坚持的理解。选项回到材料局部证据。",
+    "changed_fields": [
+      "abstract_level"
+    ],
+    "reason": "多次驳回过度抽象主旨项。",
+    "validator_result_change": "center_abstraction: blocked -> review_needed",
+    "human_review_change": "rejected -> modify_then_accept"
+  },
+  {
+    "material_parameter": {
+      "leaf_id": "sentence_ordering",
+      "material_id": "M-S-02",
+      "same_material": true
+    },
+    "before": "原题：句子排序依赖语感，连接线索不够明确。",
+    "after": "蒸馏后：句子排序补充代词指代与时间顺序线索，排序依据更清楚。",
+    "changed_fields": [
+      "ordering_logic"
+    ],
+    "reason": "用户集中修改排序逻辑说明。",
+    "validator_result_change": "ordering_signal: unknown -> review_needed",
+    "human_review_change": "modify_then_accept -> approved"
+  }
+]

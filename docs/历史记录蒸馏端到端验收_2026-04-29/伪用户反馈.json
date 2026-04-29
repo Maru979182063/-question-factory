@@ -1,0 +1,28 @@
+{
+  "normalized_feedback": [
+    {
+      "dimension": "distractor_weakness",
+      "summary": "干扰项不够迷惑，解释太直白",
+      "severity": "medium",
+      "count": 5
+    },
+    {
+      "dimension": "truth_style",
+      "summary": "题目不像真题，错项缺少真实误读路径",
+      "severity": "medium",
+      "count": 4
+    },
+    {
+      "dimension": "abstract_level",
+      "summary": "主旨项抽象过度，需要回到材料证据",
+      "severity": "high",
+      "count": 3
+    },
+    {
+      "dimension": "ordering_signal",
+      "summary": "排序题线索不够稳定",
+      "severity": "medium",
+      "count": 2
+    }
+  ]
+}
